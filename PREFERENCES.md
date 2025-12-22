@@ -8,10 +8,20 @@ This document tracks preferences, rules, and decisions for Claude Code customiza
 
 ### Overlap Analysis (Last checked: 2024-12-22)
 
-| Skills | Status | Notes |
-|--------|--------|-------|
-| `skill-assistant` vs `skill-creator` | Complementary | skill-assistant finds/installs skills; skill-creator guides creation. Both may activate on "create a skill" requests but instructions are compatible. |
-| `document-skills/pdf` | Nested skill | Part of document-skills bundle (docx, pdf, pptx, xlsx). No external PDF skill conflict. |
+**No conflicts found.**
+
+Checked pairs:
+- `skill-assistant` vs `skill-creator` — **Complementary**, not conflicting. One finds/installs skills, the other guides creation.
+
+### Bundled Skills
+
+Some skills contain sub-skills in nested folders:
+
+| Bundle | Contains |
+|--------|----------|
+| `document-skills/` | `docx/`, `pdf/`, `pptx/`, `xlsx/` |
+
+Each sub-folder has its own `SKILL.md` with type-specific instructions.
 
 ### Installation Rules
 
