@@ -194,6 +194,9 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 | [obra/superpowers](https://github.com/obra/superpowers) | 14 skills + 1 agent: TDD, debugging, git workflows, code review (installed) |
 | [K-Dense-AI/claude-scientific-skills](https://github.com/K-Dense-AI/claude-scientific-skills) | 125+ scientific skills: drug discovery, bioinformatics, ML |
 | [anthropics/skills](https://github.com/anthropics/skills) | Official Anthropic skills repository |
+| [BehiSecc/awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Curated list with 50+ skills |
+| [zxkane/aws-skills](https://github.com/zxkane/aws-skills) | AWS skills: CDK, serverless, cost ops (installed) |
+| [michalparkola/tapestry-skills](https://github.com/michalparkola/tapestry-skills-for-claude-code) | YouTube transcripts, article extraction (installed) |
 
 ---
 
@@ -264,6 +267,15 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 - using-git-worktrees
 - finishing-a-development-branch
 
+**AWS (from zxkane/aws-skills)**
+- aws-agentic-ai
+- aws-cdk-development
+- aws-cost-operations
+- aws-serverless-eda
+
+**Media**
+- youtube-transcript
+
 ---
 
 ## Changelog
@@ -279,3 +291,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Added skill resources section; installed web-asset-generator |
 | 2024-12-22 | Installed obra/superpowers (14 skills + code-reviewer agent) |
 | 2024-12-22 | Installed commands: /brainstorm, /write-plan, /execute-plan |
+| 2024-12-22 | Installed youtube-transcript and aws-skills (4 AWS skills) |

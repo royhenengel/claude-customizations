@@ -1,654 +1,757 @@
 ---
-name: writing-skills
-description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+name: aws-serverless-eda
+description: AWS serverless and event-driven architecture expert based on Well-Architected Framework. Use when building serverless APIs, Lambda functions, REST APIs, microservices, or async workflows. Covers Lambda with TypeScript/Python, API Gateway (REST/HTTP), DynamoDB, Step Functions, EventBridge, SQS, SNS, and serverless patterns. Essential when user mentions serverless, Lambda, API Gateway, event-driven, async processing, queues, pub/sub, or wants to build scalable serverless applications with AWS best practices.
 ---
 
-# Writing Skills
+# AWS Serverless & Event-Driven Architecture
 
-## Overview
+This skill provides comprehensive guidance for building serverless applications and event-driven architectures on AWS based on Well-Architected Framework principles.
 
-**Writing skills IS Test-Driven Development applied to process documentation.**
+## AWS Documentation Requirement
 
-**Personal skills live in agent-specific directories (`~/.claude/skills` for Claude Code, `~/.codex/skills` for Codex)** 
+**CRITICAL**: This skill requires AWS MCP tools for accurate, up-to-date AWS information.
 
-You write test cases (pressure scenarios with subagents), watch them fail (baseline behavior), write the skill (documentation), watch tests pass (agents comply), and refactor (close loopholes).
+### Before Answering AWS Questions
 
-**Core principle:** If you didn't watch an agent fail without the skill, you don't know if the skill teaches the right thing.
+1. **Always verify** using AWS MCP tools (if available):
+   - `mcp__aws-mcp__aws___search_documentation` or `mcp__*awsdocs*__aws___search_documentation` - Search AWS docs
+   - `mcp__aws-mcp__aws___read_documentation` or `mcp__*awsdocs*__aws___read_documentation` - Read specific pages
+   - `mcp__aws-mcp__aws___get_regional_availability` - Check service availability
 
-**REQUIRED BACKGROUND:** You MUST understand superpowers:test-driven-development before using this skill. That skill defines the fundamental RED-GREEN-REFACTOR cycle. This skill adapts TDD to documentation.
+2. **If AWS MCP tools are unavailable**:
+   - Guide user to configure AWS MCP: See [AWS MCP Setup Guide](../../docs/aws-mcp-setup.md)
+   - Help determine which option fits their environment:
+     - Has uvx + AWS credentials → Full AWS MCP Server
+     - No Python/credentials → AWS Documentation MCP (no auth)
+   - If cannot determine → Ask user which option to use
 
-**Official guidance:** For Anthropic's official skill authoring best practices, see anthropic-best-practices.md. This document provides additional patterns and guidelines that complement the TDD-focused approach in this skill.
+## Serverless MCP Servers
 
-## What is a Skill?
+This skill can leverage serverless-specific MCP servers for enhanced development workflows:
 
-A **skill** is a reference guide for proven techniques, patterns, or tools. Skills help future Claude instances find and apply effective approaches.
+### AWS Serverless MCP Server
+**Purpose**: Complete serverless application lifecycle with SAM CLI
+- Initialize new serverless applications
+- Deploy serverless applications
+- Test Lambda functions locally
+- Generate SAM templates
+- Manage serverless application lifecycle
 
-**Skills are:** Reusable techniques, patterns, tools, reference guides
+### AWS Lambda Tool MCP Server
+**Purpose**: Execute Lambda functions as tools
+- Invoke Lambda functions directly
+- Test Lambda integrations
+- Execute workflows requiring private resource access
+- Run Lambda-based automation
 
-**Skills are NOT:** Narratives about how you solved a problem once
+### AWS Step Functions MCP Server
+**Purpose**: Execute complex workflows and orchestration
+- Create and manage state machines
+- Execute workflow orchestrations
+- Handle distributed transactions
+- Implement saga patterns
+- Coordinate microservices
 
-## TDD Mapping for Skills
+### Amazon SNS/SQS MCP Server
+**Purpose**: Event-driven messaging and queue management
+- Publish messages to SNS topics
+- Send/receive messages from SQS queues
+- Manage event-driven communication
+- Implement pub/sub patterns
+- Handle asynchronous processing
 
-| TDD Concept | Skill Creation |
-|-------------|----------------|
-| **Test case** | Pressure scenario with subagent |
-| **Production code** | Skill document (SKILL.md) |
-| **Test fails (RED)** | Agent violates rule without skill (baseline) |
-| **Test passes (GREEN)** | Agent complies with skill present |
-| **Refactor** | Close loopholes while maintaining compliance |
-| **Write test first** | Run baseline scenario BEFORE writing skill |
-| **Watch it fail** | Document exact rationalizations agent uses |
-| **Minimal code** | Write skill addressing those specific violations |
-| **Watch it pass** | Verify agent now complies |
-| **Refactor cycle** | Find new rationalizations → plug → re-verify |
+## When to Use This Skill
 
-The entire skill creation process follows RED-GREEN-REFACTOR.
+Use this skill when:
+- Building serverless applications with Lambda
+- Designing event-driven architectures
+- Implementing microservices patterns
+- Creating asynchronous processing workflows
+- Orchestrating multi-service transactions
+- Building real-time data processing pipelines
+- Implementing saga patterns for distributed transactions
+- Designing for scale and resilience
 
-## When to Create a Skill
+## AWS Well-Architected Serverless Design Principles
 
-**Create when:**
-- Technique wasn't intuitively obvious to you
-- You'd reference this again across projects
-- Pattern applies broadly (not project-specific)
-- Others would benefit
+### 1. Speedy, Simple, Singular
 
-**Don't create for:**
-- One-off solutions
-- Standard practices well-documented elsewhere
-- Project-specific conventions (put in CLAUDE.md)
+**Functions should be concise and single-purpose**
 
-## Skill Types
+```typescript
+// ✅ GOOD - Single purpose, focused function
+export const processOrder = async (event: OrderEvent) => {
+  // Only handles order processing
+  const order = await validateOrder(event);
+  await saveOrder(order);
+  await publishOrderCreatedEvent(order);
+  return { statusCode: 200, body: JSON.stringify({ orderId: order.id }) };
+};
 
-### Technique
-Concrete method with steps to follow (condition-based-waiting, root-cause-tracing)
-
-### Pattern
-Way of thinking about problems (flatten-with-flags, test-invariants)
-
-### Reference
-API docs, syntax guides, tool documentation (office docs)
-
-## Directory Structure
-
-
-```
-skills/
-  skill-name/
-    SKILL.md              # Main reference (required)
-    supporting-file.*     # Only if needed
-```
-
-**Flat namespace** - all skills in one searchable namespace
-
-**Separate files for:**
-1. **Heavy reference** (100+ lines) - API docs, comprehensive syntax
-2. **Reusable tools** - Scripts, utilities, templates
-
-**Keep inline:**
-- Principles and concepts
-- Code patterns (< 50 lines)
-- Everything else
-
-## SKILL.md Structure
-
-**Frontmatter (YAML):**
-- Only two fields supported: `name` and `description`
-- Max 1024 characters total
-- `name`: Use letters, numbers, and hyphens only (no parentheses, special chars)
-- `description`: Third-person, describes ONLY when to use (NOT what it does)
-  - Start with "Use when..." to focus on triggering conditions
-  - Include specific symptoms, situations, and contexts
-  - **NEVER summarize the skill's process or workflow** (see CSO section for why)
-  - Keep under 500 characters if possible
-
-```markdown
----
-name: Skill-Name-With-Hyphens
-description: Use when [specific triggering conditions and symptoms]
----
-
-# Skill Name
-
-## Overview
-What is this? Core principle in 1-2 sentences.
-
-## When to Use
-[Small inline flowchart IF decision non-obvious]
-
-Bullet list with SYMPTOMS and use cases
-When NOT to use
-
-## Core Pattern (for techniques/patterns)
-Before/after code comparison
-
-## Quick Reference
-Table or bullets for scanning common operations
-
-## Implementation
-Inline code for simple patterns
-Link to file for heavy reference or reusable tools
-
-## Common Mistakes
-What goes wrong + fixes
-
-## Real-World Impact (optional)
-Concrete results
+// ❌ BAD - Function does too much
+export const handleEverything = async (event: any) => {
+  // Handles orders, inventory, payments, shipping...
+  // Too many responsibilities
+};
 ```
 
+**Keep functions environmentally efficient and cost-aware**:
+- Minimize cold start times
+- Optimize memory allocation
+- Use provisioned concurrency only when needed
+- Leverage connection reuse
 
-## Claude Search Optimization (CSO)
+### 2. Think Concurrent Requests, Not Total Requests
 
-**Critical for discovery:** Future Claude needs to FIND your skill
+**Design for concurrency, not volume**
 
-### 1. Rich Description Field
+Lambda scales horizontally - design considerations should focus on:
+- Concurrent execution limits
+- Downstream service throttling
+- Shared resource contention
+- Connection pool sizing
 
-**Purpose:** Claude reads description to decide which skills to load for a given task. Make it answer: "Should I read this skill right now?"
+```typescript
+// Consider concurrent Lambda executions accessing DynamoDB
+const table = new dynamodb.Table(this, 'Table', {
+  billingMode: dynamodb.BillingMode.PAY_PER_REQUEST, // Auto-scales with load
+});
 
-**Format:** Start with "Use when..." to focus on triggering conditions
+// Or with provisioned capacity + auto-scaling
+const table = new dynamodb.Table(this, 'Table', {
+  billingMode: dynamodb.BillingMode.PROVISIONED,
+  readCapacity: 5,
+  writeCapacity: 5,
+});
 
-**CRITICAL: Description = When to Use, NOT What the Skill Does**
-
-The description should ONLY describe triggering conditions. Do NOT summarize the skill's process or workflow in the description.
-
-**Why this matters:** Testing revealed that when a description summarizes the skill's workflow, Claude may follow the description instead of reading the full skill content. A description saying "code review between tasks" caused Claude to do ONE review, even though the skill's flowchart clearly showed TWO reviews (spec compliance then code quality).
-
-When the description was changed to just "Use when executing implementation plans with independent tasks" (no workflow summary), Claude correctly read the flowchart and followed the two-stage review process.
-
-**The trap:** Descriptions that summarize workflow create a shortcut Claude will take. The skill body becomes documentation Claude skips.
-
-```yaml
-# ❌ BAD: Summarizes workflow - Claude may follow this instead of reading skill
-description: Use when executing plans - dispatches subagent per task with code review between tasks
-
-# ❌ BAD: Too much process detail
-description: Use for TDD - write test first, watch it fail, write minimal code, refactor
-
-# ✅ GOOD: Just triggering conditions, no workflow summary
-description: Use when executing implementation plans with independent tasks in the current session
-
-# ✅ GOOD: Triggering conditions only
-description: Use when implementing any feature or bugfix, before writing implementation code
+// Enable auto-scaling for concurrent load
+table.autoScaleReadCapacity({ minCapacity: 5, maxCapacity: 100 });
+table.autoScaleWriteCapacity({ minCapacity: 5, maxCapacity: 100 });
 ```
 
-**Content:**
-- Use concrete triggers, symptoms, and situations that signal this skill applies
-- Describe the *problem* (race conditions, inconsistent behavior) not *language-specific symptoms* (setTimeout, sleep)
-- Keep triggers technology-agnostic unless the skill itself is technology-specific
-- If skill is technology-specific, make that explicit in the trigger
-- Write in third person (injected into system prompt)
-- **NEVER summarize the skill's process or workflow**
+### 3. Share Nothing
 
-```yaml
-# ❌ BAD: Too abstract, vague, doesn't include when to use
-description: For async testing
+**Function runtime environments are short-lived**
 
-# ❌ BAD: First person
-description: I can help you with async tests when they're flaky
+```typescript
+// ❌ BAD - Relying on local file system
+export const handler = async (event: any) => {
+  fs.writeFileSync('/tmp/data.json', JSON.stringify(data)); // Lost after execution
+};
 
-# ❌ BAD: Mentions technology but skill isn't specific to it
-description: Use when tests use setTimeout/sleep and are flaky
-
-# ✅ GOOD: Starts with "Use when", describes problem, no workflow
-description: Use when tests have race conditions, timing dependencies, or pass/fail inconsistently
-
-# ✅ GOOD: Technology-specific skill with explicit trigger
-description: Use when using React Router and handling authentication redirects
+// ✅ GOOD - Use persistent storage
+export const handler = async (event: any) => {
+  await s3.putObject({
+    Bucket: process.env.BUCKET_NAME,
+    Key: 'data.json',
+    Body: JSON.stringify(data),
+  });
+};
 ```
 
-### 2. Keyword Coverage
+**State management**:
+- Use DynamoDB for persistent state
+- Use Step Functions for workflow state
+- Use ElastiCache for session state
+- Use S3 for file storage
 
-Use words Claude would search for:
-- Error messages: "Hook timed out", "ENOTEMPTY", "race condition"
-- Symptoms: "flaky", "hanging", "zombie", "pollution"
-- Synonyms: "timeout/hang/freeze", "cleanup/teardown/afterEach"
-- Tools: Actual commands, library names, file types
+### 4. Assume No Hardware Affinity
 
-### 3. Descriptive Naming
+**Applications must be hardware-agnostic**
 
-**Use active voice, verb-first:**
-- ✅ `creating-skills` not `skill-creation`
-- ✅ `condition-based-waiting` not `async-test-helpers`
+Infrastructure can change without notice:
+- Lambda functions can run on different hardware
+- Container instances can be replaced
+- No assumption about underlying infrastructure
 
-### 4. Token Efficiency (Critical)
+**Design for portability**:
+- Use environment variables for configuration
+- Avoid hardware-specific optimizations
+- Test across different environments
 
-**Problem:** getting-started and frequently-referenced skills load into EVERY conversation. Every token counts.
+### 5. Orchestrate with State Machines, Not Function Chaining
 
-**Target word counts:**
-- getting-started workflows: <150 words each
-- Frequently-loaded skills: <200 words total
-- Other skills: <500 words (still be concise)
+**Use Step Functions for orchestration**
 
-**Techniques:**
+```typescript
+// ❌ BAD - Lambda function chaining
+export const handler1 = async (event: any) => {
+  const result = await processStep1(event);
+  await lambda.invoke({
+    FunctionName: 'handler2',
+    Payload: JSON.stringify(result),
+  });
+};
 
-**Move details to tool help:**
-```bash
-# ❌ BAD: Document all flags in SKILL.md
-search-conversations supports --text, --both, --after DATE, --before DATE, --limit N
-
-# ✅ GOOD: Reference --help
-search-conversations supports multiple modes and filters. Run --help for details.
+// ✅ GOOD - Step Functions orchestration
+const stateMachine = new stepfunctions.StateMachine(this, 'OrderWorkflow', {
+  definition: stepfunctions.Chain
+    .start(validateOrder)
+    .next(processPayment)
+    .next(shipOrder)
+    .next(sendConfirmation),
+});
 ```
 
-**Use cross-references:**
-```markdown
-# ❌ BAD: Repeat workflow details
-When searching, dispatch subagent with template...
-[20 lines of repeated instructions]
+**Benefits of Step Functions**:
+- Visual workflow representation
+- Built-in error handling and retries
+- Execution history and debugging
+- Parallel and sequential execution
+- Service integrations without code
 
-# ✅ GOOD: Reference other skill
-Always use subagents (50-100x context savings). REQUIRED: Use [other-skill-name] for workflow.
+### 6. Use Events to Trigger Transactions
+
+**Event-driven over synchronous request/response**
+
+```typescript
+// Pattern: Event-driven processing
+const bucket = new s3.Bucket(this, 'DataBucket');
+
+bucket.addEventNotification(
+  s3.EventType.OBJECT_CREATED,
+  new s3n.LambdaDestination(processFunction),
+  { prefix: 'uploads/' }
+);
+
+// Pattern: EventBridge integration
+const rule = new events.Rule(this, 'OrderRule', {
+  eventPattern: {
+    source: ['orders'],
+    detailType: ['OrderPlaced'],
+  },
+});
+
+rule.addTarget(new targets.LambdaFunction(processOrderFunction));
 ```
 
-**Compress examples:**
-```markdown
-# ❌ BAD: Verbose example (42 words)
-your human partner: "How did we handle authentication errors in React Router before?"
-You: I'll search past conversations for React Router authentication patterns.
-[Dispatch subagent with search query: "React Router authentication error handling 401"]
+**Benefits**:
+- Loose coupling between services
+- Asynchronous processing
+- Better fault tolerance
+- Independent scaling
 
-# ✅ GOOD: Minimal example (20 words)
-Partner: "How did we handle auth errors in React Router?"
-You: Searching...
-[Dispatch subagent → synthesis]
+### 7. Design for Failures and Duplicates
+
+**Operations must be idempotent**
+
+```typescript
+// ✅ GOOD - Idempotent operation
+export const handler = async (event: SQSEvent) => {
+  for (const record of event.Records) {
+    const orderId = JSON.parse(record.body).orderId;
+
+    // Check if already processed (idempotency)
+    const existing = await dynamodb.getItem({
+      TableName: process.env.TABLE_NAME,
+      Key: { orderId },
+    });
+
+    if (existing.Item) {
+      console.log('Order already processed:', orderId);
+      continue; // Skip duplicate
+    }
+
+    // Process order
+    await processOrder(orderId);
+
+    // Mark as processed
+    await dynamodb.putItem({
+      TableName: process.env.TABLE_NAME,
+      Item: { orderId, processedAt: Date.now() },
+    });
+  }
+};
 ```
 
-**Eliminate redundancy:**
-- Don't repeat what's in cross-referenced skills
-- Don't explain what's obvious from command
-- Don't include multiple examples of same pattern
-
-**Verification:**
-```bash
-wc -w skills/path/SKILL.md
-# getting-started workflows: aim for <150 each
-# Other frequently-loaded: aim for <200 total
-```
-
-**Name by what you DO or core insight:**
-- ✅ `condition-based-waiting` > `async-test-helpers`
-- ✅ `using-skills` not `skill-usage`
-- ✅ `flatten-with-flags` > `data-structure-refactoring`
-- ✅ `root-cause-tracing` > `debugging-techniques`
-
-**Gerunds (-ing) work well for processes:**
-- `creating-skills`, `testing-skills`, `debugging-with-logs`
-- Active, describes the action you're taking
-
-### 4. Cross-Referencing Other Skills
-
-**When writing documentation that references other skills:**
-
-Use skill name only, with explicit requirement markers:
-- ✅ Good: `**REQUIRED SUB-SKILL:** Use superpowers:test-driven-development`
-- ✅ Good: `**REQUIRED BACKGROUND:** You MUST understand superpowers:systematic-debugging`
-- ❌ Bad: `See skills/testing/test-driven-development` (unclear if required)
-- ❌ Bad: `@skills/testing/test-driven-development/SKILL.md` (force-loads, burns context)
-
-**Why no @ links:** `@` syntax force-loads files immediately, consuming 200k+ context before you need them.
-
-## Flowchart Usage
-
-```dot
-digraph when_flowchart {
-    "Need to show information?" [shape=diamond];
-    "Decision where I might go wrong?" [shape=diamond];
-    "Use markdown" [shape=box];
-    "Small inline flowchart" [shape=box];
-
-    "Need to show information?" -> "Decision where I might go wrong?" [label="yes"];
-    "Decision where I might go wrong?" -> "Small inline flowchart" [label="yes"];
-    "Decision where I might go wrong?" -> "Use markdown" [label="no"];
+**Implement retry logic with exponential backoff**:
+```typescript
+async function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+    }
+  }
+  throw new Error('Max retries exceeded');
 }
 ```
 
-**Use flowcharts ONLY for:**
-- Non-obvious decision points
-- Process loops where you might stop too early
-- "When to use A vs B" decisions
+## Event-Driven Architecture Patterns
 
-**Never use flowcharts for:**
-- Reference material → Tables, lists
-- Code examples → Markdown blocks
-- Linear instructions → Numbered lists
-- Labels without semantic meaning (step1, helper2)
+### Pattern 1: Event Router (EventBridge)
 
-See @graphviz-conventions.dot for graphviz style rules.
+Use EventBridge for event routing and filtering:
 
-**Visualizing for your human partner:** Use `render-graphs.js` in this directory to render a skill's flowcharts to SVG:
-```bash
-./render-graphs.js ../some-skill           # Each diagram separately
-./render-graphs.js ../some-skill --combine # All diagrams in one SVG
+```typescript
+// Create custom event bus
+const eventBus = new events.EventBus(this, 'AppEventBus', {
+  eventBusName: 'application-events',
+});
+
+// Define event schema
+const schema = new events.Schema(this, 'OrderSchema', {
+  schemaName: 'OrderPlaced',
+  definition: events.SchemaDefinition.fromInline({
+    openapi: '3.0.0',
+    info: { version: '1.0.0', title: 'Order Events' },
+    paths: {},
+    components: {
+      schemas: {
+        OrderPlaced: {
+          type: 'object',
+          properties: {
+            orderId: { type: 'string' },
+            customerId: { type: 'string' },
+            amount: { type: 'number' },
+          },
+        },
+      },
+    },
+  }),
+});
+
+// Create rules for different consumers
+new events.Rule(this, 'ProcessOrderRule', {
+  eventBus,
+  eventPattern: {
+    source: ['orders'],
+    detailType: ['OrderPlaced'],
+  },
+  targets: [new targets.LambdaFunction(processOrderFunction)],
+});
+
+new events.Rule(this, 'NotifyCustomerRule', {
+  eventBus,
+  eventPattern: {
+    source: ['orders'],
+    detailType: ['OrderPlaced'],
+  },
+  targets: [new targets.LambdaFunction(notifyCustomerFunction)],
+});
 ```
 
-## Code Examples
+### Pattern 2: Queue-Based Processing (SQS)
 
-**One excellent example beats many mediocre ones**
+Use SQS for reliable asynchronous processing:
 
-Choose most relevant language:
-- Testing techniques → TypeScript/JavaScript
-- System debugging → Shell/Python
-- Data processing → Python
+```typescript
+// Standard queue for at-least-once delivery
+const queue = new sqs.Queue(this, 'ProcessingQueue', {
+  visibilityTimeout: Duration.seconds(300),
+  retentionPeriod: Duration.days(14),
+  deadLetterQueue: {
+    queue: dlq,
+    maxReceiveCount: 3,
+  },
+});
 
-**Good example:**
-- Complete and runnable
-- Well-commented explaining WHY
-- From real scenario
-- Shows pattern clearly
-- Ready to adapt (not generic template)
+// FIFO queue for ordered processing
+const fifoQueue = new sqs.Queue(this, 'OrderedQueue', {
+  fifo: true,
+  contentBasedDeduplication: true,
+  deduplicationScope: sqs.DeduplicationScope.MESSAGE_GROUP,
+});
 
-**Don't:**
-- Implement in 5+ languages
-- Create fill-in-the-blank templates
-- Write contrived examples
-
-You're good at porting - one great example is enough.
-
-## File Organization
-
-### Self-Contained Skill
-```
-defense-in-depth/
-  SKILL.md    # Everything inline
-```
-When: All content fits, no heavy reference needed
-
-### Skill with Reusable Tool
-```
-condition-based-waiting/
-  SKILL.md    # Overview + patterns
-  example.ts  # Working helpers to adapt
-```
-When: Tool is reusable code, not just narrative
-
-### Skill with Heavy Reference
-```
-pptx/
-  SKILL.md       # Overview + workflows
-  pptxgenjs.md   # 600 lines API reference
-  ooxml.md       # 500 lines XML structure
-  scripts/       # Executable tools
-```
-When: Reference material too large for inline
-
-## The Iron Law (Same as TDD)
-
-```
-NO SKILL WITHOUT A FAILING TEST FIRST
+// Lambda consumer
+new lambda.EventSourceMapping(this, 'QueueConsumer', {
+  target: processingFunction,
+  eventSourceArn: queue.queueArn,
+  batchSize: 10,
+  maxBatchingWindow: Duration.seconds(5),
+});
 ```
 
-This applies to NEW skills AND EDITS to existing skills.
+### Pattern 3: Pub/Sub (SNS + SQS Fan-Out)
 
-Write skill before testing? Delete it. Start over.
-Edit skill without testing? Same violation.
+Implement fan-out pattern for multiple consumers:
 
-**No exceptions:**
-- Not for "simple additions"
-- Not for "just adding a section"
-- Not for "documentation updates"
-- Don't keep untested changes as "reference"
-- Don't "adapt" while running tests
-- Delete means delete
+```typescript
+// Create SNS topic
+const topic = new sns.Topic(this, 'OrderTopic', {
+  displayName: 'Order Events',
+});
 
-**REQUIRED BACKGROUND:** The superpowers:test-driven-development skill explains why this matters. Same principles apply to documentation.
+// Multiple SQS queues subscribe to topic
+const inventoryQueue = new sqs.Queue(this, 'InventoryQueue');
+const shippingQueue = new sqs.Queue(this, 'ShippingQueue');
+const analyticsQueue = new sqs.Queue(this, 'AnalyticsQueue');
 
-## Testing All Skill Types
+topic.addSubscription(new subscriptions.SqsSubscription(inventoryQueue));
+topic.addSubscription(new subscriptions.SqsSubscription(shippingQueue));
+topic.addSubscription(new subscriptions.SqsSubscription(analyticsQueue));
 
-Different skill types need different test approaches:
-
-### Discipline-Enforcing Skills (rules/requirements)
-
-**Examples:** TDD, verification-before-completion, designing-before-coding
-
-**Test with:**
-- Academic questions: Do they understand the rules?
-- Pressure scenarios: Do they comply under stress?
-- Multiple pressures combined: time + sunk cost + exhaustion
-- Identify rationalizations and add explicit counters
-
-**Success criteria:** Agent follows rule under maximum pressure
-
-### Technique Skills (how-to guides)
-
-**Examples:** condition-based-waiting, root-cause-tracing, defensive-programming
-
-**Test with:**
-- Application scenarios: Can they apply the technique correctly?
-- Variation scenarios: Do they handle edge cases?
-- Missing information tests: Do instructions have gaps?
-
-**Success criteria:** Agent successfully applies technique to new scenario
-
-### Pattern Skills (mental models)
-
-**Examples:** reducing-complexity, information-hiding concepts
-
-**Test with:**
-- Recognition scenarios: Do they recognize when pattern applies?
-- Application scenarios: Can they use the mental model?
-- Counter-examples: Do they know when NOT to apply?
-
-**Success criteria:** Agent correctly identifies when/how to apply pattern
-
-### Reference Skills (documentation/APIs)
-
-**Examples:** API documentation, command references, library guides
-
-**Test with:**
-- Retrieval scenarios: Can they find the right information?
-- Application scenarios: Can they use what they found correctly?
-- Gap testing: Are common use cases covered?
-
-**Success criteria:** Agent finds and correctly applies reference information
-
-## Common Rationalizations for Skipping Testing
-
-| Excuse | Reality |
-|--------|---------|
-| "Skill is obviously clear" | Clear to you ≠ clear to other agents. Test it. |
-| "It's just a reference" | References can have gaps, unclear sections. Test retrieval. |
-| "Testing is overkill" | Untested skills have issues. Always. 15 min testing saves hours. |
-| "I'll test if problems emerge" | Problems = agents can't use skill. Test BEFORE deploying. |
-| "Too tedious to test" | Testing is less tedious than debugging bad skill in production. |
-| "I'm confident it's good" | Overconfidence guarantees issues. Test anyway. |
-| "Academic review is enough" | Reading ≠ using. Test application scenarios. |
-| "No time to test" | Deploying untested skill wastes more time fixing it later. |
-
-**All of these mean: Test before deploying. No exceptions.**
-
-## Bulletproofing Skills Against Rationalization
-
-Skills that enforce discipline (like TDD) need to resist rationalization. Agents are smart and will find loopholes when under pressure.
-
-**Psychology note:** Understanding WHY persuasion techniques work helps you apply them systematically. See persuasion-principles.md for research foundation (Cialdini, 2021; Meincke et al., 2025) on authority, commitment, scarcity, social proof, and unity principles.
-
-### Close Every Loophole Explicitly
-
-Don't just state the rule - forbid specific workarounds:
-
-<Bad>
-```markdown
-Write code before test? Delete it.
-```
-</Bad>
-
-<Good>
-```markdown
-Write code before test? Delete it. Start over.
-
-**No exceptions:**
-- Don't keep it as "reference"
-- Don't "adapt" it while writing tests
-- Don't look at it
-- Delete means delete
-```
-</Good>
-
-### Address "Spirit vs Letter" Arguments
-
-Add foundational principle early:
-
-```markdown
-**Violating the letter of the rules is violating the spirit of the rules.**
+// Each queue has its own Lambda consumer
+new lambda.EventSourceMapping(this, 'InventoryConsumer', {
+  target: inventoryFunction,
+  eventSourceArn: inventoryQueue.queueArn,
+});
 ```
 
-This cuts off entire class of "I'm following the spirit" rationalizations.
+### Pattern 4: Saga Pattern with Step Functions
 
-### Build Rationalization Table
+Implement distributed transactions:
 
-Capture rationalizations from baseline testing (see Testing section below). Every excuse agents make goes in the table:
+```typescript
+const reserveFlight = new tasks.LambdaInvoke(this, 'ReserveFlight', {
+  lambdaFunction: reserveFlightFunction,
+  outputPath: '$.Payload',
+});
 
-```markdown
-| Excuse | Reality |
-|--------|---------|
-| "Too simple to test" | Simple code breaks. Test takes 30 seconds. |
-| "I'll test after" | Tests passing immediately prove nothing. |
-| "Tests after achieve same goals" | Tests-after = "what does this do?" Tests-first = "what should this do?" |
+const reserveHotel = new tasks.LambdaInvoke(this, 'ReserveHotel', {
+  lambdaFunction: reserveHotelFunction,
+  outputPath: '$.Payload',
+});
+
+const processPayment = new tasks.LambdaInvoke(this, 'ProcessPayment', {
+  lambdaFunction: processPaymentFunction,
+  outputPath: '$.Payload',
+});
+
+// Compensating transactions
+const cancelFlight = new tasks.LambdaInvoke(this, 'CancelFlight', {
+  lambdaFunction: cancelFlightFunction,
+});
+
+const cancelHotel = new tasks.LambdaInvoke(this, 'CancelHotel', {
+  lambdaFunction: cancelHotelFunction,
+});
+
+// Define saga with compensation
+const definition = reserveFlight
+  .next(reserveHotel)
+  .next(processPayment)
+  .addCatch(cancelHotel.next(cancelFlight), {
+    resultPath: '$.error',
+  });
+
+new stepfunctions.StateMachine(this, 'BookingStateMachine', {
+  definition,
+  timeout: Duration.minutes(5),
+});
 ```
 
-### Create Red Flags List
+### Pattern 5: Event Sourcing
 
-Make it easy for agents to self-check when rationalizing:
+Store events as source of truth:
 
-```markdown
-## Red Flags - STOP and Start Over
+```typescript
+// Event store with DynamoDB
+const eventStore = new dynamodb.Table(this, 'EventStore', {
+  partitionKey: { name: 'aggregateId', type: dynamodb.AttributeType.STRING },
+  sortKey: { name: 'version', type: dynamodb.AttributeType.NUMBER },
+  stream: dynamodb.StreamViewType.NEW_IMAGE,
+});
 
-- Code before test
-- "I already manually tested it"
-- "Tests after achieve the same purpose"
-- "It's about spirit not ritual"
-- "This is different because..."
+// Lambda function stores events
+export const handleCommand = async (event: any) => {
+  const { aggregateId, eventType, eventData } = event;
 
-**All of these mean: Delete code. Start over with TDD.**
+  // Get current version
+  const items = await dynamodb.query({
+    TableName: process.env.EVENT_STORE,
+    KeyConditionExpression: 'aggregateId = :id',
+    ExpressionAttributeValues: { ':id': aggregateId },
+    ScanIndexForward: false,
+    Limit: 1,
+  });
+
+  const nextVersion = items.Items?.[0]?.version + 1 || 1;
+
+  // Append new event
+  await dynamodb.putItem({
+    TableName: process.env.EVENT_STORE,
+    Item: {
+      aggregateId,
+      version: nextVersion,
+      eventType,
+      eventData,
+      timestamp: Date.now(),
+    },
+  });
+};
+
+// Projections read from event stream
+eventStore.grantStreamRead(projectionFunction);
 ```
 
-### Update CSO for Violation Symptoms
+## Serverless Architecture Patterns
 
-Add to description: symptoms of when you're ABOUT to violate the rule:
+### Pattern 1: API-Driven Microservices
 
-```yaml
-description: use when implementing any feature or bugfix, before writing implementation code
+REST APIs with Lambda backend:
+
+```typescript
+const api = new apigateway.RestApi(this, 'Api', {
+  restApiName: 'microservices-api',
+  deployOptions: {
+    throttlingRateLimit: 1000,
+    throttlingBurstLimit: 2000,
+    tracingEnabled: true,
+  },
+});
+
+// User service
+const users = api.root.addResource('users');
+users.addMethod('GET', new apigateway.LambdaIntegration(getUsersFunction));
+users.addMethod('POST', new apigateway.LambdaIntegration(createUserFunction));
+
+// Order service
+const orders = api.root.addResource('orders');
+orders.addMethod('GET', new apigateway.LambdaIntegration(getOrdersFunction));
+orders.addMethod('POST', new apigateway.LambdaIntegration(createOrderFunction));
 ```
 
-## RED-GREEN-REFACTOR for Skills
+### Pattern 2: Stream Processing
 
-Follow the TDD cycle:
+Real-time data processing with Kinesis:
 
-### RED: Write Failing Test (Baseline)
+```typescript
+const stream = new kinesis.Stream(this, 'DataStream', {
+  shardCount: 2,
+  retentionPeriod: Duration.days(7),
+});
 
-Run pressure scenario with subagent WITHOUT the skill. Document exact behavior:
-- What choices did they make?
-- What rationalizations did they use (verbatim)?
-- Which pressures triggered violations?
-
-This is "watch the test fail" - you must see what agents naturally do before writing the skill.
-
-### GREEN: Write Minimal Skill
-
-Write skill that addresses those specific rationalizations. Don't add extra content for hypothetical cases.
-
-Run same scenarios WITH skill. Agent should now comply.
-
-### REFACTOR: Close Loopholes
-
-Agent found new rationalization? Add explicit counter. Re-test until bulletproof.
-
-**Testing methodology:** See @testing-skills-with-subagents.md for the complete testing methodology:
-- How to write pressure scenarios
-- Pressure types (time, sunk cost, authority, exhaustion)
-- Plugging holes systematically
-- Meta-testing techniques
-
-## Anti-Patterns
-
-### ❌ Narrative Example
-"In session 2025-10-03, we found empty projectDir caused..."
-**Why bad:** Too specific, not reusable
-
-### ❌ Multi-Language Dilution
-example-js.js, example-py.py, example-go.go
-**Why bad:** Mediocre quality, maintenance burden
-
-### ❌ Code in Flowcharts
-```dot
-step1 [label="import fs"];
-step2 [label="read file"];
+// Lambda processes stream records
+new lambda.EventSourceMapping(this, 'StreamProcessor', {
+  target: processFunction,
+  eventSourceArn: stream.streamArn,
+  batchSize: 100,
+  maxBatchingWindow: Duration.seconds(5),
+  parallelizationFactor: 10,
+  startingPosition: lambda.StartingPosition.LATEST,
+  retryAttempts: 3,
+  bisectBatchOnError: true,
+  onFailure: new lambdaDestinations.SqsDestination(dlq),
+});
 ```
-**Why bad:** Can't copy-paste, hard to read
 
-### ❌ Generic Labels
-helper1, helper2, step3, pattern4
-**Why bad:** Labels should have semantic meaning
+### Pattern 3: Async Task Processing
 
-## STOP: Before Moving to Next Skill
+Background job processing:
 
-**After writing ANY skill, you MUST STOP and complete the deployment process.**
+```typescript
+// SQS queue for tasks
+const taskQueue = new sqs.Queue(this, 'TaskQueue', {
+  visibilityTimeout: Duration.minutes(5),
+  receiveMessageWaitTime: Duration.seconds(20), // Long polling
+  deadLetterQueue: {
+    queue: dlq,
+    maxReceiveCount: 3,
+  },
+});
 
-**Do NOT:**
-- Create multiple skills in batch without testing each
-- Move to next skill before current one is verified
-- Skip testing because "batching is more efficient"
+// Lambda worker processes tasks
+const worker = new lambda.Function(this, 'TaskWorker', {
+  // ... configuration
+  reservedConcurrentExecutions: 10, // Control concurrency
+});
 
-**The deployment checklist below is MANDATORY for EACH skill.**
+new lambda.EventSourceMapping(this, 'TaskConsumer', {
+  target: worker,
+  eventSourceArn: taskQueue.queueArn,
+  batchSize: 10,
+  reportBatchItemFailures: true, // Partial batch failure handling
+});
+```
 
-Deploying untested skills = deploying untested code. It's a violation of quality standards.
+### Pattern 4: Scheduled Jobs
 
-## Skill Creation Checklist (TDD Adapted)
+Periodic processing with EventBridge:
 
-**IMPORTANT: Use TodoWrite to create todos for EACH checklist item below.**
+```typescript
+// Daily cleanup job
+new events.Rule(this, 'DailyCleanup', {
+  schedule: events.Schedule.cron({ hour: '2', minute: '0' }),
+  targets: [new targets.LambdaFunction(cleanupFunction)],
+});
 
-**RED Phase - Write Failing Test:**
-- [ ] Create pressure scenarios (3+ combined pressures for discipline skills)
-- [ ] Run scenarios WITHOUT skill - document baseline behavior verbatim
-- [ ] Identify patterns in rationalizations/failures
+// Process every 5 minutes
+new events.Rule(this, 'FrequentProcessing', {
+  schedule: events.Schedule.rate(Duration.minutes(5)),
+  targets: [new targets.LambdaFunction(processFunction)],
+});
+```
 
-**GREEN Phase - Write Minimal Skill:**
-- [ ] Name uses only letters, numbers, hyphens (no parentheses/special chars)
-- [ ] YAML frontmatter with only name and description (max 1024 chars)
-- [ ] Description starts with "Use when..." and includes specific triggers/symptoms
-- [ ] Description written in third person
-- [ ] Keywords throughout for search (errors, symptoms, tools)
-- [ ] Clear overview with core principle
-- [ ] Address specific baseline failures identified in RED
-- [ ] Code inline OR link to separate file
-- [ ] One excellent example (not multi-language)
-- [ ] Run scenarios WITH skill - verify agents now comply
+### Pattern 5: Webhook Processing
 
-**REFACTOR Phase - Close Loopholes:**
-- [ ] Identify NEW rationalizations from testing
-- [ ] Add explicit counters (if discipline skill)
-- [ ] Build rationalization table from all test iterations
-- [ ] Create red flags list
-- [ ] Re-test until bulletproof
+Handle external webhooks:
 
-**Quality Checks:**
-- [ ] Small flowchart only if decision non-obvious
-- [ ] Quick reference table
-- [ ] Common mistakes section
-- [ ] No narrative storytelling
-- [ ] Supporting files only for tools or heavy reference
+```typescript
+// API Gateway endpoint for webhooks
+const webhookApi = new apigateway.RestApi(this, 'WebhookApi', {
+  restApiName: 'webhooks',
+});
 
-**Deployment:**
-- [ ] Commit skill to git and push to your fork (if configured)
-- [ ] Consider contributing back via PR (if broadly useful)
+const webhook = webhookApi.root.addResource('webhook');
+webhook.addMethod('POST', new apigateway.LambdaIntegration(webhookFunction, {
+  proxy: true,
+  timeout: Duration.seconds(29), // API Gateway max
+}));
 
-## Discovery Workflow
+// Lambda handler validates and queues webhook
+export const handler = async (event: APIGatewayProxyEvent) => {
+  // Validate webhook signature
+  const isValid = validateSignature(event.headers, event.body);
+  if (!isValid) {
+    return { statusCode: 401, body: 'Invalid signature' };
+  }
 
-How future Claude finds your skill:
+  // Queue for async processing
+  await sqs.sendMessage({
+    QueueUrl: process.env.QUEUE_URL,
+    MessageBody: event.body,
+  });
 
-1. **Encounters problem** ("tests are flaky")
-3. **Finds SKILL** (description matches)
-4. **Scans overview** (is this relevant?)
-5. **Reads patterns** (quick reference table)
-6. **Loads example** (only when implementing)
+  // Return immediately
+  return { statusCode: 202, body: 'Accepted' };
+};
+```
 
-**Optimize for this flow** - put searchable terms early and often.
+## Best Practices
 
-## The Bottom Line
+### Error Handling
 
-**Creating skills IS TDD for process documentation.**
+**Implement comprehensive error handling**:
 
-Same Iron Law: No skill without failing test first.
-Same cycle: RED (baseline) → GREEN (write skill) → REFACTOR (close loopholes).
-Same benefits: Better quality, fewer surprises, bulletproof results.
+```typescript
+export const handler = async (event: SQSEvent) => {
+  const failures: SQSBatchItemFailure[] = [];
 
-If you follow TDD for code, follow it for skills. It's the same discipline applied to documentation.
+  for (const record of event.Records) {
+    try {
+      await processRecord(record);
+    } catch (error) {
+      console.error('Failed to process record:', record.messageId, error);
+      failures.push({ itemIdentifier: record.messageId });
+    }
+  }
+
+  // Return partial batch failures for retry
+  return { batchItemFailures: failures };
+};
+```
+
+### Dead Letter Queues
+
+**Always configure DLQs for error handling**:
+
+```typescript
+const dlq = new sqs.Queue(this, 'DLQ', {
+  retentionPeriod: Duration.days(14),
+});
+
+const queue = new sqs.Queue(this, 'Queue', {
+  deadLetterQueue: {
+    queue: dlq,
+    maxReceiveCount: 3,
+  },
+});
+
+// Monitor DLQ depth
+new cloudwatch.Alarm(this, 'DLQAlarm', {
+  metric: dlq.metricApproximateNumberOfMessagesVisible(),
+  threshold: 1,
+  evaluationPeriods: 1,
+  alarmDescription: 'Messages in DLQ require attention',
+});
+```
+
+### Observability
+
+**Enable tracing and monitoring**:
+
+```typescript
+new NodejsFunction(this, 'Function', {
+  entry: 'src/handler.ts',
+  tracing: lambda.Tracing.ACTIVE, // X-Ray tracing
+  environment: {
+    POWERTOOLS_SERVICE_NAME: 'order-service',
+    POWERTOOLS_METRICS_NAMESPACE: 'MyApp',
+    LOG_LEVEL: 'INFO',
+  },
+});
+```
+
+## Using MCP Servers Effectively
+
+### AWS Serverless MCP Usage
+
+**Lifecycle management**:
+- Initialize new serverless projects
+- Generate SAM templates
+- Deploy applications
+- Test locally before deployment
+
+### Lambda Tool MCP Usage
+
+**Function execution**:
+- Test Lambda functions directly
+- Execute automation workflows
+- Access private resources
+- Validate integrations
+
+### Step Functions MCP Usage
+
+**Workflow orchestration**:
+- Create state machines for complex workflows
+- Execute distributed transactions
+- Implement saga patterns
+- Coordinate microservices
+
+### SNS/SQS MCP Usage
+
+**Messaging operations**:
+- Test pub/sub patterns
+- Send test messages to queues
+- Validate event routing
+- Debug message processing
+
+## Additional Resources
+
+This skill includes comprehensive reference documentation based on AWS best practices:
+
+- **Serverless Patterns**: `references/serverless-patterns.md`
+  - Core serverless architectures and API patterns
+  - Data processing and integration patterns
+  - Orchestration with Step Functions
+  - Anti-patterns to avoid
+
+- **Event-Driven Architecture Patterns**: `references/eda-patterns.md`
+  - Event routing and processing patterns
+  - Event sourcing and saga patterns
+  - Idempotency and error handling
+  - Message ordering and deduplication
+
+- **Security Best Practices**: `references/security-best-practices.md`
+  - Shared responsibility model
+  - IAM least privilege patterns
+  - Data protection and encryption
+  - Network security with VPC
+
+- **Observability Best Practices**: `references/observability-best-practices.md`
+  - Three pillars: metrics, logs, traces
+  - Structured logging with Lambda Powertools
+  - X-Ray distributed tracing
+  - CloudWatch alarms and dashboards
+
+- **Performance Optimization**: `references/performance-optimization.md`
+  - Cold start optimization techniques
+  - Memory and CPU optimization
+  - Package size reduction
+  - Provisioned concurrency patterns
+
+- **Deployment Best Practices**: `references/deployment-best-practices.md`
+  - CI/CD pipeline design
+  - Testing strategies (unit, integration, load)
+  - Deployment strategies (canary, blue/green)
+  - Rollback and safety mechanisms
+
+**External Resources**:
+- **AWS Well-Architected Serverless Lens**: https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/
+- **ServerlessLand.com**: Pre-built serverless patterns
+- **AWS Serverless Workshops**: https://serverlessland.com/learn?type=Workshops
+
+For detailed implementation patterns, anti-patterns, and code examples, refer to the comprehensive references in the skill directory.
