@@ -199,6 +199,9 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 | [zxkane/aws-skills](https://github.com/zxkane/aws-skills) | AWS skills: CDK, serverless, cost ops (installed) |
 | [michalparkola/tapestry-skills](https://github.com/michalparkola/tapestry-skills-for-claude-code) | YouTube transcripts, article extraction (installed) |
 | [raintree-technology/claude-starter](https://github.com/raintree-technology/claude-starter) | 40+ skills starter pack (cherry-picked: anthropic, ios, supabase) |
+| [VoltAgent/awesome-claude-skills](https://github.com/VoltAgent/awesome-claude-skills) | Community skills collection |
+| [PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill) | NotebookLM integration (installed) |
+| [czlonkowski/n8n-skills](https://github.com/czlonkowski/n8n-skills) | n8n workflow skills - complements n8n-mcp (installed) |
 
 ---
 
@@ -292,6 +295,18 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 - ios
 - supabase
 
+**NotebookLM**
+- notebooklm
+
+**n8n Workflow (complements n8n-mcp server)**
+- n8n-code-javascript
+- n8n-code-python
+- n8n-expression-syntax
+- n8n-mcp-tools-expert
+- n8n-node-configuration
+- n8n-validation-expert
+- n8n-workflow-patterns
+
 ---
 
 ## Changelog
@@ -310,3 +325,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Installed youtube-transcript and aws-skills (4 AWS skills) |
 | 2024-12-22 | Fixed obra/superpowers installation; added ship-learn-next, move-code-quality-skill, git-pushing |
 | 2024-12-22 | Cherry-picked from claude-starter: anthropic, ios, supabase (replaced anthropic-best-practices.md) |
+| 2024-12-22 | Installed notebooklm skill and n8n-skills (7 skills complementing n8n-mcp server) |
