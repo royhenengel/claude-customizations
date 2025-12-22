@@ -41,7 +41,7 @@ Need to interact with external system?
 Checked pairs:
 - `skill-assistant` vs `skill-creator` — **Complementary**, not conflicting. One finds/installs skills, the other guides creation.
 
-**Agents — None installed yet.**
+**Agents — 1 installed (code-reviewer from obra/superpowers).**
 
 **MCP Servers — No conflicts found.**
 - `notion` — Notion workspace integration (search, read, create, update pages/databases)
@@ -190,7 +190,7 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 |----------|-------------|
 | [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | Curated skills collection (installed) |
 | [travisvn/awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills) | Curated list with community skills |
-| [obra/superpowers](https://github.com/obra/superpowers) | 20+ skills: TDD, debugging, git workflows, code review |
+| [obra/superpowers](https://github.com/obra/superpowers) | 14 skills + 1 agent: TDD, debugging, git workflows, code review (installed) |
 | [K-Dense-AI/claude-scientific-skills](https://github.com/K-Dense-AI/claude-scientific-skills) | 125+ scientific skills: drug discovery, bioinformatics, ML |
 | [anthropics/skills](https://github.com/anthropics/skills) | Official Anthropic skills repository |
 
@@ -240,6 +240,28 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 - skill-assistant
 - skill-share
 - template-skill
+- using-superpowers
+- writing-skills
+
+**Workflow (from obra/superpowers)**
+- brainstorming
+- dispatching-parallel-agents
+- executing-plans
+- writing-plans
+
+**Development Practices (from obra/superpowers)**
+- test-driven-development
+- systematic-debugging
+- verification-before-completion
+- subagent-driven-development
+
+**Code Review (from obra/superpowers)**
+- requesting-code-review
+- receiving-code-review
+
+**Git (from obra/superpowers)**
+- using-git-worktrees
+- finishing-a-development-branch
 
 ---
 
@@ -254,3 +276,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Added MCP servers to tool selection framework (notion, n8n-mcp) |
 | 2024-12-22 | Added scaling considerations and MCP server types (stdio vs http) |
 | 2024-12-22 | Added skill resources section; installed web-asset-generator |
+| 2024-12-22 | Installed obra/superpowers (14 skills + code-reviewer agent) |
