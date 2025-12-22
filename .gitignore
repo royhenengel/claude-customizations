@@ -2,6 +2,9 @@
 .DS_Store
 Thumbs.db
 
+# Secrets - DO NOT COMMIT
+.mcp.json
+
 # Editor files
 *.swp
 *.swo
