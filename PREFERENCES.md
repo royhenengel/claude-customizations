@@ -42,9 +42,15 @@ Checked pairs:
 - `skill-assistant` vs `skill-creator` — **Complementary**, not conflicting. One finds/installs skills, the other guides creation.
 - `anthropic` (new) replaced `anthropic-best-practices.md` (loose file) — new skill is more comprehensive.
 
-**Agents — 125 installed from [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents).**
+**Agents — 126 installed.**
 
-Note: VoltAgent's `code-reviewer.md` replaced obra/superpowers version.
+Sources:
+- [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) (125 agents)
+- [obra/superpowers](https://github.com/obra/superpowers) (1 agent)
+
+Note: Both repos provided code-reviewer agents. Kept both with distinct purposes:
+- `code-reviewer.md` — General comprehensive reviews (VoltAgent)
+- `code-reviewer-plan.md` — Plan-alignment reviews (obra, works with writing-plans/executing-plans skills)
 
 **MCP Servers — No conflicts found.**
 - `notion` — Notion workspace integration (search, read, create, update pages/databases)
@@ -336,10 +342,10 @@ Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/a
 - network-engineer, platform-engineer, security-engineer, sre-engineer
 - terraform-engineer, windows-infra-admin
 
-**Quality & Security (12)**
+**Quality & Security (13)**
 - accessibility-tester, architect-reviewer, chaos-engineer, code-reviewer
-- compliance-auditor, debugger, error-detective, penetration-tester
-- performance-engineer, powershell-security-hardening, qa-expert, test-automator
+- code-reviewer-plan (obra), compliance-auditor, debugger, error-detective
+- penetration-tester, performance-engineer, powershell-security-hardening, qa-expert, test-automator
 
 **Data & AI (12)**
 - ai-engineer, data-analyst, data-engineer, data-scientist, database-optimizer
@@ -389,4 +395,5 @@ Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/a
 | 2024-12-22 | Fixed obra/superpowers installation; added ship-learn-next, move-code-quality-skill, git-pushing |
 | 2024-12-22 | Cherry-picked from claude-starter: anthropic, ios, supabase (replaced anthropic-best-practices.md) |
 | 2024-12-22 | Installed notebooklm skill and n8n-skills (7 skills complementing n8n-mcp server) |
-| 2024-12-22 | Installed 125 agents from VoltAgent/awesome-claude-code-subagents (replaced obra/superpowers code-reviewer) |
+| 2024-12-22 | Installed 125 agents from VoltAgent/awesome-claude-code-subagents |
+| 2024-12-22 | Kept both code-reviewers: code-reviewer (VoltAgent, general) + code-reviewer-plan (obra, plan-alignment) |
