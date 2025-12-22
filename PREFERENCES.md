@@ -42,11 +42,13 @@ Checked pairs:
 - `skill-assistant` vs `skill-creator` — **Complementary**, not conflicting. One finds/installs skills, the other guides creation.
 - `anthropic` (new) replaced `anthropic-best-practices.md` (loose file) — new skill is more comprehensive.
 
-**Agents — 126 installed.**
+**Agents — 142 installed.**
 
 Sources:
 - [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) (125 agents)
 - [obra/superpowers](https://github.com/obra/superpowers) (1 agent)
+- [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources) (3 agents)
+- [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit) (13 agents)
 
 Note: Both repos provided code-reviewer agents. Kept both with distinct purposes:
 - `code-reviewer.md` — General comprehensive reviews (VoltAgent)
@@ -211,12 +213,15 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 | [PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill) | NotebookLM integration (installed) |
 | [czlonkowski/n8n-skills](https://github.com/czlonkowski/n8n-skills) | n8n workflow skills - complements n8n-mcp (installed) |
 | [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) | 125 specialized Task tool agents (installed) |
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Curated directory of Claude Code resources |
+| [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources) | TÂCHES: 8 skills + 3 agents + 29 commands (installed) |
+| [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit) | CEK: 5 skills + 13 agents + 37 commands (installed) |
 
 ---
 
 ## Installed Skills
 
-Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills), [alonw0/web-asset-generator](https://github.com/alonw0/web-asset-generator)
+Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills), [alonw0/web-asset-generator](https://github.com/alonw0/web-asset-generator), [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources), [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit)
 
 ### By Category
 
@@ -316,11 +321,28 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 - n8n-validation-expert
 - n8n-workflow-patterns
 
+**TÂCHES (from glittercowboy/taches-cc-resources)**
+- taches-create-agent-skills
+- taches-create-hooks
+- taches-create-meta-prompts
+- taches-create-plans
+- taches-create-slash-commands
+- taches-create-subagents
+- taches-debug-like-expert
+- taches-expertise
+
+**Context Engineering Kit (from NeoLabHQ/context-engineering-kit)**
+- cek-kaizen
+- cek-prompt-engineering
+- cek-software-architecture
+- cek-subagent-driven-development
+- cek-test-driven-development
+
 ---
 
 ## Installed Agents
 
-Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)
+Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents), [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources), [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit)
 
 ### By Category
 
@@ -376,6 +398,49 @@ Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/a
 - competitive-analyst, data-researcher, market-researcher, research-analyst
 - search-specialist, trend-analyst
 
+**TÂCHES Auditors (3)**
+- skill-auditor, slash-command-auditor, subagent-auditor
+
+**Context Engineering Kit (13)**
+- cek-bug-hunter, cek-business-analyst, cek-code-explorer, cek-code-quality-reviewer
+- cek-contracts-reviewer, cek-developer, cek-historical-context-reviewer
+- cek-researcher, cek-security-auditor, cek-software-architect
+- cek-tech-lead, cek-tech-writer, cek-test-coverage-reviewer
+
+---
+
+## Installed Commands
+
+Source: [obra/superpowers](https://github.com/obra/superpowers), [glittercowboy/taches-cc-resources](https://github.com/glittercowboy/taches-cc-resources), [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit)
+
+**obra/superpowers (3)**
+- /brainstorm, /execute-plan, /write-plan
+
+**TÂCHES (29)**
+- /add-to-todos, /audit-skill, /audit-slash-command, /audit-subagent
+- /check-todos, /create-agent-skill, /create-hook, /create-meta-prompt
+- /create-plan, /create-prompt, /create-slash-command, /create-subagent
+- /debug, /heal-skill, /run-plan, /run-prompt, /whats-next
+- /consider:10-10-10, /consider:5-whys, /consider:eisenhower-matrix
+- /consider:first-principles, /consider:inversion, /consider:occams-razor
+- /consider:one-thing, /consider:opportunity-cost, /consider:pareto
+- /consider:second-order, /consider:swot, /consider:via-negativa
+
+**Context Engineering Kit (37)**
+- /cek-review-local-changes, /cek-review-pr, /cek-setup-code-formating
+- /cek-analyse-problem, /cek-analyse, /cek-cause-and-effect
+- /cek-plan-do-check-act, /cek-root-cause-tracing, /cek-why
+- /cek-critique, /cek-memorize, /cek-reflect
+- /cek-00-setup, /cek-01-specify, /cek-02-plan, /cek-03-tasks
+- /cek-04-implement, /cek-05-document, /cek-brainstorm
+- /cek-create-ideas, /cek-fix-tests, /cek-write-tests
+- /cek-analyze-issue, /cek-attach-review-to-pr, /cek-commit, /cek-create-pr
+- /cek-load-issues, /cek-build-mcp, /cek-setup-arxiv-mcp
+- /cek-setup-codemap-cli, /cek-setup-context7-mcp, /cek-setup-serena-mcp
+- /cek-apply-anthropic-skill-best-practices, /cek-create-command
+- /cek-create-hook, /cek-create-skill, /cek-test-prompt, /cek-test-skill
+- /cek-add-typescript-best-practices
+
 ---
 
 ## Changelog
@@ -397,3 +462,5 @@ Source: [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/a
 | 2024-12-22 | Installed notebooklm skill and n8n-skills (7 skills complementing n8n-mcp server) |
 | 2024-12-22 | Installed 125 agents from VoltAgent/awesome-claude-code-subagents |
 | 2024-12-22 | Kept both code-reviewers: code-reviewer (VoltAgent, general) + code-reviewer-plan (obra, plan-alignment) |
+| 2024-12-22 | Installed TÂCHES: 8 skills, 3 agents, 29 commands (including 12 /consider: thinking models) |
+| 2024-12-22 | Installed Context Engineering Kit: 5 skills, 13 agents, 37 commands |
