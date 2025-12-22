@@ -276,6 +276,15 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 **Media**
 - youtube-transcript
 
+**Learning**
+- ship-learn-next
+
+**Move/Blockchain**
+- move-code-quality-skill
+
+**Git Automation**
+- git-pushing
+
 ---
 
 ## Changelog
@@ -292,3 +301,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Installed obra/superpowers (14 skills + code-reviewer agent) |
 | 2024-12-22 | Installed commands: /brainstorm, /write-plan, /execute-plan |
 | 2024-12-22 | Installed youtube-transcript and aws-skills (4 AWS skills) |
+| 2024-12-22 | Fixed obra/superpowers installation; added ship-learn-next, move-code-quality-skill, git-pushing |
