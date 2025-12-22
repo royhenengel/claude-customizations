@@ -79,6 +79,45 @@ When multiple skills/agents could handle a request:
 
 **Resolution**: Remove duplicates or ensure clear separation of concerns
 
+### Scaling Considerations
+
+**Skills:**
+| Concern | Impact | Notes |
+|---------|--------|-------|
+| Context bloat | Medium | More skills loaded = more tokens per request |
+| Conflicts | Medium | Similar skills may give contradictory instructions |
+| Noise | Low | Wrong skill may activate for your request |
+| Maintenance | Low | More to update when things change |
+
+*Skills only load when relevant — unused ones don't cost much.*
+
+**Agents:**
+| Concern | Impact | Notes |
+|---------|--------|-------|
+| Minimal overhead | Very Low | Only run when explicitly called |
+
+*Install freely — agents are just available options until invoked.*
+
+**MCP Servers:**
+| Concern | Impact | Notes |
+|---------|--------|-------|
+| Startup time | Low-Medium | Each server initializes when Claude Code starts |
+| Resource usage | Medium | Running processes/connections during session |
+| API costs | Varies | Some services charge per call |
+| Credential management | Medium | More API keys to secure/rotate |
+| Rate limits | Varies | External APIs may throttle |
+
+*Be selective with MCP servers — each one is an active dependency.*
+
+### MCP Server Types
+
+| Type | How it works | Example |
+|------|--------------|---------|
+| **stdio** | Local process spawned when Claude Code starts, killed on exit | `n8n-mcp` |
+| **http** | Remote server, connection made on demand, no local process | `notion` |
+
+MCP servers are **not always running** — they start with Claude Code sessions and can be enabled/disabled per project.
+
 ---
 
 ## Directory Structure
@@ -92,8 +131,10 @@ When multiple skills/agents could handle a request:
 /Users/royengel/Projects/Claude Code/claude-customizations/
 ├── skills/           # All installed skills
 ├── agents/           # Custom agents
-├── PREFERENCES.md    # This file
-└── README.md         # Project overview
+├── mcp/              # MCP server docs/configs
+├── CLAUDE.md         # Auto-loaded by Claude Code
+├── PREFERENCES.md    # This file (referenced by CLAUDE.md)
+└── .mcp.json         # MCP server config (gitignored)
 ```
 
 ---
@@ -198,3 +239,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Set up symlinks for ~/.claude/skills and ~/.claude/agents |
 | 2024-12-22 | Unified skills & agents management with decision criteria |
 | 2024-12-22 | Added MCP servers to tool selection framework (notion, n8n-mcp) |
+| 2024-12-22 | Added scaling considerations and MCP server types (stdio vs http) |
