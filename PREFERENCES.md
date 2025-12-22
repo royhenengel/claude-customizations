@@ -40,6 +40,7 @@ Need to interact with external system?
 
 Checked pairs:
 - `skill-assistant` vs `skill-creator` — **Complementary**, not conflicting. One finds/installs skills, the other guides creation.
+- `anthropic` (new) replaced `anthropic-best-practices.md` (loose file) — new skill is more comprehensive.
 
 **Agents — 1 installed (code-reviewer from obra/superpowers).**
 
@@ -197,6 +198,7 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 | [BehiSecc/awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Curated list with 50+ skills |
 | [zxkane/aws-skills](https://github.com/zxkane/aws-skills) | AWS skills: CDK, serverless, cost ops (installed) |
 | [michalparkola/tapestry-skills](https://github.com/michalparkola/tapestry-skills-for-claude-code) | YouTube transcripts, article extraction (installed) |
+| [raintree-technology/claude-starter](https://github.com/raintree-technology/claude-starter) | 40+ skills starter pack (cherry-picked: anthropic, ios, supabase) |
 
 ---
 
@@ -285,6 +287,11 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 **Git Automation**
 - git-pushing
 
+**Platform/API (from claude-starter)**
+- anthropic
+- ios
+- supabase
+
 ---
 
 ## Changelog
@@ -302,3 +309,4 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 | 2024-12-22 | Installed commands: /brainstorm, /write-plan, /execute-plan |
 | 2024-12-22 | Installed youtube-transcript and aws-skills (4 AWS skills) |
 | 2024-12-22 | Fixed obra/superpowers installation; added ship-learn-next, move-code-quality-skill, git-pushing |
+| 2024-12-22 | Cherry-picked from claude-starter: anthropic, ios, supabase (replaced anthropic-best-practices.md) |
