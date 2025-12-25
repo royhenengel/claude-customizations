@@ -167,6 +167,68 @@ Always name important sessions with `/rename <name>` for easy retrieval later.
 
 ---
 
+## Context Preservation Strategies
+
+Long conversations degrade as context compacts. Use these strategies to stay on course:
+
+### 1. Write Plans to Files (Recommended)
+
+Before executing, dump your plan to a file:
+```
+PLAN.md or .claude/scratchpad.md
+```
+Files survive context compaction. Re-read anytime to stay aligned.
+
+### 2. Use Subagents for Execution
+
+After gathering context, delegate execution to fresh agents:
+```
+"Use the Task tool to implement X based on the plan in PLAN.md"
+```
+Subagents start with clean 200K context and can read your plan file.
+
+### 3. Break Into Separate Conversations
+
+When you finish research/planning:
+1. Have Claude write findings to a file (e.g., `CONTEXT.md`)
+2. Start a new conversation
+3. Begin with "Read CONTEXT.md and continue implementing..."
+
+### 4. Use TodoWrite Aggressively
+
+The todo list persists better than conversation context. Add detailed notes in task descriptions, not just titles.
+
+### 5. Use Plan Mode for Complex Tasks
+
+Say "enter plan mode" — this creates a dedicated plan file that becomes the source of truth. Benefits:
+- Forces exploration before proposing changes
+- Requires your approval before execution
+- Separates thinking from doing
+- Catches ambiguity early
+- Creates a checkpoint if execution goes wrong
+
+### 6. Periodic Anchoring
+
+Every 10-15 messages on long tasks:
+```
+"Summarize our current state and next steps to a file"
+```
+
+### Quick Reference
+
+| Strategy | When to Use |
+|----------|-------------|
+| PLAN.md file | Multi-step tasks, before execution phase |
+| Subagents | Discrete tasks that can run independently |
+| New conversation | Topic shift, context feels degraded |
+| TodoWrite | Track progress, maintain focus |
+| Plan mode | Architectural decisions, multi-file changes |
+| Periodic anchoring | Long sessions (10+ messages) |
+
+**Golden Rule**: Files are permanent; conversation context is not.
+
+---
+
 ## Behavioral Rules
 
 ### Context-First Data Retrieval
