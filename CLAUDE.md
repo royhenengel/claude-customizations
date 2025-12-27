@@ -10,6 +10,19 @@ These instructions apply to ALL conversations across ALL projects.
 - Overlap analysis and conflict resolution
 - Installation rules and naming conventions
 
+## Notion Context (Load via Subagent)
+
+Before answering the first real question, use a **subagent** to read and summarize these Notion pages as context:
+- [AI Chat Prefs](https://www.notion.so/AI-Chat-Prefs-2c74df894a6980b6ab64f322b96aa753?pvs=21)
+- [Notion Workspace Prefs](https://www.notion.so/royengel/Notion-Workspace-Prefs-2d64df894a69819f924ae85ddfc18076)
+
+Rules:
+- This conversation MUST follow AI Chat Prefs
+- If conflicts arise, treat those Notion pages as correct
+- Document new rules to the relevant Notion page
+- Use subagents for tasks to preserve context
+- Be token efficient
+
 ## Quick Reference
 
 | Need | Tool |
