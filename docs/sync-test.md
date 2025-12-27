@@ -15,7 +15,7 @@ console.log('Sync working!');
 ```
 
 ## Status
-**Test #6** - Updated at 2025-12-27 to trigger new v3 workflow.
+**Test #7** - Updated at 2025-12-27 after fixing webhookId.
 
 ---
 *Last updated: 2025-12-27*
