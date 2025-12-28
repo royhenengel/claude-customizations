@@ -15,7 +15,7 @@ console.log('Sync working!');
 ```
 
 ## Status
-**Test #8** - Updated at 2025-12-27 after adding authentication param.
+**Test #9** - Updated at 2025-12-27 after fixing operation to "get".
 
 ---
 *Last updated: 2025-12-27*
