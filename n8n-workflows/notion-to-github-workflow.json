@@ -20,7 +20,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Query Notion for pages that need syncing\nconst dbId = '2cf4df89-4a69-817d-8b13-000b4d90598e';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      and: [\n        { property: 'github_path', rich_text: { is_not_empty: true } },\n        { property: 'sync_enabled', checkbox: { equals: true } }\n      ]\n    }\n  }\n});\n\nreturn [{ json: response }];"
+        "jsCode": "// Query Notion for pages that need syncing\nconst dbId = '2cf4df89-4a69-817d-8b13-000b4d90598e';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      and: [\n        { property: 'github_path', rich_text: { is_not_empty: true } },\n        { property: 'sync_enabled', checkbox: { equals: true } }\n      ]\n    }\n  }\n});\n\nreturn [{ json: response }];"
       },
       "id": "query-synced-pages",
       "name": "Query Synced Pages",
@@ -118,7 +118,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Get page blocks from Notion\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json, oldFileSha: $input.first().json.sha } }];"
+        "jsCode": "// Get page blocks from Notion\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json, oldFileSha: $input.first().json.sha } }];"
       },
       "id": "get-page-blocks-rename",
       "name": "Get Page Blocks (Rename)",
@@ -185,7 +185,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Update Notion page with new github_path and sync status\nconst pageData = $('Convert to Markdown (Rename)').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      github_path: { rich_text: [{ text: { content: pageData.new_github_path } }] },\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: true, old_path: pageData.file_path, new_path: pageData.new_file_path } }];"
+        "jsCode": "// Update Notion page with new github_path and sync status\nconst pageData = $('Convert to Markdown (Rename)').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      github_path: { rich_text: [{ text: { content: pageData.new_github_path } }] },\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: true, old_path: pageData.file_path, new_path: pageData.new_file_path } }];"
       },
       "id": "update-notion-after-rename",
       "name": "Update Notion (Rename)",
@@ -195,7 +195,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Get page blocks from Notion (content-only update)\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json } }];"
+        "jsCode": "// Get page blocks from Notion (content-only update)\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json } }];"
       },
       "id": "get-page-blocks",
       "name": "Get Page Blocks",
@@ -239,7 +239,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Update Notion page sync status\nconst pageData = $('Convert to Markdown').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: false } }];"
+        "jsCode": "// Update Notion page sync status\nconst pageData = $('Convert to Markdown').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: false } }];"
       },
       "id": "update-notion-sync-status",
       "name": "Update Notion Sync Status",
