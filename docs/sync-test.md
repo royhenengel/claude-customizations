@@ -1,21 +1,21 @@
-# Sync Test
+# Sync Test Document
 
-This is a test document to verify the GitHub ↔ Notion sync is working.
+This is a test document to verify GitHub to Notion sync.
 
-## Features Tested
-- Headings (H1, H2, H3)
-- Bullet points
-- Code blocks
-- Paragraphs
+## Features
 
-## Code Example
+- Automatic sync from GitHub to Notion
+- Markdown to Notion block conversion
+- Bidirectional sync support
+
+## Test Section
+
+This paragraph tests paragraph block conversion.
+
+> This is a quote block test
+
 ```javascript
-const syncTest = true;
-console.log('Sync working!');
+console.log("Code block test");
 ```
 
-## Status
-**Test #9** - Updated at 2025-12-27 after fixing operation to "get".
-
----
-*Last updated: 2025-12-27*
+Last updated: 2025-12-28
