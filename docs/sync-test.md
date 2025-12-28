@@ -18,4 +18,4 @@ This paragraph tests paragraph block conversion.
 console.log("Code block test");
 ```
 
-Last updated: 2025-12-28 (test 3 - empty result handling)
+Last updated: 2025-12-28 (test 4 - code query)
