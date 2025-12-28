@@ -142,13 +142,40 @@
     },
     {
       "parameters": {
-        "jsCode": "// Query Notion for existing page and decide create vs update\nconst mdData = $input.first().json;\nconst dbId = '2cf4df89-4a69-817d-8b13-000b4d90598e';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': `Bearer ${$env.NOTION_API_TOKEN}`,\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      property: 'github_path',\n      rich_text: { equals: mdData.github_path }\n    },\n    page_size: 1\n  }\n});\n\nconst results = response.results || [];\nif (results.length > 0) {\n  return [{ json: { exists: true, pageId: results[0].id, ...mdData } }];\n} else {\n  return [{ json: { exists: false, ...mdData } }];\n}"
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "2cf4df89-4a69-819f-941c-f3f8703ef620"
+        },
+        "returnAll": false,
+        "limit": 1,
+        "filterType": "json",
+        "filterJson": "={{ JSON.stringify({ \"property\": \"github_path\", \"rich_text\": { \"equals\": $json.github_path } }) }}",
+        "options": {}
       },
-      "id": "find-or-create-decision",
-      "name": "Find Or Create Decision",
+      "id": "find-existing-page",
+      "name": "Find Existing Page",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [1790, 200],
+      "credentials": {
+        "notionApi": {
+          "id": "vGGxyUaNL70rqYcQ",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge query results with markdown data\nconst mdData = $('Convert MD to Notion').first().json;\nconst queryResults = $input.all();\n\nif (queryResults.length > 0 && queryResults[0].json.id) {\n  return [{ json: { exists: true, pageId: queryResults[0].json.id, ...mdData } }];\n} else {\n  return [{ json: { exists: false, ...mdData } }];\n}"
+      },
+      "id": "merge-decision",
+      "name": "Merge Decision",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1790, 200]
+      "position": [2010, 200]
     },
     {
       "parameters": {
@@ -184,11 +211,15 @@
         "databaseId": {
           "__rl": true,
           "mode": "id",
-          "value": "2cf4df89-4a69-817d-8b13-000b4d90598e"
+          "value": "2cf4df89-4a69-819f-941c-f3f8703ef620"
         },
         "title": "={{ $json.title }}",
         "propertiesUi": {
           "propertyValues": [
+            {
+              "key": "Title|title",
+              "title": "={{ $json.title }}"
+            },
             {
               "key": "github_path|rich_text",
               "textContent": "={{ $json.github_path }}"
@@ -241,7 +272,7 @@
           "propertyValues": [
             {
               "key": "Title|title",
-              "textContent": "={{ $json.title }}"
+              "title": "={{ $json.title }}"
             },
             {
               "key": "last_synced|date",
@@ -274,7 +305,7 @@
         "databaseId": {
           "__rl": true,
           "mode": "id",
-          "value": "2cf4df89-4a69-817d-8b13-000b4d90598e"
+          "value": "2cf4df89-4a69-819f-941c-f3f8703ef620"
         },
         "returnAll": false,
         "limit": 1,
@@ -371,18 +402,23 @@
     },
     "Convert MD to Notion": {
       "main": [
-        [{ "node": "Find Or Create Decision", "type": "main", "index": 0 }]
-      ]
-    },
-    "Find Or Create Decision": {
-      "main": [
-        [{ "node": "Page Exists?", "type": "main", "index": 0 }]
+        [{ "node": "Find Existing Page", "type": "main", "index": 0 }]
       ]
     },
     "Page Exists?": {
       "main": [
         [{ "node": "Update Notion Page", "type": "main", "index": 0 }],
         [{ "node": "Create Notion Page", "type": "main", "index": 0 }]
+      ]
+    },
+    "Find Existing Page": {
+      "main": [
+        [{ "node": "Merge Decision", "type": "main", "index": 0 }]
+      ]
+    },
+    "Merge Decision": {
+      "main": [
+        [{ "node": "Page Exists?", "type": "main", "index": 0 }]
       ]
     }
   },
