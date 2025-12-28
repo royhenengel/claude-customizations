@@ -38,9 +38,21 @@ Bidirectional sync between Notion (source of truth) and GitHub repos. Markdown d
 **Steps:**
 1. Detect changes - Query pages where `last_edited_time > last_synced` AND `github_path` is set
 2. Skip echo loops - Ignore if `sync_source = "github"` AND `last_synced` within 2 minutes
-3. Convert - Notion blocks to markdown
-4. Commit to GitHub - Parse `github_path`, create commit with message `docs: sync from Notion [auto]`
-5. Update sync state - Set `last_synced` and `sync_source = "notion"`
+3. **Detect renames** - Compare Notion title (kebab-cased) with current `github_path` filename
+4. Convert - Notion blocks to markdown
+5. **If rename needed:**
+   - Delete old file from GitHub
+   - Create new file with renamed path
+   - Update `github_path` property in Notion
+   - Commit message: `docs: rename oldname.md → newname.md [auto]`
+6. **If content-only:**
+   - Commit to GitHub with message `docs: sync from Notion [auto]`
+7. Update sync state - Set `last_synced` and `sync_source = "notion"`
+
+### Title → Filename Conversion
+Notion page titles are converted to kebab-case filenames:
+- `Claude Agents Reference` → `claude-agents-reference.md`
+- `My Cool Doc!` → `my-cool-doc.md`
 
 ## Resources Database Properties (Add to existing)
 
@@ -75,3 +87,4 @@ Bidirectional sync between Notion (source of truth) and GitHub repos. Markdown d
 
 - Sync Notion-native pages to GitHub (infer repo from Project relation or manual assignment)
 - Project ↔ Repo mapping
+- GitHub → Notion rename detection (when files are renamed in GitHub)

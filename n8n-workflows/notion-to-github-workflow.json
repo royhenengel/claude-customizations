@@ -20,7 +20,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Query Notion for pages that need syncing\nconst dbId = '2cf4df89-4a69-819f-941c-f3f8703ef620';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      and: [\n        { property: 'github_path', rich_text: { is_not_empty: true } },\n        { property: 'sync_enabled', checkbox: { equals: true } }\n      ]\n    }\n  }\n});\n\nreturn [{ json: response }];"
+        "jsCode": "// Query Notion for pages that need syncing\nconst dbId = '2cf4df89-4a69-817d-8b13-000b4d90598e';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      and: [\n        { property: 'github_path', rich_text: { is_not_empty: true } },\n        { property: 'sync_enabled', checkbox: { equals: true } }\n      ]\n    }\n  }\n});\n\nreturn [{ json: response }];"
       },
       "id": "query-synced-pages",
       "name": "Query Synced Pages",
@@ -30,7 +30,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Filter pages that need syncing (edited after last sync)\nconst results = $input.first().json.results || [];\nconst now = new Date();\nconst twoMinutesAgo = new Date(now.getTime() - 2 * 60 * 1000);\n\nconst pagesToSync = [];\n\nfor (const page of results) {\n  const lastEdited = new Date(page.last_edited_time);\n  const lastSynced = page.properties.last_synced?.date?.start \n    ? new Date(page.properties.last_synced.date.start) \n    : null;\n  const syncSource = page.properties.sync_source?.select?.name;\n  const githubPath = page.properties.github_path?.rich_text?.[0]?.plain_text;\n  \n  // Skip if no github_path\n  if (!githubPath) continue;\n  \n  // Skip if never synced (needs initial GitHub import)\n  if (!lastSynced) continue;\n  \n  // Skip if not edited since last sync\n  if (lastEdited <= lastSynced) continue;\n  \n  // Echo loop prevention: skip if sync_source is \"github\" and last_synced within 2 minutes\n  if (syncSource === 'github' && lastSynced > twoMinutesAgo) {\n    continue;\n  }\n  \n  // Parse github_path (format: owner/repo:docs/filename.md)\n  const [repoPath, filePath] = githubPath.split(':');\n  const [owner, repo] = repoPath.split('/');\n  \n  pagesToSync.push({\n    json: {\n      page_id: page.id,\n      github_path: githubPath,\n      owner,\n      repo,\n      file_path: filePath,\n      title: page.properties.Title?.title?.[0]?.plain_text || 'Untitled',\n      last_edited: page.last_edited_time\n    }\n  });\n}\n\nreturn pagesToSync;"
+        "jsCode": "// Filter pages that need syncing and detect renames\nconst results = $input.first().json.results || [];\nconst now = new Date();\nconst twoMinutesAgo = new Date(now.getTime() - 2 * 60 * 1000);\n\n// Convert title to kebab-case filename\nfunction titleToFilename(title) {\n  return title\n    .toLowerCase()\n    .replace(/[^a-z0-9\\s-]/g, '') // Remove special chars\n    .replace(/\\s+/g, '-')          // Spaces to hyphens\n    .replace(/-+/g, '-')           // Multiple hyphens to single\n    .replace(/^-|-$/g, '')         // Trim hyphens\n    + '.md';\n}\n\nconst pagesToSync = [];\n\nfor (const page of results) {\n  const lastEdited = new Date(page.last_edited_time);\n  const lastSynced = page.properties.last_synced?.date?.start \n    ? new Date(page.properties.last_synced.date.start) \n    : null;\n  const syncSource = page.properties.sync_source?.select?.name;\n  const githubPath = page.properties.github_path?.rich_text?.[0]?.plain_text;\n  const title = page.properties.Title?.title?.[0]?.plain_text || 'Untitled';\n  \n  // Skip if no github_path\n  if (!githubPath) continue;\n  \n  // Skip if never synced (needs initial GitHub import)\n  if (!lastSynced) continue;\n  \n  // Parse github_path (format: owner/repo:docs/filename.md)\n  const [repoPath, filePath] = githubPath.split(':');\n  const [owner, repo] = repoPath.split('/');\n  \n  // Detect rename: compare current filename with title-derived filename\n  const currentFilename = filePath.split('/').pop();\n  const expectedFilename = titleToFilename(title);\n  const fileDir = filePath.substring(0, filePath.lastIndexOf('/') + 1);\n  const needsRename = currentFilename !== expectedFilename;\n  const newFilePath = needsRename ? fileDir + expectedFilename : filePath;\n  const newGithubPath = needsRename ? `${repoPath}:${newFilePath}` : githubPath;\n  \n  // Skip content-only sync if not edited since last sync (but always process renames)\n  const needsContentSync = lastEdited > lastSynced;\n  \n  // Echo loop prevention: skip if sync_source is \"github\" and last_synced within 2 minutes\n  if (!needsRename && syncSource === 'github' && lastSynced > twoMinutesAgo) {\n    continue;\n  }\n  \n  // Skip if no changes needed\n  if (!needsRename && !needsContentSync) continue;\n  \n  pagesToSync.push({\n    json: {\n      page_id: page.id,\n      github_path: githubPath,\n      new_github_path: newGithubPath,\n      owner,\n      repo,\n      file_path: filePath,\n      new_file_path: newFilePath,\n      title,\n      last_edited: page.last_edited_time,\n      needs_rename: needsRename,\n      needs_content_sync: needsContentSync\n    }\n  });\n}\n\nreturn pagesToSync;"
       },
       "id": "filter-changed-pages",
       "name": "Filter Changed Pages",
@@ -68,23 +68,150 @@
     },
     {
       "parameters": {
-        "jsCode": "// Get page blocks from Notion\nconst pageId = $input.first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $input.first().json } }];"
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "needs-rename",
+              "leftValue": "={{ $json.needs_rename }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
       },
-      "id": "get-page-blocks",
-      "name": "Get Page Blocks",
-      "type": "n8n-nodes-base.code",
+      "id": "needs-rename",
+      "name": "Needs Rename?",
+      "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [1130, 300]
     },
     {
       "parameters": {
-        "jsCode": "// Convert Notion blocks to Markdown\nconst input = $input.first().json;\nconst blocks = input.results || [];\nconst pageData = input.pageData || $('Filter Changed Pages').first().json;\n\nfunction richTextToMarkdown(richText) {\n  if (!richText || !richText.length) return '';\n  return richText.map(rt => {\n    let text = rt.plain_text || '';\n    if (rt.annotations) {\n      if (rt.annotations.bold) text = `**${text}**`;\n      if (rt.annotations.italic) text = `*${text}*`;\n      if (rt.annotations.code) text = `\\`${text}\\``;\n      if (rt.annotations.strikethrough) text = `~~${text}~~`;\n    }\n    if (rt.href) text = `[${text}](${rt.href})`;\n    return text;\n  }).join('');\n}\n\nfunction blockToMarkdown(block, indent = '') {\n  const type = block.type;\n  const data = block[type];\n  \n  switch (type) {\n    case 'paragraph':\n      return richTextToMarkdown(data.rich_text);\n    case 'heading_1':\n      return `# ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_2':\n      return `## ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_3':\n      return `### ${richTextToMarkdown(data.rich_text)}`;\n    case 'bulleted_list_item':\n      return `${indent}- ${richTextToMarkdown(data.rich_text)}`;\n    case 'numbered_list_item':\n      return `${indent}1. ${richTextToMarkdown(data.rich_text)}`;\n    case 'to_do':\n      const checked = data.checked ? 'x' : ' ';\n      return `${indent}- [${checked}] ${richTextToMarkdown(data.rich_text)}`;\n    case 'toggle':\n      return `<details>\\n<summary>${richTextToMarkdown(data.rich_text)}</summary>\\n</details>`;\n    case 'code':\n      const lang = data.language || '';\n      return `\\`\\`\\`${lang}\\n${richTextToMarkdown(data.rich_text)}\\n\\`\\`\\``;\n    case 'quote':\n      return `> ${richTextToMarkdown(data.rich_text)}`;\n    case 'callout':\n      const emoji = data.icon?.emoji || '';\n      return `> ${emoji} ${richTextToMarkdown(data.rich_text)}`;\n    case 'divider':\n      return '---';\n    case 'image':\n      const url = data.external?.url || data.file?.url || '';\n      const caption = richTextToMarkdown(data.caption) || 'image';\n      return `![${caption}](${url})`;\n    case 'bookmark':\n      return `[${data.url}](${data.url})`;\n    case 'link_preview':\n      return `[${data.url}](${data.url})`;\n    case 'table':\n      return '<!-- Table not supported -->';\n    default:\n      return '';\n  }\n}\n\n// Build markdown content\nconst lines = [`# ${pageData.title}`, ''];\n\nfor (const block of blocks) {\n  const md = blockToMarkdown(block);\n  if (md) {\n    lines.push(md);\n    lines.push('');\n  }\n}\n\nconst markdown = lines.join('\\n').trim();\n\nreturn [{\n  json: {\n    ...pageData,\n    markdown,\n    commit_message: `docs: sync from Notion [auto]`\n  }\n}];"
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": "={{ $json.owner }}",
+        "repository": "={{ $json.repo }}",
+        "filePath": "={{ $json.file_path }}",
+        "additionalParameters": {}
+      },
+      "id": "get-old-file",
+      "name": "Get Old File (for SHA)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1350, 200],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Hg21ZsCbyU49McTn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get page blocks from Notion\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json, oldFileSha: $input.first().json.sha } }];"
+      },
+      "id": "get-page-blocks-rename",
+      "name": "Get Page Blocks (Rename)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1570, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convert Notion blocks to Markdown\nconst input = $input.first().json;\nconst blocks = input.results || [];\nconst pageData = input.pageData;\nconst oldFileSha = input.oldFileSha;\n\nfunction richTextToMarkdown(richText) {\n  if (!richText || !richText.length) return '';\n  return richText.map(rt => {\n    let text = rt.plain_text || '';\n    if (rt.annotations) {\n      if (rt.annotations.bold) text = `**${text}**`;\n      if (rt.annotations.italic) text = `*${text}*`;\n      if (rt.annotations.code) text = `\\`${text}\\``;\n      if (rt.annotations.strikethrough) text = `~~${text}~~`;\n    }\n    if (rt.href) text = `[${text}](${rt.href})`;\n    return text;\n  }).join('');\n}\n\nfunction blockToMarkdown(block, indent = '') {\n  const type = block.type;\n  const data = block[type];\n  \n  switch (type) {\n    case 'paragraph':\n      return richTextToMarkdown(data.rich_text);\n    case 'heading_1':\n      return `# ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_2':\n      return `## ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_3':\n      return `### ${richTextToMarkdown(data.rich_text)}`;\n    case 'bulleted_list_item':\n      return `${indent}- ${richTextToMarkdown(data.rich_text)}`;\n    case 'numbered_list_item':\n      return `${indent}1. ${richTextToMarkdown(data.rich_text)}`;\n    case 'to_do':\n      const checked = data.checked ? 'x' : ' ';\n      return `${indent}- [${checked}] ${richTextToMarkdown(data.rich_text)}`;\n    case 'toggle':\n      return `<details>\\n<summary>${richTextToMarkdown(data.rich_text)}</summary>\\n</details>`;\n    case 'code':\n      const lang = data.language || '';\n      return `\\`\\`\\`${lang}\\n${richTextToMarkdown(data.rich_text)}\\n\\`\\`\\``;\n    case 'quote':\n      return `> ${richTextToMarkdown(data.rich_text)}`;\n    case 'callout':\n      const emoji = data.icon?.emoji || '';\n      return `> ${emoji} ${richTextToMarkdown(data.rich_text)}`;\n    case 'divider':\n      return '---';\n    case 'image':\n      const url = data.external?.url || data.file?.url || '';\n      const caption = richTextToMarkdown(data.caption) || 'image';\n      return `![${caption}](${url})`;\n    case 'bookmark':\n      return `[${data.url}](${data.url})`;\n    case 'link_preview':\n      return `[${data.url}](${data.url})`;\n    case 'table':\n      return '<!-- Table not supported -->';\n    default:\n      return '';\n  }\n}\n\n// Build markdown content\nconst lines = [`# ${pageData.title}`, ''];\n\nfor (const block of blocks) {\n  const md = blockToMarkdown(block);\n  if (md) {\n    lines.push(md);\n    lines.push('');\n  }\n}\n\nconst markdown = lines.join('\\n').trim();\n\nreturn [{\n  json: {\n    ...pageData,\n    markdown,\n    old_file_sha: oldFileSha,\n    commit_message: `docs: rename ${pageData.file_path.split('/').pop()} → ${pageData.new_file_path.split('/').pop()} [auto]`\n  }\n}];"
+      },
+      "id": "convert-to-markdown-rename",
+      "name": "Convert to Markdown (Rename)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1790, 200]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "delete",
+        "owner": "={{ $json.owner }}",
+        "repository": "={{ $json.repo }}",
+        "filePath": "={{ $json.file_path }}",
+        "commitMessage": "={{ $json.commit_message }}",
+        "additionalParameters": {}
+      },
+      "id": "delete-old-file",
+      "name": "Delete Old File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [2010, 200],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Hg21ZsCbyU49McTn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "create",
+        "owner": "={{ $('Convert to Markdown (Rename)').first().json.owner }}",
+        "repository": "={{ $('Convert to Markdown (Rename)').first().json.repo }}",
+        "filePath": "={{ $('Convert to Markdown (Rename)').first().json.new_file_path }}",
+        "fileContent": "={{ $('Convert to Markdown (Rename)').first().json.markdown }}",
+        "commitMessage": "={{ $('Convert to Markdown (Rename)').first().json.commit_message }}",
+        "additionalParameters": {}
+      },
+      "id": "create-new-file",
+      "name": "Create New File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [2230, 200],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Hg21ZsCbyU49McTn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Update Notion page with new github_path and sync status\nconst pageData = $('Convert to Markdown (Rename)').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      github_path: { rich_text: [{ text: { content: pageData.new_github_path } }] },\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: true, old_path: pageData.file_path, new_path: pageData.new_file_path } }];"
+      },
+      "id": "update-notion-after-rename",
+      "name": "Update Notion (Rename)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2450, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get page blocks from Notion (content-only update)\nconst pageId = $('Needs Rename?').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $('Needs Rename?').first().json } }];"
+      },
+      "id": "get-page-blocks",
+      "name": "Get Page Blocks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1350, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convert Notion blocks to Markdown\nconst input = $input.first().json;\nconst blocks = input.results || [];\nconst pageData = input.pageData;\n\nfunction richTextToMarkdown(richText) {\n  if (!richText || !richText.length) return '';\n  return richText.map(rt => {\n    let text = rt.plain_text || '';\n    if (rt.annotations) {\n      if (rt.annotations.bold) text = `**${text}**`;\n      if (rt.annotations.italic) text = `*${text}*`;\n      if (rt.annotations.code) text = `\\`${text}\\``;\n      if (rt.annotations.strikethrough) text = `~~${text}~~`;\n    }\n    if (rt.href) text = `[${text}](${rt.href})`;\n    return text;\n  }).join('');\n}\n\nfunction blockToMarkdown(block, indent = '') {\n  const type = block.type;\n  const data = block[type];\n  \n  switch (type) {\n    case 'paragraph':\n      return richTextToMarkdown(data.rich_text);\n    case 'heading_1':\n      return `# ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_2':\n      return `## ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_3':\n      return `### ${richTextToMarkdown(data.rich_text)}`;\n    case 'bulleted_list_item':\n      return `${indent}- ${richTextToMarkdown(data.rich_text)}`;\n    case 'numbered_list_item':\n      return `${indent}1. ${richTextToMarkdown(data.rich_text)}`;\n    case 'to_do':\n      const checked = data.checked ? 'x' : ' ';\n      return `${indent}- [${checked}] ${richTextToMarkdown(data.rich_text)}`;\n    case 'toggle':\n      return `<details>\\n<summary>${richTextToMarkdown(data.rich_text)}</summary>\\n</details>`;\n    case 'code':\n      const lang = data.language || '';\n      return `\\`\\`\\`${lang}\\n${richTextToMarkdown(data.rich_text)}\\n\\`\\`\\``;\n    case 'quote':\n      return `> ${richTextToMarkdown(data.rich_text)}`;\n    case 'callout':\n      const emoji = data.icon?.emoji || '';\n      return `> ${emoji} ${richTextToMarkdown(data.rich_text)}`;\n    case 'divider':\n      return '---';\n    case 'image':\n      const url = data.external?.url || data.file?.url || '';\n      const caption = richTextToMarkdown(data.caption) || 'image';\n      return `![${caption}](${url})`;\n    case 'bookmark':\n      return `[${data.url}](${data.url})`;\n    case 'link_preview':\n      return `[${data.url}](${data.url})`;\n    case 'table':\n      return '<!-- Table not supported -->';\n    default:\n      return '';\n  }\n}\n\n// Build markdown content\nconst lines = [`# ${pageData.title}`, ''];\n\nfor (const block of blocks) {\n  const md = blockToMarkdown(block);\n  if (md) {\n    lines.push(md);\n    lines.push('');\n  }\n}\n\nconst markdown = lines.join('\\n').trim();\n\nreturn [{\n  json: {\n    ...pageData,\n    markdown,\n    commit_message: `docs: sync from Notion [auto]`\n  }\n}];"
       },
       "id": "convert-to-markdown",
       "name": "Convert to Markdown",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1350, 300]
+      "position": [1570, 400]
     },
     {
       "parameters": {
@@ -102,7 +229,7 @@
       "name": "Update GitHub File",
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
-      "position": [1570, 300],
+      "position": [1790, 400],
       "credentials": {
         "githubOAuth2Api": {
           "id": "Hg21ZsCbyU49McTn",
@@ -112,13 +239,13 @@
     },
     {
       "parameters": {
-        "jsCode": "// Update Notion page sync status\nconst pageId = $('Convert to Markdown').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageId}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: response }];"
+        "jsCode": "// Update Notion page sync status\nconst pageData = $('Convert to Markdown').first().json;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageData.page_id}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: { success: true, renamed: false } }];"
       },
       "id": "update-notion-sync-status",
       "name": "Update Notion Sync Status",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1790, 300]
+      "position": [2010, 400]
     }
   ],
   "connections": {
@@ -139,7 +266,38 @@
     },
     "Has Pages to Sync?": {
       "main": [
+        [{ "node": "Needs Rename?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Needs Rename?": {
+      "main": [
+        [{ "node": "Get Old File (for SHA)", "type": "main", "index": 0 }],
         [{ "node": "Get Page Blocks", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Old File (for SHA)": {
+      "main": [
+        [{ "node": "Get Page Blocks (Rename)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Page Blocks (Rename)": {
+      "main": [
+        [{ "node": "Convert to Markdown (Rename)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Convert to Markdown (Rename)": {
+      "main": [
+        [{ "node": "Delete Old File", "type": "main", "index": 0 }]
+      ]
+    },
+    "Delete Old File": {
+      "main": [
+        [{ "node": "Create New File", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create New File": {
+      "main": [
+        [{ "node": "Update Notion (Rename)", "type": "main", "index": 0 }]
       ]
     },
     "Get Page Blocks": {
