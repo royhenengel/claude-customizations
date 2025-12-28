@@ -1,0 +1,164 @@
+{
+  "name": "Notion to GitHub Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 15 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Query Notion for pages that need syncing\nconst dbId = '2cf4df89-4a69-819f-941c-f3f8703ef620';\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.notion.com/v1/databases/${dbId}/query`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    filter: {\n      and: [\n        { property: 'github_path', rich_text: { is_not_empty: true } },\n        { property: 'sync_enabled', checkbox: { equals: true } }\n      ]\n    }\n  }\n});\n\nreturn [{ json: response }];"
+      },
+      "id": "query-synced-pages",
+      "name": "Query Synced Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter pages that need syncing (edited after last sync)\nconst results = $input.first().json.results || [];\nconst now = new Date();\nconst twoMinutesAgo = new Date(now.getTime() - 2 * 60 * 1000);\n\nconst pagesToSync = [];\n\nfor (const page of results) {\n  const lastEdited = new Date(page.last_edited_time);\n  const lastSynced = page.properties.last_synced?.date?.start \n    ? new Date(page.properties.last_synced.date.start) \n    : null;\n  const syncSource = page.properties.sync_source?.select?.name;\n  const githubPath = page.properties.github_path?.rich_text?.[0]?.plain_text;\n  \n  // Skip if no github_path\n  if (!githubPath) continue;\n  \n  // Skip if never synced (needs initial GitHub import)\n  if (!lastSynced) continue;\n  \n  // Skip if not edited since last sync\n  if (lastEdited <= lastSynced) continue;\n  \n  // Echo loop prevention: skip if sync_source is \"github\" and last_synced within 2 minutes\n  if (syncSource === 'github' && lastSynced > twoMinutesAgo) {\n    continue;\n  }\n  \n  // Parse github_path (format: owner/repo:docs/filename.md)\n  const [repoPath, filePath] = githubPath.split(':');\n  const [owner, repo] = repoPath.split('/');\n  \n  pagesToSync.push({\n    json: {\n      page_id: page.id,\n      github_path: githubPath,\n      owner,\n      repo,\n      file_path: filePath,\n      title: page.properties.Title?.title?.[0]?.plain_text || 'Untitled',\n      last_edited: page.last_edited_time\n    }\n  });\n}\n\nreturn pagesToSync;"
+      },
+      "id": "filter-changed-pages",
+      "name": "Filter Changed Pages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-pages",
+              "leftValue": "={{ $json.page_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-pages-to-sync",
+      "name": "Has Pages to Sync?",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get page blocks from Notion\nconst pageId = $input.first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.notion.com/v1/blocks/${pageId}/children?page_size=100`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28'\n  }\n});\n\nreturn [{ json: { ...response, pageData: $input.first().json } }];"
+      },
+      "id": "get-page-blocks",
+      "name": "Get Page Blocks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1130, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Convert Notion blocks to Markdown\nconst input = $input.first().json;\nconst blocks = input.results || [];\nconst pageData = input.pageData || $('Filter Changed Pages').first().json;\n\nfunction richTextToMarkdown(richText) {\n  if (!richText || !richText.length) return '';\n  return richText.map(rt => {\n    let text = rt.plain_text || '';\n    if (rt.annotations) {\n      if (rt.annotations.bold) text = `**${text}**`;\n      if (rt.annotations.italic) text = `*${text}*`;\n      if (rt.annotations.code) text = `\\`${text}\\``;\n      if (rt.annotations.strikethrough) text = `~~${text}~~`;\n    }\n    if (rt.href) text = `[${text}](${rt.href})`;\n    return text;\n  }).join('');\n}\n\nfunction blockToMarkdown(block, indent = '') {\n  const type = block.type;\n  const data = block[type];\n  \n  switch (type) {\n    case 'paragraph':\n      return richTextToMarkdown(data.rich_text);\n    case 'heading_1':\n      return `# ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_2':\n      return `## ${richTextToMarkdown(data.rich_text)}`;\n    case 'heading_3':\n      return `### ${richTextToMarkdown(data.rich_text)}`;\n    case 'bulleted_list_item':\n      return `${indent}- ${richTextToMarkdown(data.rich_text)}`;\n    case 'numbered_list_item':\n      return `${indent}1. ${richTextToMarkdown(data.rich_text)}`;\n    case 'to_do':\n      const checked = data.checked ? 'x' : ' ';\n      return `${indent}- [${checked}] ${richTextToMarkdown(data.rich_text)}`;\n    case 'toggle':\n      return `<details>\\n<summary>${richTextToMarkdown(data.rich_text)}</summary>\\n</details>`;\n    case 'code':\n      const lang = data.language || '';\n      return `\\`\\`\\`${lang}\\n${richTextToMarkdown(data.rich_text)}\\n\\`\\`\\``;\n    case 'quote':\n      return `> ${richTextToMarkdown(data.rich_text)}`;\n    case 'callout':\n      const emoji = data.icon?.emoji || '';\n      return `> ${emoji} ${richTextToMarkdown(data.rich_text)}`;\n    case 'divider':\n      return '---';\n    case 'image':\n      const url = data.external?.url || data.file?.url || '';\n      const caption = richTextToMarkdown(data.caption) || 'image';\n      return `![${caption}](${url})`;\n    case 'bookmark':\n      return `[${data.url}](${data.url})`;\n    case 'link_preview':\n      return `[${data.url}](${data.url})`;\n    case 'table':\n      return '<!-- Table not supported -->';\n    default:\n      return '';\n  }\n}\n\n// Build markdown content\nconst lines = [`# ${pageData.title}`, ''];\n\nfor (const block of blocks) {\n  const md = blockToMarkdown(block);\n  if (md) {\n    lines.push(md);\n    lines.push('');\n  }\n}\n\nconst markdown = lines.join('\\n').trim();\n\nreturn [{\n  json: {\n    ...pageData,\n    markdown,\n    commit_message: `docs: sync from Notion [auto]`\n  }\n}];"
+      },
+      "id": "convert-to-markdown",
+      "name": "Convert to Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1350, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": "={{ $json.owner }}",
+        "repository": "={{ $json.repo }}",
+        "filePath": "={{ $json.file_path }}",
+        "fileContent": "={{ $json.markdown }}",
+        "commitMessage": "={{ $json.commit_message }}",
+        "additionalParameters": {}
+      },
+      "id": "update-github-file",
+      "name": "Update GitHub File",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1570, 300],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "Hg21ZsCbyU49McTn",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Update Notion page sync status\nconst pageId = $('Convert to Markdown').first().json.page_id;\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.notion.com/v1/pages/${pageId}`,\n  headers: {\n    'Authorization': 'Bearer YOUR_NOTION_API_TOKEN',\n    'Notion-Version': '2022-06-28',\n    'Content-Type': 'application/json'\n  },\n  body: {\n    properties: {\n      last_synced: { date: { start: new Date().toISOString() } },\n      sync_source: { select: { name: 'notion' } }\n    }\n  }\n});\n\nreturn [{ json: response }];"
+      },
+      "id": "update-notion-sync-status",
+      "name": "Update Notion Sync Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1790, 300]
+    }
+  ],
+  "connections": {
+    "Every 15 Minutes": {
+      "main": [
+        [{ "node": "Query Synced Pages", "type": "main", "index": 0 }]
+      ]
+    },
+    "Query Synced Pages": {
+      "main": [
+        [{ "node": "Filter Changed Pages", "type": "main", "index": 0 }]
+      ]
+    },
+    "Filter Changed Pages": {
+      "main": [
+        [{ "node": "Has Pages to Sync?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Has Pages to Sync?": {
+      "main": [
+        [{ "node": "Get Page Blocks", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Page Blocks": {
+      "main": [
+        [{ "node": "Convert to Markdown", "type": "main", "index": 0 }]
+      ]
+    },
+    "Convert to Markdown": {
+      "main": [
+        [{ "node": "Update GitHub File", "type": "main", "index": 0 }]
+      ]
+    },
+    "Update GitHub File": {
+      "main": [
+        [{ "node": "Update Notion Sync Status", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
