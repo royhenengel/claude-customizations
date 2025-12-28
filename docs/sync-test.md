@@ -1,4 +1,4 @@
-# Sync Test Document
+# Untitled
 
 This document was edited in Notion and synced to GitHub automatically.
 
