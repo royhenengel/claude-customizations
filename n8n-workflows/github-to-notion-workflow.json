@@ -390,19 +390,55 @@
     },
     {
       "parameters": {
-        "jsCode": "// Delete all old blocks\nconst pageData = $('Update Notion Page').first().json;\nconst blocksResponse = $input.first().json;\nconst oldBlocks = blocksResponse.results || [];\n\nfor (const block of oldBlocks) {\n  await this.helpers.httpRequest({\n    method: 'DELETE',\n    url: `https://api.notion.com/v1/blocks/${block.id}`,\n    headers: {\n      'Notion-Version': '2022-06-28'\n    },\n    authentication: 'predefinedCredentialType',\n    nodeCredentialType: 'notionApi'\n  });\n}\n\nreturn [{ json: { pageId: pageData.id, blocks: $('Merge Decision').first().json.blocks } }];"
+        "jsCode": "// Output each block as separate item for deletion\nconst blocksResponse = $input.first().json;\nconst oldBlocks = blocksResponse.results || [];\nconst pageId = $('Merge Decision').first().json.pageId;\nconst blocks = $('Merge Decision').first().json.blocks;\n\nif (oldBlocks.length === 0) {\n  return [{ json: { skipDelete: true, pageId, blocks } }];\n}\n\nreturn oldBlocks.map(block => ({ json: { blockId: block.id, pageId, blocks } }));"
       },
-      "id": "delete-old-blocks",
-      "name": "Delete Old Blocks",
+      "id": "split-blocks-to-delete",
+      "name": "Split Blocks to Delete",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [2890, 100],
-      "credentials": {
-        "notionApi": {
-          "id": "vGGxyUaNL70rqYcQ",
-          "name": "Notion account"
-        }
-      }
+      "position": [2890, 100]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "strict" },
+          "conditions": [{ "id": "skip-delete", "leftValue": "={{ $json.skipDelete }}", "rightValue": true, "operator": { "type": "boolean", "operation": "equals" } }],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "has-blocks-to-delete",
+      "name": "Has Blocks to Delete?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [3000, 100]
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.notion.com/v1/blocks/{{ $json.blockId }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "notionApi",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Notion-Version", "value": "2022-06-28" }] },
+        "options": {}
+      },
+      "id": "delete-single-block",
+      "name": "Delete Block",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [3220, 200],
+      "credentials": { "notionApi": { "id": "vGGxyUaNL70rqYcQ", "name": "Notion account" } }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get pageId and blocks from original Merge Decision node\nconst pageId = $('Merge Decision').first().json.pageId;\nconst blocks = $('Merge Decision').first().json.blocks;\nreturn [{ json: { pageId, blocks } }];"
+      },
+      "id": "prepare-append",
+      "name": "Prepare Append",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3440, 100]
     },
     {
       "parameters": {
@@ -426,7 +462,7 @@
       "name": "Append Blocks (Update)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [3110, 100],
+      "position": [3660, 100],
       "credentials": {
         "notionApi": {
           "id": "vGGxyUaNL70rqYcQ",
@@ -520,10 +556,26 @@
     },
     "Get Old Blocks": {
       "main": [
-        [{ "node": "Delete Old Blocks", "type": "main", "index": 0 }]
+        [{ "node": "Split Blocks to Delete", "type": "main", "index": 0 }]
       ]
     },
-    "Delete Old Blocks": {
+    "Split Blocks to Delete": {
+      "main": [
+        [{ "node": "Has Blocks to Delete?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Has Blocks to Delete?": {
+      "main": [
+        [{ "node": "Prepare Append", "type": "main", "index": 0 }],
+        [{ "node": "Delete Block", "type": "main", "index": 0 }]
+      ]
+    },
+    "Delete Block": {
+      "main": [
+        [{ "node": "Prepare Append", "type": "main", "index": 0 }]
+      ]
+    },
+    "Prepare Append": {
       "main": [
         [{ "node": "Append Blocks (Update)", "type": "main", "index": 0 }]
       ]
