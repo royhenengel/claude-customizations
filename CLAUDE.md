@@ -53,6 +53,19 @@ To add/modify skills, agents, commands, or MCP servers:
 2. Changes automatically apply globally via symlinks
 3. Commit to git for version control
 
+## New Repository Setup
+
+When creating a new GitHub repository for `royhenengel`, always configure the Notion sync webhook:
+
+```bash
+gh api /repos/royhenengel/REPO_NAME/hooks -X POST \
+  -f url="https://royhen.app.n8n.cloud/webhook/github-to-notion" \
+  -f content_type="json" \
+  -F events[]="push"
+```
+
+This enables automatic sync of `docs/*.md` files to Notion. Skip if the repo won't have documentation.
+
 ## Uncertainty Protocol
 
 When performing bulk operations or making decisions that affect multiple items:
