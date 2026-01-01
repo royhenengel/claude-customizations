@@ -1,5 +1,3 @@
-# Claude Code Prefs
-
 This document tracks preferences, rules, and decisions for Claude Code customization.
 
 ---
