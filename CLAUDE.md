@@ -4,7 +4,7 @@ These instructions apply to ALL conversations across ALL projects.
 
 ## Required Reading
 
-**Always read `~/.claude/claude-code-prefs.md` at the start of each conversation** — it contains:
+**Always read `~/.claude/claude-code-preferences.md` at the start of each conversation** — it contains:
 - Tool selection rules (when to use skills vs agents vs MCP servers)
 - Installed skills, agents, and MCP servers
 - Overlap analysis and conflict resolution

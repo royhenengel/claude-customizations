@@ -292,6 +292,9 @@ Every 10-15 messages on long tasks:
 | `filesystem` | Local file access | Read, write, edit files in home directory |
 | `memory` | Persistent memory | Context retention across sessions |
 | `puppeteer` | Browser automation | Web scraping, testing, UI automation |
+| `home-assistant-mcp` | Smart home (Coolver) | Automations, dashboards, themes, configs, vibe-coding workflow |
+| `advanced-homeassistant-mcp` | Smart home (Advanced) | 34 tools: Aurora sound-to-light, energy analysis, device health, smart scenarios |
+| `ha-mcp` | Smart home (Simple) | Entity control, automations, WebSocket real-time updates |
 
 ### Disabled (needs credentials)
 
@@ -320,6 +323,7 @@ To enable disabled servers, edit `.mcp.json`:
 | Database queries | `postgres` (needs connection) |
 | API development | `apidog` (needs spec) |
 | Design implementation | `figma` (needs token) |
+| Smart home control, automations | `home-assistant-mcp`, `advanced-homeassistant-mcp`, `ha-mcp` |
 
 ---
 
@@ -447,6 +451,9 @@ Source: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome
 - n8n-node-configuration
 - n8n-validation-expert
 - n8n-workflow-patterns
+
+**Home Assistant (complements HA MCP servers)**
+- home-assistant-manager
 
 **TÂCHES (from glittercowboy/taches-cc-resources)**
 - taches-create-agent-skills
@@ -648,3 +655,5 @@ Source: [obra/superpowers](https://github.com/obra/superpowers), [glittercowboy/
 | 2024-12-22 | Added CLI Flags reference section (--continue, --resume, etc.) |
 | 2024-12-22 | Installed 8 new MCP servers: sequential-thinking, filesystem, memory, puppeteer, github, postgres, apidog, figma |
 | 2024-12-24 | Added "Context-First Data Retrieval" behavioral rule to prevent redundant API fetching |
+| 2025-01-02 | Installed 3 Home Assistant MCP servers: home-assistant-mcp (Coolver), advanced-homeassistant-mcp, ha-mcp |
+| 2025-01-02 | Installed home-assistant-manager skill from komal-SkyNET/claude-skill-homeassistant |
