@@ -22,6 +22,7 @@ Rules:
 - Document new rules to the relevant Notion page
 - Use subagents for tasks to preserve context
 - Be token efficient
+- Update CLAUDE.nd before every git commit
 
 ## Quick Reference
 
@@ -30,6 +31,18 @@ Rules:
 | Prompts, templates, domain knowledge | Skill |
 | Multi-step autonomous tasks | Agent |
 | External API/service integration | MCP Server |
+
+## Performance Tips
+
+For multi-step data operations across MCP servers (querying, filtering, aggregating), prefer using **code-executor's `execute_code` tool** instead of calling MCP tools directly. This reduces token usage by ~98% by:
+- Loading tool schemas on-demand instead of all upfront
+- Filtering/transforming data in JavaScript before returning to context
+- Using native loops instead of chained tool calls
+
+Example use cases:
+- Query 100 Notion resources, filter to 5 videos → use code-executor
+- Search filesystem then cross-reference with memory → use code-executor
+- Single tool call with small response → call MCP tool directly
 
 ## Global Resources
 
