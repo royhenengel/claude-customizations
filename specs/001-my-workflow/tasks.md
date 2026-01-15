@@ -35,7 +35,7 @@
 **Note**: This phase was completed via meta-skill consolidation documented in `curation-log.md`.
 
 - [x] T001 [US1] Create reference directory structure at `~/.claude/reference/skills/` and `~/.claude/reference/commands/`
-- [ ] T002 [US1] Review skills with user and move unused to `~/.claude/reference/skills/`
+- [x] T002 [US1] Review skills with user and move unused to `~/.claude/reference/skills/`
 - [ ] T003 [US1] Review commands with user and move unused to `~/.claude/reference/commands/`
 - [ ] T004 [US1] Review plugins at `~/.claude/plugins/` with user and document active ones
 - [ ] T005 [US1] Verify remaining skills/commands work and reference folder is populated
@@ -47,6 +47,26 @@
 - 8 meta-skills created: diagrams, skill-creation, subagent-design, quality-practices, software-development-practices, prompt-engineering, debugging-practices, slash-command-builder
 - Original skills moved to `ref/` subdirectory within each meta-skill
 - Companion commands kept separate (cek-why, cek-cause-and-effect, cek-plan-do-check-act)
+
+**T002 Curation Results** (2025-01-15):
+
+Skills kept active (38 directories):
+
+- Core workflow: my-workflow, brainstorming, living-requirements, taches-create-plans
+- Meta-skills: quality-practices, software-development-practices, debugging-practices, prompt-engineering, diagrams-practices
+- Claude Code extensions: skill-creation, hook-builder, slash-command-builder, subagent-design, mcp-builder, anthropic
+- Domain-specific: n8n, home-assistant-manager, supabase, notebooklm
+- Utilities: git-pushing, webapp-testing, document-skills, artifacts-builder, content-research-writer, theme-factory, canvas-design, changelog-generator, web-asset-generator, brand-guidelines, internal-comms, ship-learn-next, file-organizer, meeting-insights-analyzer
+- Supporting: examples, references, cross-service, services, scripts
+
+Skills moved to `~/.claude/reference/skills/` (16):
+
+- ios, move-code-quality-skill, youtube-transcript, image-enhancer, slack-gif-creator
+- competitive-ads-extractor, developer-growth-analysis, invoice-organizer
+- domain-name-brainstormer, lead-research-assistant, raffle-winner-picker, video-downloader
+- taches-expertise, claude-hook-builder, skill-creator, taches-create-hooks
+
+Loose files in skills/ kept as-is (reference materials loaded manually)
 
 ---
 
