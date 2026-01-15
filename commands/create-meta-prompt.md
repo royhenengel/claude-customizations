@@ -1,7 +1,7 @@
 ---
 description: Create optimized prompts for Claude-to-Claude pipelines (research -> plan -> implement)
 argument-hint: [task description]
-allowed-tools: Skill(create-meta-prompts)
+allowed-tools: Skill(prompt-engineering)
 ---
 
-Invoke the create-meta-prompts skill for: $ARGUMENTS
+Invoke the prompt-engineering skill for: $ARGUMENTS

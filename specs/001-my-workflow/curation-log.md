@@ -897,3 +897,143 @@ The following commands remain as standalone invokable commands (not absorbed int
 4. **prompt-engineering separate from software-development-practices**: Distinct skill applicable beyond software dev
 5. **Companion commands kept separate**: cek-why, cek-cause-and-effect, cek-plan-do-check-act remain as invokable commands (not absorbed) because they are actionable tools, not philosophy
 6. **All consolidations completed (2026-01-14)**: 8 meta-skills now serve as single sources of truth for their domains
+
+---
+
+## T003 Command Curation (2026-01-15)
+
+### Summary
+
+Reviewed 69+ commands across 7 categories. Fixed 6 broken wrapper commands, moved 7 commands to reference, renamed 8 commands for clarity.
+
+### Commands Kept Active (62 commands)
+
+**Core Workflow (10)**: init, plan, execute, status, stop, debug, commit, pr, review, test
+
+**CEK Pipeline (6)**: cek-00-setup, cek-01-specify, cek-02-plan, cek-03-tasks, cek-04-implement, cek-05-document
+
+**CEK Analysis (4)**: cek-analyse, cek-analyse-problem, cek-analyze-issue, cek-root-cause-tracing
+
+**CEK Quality (5)**: cek-why, cek-cause-and-effect, cek-plan-do-check-act, cek-reflect, cek-critique
+
+**CEK Creation (8)**: cek-brainstorm, cek-create-ideas, cek-create-skill, cek-create-command, cek-create-hook, cek-create-pr, cek-commit, cek-build-mcp
+
+**CEK Testing/Review (7)**: cek-test-skill, cek-test-prompt, cek-fix-tests, cek-write-tests, cek-review-pr, cek-review-local-changes, cek-attach-review-to-pr
+
+**CEK Setup (6)**: cek-setup-arxiv-mcp, cek-setup-codemap-cli, cek-setup-context7-mcp, cek-setup-serena-mcp, cek-setup-code-formating, cek-add-typescript-best-practices
+
+**CEK Other (2)**: cek-memorize, cek-apply-anthropic-skill-best-practices
+
+**Creation Wrappers (7)**: create-agent-skill, create-hook, create-meta-prompt, create-plan, create-prompt, create-slash-command, create-subagent
+
+**Utilities (9)**: add-to-todos, check-todos, analyse, run-prompt, handoff (was whats-next), heal-skill, audit-skill, audit-slash-command, audit-subagent
+
+**Consider Folder (5)**: first-principles, inversion, simplest-explanation (was occams-razor), priority-one (was one-thing), option-cost (was opportunity-cost), vital-few (was pareto), consequences (was second-order), strengths-weaknesses (was swot), simplify-by-removing (was via-negativa)
+
+### Commands Moved to Reference (7)
+
+| Command | Reason |
+|---------|--------|
+| `execute-plan.md` | Redundant stub - execute.md has full implementation |
+| `cek-load-issues.md` | Specialized GitHub import - rarely used |
+| `run-plan.md` | Overlaps with execute.md |
+| `write-plan.md` | Broken - references non-existent skill |
+| `consider/10-10-10.md` | Rarely used time-horizon framework |
+| `consider/5-whys.md` | Overlaps with cek-why |
+| `consider/eisenhower-matrix.md` | Rarely used prioritization matrix |
+
+### Commands Renamed (10)
+
+| Original | New Name | Reason |
+|----------|----------|--------|
+| `whats-next.md` | `handoff.md` | Clearer purpose |
+| `consider/first-principles.md` | `consider/challenge-assumptions.md` | Describes the action |
+| `consider/inversion.md` | `consider/failure-backwards.md` | Clearer: think backwards from failure |
+| `consider/occams-razor.md` | `consider/simplest-explanation.md` | Clearer action |
+| `consider/one-thing.md` | `consider/priority-one.md` | Clearer outcome |
+| `consider/opportunity-cost.md` | `consider/option-cost.md` | Simpler |
+| `consider/pareto.md` | `consider/vital-few.md` | Describes what it finds |
+| `consider/second-order.md` | `consider/consequences.md` | Clearer purpose |
+| `consider/swot.md` | `consider/strengths-weaknesses.md` | More descriptive |
+| `consider/via-negativa.md` | `consider/simplify-by-removing.md` | Clearer action |
+
+### Commands Fixed (6)
+
+Updated wrapper commands to use correct skill names after consolidation:
+
+| Command | Old Reference | New Reference |
+|---------|---------------|---------------|
+| `create-agent-skill.md` | create-agent-skills | skill-creation |
+| `create-hook.md` | create-hooks | hook-builder |
+| `create-meta-prompt.md` | create-meta-prompts | prompt-engineering |
+| `create-plan.md` | create-plans | taches-create-plans |
+| `create-slash-command.md` | create-slash-commands | slash-command-builder |
+| `create-subagent.md` | create-subagents | subagent-design |
+
+### Consider Folder Commands - Detailed Use Cases
+
+**Final Consider Folder (9 commands)**:
+
+| Command | Use Case | When to Use |
+|---------|----------|-------------|
+| `challenge-assumptions` | Break down assumptions, rebuild from fundamentals | Hard problems, challenging conventions |
+| `failure-backwards` | Ask "what would guarantee failure?" | Risk identification, avoiding pitfalls |
+| `simplest-explanation` | Find explanation with fewest assumptions | Debugging, choosing between approaches |
+| `priority-one` | Find single highest-leverage action | Decision paralysis, focus needed |
+| `option-cost` | Analyze hidden costs of choices | Build vs buy, resource allocation |
+| `vital-few` | Find 20% that drives 80% of results | Optimization, prioritization |
+| `consequences` | Think through consequences of consequences | Preventing unintended effects |
+| `strengths-weaknesses` | Map internal/external factors | Strategic planning |
+| `simplify-by-removing` | Improve by subtraction, not addition | Cleanup, simplification |
+
+---
+
+## T004 Plugin Curation (2026-01-15)
+
+### Summary
+
+Reviewed 3 plugins from the official Anthropic marketplace. Extracted Notion plugin content before removal to avoid plugin update overwrites.
+
+### Plugins Kept Active (2)
+
+| Plugin | Version | Purpose |
+|--------|---------|---------|
+| **kotlin-lsp** | 1.0.0 | Kotlin language server for code intelligence (.kt, .kts files) |
+| **ralph-loop** | ee2f72662645 | Iterative AI development loops (Ralph Wiggum technique) |
+
+### Notion Plugin → Extracted & Removed
+
+**Rationale**: Plugin content can be overwritten by plugin updates. Extracted all useful content to personal folders for full control.
+
+**Skills Copied** (4) to `~/.claude/skills/`:
+- `notion-research-docs` - Search Notion, synthesize findings, create documentation
+- `notion-knowledge-capture` - Transform conversations into structured Notion docs
+- `notion-meeting-intelligence` - Pre-meeting prep (pre-read + agenda)
+- `notion-spec-to-implementation` - Turn specs into implementation plans with tasks
+
+**Commands Copied** (10) to `~/.claude/commands/`:
+- From plugin: `/notion-search`, `/notion-create-page`, `/notion-create-task`, `/notion-database-query`, `/notion-find`, `/notion-create-database-row`
+- Skill wrappers: `/notion-research-docs`, `/notion-knowledge-capture`, `/notion-meeting-intelligence`, `/notion-spec-to-implementation`
+
+**MCP Configuration**: Added standalone official Notion MCP (`https://mcp.notion.com/mcp`) to `~/.claude.json` - required for copied skills/commands.
+
+### Notion Integration Architecture (Post-Curation)
+
+| Component | Source | Purpose |
+|-----------|--------|---------|
+| **notion-workspace MCP** | Custom project | PARA+ database operations |
+| **notion MCP** | Official (standalone) | General Notion API for skills/commands |
+| **4 Notion skills** | Extracted from plugin | Research, knowledge, meetings, specs |
+| **10 Notion commands** | Extracted from plugin | `/notion-*` actions |
+
+### Plugin Details
+
+#### kotlin-lsp Plugin (v1.0.0)
+- **Purpose**: Kotlin code intelligence, refactoring, analysis
+- **Requires**: `brew install JetBrains/utils/kotlin-lsp`
+- **File types**: `.kt`, `.kts`
+
+#### ralph-loop Plugin
+- **Purpose**: Implements iterative AI development loops using a Stop hook
+- **Commands**: `/ralph-loop "<prompt>" --max-iterations N --completion-promise "DONE"`, `/cancel-ralph`
+- **Use case**: Well-defined tasks requiring autonomous iteration until completion

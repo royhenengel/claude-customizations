@@ -1,6 +1,6 @@
 ---
-description: Invoke create-hooks skill for expert guidance on Claude Code hook development
-allowed-tools: Skill(create-hooks)
+description: Invoke hook-builder skill for expert guidance on Claude Code hook development
+allowed-tools: Skill(hook-builder)
 ---
 
-Invoke the create-hooks skill.
+Invoke the hook-builder skill.

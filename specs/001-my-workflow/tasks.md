@@ -36,8 +36,8 @@
 
 - [x] T001 [US1] Create reference directory structure at `~/.claude/reference/skills/` and `~/.claude/reference/commands/`
 - [x] T002 [US1] Review skills with user and move unused to `~/.claude/reference/skills/`
-- [ ] T003 [US1] Review commands with user and move unused to `~/.claude/reference/commands/`
-- [ ] T004 [US1] Review plugins at `~/.claude/plugins/` with user and document active ones
+- [x] T003 [US1] Review commands with user and move unused to `~/.claude/reference/commands/`
+- [x] T004 [US1] Review plugins at `~/.claude/plugins/` with user and document active ones
 - [ ] T005 [US1] Verify remaining skills/commands work and reference folder is populated
 
 **Checkpoint**: ✅ Active skills/commands are curated, reference materials accessible, meta-skills consolidated
@@ -47,6 +47,13 @@
 - 8 meta-skills created: diagrams, skill-creation, subagent-design, quality-practices, software-development-practices, prompt-engineering, debugging-practices, slash-command-builder
 - Original skills moved to `ref/` subdirectory within each meta-skill
 - Companion commands kept separate (cek-why, cek-cause-and-effect, cek-plan-do-check-act)
+
+**T003 Command Curation Results** (2026-01-15):
+
+- 62 commands kept active across 7 categories
+- 7 commands moved to `~/.claude/reference/commands/`
+- 10 commands renamed for clarity (including all consider folder commands)
+- 6 broken wrapper commands fixed (updated skill references after consolidation)
 
 **T002 Curation Results** (2025-01-15):
 

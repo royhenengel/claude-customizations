@@ -1,6 +1,6 @@
 ---
 name: slash-command-builder
-description: Expert guidance for creating Claude Code slash commands. Use when working with slash commands, creating custom commands, understanding command structure, or learning YAML configuration.
+description: Expert guidance for creating Claude Code slash commands. Use when creating custom commands or learning YAML configuration.
 ---
 
 # Slash Command Builder

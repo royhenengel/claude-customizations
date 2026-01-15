@@ -1,7 +1,7 @@
 ---
 description: Create specialized Claude Code subagents with expert guidance
 argument-hint: [agent idea or description]
-allowed-tools: Skill(create-subagents)
+allowed-tools: Skill(subagent-design)
 ---
 
-Invoke the create-subagents skill for: $ARGUMENTS
+Invoke the subagent-design skill for: $ARGUMENTS

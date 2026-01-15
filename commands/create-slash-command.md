@@ -1,7 +1,7 @@
 ---
 description: Create a new slash command following best practices and patterns
 argument-hint: [command description or requirements]
-allowed-tools: Skill(create-slash-commands)
+allowed-tools: Skill(slash-command-builder)
 ---
 
-Invoke the create-slash-commands skill for: $ARGUMENTS
+Invoke the slash-command-builder skill for: $ARGUMENTS
