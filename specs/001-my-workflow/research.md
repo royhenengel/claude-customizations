@@ -261,6 +261,101 @@ Added a `workflows/brainstorm.md` workflow based on the existing `brainstorming`
 
 **Source**: Existing `brainstorming` skill will be copied. All external skill references in copied workflows will be audited and missing skills installed.
 
+## T014: Workflow Pattern Decisions
+
+These are the finalized decisions for which patterns each workflow command uses.
+
+### Directory Structure Decision
+
+**Unified `planning/` directory** (visible, not hidden) contains ALL planning artifacts:
+
+```
+planning/
+├── CLAUDE.md           # Planning context (cascades to all planning work)
+├── STATE.md            # Living state tracker (auto-updated by hook)
+├── HANDOFF.md          # Session handoff (created by /stop)
+└── specs/
+    └── {feature}/      # Feature-specific specs, research, plans
+```
+
+This replaces the previous split between `.planning/` (ephemeral) and `specs/` (separate).
+
+### /start Workflow Decisions
+
+| Pattern | Decision | Source |
+|---------|----------|--------|
+| Unified planning/ directory | YES | Custom (replaces .planning/ + specs/) |
+| CLAUDE.md in planning/ | YES | Living-requirements (cascading context) |
+| STATE.md creation | YES | GSD/Taches (state tracking) |
+| PostToolUse hook auto-install | YES | Living-requirements |
+| Constitution.md | NO | Too much ceremony for solo dev |
+
+**What /start creates:**
+
+```
+planning/
+├── CLAUDE.md           # Project planning context
+├── STATE.md            # Initial state: stage=starting
+└── specs/              # Empty, ready for /design
+```
+
+Plus auto-installs PostToolUse hook for STATE.md updates.
+
+### /design Workflow Decisions
+
+| Pattern | Decision | Source |
+|---------|----------|--------|
+| Ask about brainstorming first | YES | Custom (bridges unclear → clear) |
+| Spec-driven approach | YES | CEK (specify before implement) |
+| plans-as-prompts | YES | Taches (PLAN.md = execution prompt) |
+| Multi-agent exploration | TBD | Depends on complexity |
+
+**What /design creates:**
+
+```
+planning/specs/{feature}/
+├── spec.md             # Requirements
+├── research.md         # Decisions, alternatives
+└── PLAN.md             # Executable plan (2-3 tasks)
+```
+
+### /build Workflow Decisions
+
+| Pattern | Decision | Source |
+|---------|----------|--------|
+| Subagent per task | YES | GSD (fresh 200k context) |
+| Deviation rules (5) | YES | Taches |
+| Atomic tasks | YES | GSD/Taches (2-3 tasks per plan max) |
+| Context awareness | YES | Taches (suggest /stop at 50%) |
+| SUMMARY.md | YES | Custom (document outcomes) |
+
+**What /build does:**
+
+1. Load PLAN.md as execution prompt
+2. Execute each task via subagent (fresh context)
+3. Apply deviation rules automatically
+4. Update STATE.md after each task
+5. Create SUMMARY.md when complete
+
+### /stop Workflow Decisions
+
+| Pattern | Decision | Source |
+|---------|----------|--------|
+| HANDOFF.md creation | YES | GSD/Taches |
+| WIP commit | NO | User prefers manual commits |
+| Auto-handoff triggers | YES | Offer at 15%, auto at 10% |
+| Delete on resume | YES | Handoff is temporary |
+
+**What /stop creates:**
+
+```
+planning/HANDOFF.md     # Full context for next session
+```
+
+STATE.md updated to stage=stopping.
+
+---
+
 ## Assumptions
 
 - **ASM-001**: The claude-customizations repository remains symlinked to ~/.claude/

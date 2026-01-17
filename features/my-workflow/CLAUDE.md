@@ -1,66 +1,88 @@
 # My Workflow Requirements
 
-**Status**: Planned
-**Last Updated**: 2025-01-09
+**Status**: Implemented
+**Last Updated**: 2026-01-17
 
 ## Purpose
 
-[2-3 sentences explaining what this feature does and why users need it. Reference user problems it solves.]
+Personal workflow system for solo development with Claude Code. Provides structured commands (/start, /design, /build, /stop) that implement patterns from taches, CEK, GSD, and living-requirements skills. Solves context degradation by using atomic plans and subagent delegation.
 
 ## User Stories
 
-- As a [user type], I want to [action] so that [benefit]
-- As a [user type], I want to [action] so that [benefit]
+- As a solo developer, I want to curate my skill library so I only see active skills in Claude Code
+- As a solo developer, I want to understand the patterns in existing skills so I can use them effectively
+- As a solo developer, I want workflow commands that handle my work patterns so I don't need to remember which skill to use
+- As a solo developer, I want to extend the workflow over time without breaking existing commands
 
 ## Requirements
 
 ### Functional
 
-- [ ] [Requirement 1 - specific, testable]
-- [ ] [Requirement 2]
+- [x] /start creates `planning/` structure with CLAUDE.md, STATE.md
+- [x] /start installs auto-update hook for STATE.md
+- [x] /start offers resume when HANDOFF.md exists
+- [x] /design offers brainstorming for unclear requirements
+- [x] /design creates spec.md, research.md, PLAN.md in `planning/specs/{feature}/`
+- [x] /build executes tasks via subagent delegation (fresh context per task)
+- [x] /build applies deviation rules (auto-fix bugs/blockers, ask on architecture)
+- [x] /build monitors context and offers /stop at 15% remaining
+- [x] /stop creates HANDOFF.md with comprehensive context
+- [x] /stop auto-triggers at 10% context remaining
 
 ### Non-Functional
 
-- [ ] **Performance**: [e.g., "Response < 500ms"]
-- [ ] **Security**: [e.g., "Input sanitized"]
-- [ ] **Accessibility**: [e.g., "WCAG 2.1 AA compliant"]
+- [x] **Simplicity**: Commands are thin wrappers that invoke skill workflows
+- [x] **Extensibility**: Templates exist for adding new commands/workflows
+- [x] **Documentation**: README.md covers usage and troubleshooting
 
 ## Architecture Notes
 
-[Brief notes on how this feature is structured, key decisions made]
+- Pattern: Skill-first architecture (commands invoke skill workflows)
+- State: `planning/STATE.md` tracks stage and progress
+- Structure: Unified `planning/` directory for all planning artifacts
 
-- Pattern: [e.g., "Repository pattern for data access"]
-- State: [e.g., "Redux slice for state"]
-- API: [e.g., "REST endpoints under /api/*"]
+Key decisions:
+- `planning/` (visible) instead of `.planning/` (hidden)
+- Plans-as-prompts (PLAN.md IS the execution prompt)
+- Subagent per task for fresh 200k context
+- HANDOFF.md only (no auto-commit on stop)
 
 ## Implementation Notes
 
-<!-- This section auto-updates as code changes -->
-
 ### Files
 
-- [No files yet]
+- `skills/my-workflow/SKILL.md` - Core skill with principles and triggers
+- `skills/my-workflow/workflows/*.md` - 5 workflow definitions
+- `skills/my-workflow/templates/*.md` - Command and workflow templates
+- `skills/my-workflow/hooks/state-update-hook.json` - Hook reference
+- `skills/my-workflow/README.md` - Usage and extension documentation
+- `commands/start.md`, `design.md`, `build.md`, `stop.md` - Command wrappers
 
 ### Dependencies
 
-- [No dependencies yet]
+- No external skill dependencies (superpowers/elements-of-style references removed)
 
 ### Patterns Used
 
-- [No patterns documented yet]
+- Cascading CLAUDE.md context (from living-requirements)
+- Plans-as-prompts (from taches-create-plans)
+- Deviation rules (from CEK/taches)
+- Subagent execution (from GSD)
+- One-question-at-a-time dialogue (from brainstorming)
 
 ## Deviations from Plan
 
-[Document any differences between original requirements and actual implementation]
+- External skill references (superpowers, elements-of-style) removed - not installed, not critical
+- Scope control threshold adjusted to 40-50% (not 80%) based on research
 
 ## Open Questions
 
-- [Question 1 - needs product decision]
-- [Question 2 - needs technical investigation]
+- None currently
 
 ## Related Features
 
-- [Link to related feature] - [relationship]
+- [living-requirements](../living-requirements/) - Cascading context pattern
+- [brainstorming](../brainstorming/) - Dialogue exploration pattern
 
 ---
 

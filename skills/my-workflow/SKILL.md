@@ -3,7 +3,7 @@ name: my-workflow
 version: 1.0.0
 description: Personal workflow system - principles and stage awareness for solo development. Provides core principles (scope control, deviation rules, handoff protocol) and stage-aware behavior for /start, /design, /build, /stop commands.
 triggers:
-  - .planning/ directory exists
+  - planning/ directory exists
   - STATE.md mentions workflow stages
   - User mentions start/design/build/stop workflow
 ---
@@ -68,7 +68,7 @@ Before context fills or when pausing, create comprehensive handoff with:
 - **Next steps**: Clear actions for resuming
 - **Open questions**: Uncertainties that need resolution
 
-Store in `.planning/HANDOFF.md`. This enables clean session transitions.
+Store in `planning/HANDOFF.md`. This enables clean session transitions.
 
 ### 4. Stage Awareness
 
@@ -85,7 +85,7 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 
 ## Stage Awareness
 
-The workflow tracks state in `.planning/STATE.md`. Always read this file to understand where the project is.
+The workflow tracks state in `planning/STATE.md`. Always read this file to understand where the project is.
 
 ### STATE.md Structure
 
@@ -151,15 +151,15 @@ Workflow definitions are in `workflows/` subdirectory:
 
 | Command | When to Use | Output |
 |---------|-------------|--------|
-| `/start` | Beginning a new project | `.planning/OVERVIEW.md`, `STATE.md` |
-| `/design` | Ready to plan work | `.planning/ROADMAP.md`, specs |
+| `/start` | Beginning a new project | `planning/OVERVIEW.md`, `STATE.md` |
+| `/design` | Ready to plan work | `planning/ROADMAP.md`, specs |
 | `/build` | Plan approved, ready to execute | Code changes, STATE.md updates |
-| `/stop` | Pausing work or context filling | `.planning/HANDOFF.md` |
+| `/stop` | Pausing work or context filling | `planning/HANDOFF.md` |
 
 ### Project Structure
 
 ```
-.planning/
+planning/
 ├── OVERVIEW.md      # Project vision (created by /start)
 ├── STATE.md         # Living state (updated continuously)
 ├── ROADMAP.md       # Phases/tasks (created by /design)

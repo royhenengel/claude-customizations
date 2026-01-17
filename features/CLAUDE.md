@@ -16,7 +16,7 @@ Design principles that apply to ALL features:
 
 | Feature | Status | Last Updated | Notes |
 |---------|--------|--------------|-------|
-| *No features yet* | - | - | Add features as needed |
+| [my-workflow](my-workflow/CLAUDE.md) | Implemented | 2026-01-17 | /start, /design, /build, /stop commands |
 
 ## Technical Constraints
 

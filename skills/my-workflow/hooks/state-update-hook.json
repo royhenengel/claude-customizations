@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A file was modified. Determine if planning/STATE.md needs updating.\n\nChange details:\n$ARGUMENTS\n\nAnalysis rules:\n1. SKIP if the changed file is inside planning/ (avoid infinite loops)\n2. SKIP if planning/STATE.md does not exist\n3. Check if the change completes a task listed in STATE.md Progress section\n4. Check if new decisions were made that should be logged\n5. Check if current focus has shifted\n\nIf updates needed, suggest specific STATE.md changes:\n- Mark task complete: \"- [x] Task description\"\n- Add decision: \"- Decision: what and why\"\n- Add note: \"- Note: discovery or observation\"\n\nRespond with JSON:\n{\n  \"updates_needed\": true|false,\n  \"reason\": \"brief explanation\",\n  \"suggested_changes\": [\"mark task X complete\", \"add decision about Y\"],\n  \"systemMessage\": \"One-line summary for user\"\n}",
+            "timeout": 30000
+          }
+        ]
+      }
+    ]
+  }
+}

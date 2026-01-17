@@ -1,5 +1,5 @@
 ---
-name: diagrams-practices
+name: diagrams-builder
 description: Complete diagram creation skill covering strategy, Mermaid, PlantUML, and Draw.io. Use when creating any visual documentation - flowcharts, sequence diagrams, architecture, ER diagrams, state machines, Gantt charts, mindmaps, or enterprise/PMP diagrams. Single source of truth for all diagram needs.
 allowed-tools: Read, Write, Edit, Bash
 ---
