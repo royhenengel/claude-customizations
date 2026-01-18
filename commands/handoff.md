@@ -1,5 +1,5 @@
 ---
-name: whats-next
+name: handoff
 description: Analyze the current conversation and create a handoff document for continuing this work in a fresh context
 allowed-tools:
   - Read
@@ -52,7 +52,7 @@ Adapt the level of detail to the task type (coding, research, analysis, writing,
    - Any temporary changes, workarounds, or open questions
    - Current position in the workflow or process
 
-Write to `whats-next.md` in the current working directory using the format below.
+Write to `planning/HANDOFF.md` using the format below.
 
 ## Output Format
 
