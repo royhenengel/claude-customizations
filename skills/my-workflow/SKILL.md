@@ -53,8 +53,9 @@ During execution, handle discoveries automatically:
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, document |
 | **4. Ask about architectural** | Major structural change | Stop and ask user |
 | **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md, continue |
+| **6. Gap detected** | Prerequisite missing / plan needs modification | Invoke Gap Protocol |
 
-**No user intervention needed for Rules 1-3, 5.** Only Rule 4 (architectural) requires user decision.
+**No user intervention needed for Rules 1-3, 5.** Rule 4 (architectural) requires user decision. Rule 6 preserves context before handling plan-modifying gaps.
 
 **Result:** Flow never breaks. Bugs get fixed. Scope stays controlled. Complete transparency.
 
@@ -177,6 +178,19 @@ When you encounter something unexpected during `/build`:
 3. **Blocker?** → Fix it, note in STATE.md
 4. **Architecture change?** → STOP. Ask user.
 5. **Enhancement idea?** → Add to BACKLOG.md, continue
+6. **Prerequisite missing / plan needs change?** → Invoke Gap Protocol
+
+### Gap Protocol (Rule 6)
+
+When a plan-modifying gap is detected:
+
+1. **PRESERVE**: Push current task context to Gap Stack in STATE.md
+2. **SCOPE**: Assess impact - new task? different feature?
+3. **MODIFY**: Update PLAN.md if needed (mark "Added via Gap Protocol")
+4. **EXECUTE**: Complete the gap task
+5. **RETURN**: Pop stack, show reminder, resume original task
+
+For user-initiated additions ("also add X"), always show impact assessment before modifying the plan.
 
 ### Context Health
 

@@ -98,6 +98,19 @@ Defining project overview
 ## Notes
 
 (None yet)
+
+## Gap Stack
+
+<!-- Tracks context when handling plan-modifying gaps during /build -->
+<!-- Empty when no gaps active. Supports nested gaps (LIFO). -->
+
+### Active Gap
+
+(None)
+
+### Gap History
+
+(None this session)
 ```
 
 **planning/BACKLOG.md:**

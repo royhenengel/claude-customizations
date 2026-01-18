@@ -106,9 +106,118 @@ During execution, handle discoveries automatically:
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, note in STATE.md |
 | **4. Ask architectural** | Major structural change | STOP. Ask user for decision. |
 | **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md under appropriate category, continue |
+| **6. Gap detected** | Prerequisite missing / plan needs modification | Invoke Gap Protocol (see below) |
 
 **Rules 1-3, 5**: No user intervention needed.
-**Rule 4 only**: Requires user decision before proceeding.
+**Rule 4**: Requires user decision before proceeding.
+**Rule 6**: Preserves context, modifies plan, then returns to original task.
+
+### 6a. Gap Protocol
+
+When Rule 6 triggers (prerequisite missing or plan needs modification), follow this protocol to maintain direction:
+
+#### Step 1: ASSESS
+
+Determine if this is an in-scope fix (Rules 1-5) or a plan-modifying gap:
+
+- **In-scope?** → Apply Rules 1-5, continue
+- **Plan-modifying?** → Continue to Step 2
+
+A gap is plan-modifying when:
+- A prerequisite is discovered that requires new work before current task can complete
+- User requests an addition mid-build that affects the current feature
+- A blocker fix reveals additional required changes beyond a quick fix
+
+#### Step 2: PRESERVE
+
+Push context to Gap Stack in STATE.md:
+
+```markdown
+## Gap Stack
+
+### Active Gap
+
+**Original Task**: {current task name and number}
+**Original Objective**: {what we were trying to achieve}
+**Progress Before Gap**: {what's done so far on this task}
+**Gap Trigger**: {what was discovered or requested}
+**Gap Action**: {what we're doing to address it}
+**Inserted At**: {timestamp}
+
+### Gap History
+
+1. {previous gaps this session, if any}
+```
+
+#### Step 3: SCOPE
+
+Assess impact on current plan:
+
+- **Different feature?** → Add to BACKLOG.md, pop stack, continue original task
+- **New task in current plan?** → Continue to Step 4
+
+#### Step 4: MODIFY
+
+Update PLAN.md:
+
+- Insert new task with marker: `(Added via Gap Protocol)`
+- Place it before the blocked task
+- Update Task Summary table
+- Example: If blocked on Task 3, insert "Task 3a: {gap work} (Added via Gap Protocol)"
+
+#### Step 5: EXECUTE
+
+Complete the gap task. Apply deviation rules recursively (gaps can nest).
+
+#### Step 6: RETURN
+
+After gap task completes, pop context from Gap Stack and display:
+
+```text
+═══════════════════════════════════════════════════
+GAP RESOLVED - Returning to Original Task
+═══════════════════════════════════════════════════
+
+Gap Completed: {description of gap task}
+Gap Result: {outcome}
+
+Returning to:
+  Task: {original task name}
+  Objective: {what we were trying to achieve}
+  Progress: {what was done before gap}
+  Next Step: {what to do now}
+
+Continuing...
+═══════════════════════════════════════════════════
+```
+
+Update STATE.md:
+- Clear Active Gap section (set to "(None)")
+- Add entry to Gap History: `[timestamp] {gap description} - resolved`
+
+### 6b. User Addition Assessment
+
+When user requests an addition mid-build ("also add X", "can you also..."):
+
+**Always show impact before modifying the plan:**
+
+```text
+Adding {X} to the current plan would:
+- Add ~{N} task(s) to PLAN.md
+- Affect: {list affected tasks, if any}
+
+Options:
+1. Add to current plan (extends this build)
+2. Add to BACKLOG.md (handle in next plan)
+3. Create separate plan (parallel feature)
+
+Which would you prefer?
+```
+
+Based on user choice:
+- **Option 1**: Use Gap Protocol to insert (Step 2-6)
+- **Option 2**: Add to BACKLOG.md, continue current task
+- **Option 3**: Create new spec directory, continue current task
 
 ### 7. Monitor Context Health
 
