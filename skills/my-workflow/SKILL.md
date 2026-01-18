@@ -52,7 +52,7 @@ During execution, handle discoveries automatically:
 | **2. Auto-add critical** | Security/correctness gap | Add immediately, document |
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, document |
 | **4. Ask about architectural** | Major structural change | Stop and ask user |
-| **5. Log enhancements** | Nice-to-have idea | Log to STATE.md, continue |
+| **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md, continue |
 
 **No user intervention needed for Rules 1-3, 5.** Only Rule 4 (architectural) requires user decision.
 
@@ -162,6 +162,7 @@ Workflow definitions are in `workflows/` subdirectory:
 planning/
 ├── OVERVIEW.md      # Project vision (created by /start)
 ├── STATE.md         # Living state (updated continuously)
+├── BACKLOG.md       # Persistent improvements backlog
 ├── ROADMAP.md       # Phases/tasks (created by /design)
 ├── HANDOFF.md       # Session handoff (created by /stop)
 └── codebase/        # Brownfield analysis (if applicable)
@@ -175,7 +176,7 @@ When you encounter something unexpected during `/build`:
 2. **Security gap?** → Fix it, note in STATE.md
 3. **Blocker?** → Fix it, note in STATE.md
 4. **Architecture change?** → STOP. Ask user.
-5. **Enhancement idea?** → Log it, continue
+5. **Enhancement idea?** → Add to BACKLOG.md, continue
 
 ### Context Health
 

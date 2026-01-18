@@ -134,6 +134,7 @@ See STATE.md for current stage and focus.
 
 - `OVERVIEW.md` - Project vision and scope
 - `STATE.md` - Living state tracker (auto-updated)
+- `BACKLOG.md` - Persistent backlog of improvements
 - `HANDOFF.md` - Session handoff (created by /stop)
 - `specs/` - Feature specifications and plans
 ```
@@ -170,6 +171,22 @@ Project initialized, ready for planning
 
 Write to `planning/STATE.md`.
 
+### 5.5 Create planning/BACKLOG.md
+
+A persistent backlog for capturing improvements discovered during work.
+
+```markdown
+# Backlog
+
+## Quick Wins
+
+## Features
+
+## Technical Debt
+```
+
+Write to `planning/BACKLOG.md`.
+
 ### 6. Install Auto-Update Hook
 
 Create or update `.claude/hooks.json` to auto-update STATE.md after code changes.
@@ -201,30 +218,39 @@ cat .claude/hooks.json 2>/dev/null || echo "No hooks configured"
 
 Write to `.claude/hooks.json` (merge if exists).
 
-### 7. Brownfield: Offer Codebase Analysis
+### 7. Brownfield Detection and Codebase Analysis
 
-If user indicated existing codebase:
+**Detect brownfield automatically** by checking for existing code:
 
-```
-This is an existing codebase. Would you like me to:
-
-1. Run /map-codebase to understand the structure
-2. Skip analysis and proceed with planning
-3. Point me to specific areas to focus on
+```bash
+# Check for existing source code (not just config files)
+find . -maxdepth 3 -type f \( -name "*.ts" -o -name "*.js" -o -name "*.py" -o -name "*.go" -o -name "*.rs" -o -name "*.java" -o -name "*.swift" -o -name "*.rb" -o -name "*.php" -o -name "*.cs" \) 2>/dev/null | head -5
 ```
 
-If option 1, invoke the map-codebase command or perform quick analysis:
+**If source files exist → This is brownfield. Run codebase analysis automatically:**
+
+```
+Detected existing codebase. Mapping structure...
+```
+
+Run `/map-codebase` workflow to analyze:
 - Key directories and their purposes
-- Entry points
-- Dependencies
-- Testing patterns
+- Entry points and architecture patterns
+- Dependencies and package managers
+- Testing patterns and coverage
+- Build/deploy configuration
 
-Store findings in `planning/codebase/` if significant.
+Store findings in `planning/CODEBASE.md`.
+
+**If no source files → This is greenfield.** Skip codebase analysis and proceed to step 8.
+
+The codebase map becomes part of the project context, referenced in CLAUDE.md.
 
 ### 8. Transition to Planning
 
 After setup is complete:
 
+**For greenfield projects:**
 ```
 Project initialized!
 
@@ -232,8 +258,32 @@ Created:
 - planning/OVERVIEW.md (project definition)
 - planning/CLAUDE.md (planning context)
 - planning/STATE.md (stage: starting)
+- planning/BACKLOG.md (improvements backlog)
 - planning/specs/ (ready for feature specs)
 - .claude/hooks.json (auto-update hook)
+
+Next steps:
+1. Run /plan to plan your first feature
+2. Run /brainstorm if you need to clarify an idea first
+
+Current stage: starting → Will transition to planning after /plan
+```
+
+**For brownfield projects:**
+```
+Project initialized with codebase analysis!
+
+Created:
+- planning/OVERVIEW.md (project definition)
+- planning/CLAUDE.md (planning context)
+- planning/STATE.md (stage: starting)
+- planning/BACKLOG.md (improvements backlog)
+- planning/CODEBASE.md (codebase map)
+- planning/specs/ (ready for feature specs)
+- .claude/hooks.json (auto-update hook)
+
+Codebase summary:
+{Brief summary from CODEBASE.md - key directories, tech stack, patterns}
 
 Next steps:
 1. Run /plan to plan your first feature
@@ -251,6 +301,8 @@ planning/
 ├── OVERVIEW.md         # Project definition (vision, scope)
 ├── CLAUDE.md           # Planning context (references OVERVIEW)
 ├── STATE.md            # Stage: starting
+├── BACKLOG.md          # Persistent backlog of improvements
+├── CODEBASE.md         # Codebase map (brownfield only)
 └── specs/              # Empty, ready for /plan
 
 .claude/

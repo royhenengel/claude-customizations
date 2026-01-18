@@ -25,9 +25,37 @@ ls planning/CLAUDE.md 2>/dev/null || echo "No project context"
 
 If no `planning/` structure exists, suggest running `/start` first.
 
-### 2. Understand What to Plan
+### 2. Show Backlog and Understand What to Plan
 
-Ask the user:
+First, check if there's an existing backlog:
+
+```bash
+cat planning/BACKLOG.md 2>/dev/null || echo "No backlog yet"
+```
+
+**If BACKLOG.md has items**, show them first:
+
+```text
+Current backlog:
+
+Quick Wins:
+- [ ] {item 1}
+- [ ] {item 2}
+
+Features:
+- [ ] {item 3}
+
+Technical Debt:
+- [ ] {item 4}
+
+What would you like to plan?
+
+1. Pick from backlog (specify item)
+2. Add something new
+3. Continue from existing spec
+```
+
+**If BACKLOG.md is empty or doesn't exist**:
 
 ```text
 What would you like to plan?
@@ -36,6 +64,8 @@ What would you like to plan?
 2. Continue from existing spec
 3. Fix/improve something in the codebase
 ```
+
+When picking from backlog, remove the item from BACKLOG.md after creating the spec.
 
 ### 3. Offer Brainstorm (If Needed)
 
@@ -267,6 +297,7 @@ planning/
 ├── OVERVIEW.md
 ├── CLAUDE.md
 ├── STATE.md              # Stage: planning
+├── BACKLOG.md            # Persistent improvements backlog
 └── specs/
     └── {feature}/
         ├── SPEC.md       # Requirements

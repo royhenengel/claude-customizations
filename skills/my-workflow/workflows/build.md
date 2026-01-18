@@ -87,7 +87,7 @@ Apply deviation rules during execution:
 2. Auto-add critical - security/correctness gaps, fix immediately
 3. Auto-fix blockers - can't proceed, fix immediately
 4. Ask about architectural - STOP and report back for decision
-5. Log enhancements - note for later, continue with task
+5. Log enhancements - add to BACKLOG.md, continue with task
 ```
 
 **After each task completes:**
@@ -105,7 +105,7 @@ During execution, handle discoveries automatically:
 | **2. Auto-add critical** | Security/correctness gap | Add immediately, note in STATE.md |
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, note in STATE.md |
 | **4. Ask architectural** | Major structural change | STOP. Ask user for decision. |
-| **5. Log enhancements** | Nice-to-have idea | Log to STATE.md Notes, continue |
+| **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md under appropriate category, continue |
 
 **Rules 1-3, 5**: No user intervention needed.
 **Rule 4 only**: Requires user decision before proceeding.
@@ -204,7 +204,8 @@ Write to `planning/specs/{feature}/SUMMARY.md`.
 
 ## Notes
 
-- {Any discoveries or logged enhancements}
+- {Any discoveries during build}
+- See BACKLOG.md for logged enhancements
 ```
 
 ### 11. Completion Message

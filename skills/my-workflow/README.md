@@ -28,6 +28,7 @@ planning/
 ├── OVERVIEW.md         # Project definition (vision, scope)
 ├── CLAUDE.md           # Planning context (references OVERVIEW)
 ├── STATE.md            # Living state tracker (auto-updated by hook)
+├── BACKLOG.md          # Persistent backlog (Quick Wins, Features, Tech Debt)
 ├── HANDOFF.md          # Session handoff (created by /stop)
 └── specs/
     └── {feature}/
@@ -43,7 +44,7 @@ planning/
 
 Initializes project structure, creates OVERVIEW.md (project definition), and installs auto-update hook.
 
-**Creates**: `planning/OVERVIEW.md`, `planning/CLAUDE.md`, `planning/STATE.md`, `.claude/hooks.json`
+**Creates**: `planning/OVERVIEW.md`, `planning/CLAUDE.md`, `planning/STATE.md`, `planning/BACKLOG.md`, `.claude/hooks.json`
 
 **New project**: Invokes brainstorm patterns to help craft the project definition.
 
@@ -89,7 +90,7 @@ Executes plan with subagent delegation.
 | Auto-add critical | Security gap | Add immediately |
 | Auto-fix blockers | Can't proceed | Fix immediately |
 | Ask architectural | Major change | STOP and ask |
-| Log enhancements | Nice-to-have | Log, continue |
+| Log enhancements | Nice-to-have | Add to BACKLOG.md, continue |
 
 **Context monitoring**: Offers `/stop` at 15% remaining, auto-triggers at 10%.
 
