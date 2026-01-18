@@ -1,0 +1,22 @@
+# Claude Customizations - Planning Context
+
+## Project Definition
+
+@planning/OVERVIEW.md
+
+## Current Focus
+
+See STATE.md for current stage and focus.
+
+## Structure
+
+- `OVERVIEW.md` - Project vision, scope, principles, and governance
+- `STATE.md` - Living state tracker (auto-updated)
+- `BACKLOG.md` - Persistent backlog of improvements
+- `HANDOFF.md` - Session handoff (created by /stop)
+- `specs/` - Feature specifications and plans
+- `archive/` - Historical documents (e.g., original constitution.md)
+
+## Active Feature
+
+See `specs/001-my-workflow/` for current feature implementation.
