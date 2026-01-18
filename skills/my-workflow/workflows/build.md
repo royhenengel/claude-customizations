@@ -6,7 +6,7 @@ Execute the plan with subagent delegation and deviation rules.
 
 ## When to Use
 
-- After `/design` has created a PLAN.md
+- After `/plan` has created a PLAN.md
 - Plan has been reviewed and approved
 - Ready to implement
 
@@ -20,10 +20,10 @@ User invokes `/build` or asks to execute/implement the plan.
 
 ```bash
 ls planning/STATE.md 2>/dev/null || echo "No STATE.md - run /start first"
-ls planning/specs/*/PLAN.md 2>/dev/null || echo "No PLAN.md - run /design first"
+ls planning/specs/*/PLAN.md 2>/dev/null || echo "No PLAN.md - run /plan first"
 ```
 
-If no plan exists, suggest running `/design` first.
+If no plan exists, suggest running `/plan` first.
 
 ### 2. Identify Plan to Execute
 
@@ -223,7 +223,7 @@ Created:
 Next steps:
 - Review the changes
 - Run /stop if done for now
-- Run /design for next feature
+- Run /plan for next feature
 ```
 
 ## Subagent Execution Pattern

@@ -112,7 +112,8 @@ planning/specs/{feature-name}/
 ```
 
 Update `planning/STATE.md`:
-- Stage: designing
+
+- Stage: planning
 - Current Focus: {feature name}
 - Add to Progress: "Brainstorming complete for {feature}"
 

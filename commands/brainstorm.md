@@ -1,36 +1,74 @@
 ---
 description: Clarify unclear ideas through collaborative dialogue
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, AskUserQuestion, EnterPlanMode, ExitPlanMode, TodoWrite, WebSearch, WebFetch
 ---
+
+# /brainstorm - Explore and Clarify Ideas
 
 Turn unclear ideas into fully formed designs through one-question-at-a-time exploration.
 
-## What This Does
+## Step 1: Get the Idea
 
-1. Explores the idea through focused questions (one at a time)
-2. Proposes 2-3 approaches with trade-offs
-3. Validates design incrementally
-4. Creates spec.md and research.md for the clarified feature
+If no idea was provided with the command, ask:
 
-## When to Use
+"What idea would you like to explore?"
 
-- You have an idea but haven't defined scope
-- Requirements are unclear or exploratory
-- Need to explore alternatives before committing
+## Step 2: Understand Context
 
-## Usage
+Ask ONE question at a time to understand:
+- What problem does this solve?
+- Who is affected?
+- What does success look like?
 
-```bash
-/brainstorm
-/brainstorm [idea-description]
-```
+## Step 3: Research (if needed)
 
-## Invocation
+If the idea involves unfamiliar technology or patterns, research first using WebSearch/WebFetch.
 
-Load the my-workflow skill and execute the brainstorm workflow:
+## Step 4: Propose Approaches
+
+Present 2-3 approaches with clear trade-offs:
 
 ```text
-@skills/my-workflow/SKILL.md
-@skills/my-workflow/workflows/brainstorm.md
+Based on our discussion, here are the approaches I see:
 
-Execute the /brainstorm workflow as documented.
+**Approach A: [Name]**
+- How: [Brief description]
+- Pros: [Benefits]
+- Cons: [Drawbacks]
+
+**Approach B: [Name]**
+- How: [Brief description]
+- Pros: [Benefits]
+- Cons: [Drawbacks]
+
+Which approach resonates with you?
+```
+
+## Step 5: Validate Incrementally
+
+Once an approach is selected, validate details one at a time. Don't assume - ask.
+
+## Step 6: Create Spec
+
+Create `planning/specs/{feature-name}/`:
+- `spec.md` - The clarified feature specification
+- `research.md` - Any research findings (if applicable)
+
+## Step 7: Update State
+
+Update `planning/STATE.md`:
+- Stage: planning
+- Current Focus: {feature-name}
+- Add decision to Decisions section
+
+## Step 8: Show Next Steps
+
+```text
+Feature clarified and documented!
+
+Created:
+- planning/specs/{feature-name}/spec.md
+- planning/specs/{feature-name}/research.md (if applicable)
+
+Next: Run /plan to create an implementation plan for this feature.
 ```

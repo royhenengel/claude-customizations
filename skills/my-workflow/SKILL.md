@@ -1,16 +1,16 @@
 ---
 name: my-workflow
 version: 1.0.0
-description: Personal workflow system - principles and stage awareness for solo development. Provides core principles (scope control, deviation rules, handoff protocol) and stage-aware behavior for /start, /design, /build, /stop commands.
+description: Personal workflow system - principles and stage awareness for solo development. Provides core principles (scope control, deviation rules, handoff protocol) and stage-aware behavior for /start, /plan, /build, /stop commands.
 triggers:
   - planning/ directory exists
   - STATE.md mentions workflow stages
-  - User mentions start/design/build/stop workflow
+  - User mentions start/plan/build/stop workflow
 ---
 
 # My Workflow
 
-A personalized workflow system with 4 commands (`/start`, `/design`, `/build`, `/stop`) that provide clear entry points for project stages.
+A personalized workflow system with 4 commands (`/start`, `/plan`, `/build`, `/stop`) that provide clear entry points for project stages.
 
 ## Table of Contents
 
@@ -77,7 +77,7 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 | Stage | Behavior |
 |-------|----------|
 | **starting** | Focus on setup, project structure, context gathering |
-| **designing** | Focus on specification, ask clarifying questions |
+| **planning** | Focus on specification, ask clarifying questions |
 | **building** | Focus on execution, follow the plan, apply deviation rules |
 | **stopping** | Focus on handoff, ensure all context is captured |
 
@@ -92,7 +92,7 @@ The workflow tracks state in `planning/STATE.md`. Always read this file to under
 ```markdown
 # Project State
 
-**Stage**: [starting|designing|building|stopping]
+**Stage**: [starting|planning|building|stopping]
 **Last Updated**: [timestamp]
 
 ## Current Focus
@@ -116,10 +116,10 @@ The workflow tracks state in `planning/STATE.md`. Always read this file to under
 
 ```
 /start → STATE.md created with stage: starting
-       → Transitions to designing after OVERVIEW.md complete
+       → Transitions to planning after OVERVIEW.md complete
 
-/design → stage: designing
-        → Transitions to building after plan approved
+/plan → stage: planning
+      → Transitions to building after plan approved
 
 /build → stage: building
        → Stays in building until plan complete or /stop called
@@ -138,8 +138,8 @@ Workflow definitions are in `workflows/` subdirectory:
 | File | Command | Purpose |
 |------|---------|---------|
 | `start.md` | `/start` | Begin project with context setup |
-| `brainstorm.md` | (via /design) | Explore unclear ideas |
-| `design.md` | `/design` | Plan work with spec-driven approach |
+| `brainstorm.md` | (via /plan) | Explore unclear ideas |
+| `plan.md` | `/plan` | Plan work with spec-driven approach |
 | `build.md` | `/build` | Execute plan with deviation rules |
 | `stop.md` | `/stop` | Pause with comprehensive handoff |
 
@@ -152,7 +152,7 @@ Workflow definitions are in `workflows/` subdirectory:
 | Command | When to Use | Output |
 |---------|-------------|--------|
 | `/start` | Beginning a new project | `planning/OVERVIEW.md`, `STATE.md` |
-| `/design` | Ready to plan work | `planning/ROADMAP.md`, specs |
+| `/plan` | Ready to plan work | `planning/ROADMAP.md`, specs |
 | `/build` | Plan approved, ready to execute | Code changes, STATE.md updates |
 | `/stop` | Pausing work or context filling | `planning/HANDOFF.md` |
 
@@ -163,7 +163,7 @@ planning/
 ├── OVERVIEW.md      # Project vision (created by /start)
 ├── STATE.md         # Living state (updated continuously)
 ├── BACKLOG.md       # Persistent improvements backlog
-├── ROADMAP.md       # Phases/tasks (created by /design)
+├── ROADMAP.md       # Phases/tasks (created by /plan)
 ├── HANDOFF.md       # Session handoff (created by /stop)
 └── codebase/        # Brownfield analysis (if applicable)
 ```
