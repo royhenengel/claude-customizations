@@ -19,4 +19,4 @@ See STATE.md for current stage and focus.
 
 ## Active Feature
 
-See `specs/001-my-workflow/` for current feature implementation.
+See `specs/my-workflow/` for current feature implementation.

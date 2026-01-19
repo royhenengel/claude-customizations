@@ -44,6 +44,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
   - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
+- [ ] Improve the diagram builder.
 
 ## Technical Debt
 
