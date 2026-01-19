@@ -4,7 +4,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Quick Wins
 
-- [ ] Populate root CLAUDE.md with project context
+- [x] Populate root CLAUDE.md with project context
 
 ## Improvements
 
