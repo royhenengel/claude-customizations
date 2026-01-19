@@ -1,194 +1,127 @@
-# Roadmap: My Workflow System
+# My Workflow System Implementation Plan
 
-**Feature**: 001-my-workflow
-**Branch**: `feature/001-my-workflow`
-**Date**: 2026-01-10
-**Design**: [design.md](design.md)
+## Objective
 
-## Technical Context
+Create a personalized workflow system with 4 commands (`/start`, `/plan`, `/build`, `/stop`) backed by a `my-workflow` skill that holds principles and workflow logic.
 
-- **Language/Version**: Markdown-based Claude Code skills and commands
-- **Dependencies**: Claude Code CLI, ~/.claude/ directory structure
-- **Storage**: Filesystem-based (symlinked from claude-customizations to ~/.claude/)
-- **Testing**: Manual verification via Claude Code invocation
-- **Platform**: macOS (Claude Code CLI)
+## Context
 
-## Phase 0: Manual Curation
+@planning/specs/001-my-workflow/SPEC.md
+@planning/specs/001-my-workflow/RESEARCH.md
 
-**Goal**: Clear workspace of unused skills/commands
+## Task Summary
 
-**Task 0.1**: Create reference directory structure
+| # | Task | Type | Status |
+|---|------|------|--------|
+| 1 | Manual Curation | checkpoint:human-action | done |
+| 2 | Create skill structure | auto | done |
+| 3 | Create workflows | auto | done |
+| 4 | Create command wrappers | auto | done |
+| 5 | Verification | checkpoint:human-verify | done |
+| 6 | Add Gap Protocol | auto | done |
 
-- Create `~/.claude/reference/skills/`
-- Create `~/.claude/reference/commands/`
+## Tasks
 
-**Task 0.2**: Move unused skills to reference
+### Task 1: Manual Curation
 
-- Review skills with user
-- Move to `~/.claude/reference/skills/`
-
-**Task 0.3**: Move unused commands to reference
-
-- Review commands with user
-- Move to `~/.claude/reference/commands/`
-
-**Task 0.4**: Review installed plugins
-
-- Review `~/.claude/plugins/` with user
-- Remove unused plugins
-- Document active plugins and their purpose
-
-**Verification**: Remaining skills/commands/plugins work, reference folder populated
+**Type**: checkpoint:human-action
+**Status**: done
+**Action**: Clear workspace of unused skills/commands
+**Instructions**:
+1. Create `~/.claude/reference/skills/` and `~/.claude/reference/commands/`
+2. Review skills with user, move unused to reference
+3. Review commands with user, move unused to reference
+4. Verify symlinks work after moves
+**Done**: Active skills/commands curated, reference materials accessible
 
 ---
 
-## Phase 1: Skill Foundation (Curate and Copy)
+### Task 2: Create Skill Structure
 
-**Goal**: Create my-workflow skill with workflows
-
-For each workflow, review existing implementations and select content.
-
-**Task 1.1**: Create `skills/my-workflow/SKILL.md`
-
-- Review taches/CEK/GSD principles
-- User selects preferred approach
-- Copy and adapt selected content
-- Add triggers: .planning/ directory exists
-
-**Task 1.2**: Create `workflows/start.md`
-
-- Present how taches, CEK, living-requirements, GSD handle project start
-- User selects preferred implementation
-- Copy content + any dependencies
-- Adapt as needed
-
-**Task 1.3**: Create `workflows/brainstorm.md`
-
-- Copy from existing `brainstorming` skill
-- Adapt to output to `docs/plans/<date>-<topic>-design.md`
-- Determine appropriate plan structure based on idea scope:
-  - Simple: A few tasks (no phases needed)
-  - Feature: Single feature with clear scope
-  - Multi-feature: Multiple features requiring phased roadmap
-- Audit all external skill references in copied content
-- Install any missing referenced skills
-
-**Task 1.4**: Create `workflows/design.md`
-
-- Present how taches, CEK handle spec-driven planning
-- User selects preferred implementation
-- Copy content + any dependencies
-- Adapt as needed
-- Update to offer brainstorm workflow if requirements are unclear
-
-**Task 1.5**: Create `workflows/build.md`
-
-- Present how taches, GSD handle execution with deviation rules
-- User selects preferred implementation
-- Copy content + any dependencies
-- Adapt as needed
-
-**Task 1.6**: Create `workflows/stop.md`
-
-- Present how taches, GSD handle handoffs
-- User selects preferred implementation
-- Copy content + any dependencies
-- Adapt as needed
-
-**Task 1.7**: Audit and install all external skill references
-
-- Review all copied workflows for external skill references (e.g., `superpowers:*`, `elements-of-style:*`)
-- Install any missing referenced skills
-- Verify all references resolve correctly
-
-**Verification**: Skill loads when .planning/ exists, principles are active, all external references work
+**Type**: auto
+**Status**: done
+**Files**: `skills/my-workflow/`
+**Action**: Create the my-workflow skill skeleton
+**Verify**: Skill loads when .planning/ exists
+**Done**: 
+- Created `skills/my-workflow/SKILL.md` with frontmatter and core principles
+- Created `skills/my-workflow/workflows/` directory
 
 ---
 
-## Phase 2: Commands
+### Task 3: Create Workflows
 
-**Goal**: Create thin command wrappers
-
-**Task 2.1**: Create `commands/start.md`
-
-- Thin wrapper that loads skill and invokes workflows/start.md
-- ~15 lines
-
-**Task 2.2**: Create `commands/design.md`
-
-- Thin wrapper that loads skill and invokes workflows/design.md
-- ~15 lines
-
-**Task 2.3**: Create `commands/build.md`
-
-- Thin wrapper that loads skill and invokes workflows/build.md
-- ~15 lines
-
-**Task 2.4**: Verify or create `commands/stop.md`
-
-- Check if existing stop.md suffices or needs wrapper
-- ~15 lines if new
-
-**Verification**: Run `/start` → `/design` → `/build` → `/stop` flow
+**Type**: auto
+**Status**: done
+**Files**: `skills/my-workflow/workflows/*.md`
+**Action**: Create all 5 workflows by reviewing existing patterns and adapting
+**Verify**: Each workflow has clear steps and integrates selected patterns
+**Done**:
+- `workflows/start.md` - Project initialization with brownfield detection
+- `workflows/brainstorm.md` - Idea exploration (optional)
+- `workflows/plan.md` - Spec-driven planning with plans-as-prompts
+- `workflows/build.md` - Execution with deviation rules
+- `workflows/stop.md` - Handoff creation
 
 ---
 
-## Phase 3: Supporting Infrastructure
+### Task 4: Create Command Wrappers
 
-**Goal**: Add automation hooks
-
-**Task 3.1**: Create `hooks/state-update.md`
-
-- PostToolUse hook for STATE.md updates
-- Triggers on Write/Edit to code files
-- ~40 lines
-
-**Verification**: STATE.md updates automatically after code changes
-
----
-
-## Phase 4: Testing & Polish
-
-**Goal**: Validate complete workflow
-
-**Task 4.1**: Full workflow test
-
-- Test: /start → /design → /build → /stop on test project
-- Verify STATE.md updates, HANDOFF.md creation
-
-**Task 4.2**: Update documentation
-
-- Update root CLAUDE.md with new command documentation
-- Add cross-references between commands
+**Type**: auto
+**Status**: done
+**Files**: `commands/*.md`
+**Action**: Create thin command wrappers (~15 lines each)
+**Verify**: Commands invoke skill workflows correctly
+**Done**:
+- `commands/start.md` → `workflows/start.md`
+- `commands/plan.md` → `workflows/plan.md`
+- `commands/build.md` → `workflows/build.md`
+- `commands/stop.md` → `workflows/stop.md`
 
 ---
 
-## Files to Create
+### Task 5: Verification
 
-| File | Purpose | Source |
-| ---- | ------- | ------ |
-| `skills/my-workflow/SKILL.md` | Core principles | Selected from taches/CEK/GSD |
-| `skills/my-workflow/workflows/start.md` | Start workflow | Selected from patterns |
-| `skills/my-workflow/workflows/brainstorm.md` | Idea exploration | Existing brainstorming skill |
-| `skills/my-workflow/workflows/design.md` | Design workflow | Selected from patterns |
-| `skills/my-workflow/workflows/build.md` | Build workflow | Selected from patterns |
-| `skills/my-workflow/workflows/stop.md` | Stop workflow | Selected from patterns |
-| `commands/start.md` | Thin wrapper | New (~15 lines) |
-| `commands/design.md` | Thin wrapper | New (~15 lines) |
-| `commands/build.md` | Thin wrapper | New (~15 lines) |
-| `hooks/state-update.md` | PostToolUse hook | New (~40 lines) |
+**Type**: checkpoint:human-verify
+**Status**: done
+**Action**: Test full workflow on real project
+**Verify**: /start → /plan → /build → /stop flow works
+**Done**: Workflow tested and functional
 
-## Files to Verify
+---
 
-| File | Reason |
-| ---- | ------ |
-| `commands/stop.md` | May already exist with HANDOFF.md creation |
+### Task 6: Add Gap Protocol
 
-## Risks
+**Type**: auto
+**Status**: done
+**Action**: Add Rule 6 (Gap detected) to deviation rules with formal protocol for handling plan-modifying gaps
 
-| Risk | Mitigation |
-| ---- | ---------- |
-| Skill may auto-activate unnecessarily | Use specific triggers (.planning/ directory) |
-| Moving skills may break symlinks | Test with single skill first, verify symlinks |
-| Command/skill loading order | Test that commands properly invoke skill workflows |
-| Copied content has broken references | Audit external refs, install missing skills |
+**Files**:
+
+- `skills/my-workflow/SKILL.md` - Added Rule 6 to deviation rules table, added Gap Protocol quick reference
+- `skills/my-workflow/workflows/build.md` - Added full Gap Protocol (6a) and User Addition Assessment (6b)
+- `skills/my-workflow/workflows/start.md` - Added Gap Stack section to STATE.md template
+
+**Verify**: Gap Stack section in STATE.md template, Gap Protocol steps in build.md
+
+**Done**:
+
+- Gap Protocol with 6 steps: ASSESS, PRESERVE, SCOPE, MODIFY, EXECUTE, RETURN
+- Gap Stack in STATE.md tracks context during plan-modifying gaps
+- User additions always get impact assessment before modifying plan
+- Return-to-task banner ensures original objective is not forgotten
+
+## Verification
+
+- [x] Skill loads when .planning/ directory exists
+- [x] Commands invoke correct workflows
+- [x] STATE.md updates work
+- [x] HANDOFF.md creation works
+- [x] Documentation complete (README.md, templates)
+
+## Success Criteria
+
+- [x] Active skills list reduced by at least 50% after curation
+- [x] Can complete a typical project using only workflow commands
+- [x] Custom commands feel like ONE coherent system
+- [x] Adding a new command takes less than 10 minutes (templates provided)
