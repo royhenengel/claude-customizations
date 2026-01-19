@@ -1,230 +1,151 @@
 <original_task>
-Align the claude-customizations project with the my-workflow skill that was just created. This means migrating the project to use the my-workflow directory structure and conventions (planning/ directory with OVERVIEW.md, STATE.md, BACKLOG.md, etc.) so the project "dogfoods" its own workflow system.
+Implement the my-workflow system - a personalized workflow with 4 commands (`/start`, `/plan`, `/build`, `/stop`) backed by a `my-workflow` skill. Also migrate the claude-customizations project itself to use this workflow (dogfooding).
 </original_task>
 
 <work_completed>
-## Migration Completed Successfully
+## Feature Implementation Complete
 
-### Files Created (new)
-1. **planning/OVERVIEW.md** - Project vision document with constitution content integrated
-   - Contains: Vision, Problem Statement, Target Users, Core Value Proposition, Scope (In/Out), Success Criteria
-   - Integrated from constitution: Core Principles (5), Quality Standards, Development Workflow, Governance
-   - Version: 1.0.0, notes migration from specs/constitution.md
+### Core Deliverables (all done)
+1. **my-workflow skill** - `skills/my-workflow/SKILL.md`
+   - Core principles: Scope Control, Deviation Rules, Handoff Protocol
+   - Trigger: `planning/` directory exists
+   - 5 workflows: start, brainstorm, plan, build, stop
 
-2. **planning/STATE.md** - Current project state tracker
-   - Stage: `building`
-   - Current Focus: Completing feature 001-my-workflow
-   - Progress checklist with completed and remaining items
-   - Decisions log with dates
-   - Notes about dogfooding and migration
+2. **Command wrappers** - thin commands that invoke skill workflows
+   - `commands/start.md` → project initialization
+   - `commands/plan.md` → spec-driven planning
+   - `commands/build.md` → execution with deviation rules
+   - `commands/stop.md` → handoff creation
 
-3. **planning/BACKLOG.md** - Improvements backlog
-   - Quick Wins: Populate root CLAUDE.md
-   - Features: /curate command, skill dependency validation, skill testing framework
-   - Technical Debt: Consolidate duplicate templates, update README.md
-   - Ideas: Skill versioning, skill health check command
+3. **Gap Protocol** - Rule 6 for handling plan-modifying gaps during `/build`
+   - 6 steps: ASSESS, PRESERVE, SCOPE, MODIFY, EXECUTE, RETURN
+   - Gap Stack in STATE.md tracks context
+   - User additions get impact assessment before modifying plan
 
-4. **planning/CLAUDE.md** - Planning context file
-   - References OVERVIEW.md via @-syntax
-   - Documents planning/ directory structure
-   - Points to active feature specs
+### Project Migration (dogfooding)
+- Created `planning/` directory structure (OVERVIEW.md, STATE.md, BACKLOG.md, CLAUDE.md)
+- Migrated constitution.md content into OVERVIEW.md
+- Moved specs/001-my-workflow/ → planning/specs/my-workflow/
+- Archived original verbose task files to archive/
+- Populated root CLAUDE.md with project context
+- Installed .claude/hooks.json for STATE.md auto-updates
 
-5. **CLAUDE.md** (root) - Updated from empty to populated
-   - References planning/OVERVIEW.md and planning/CLAUDE.md
-   - Documents project structure (skills/, commands/, agents/, hooks/, mcp/, planning/, docs/, archive/)
-   - Notes symlink setup to ~/.claude/
+### Curation Results
+- Curated skills: 38 active, 16 moved to reference/
+- Curated commands: 62 active, 7 moved to reference/
+- Restored taches-create-plans skill to reference/ for future reference
 
-6. **.claude/hooks.json** - PostToolUse hook for STATE.md auto-updates
-   - Matcher: `Write|Edit`
-   - Timeout: 15000ms
-   - Prompts to check if STATE.md needs updating after code changes
-
-### Files Moved (git history preserved via `git mv`)
-- `specs/001-my-workflow/` → `planning/specs/001-my-workflow/` (9 files)
-  - .planning/spike-external-refs.md
-  - curation-log.md
-  - design.md
-  - plan.md
-  - research.md
-  - spec-checklist.md
-  - spec.md
-  - tasks.md
-- `specs/templates/` → `planning/specs/templates/` (4 files)
-  - plan-template.md
-  - spec-checklist.md
-  - spec-template.md
-  - tasks-template.md
-- `specs/constitution.md` → `planning/archive/constitution.md` (preserved as archive)
-
-### Git Actions
-- All changes committed: `079631f feat: migrate project to my-workflow structure`
-- Pushed to: `origin/feature/001-my-workflow`
-- 19 files changed, 296 insertions
-
-### Key Decision Made
-- Constitution content was INTEGRATED into OVERVIEW.md (not kept as separate file)
-- Original constitution.md ARCHIVED to planning/archive/ (not deleted)
-- This follows my-workflow pattern: OVERVIEW.md is single source of truth for project definition AND governance
+### Recent Commits (feature/001-my-workflow)
+- `234edac` docs: populate root CLAUDE.md with project context
+- `f8e3af9` chore: restore taches-create-plans and related commands to reference
+- `4bd1cd2` chore: consolidate 001-my-workflow to proper my-workflow structure
+- `85cc754` feat: add Gap Protocol for handling plan-modifying gaps during /build
+- `3d67902` fix: update /handoff command to write to planning/HANDOFF.md
+- `079631f` feat: migrate project to my-workflow structure
 </work_completed>
 
 <work_remaining>
-## Verification Tasks (from tasks.md T046-T049, T053, T058-T059)
+## Uncommitted Changes
 
-### Can Test on THIS Project
-- **T059**: Verify STATE.md auto-updates via hook
-  - Make a code change to a non-planning file
-  - Check if hook prompts to update STATE.md
-  - Verify the hook works correctly
+There are uncommitted changes that need to be committed:
 
-### Should Test on a FRESH Project
-These test the workflow commands from scratch - can't test /start on this project since planning/ already exists:
+### Deleted (old structure)
+- `planning/specs/001-my-workflow/` - old directory with verbose files
 
-- **T046**: Test `/start` command
-  - Creates planning/ directory from scratch
-  - Creates OVERVIEW.md, STATE.md, BACKLOG.md, CLAUDE.md
-  - Installs hooks.json
-  - Guides user through OVERVIEW.md creation
+### Added (new structure)
+- `planning/specs/my-workflow/` - consolidated feature spec
+  - SPEC.md (condensed from original)
+  - RESEARCH.md (condensed from original)
+  - PLAN.md (task summary, all tasks done)
+  - curation-log.md (preserved)
+  - archive/ (old spec-checklist.md, spike-external-refs.md)
 
-- **T047**: Test `/plan` command
-  - Creates feature specs in planning/specs/{feature}/
-  - Offers brainstorm for unclear requirements
-  - Creates SPEC.md, RESEARCH.md, PLAN.md
-
-- **T048**: Test `/build` command
-  - Executes plan with deviation rules
-  - Updates STATE.md during execution
-  - Creates SUMMARY.md on completion
-
-- **T049**: Test `/stop` command
-  - Creates HANDOFF.md with comprehensive context
-  - Updates STATE.md to stage: stopping
-
-- **T053**: Verify adding new command doesn't break workflow
-  - Add a test command
-  - Verify existing commands still work
-
-- **T058**: Full workflow test (/start → /plan → /build → /stop)
-  - Complete end-to-end test on a real project
+**Action needed**: Commit the consolidation from `001-my-workflow/` to `my-workflow/`
 
 ## Optional Follow-ups (from BACKLOG.md)
-- Update README.md to reflect new planning/ structure
-- Consolidate duplicate templates (planning/specs/templates/ vs skills/my-workflow/templates/)
+
+- [ ] Consolidate duplicate templates (planning/specs/templates/ vs skills/my-workflow/templates/)
+- [ ] Update README.md to reflect new planning/ structure
+- [ ] Audit skills vs agents distinction (which should be which?)
+- [ ] Revisit workflow task granularity philosophy
 </work_remaining>
 
 <attempted_approaches>
-## Approaches Considered
+## Design Decisions Made
 
-### 1. Running /start Command
-- **Rejected**: Project is mid-feature with existing state
-- /start would create empty files, but we know exactly what content should be there
-- Would lose existing specs/001-my-workflow/ content
+### 1. Plans-as-Prompts Philosophy
+- PLAN.md has max 2-3 tasks, each task is a prompt for Claude
+- Detailed task breakdown (like original 60-task tasks.md) lives in BACKLOG.md notes
+- For completed features, condensed format is preferred
 
-### 2. Moving Constitution to Root as CONSTITUTION.md
-- **Initially planned, then rejected per user feedback**
-- User clarified: constitution content belongs in my-workflow's OVERVIEW.md
-- Constitution is governance/principles, which maps to OVERVIEW.md's Principles section
+### 2. Directory Naming
+- Changed from `001-my-workflow/` to `my-workflow/` (simpler)
+- Numeric prefix was holdover from older system
 
-### 3. Deleting Constitution
-- **Rejected per user requirement**: "non of the data that currently exists is deleted"
-- Solution: Archive to planning/archive/constitution.md
+### 3. Gap Protocol Added
+- Rule 6 handles "plan-modifying gaps" during `/build`
+- Prevents scope creep while allowing necessary additions
+- Uses ASSESS → PRESERVE → SCOPE → MODIFY → EXECUTE → RETURN pattern
 
-## No Errors or Blockers Encountered
-- Migration proceeded smoothly
-- All git mv operations preserved history
-- No conflicts or issues
+## No Blockers
+- All implementation complete
+- Just needs final commit for directory consolidation
 </attempted_approaches>
 
 <critical_context>
-## Key Decisions
+## Key Files
 
-1. **OVERVIEW.md is single source of truth** for both project vision AND governance principles
-   - Constitution sections mapped to OVERVIEW.md sections
-   - No separate constitution/governance file needed
+| File | Purpose |
+|------|---------|
+| `skills/my-workflow/SKILL.md` | Core skill with principles and deviation rules |
+| `skills/my-workflow/workflows/*.md` | 5 workflow definitions |
+| `commands/{start,plan,build,stop}.md` | Thin command wrappers |
+| `planning/OVERVIEW.md` | Project vision + governance |
+| `planning/STATE.md` | Current state tracker |
+| `planning/BACKLOG.md` | Improvements backlog |
+| `planning/specs/my-workflow/PLAN.md` | Feature plan (all tasks done) |
 
-2. **Archive vs Delete** - User explicitly required ALL data be preserved
-   - Original files moved, not deleted
-   - constitution.md archived to planning/archive/
+## Workflow Commands
 
-3. **Manual migration vs /start** - Manual migration chosen because:
-   - Project has existing state and artifacts
-   - We know exact content needed (not interactive discovery)
-   - Preserves existing feature work
+| Command | Does |
+|---------|------|
+| `/start` | Initialize planning/ structure, create OVERVIEW.md |
+| `/plan` | Create feature spec in planning/specs/{feature}/ |
+| `/build` | Execute plan with deviation rules |
+| `/stop` | Create HANDOFF.md with session context |
 
-## my-workflow Skill Triggers
-The skill now auto-activates on this project because trigger condition is met:
-```yaml
-triggers:
-  - planning/ directory exists
-```
+## Deviation Rules (from SKILL.md)
 
-## Hook Configuration
-The PostToolUse hook in `.claude/hooks.json`:
-- Only triggers on Write|Edit operations
-- Should SKIP if file is in planning/ (to avoid loops)
-- Prompts to check if STATE.md needs updating
-
-## Project Structure After Migration
-```
-claude-customizations/
-├── CLAUDE.md                    # Root context (updated)
-├── .claude/
-│   ├── settings.local.json      # Existing
-│   └── hooks.json               # NEW - STATE.md auto-update hook
-├── planning/                    # NEW - my-workflow structure
-│   ├── OVERVIEW.md              # Project vision + governance
-│   ├── STATE.md                 # Current state (stage: building)
-│   ├── BACKLOG.md               # Improvements backlog
-│   ├── CLAUDE.md                # Planning context
-│   ├── archive/
-│   │   └── constitution.md      # Original constitution preserved
-│   └── specs/
-│       ├── 001-my-workflow/     # Feature docs (moved from specs/)
-│       └── templates/           # Templates (moved from specs/)
-├── skills/
-│   └── my-workflow/             # The workflow skill itself
-├── commands/                    # Workflow commands
-└── ...
-```
-
-## Branch Information
-- Branch: `feature/001-my-workflow`
-- Latest commit: `079631f feat: migrate project to my-workflow structure`
-- Pushed to: `origin/feature/001-my-workflow`
+| Rule | Deviation | Response |
+|------|-----------|----------|
+| 1 | Scope creep | Flag and skip |
+| 2 | Technical blocker | Smallest viable workaround |
+| 3 | Missing context | Ask one question at a time |
+| 4 | Wrong approach | Note concern, continue |
+| 5 | Emergency fix | Fix, document, return |
+| 6 | Gap detected | Gap Protocol (ASSESS→RETURN) |
 </critical_context>
 
 <current_state>
-## Deliverable Status
+## Status: Ready for PR
 
-| Item | Status |
-|------|--------|
-| planning/ directory structure | ✅ Complete |
-| OVERVIEW.md with constitution content | ✅ Complete |
-| STATE.md with current state | ✅ Complete |
-| BACKLOG.md | ✅ Complete |
-| planning/CLAUDE.md | ✅ Complete |
-| Root CLAUDE.md updated | ✅ Complete |
-| .claude/hooks.json installed | ✅ Complete |
-| specs/001-my-workflow/ moved | ✅ Complete |
-| specs/templates/ moved | ✅ Complete |
-| constitution.md archived | ✅ Complete |
-| Git commit and push | ✅ Complete |
+All feature implementation is complete:
+- [x] my-workflow skill created
+- [x] All 5 workflows implemented
+- [x] 4 command wrappers created
+- [x] Gap Protocol added
+- [x] Project migrated to use workflow
+- [x] Curation completed
+- [x] Documentation updated
 
-## What's Finalized
-- All migration changes committed and pushed
-- Git history preserved for all moved files
-- my-workflow skill will now auto-activate on this project
+## Uncommitted Work
+Directory consolidation from `001-my-workflow/` to `my-workflow/` - needs commit.
 
-## What's Pending
-- Verification tasks T046-T049, T053, T058-T059 (manual testing)
-- T059 can be tested on this project (hook verification)
-- T046-T048, T049, T053, T058 should be tested on a fresh project
+## Branch
+`feature/001-my-workflow` - up to date with origin
 
-## Open Questions
-- Should planning/specs/templates/ be consolidated with skills/my-workflow/templates/?
-- Should README.md be updated to reflect new structure?
-
-## Current Position
-Migration is 100% complete. The project is now aligned with my-workflow. Next step is either:
-1. Test T059 (hook verification) on this project, OR
-2. Create a fresh test project to verify T046-T049, T053, T058
+## Next Steps
+1. Commit the directory consolidation
+2. Update STATE.md stage to `stopping` or `complete`
+3. Create PR to merge into main
 </current_state>
