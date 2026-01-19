@@ -92,7 +92,35 @@ mkdir -p planning/specs/{feature-name}
 
 Use kebab-case for feature names (e.g., `user-authentication`, `api-integration`).
 
-### 5. Create spec.md (If Not From Brainstorm)
+### 5. Create Feature CLAUDE.md (Cascading Context)
+
+Create the feature-level context file that provides cascading context when working in this directory:
+
+```markdown
+# {Feature Name} Context
+
+## Specification
+
+@SPEC.md
+
+## Research & Decisions
+
+@RESEARCH.md
+
+## Implementation Plan
+
+@PLAN.md
+
+## Status
+
+Planning in progress.
+```
+
+Write to `planning/specs/{feature}/CLAUDE.md`.
+
+This file will be automatically updated as the feature progresses (e.g., "Implementation in progress", "Complete - pending testing").
+
+### 6. Create SPEC.md (If Not From Brainstorm)
 
 If brainstorm was skipped, gather requirements directly:
 
@@ -139,7 +167,7 @@ Write to `planning/specs/{feature}/SPEC.md`.
 
 **Validation before proceeding**: Ensure NO `[NEEDS CLARIFICATION]` markers remain. If any exist, resolve them with the user before creating PLAN.md.
 
-### 6. Create research.md (Decisions)
+### 7. Create RESEARCH.md (Decisions)
 
 Document approach decisions:
 
@@ -168,7 +196,7 @@ Document approach decisions:
 
 Write to `planning/specs/{feature}/RESEARCH.md`.
 
-### 7. Create PLAN.md (Plans Are Prompts)
+### 8. Create PLAN.md (Plans Are Prompts)
 
 The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
 
@@ -251,7 +279,9 @@ The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
 
 Write to `planning/specs/{feature}/PLAN.md`.
 
-### 8. Update STATE.md
+### 9. Update STATE.md and Feature CLAUDE.md
+
+Update `planning/STATE.md`:
 
 ```markdown
 # Project State
@@ -275,7 +305,15 @@ Write to `planning/specs/{feature}/PLAN.md`.
 - {Feature}: {approach chosen}
 ```
 
-### 9. Transition to Building
+Update `planning/specs/{feature}/CLAUDE.md` status:
+
+```markdown
+## Status
+
+Planning complete. Ready for /build.
+```
+
+### 10. Transition to Building
 
 After plan is created:
 
@@ -300,6 +338,7 @@ planning/
 ├── BACKLOG.md            # Persistent improvements backlog
 └── specs/
     └── {feature}/
+        ├── CLAUDE.md     # Feature context (cascading)
         ├── SPEC.md       # Requirements
         ├── RESEARCH.md   # Decisions
         └── PLAN.md       # Executable plan
@@ -359,6 +398,9 @@ Check prerequisites (planning/ exists?)
     v
 "What to plan?" + "Clarify first?" (optional)
     |
+    v
+Create feature directory + CLAUDE.md (cascading context)
+    |
     +-- Brainstorm --> brainstorm.md --> SPEC.md created
     |
     +-- Direct --> Gather requirements --> SPEC.md
@@ -370,7 +412,7 @@ Create RESEARCH.md (decisions)
 Create PLAN.md (2-3 tasks)
     |
     v
-Update STATE.md (stage: planning)
+Update STATE.md + feature CLAUDE.md (stage: planning)
     |
     v
 "Ready to /build?"

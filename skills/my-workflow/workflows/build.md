@@ -46,7 +46,9 @@ Extract:
 - Tasks with verification criteria
 - Success criteria
 
-### 4. Update STATE.md
+### 4. Update STATE.md and Feature CLAUDE.md
+
+Update `planning/STATE.md`:
 
 ```markdown
 **Stage**: building
@@ -62,6 +64,14 @@ Executing {feature} PLAN.md
 - [ ] Task 1: {description}
 - [ ] Task 2: {description}
 - [ ] {Feature} complete
+```
+
+Update `planning/specs/{feature}/CLAUDE.md` status:
+
+```markdown
+## Status
+
+Implementation in progress.
 ```
 
 ### 5. Execute Tasks via Subagent
@@ -291,7 +301,9 @@ Document what was built:
 
 Write to `planning/specs/{feature}/SUMMARY.md`.
 
-### 10. Update STATE.md
+### 10. Update STATE.md and Feature CLAUDE.md
+
+Update `planning/STATE.md`:
 
 ```markdown
 **Stage**: building (or stopping if done)
@@ -315,6 +327,14 @@ Write to `planning/specs/{feature}/SUMMARY.md`.
 
 - {Any discoveries during build}
 - See BACKLOG.md for logged enhancements
+```
+
+Update `planning/specs/{feature}/CLAUDE.md` status:
+
+```markdown
+## Status
+
+Implementation complete. See SUMMARY.md for details.
 ```
 
 ### 11. Completion Message

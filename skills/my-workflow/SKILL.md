@@ -161,12 +161,19 @@ Workflow definitions are in `workflows/` subdirectory:
 
 ```
 planning/
+├── CLAUDE.md        # Planning context (cascading)
 ├── OVERVIEW.md      # Project vision (created by /start)
 ├── STATE.md         # Living state (updated continuously)
 ├── BACKLOG.md       # Persistent improvements backlog
-├── ROADMAP.md       # Phases/tasks (created by /plan)
 ├── HANDOFF.md       # Session handoff (created by /stop)
-└── codebase/        # Brownfield analysis (if applicable)
+├── CODEBASE.md      # Brownfield analysis (if applicable)
+└── specs/
+    └── {feature}/
+        ├── CLAUDE.md    # Feature context (cascading)
+        ├── SPEC.md      # Requirements
+        ├── RESEARCH.md  # Decisions
+        ├── PLAN.md      # Executable plan
+        └── SUMMARY.md   # Implementation summary (after /build)
 ```
 
 ### Deviation Quick Check
