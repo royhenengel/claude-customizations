@@ -45,6 +45,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
   - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
 - [ ] Improve the diagram builder.
+- [ ] Document strategic decisions and rules automatically.
+      For example No title truncating, Numbered List for Suggestions etc
 
 ## Technical Debt
 
