@@ -50,5 +50,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Technical Debt
 
-- [ ] Consolidate duplicate template files (planning/specs/templates/ vs skills/my-workflow/templates/)
-- [ ] Review and update README.md to reflect new planning/ structure
+- [x] Consolidate duplicate template files (planning/specs/templates/ vs skills/my-workflow/templates/)
+  - **Resolution**: Moved legacy templates to planning/archive/legacy-templates/. The skills/my-workflow/templates/ is now the single source of truth.
+- [x] Review and update README.md to reflect new planning/ structure
+  - **Resolution**: Updated README.md with current structure, my-workflow commands, and planning/ directory documentation.

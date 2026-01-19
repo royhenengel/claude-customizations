@@ -45,29 +45,20 @@ Implement the my-workflow system - a personalized workflow with 4 commands (`/st
 </work_completed>
 
 <work_remaining>
-## Uncommitted Changes
 
-There are uncommitted changes that need to be committed:
+## Completed Since Last Handoff
 
-### Deleted (old structure)
-- `planning/specs/001-my-workflow/` - old directory with verbose files
-
-### Added (new structure)
-- `planning/specs/my-workflow/` - consolidated feature spec
-  - SPEC.md (condensed from original)
-  - RESEARCH.md (condensed from original)
-  - PLAN.md (task summary, all tasks done)
-  - curation-log.md (preserved)
-  - archive/ (old spec-checklist.md, spike-external-refs.md)
-
-**Action needed**: Commit the consolidation from `001-my-workflow/` to `my-workflow/`
+- [x] Directory consolidation committed (001-my-workflow/ → my-workflow/)
+- [x] Consolidated duplicate templates (moved legacy to planning/archive/legacy-templates/)
+- [x] Updated README.md to reflect new planning/ structure
+- [x] Updated STATE.md to reflect feature completion
 
 ## Optional Follow-ups (from BACKLOG.md)
 
-- [ ] Consolidate duplicate templates (planning/specs/templates/ vs skills/my-workflow/templates/)
-- [ ] Update README.md to reflect new planning/ structure
 - [ ] Audit skills vs agents distinction (which should be which?)
 - [ ] Revisit workflow task granularity philosophy
+- [ ] Create /curate command for skill organization
+- [ ] Add skill dependency validation
 </work_remaining>
 
 <attempted_approaches>
@@ -127,9 +118,11 @@ There are uncommitted changes that need to be committed:
 </critical_context>
 
 <current_state>
-## Status: Ready for PR
 
-All feature implementation is complete:
+## Status: Feature Complete
+
+All feature implementation and cleanup is complete:
+
 - [x] my-workflow skill created
 - [x] All 5 workflows implemented
 - [x] 4 command wrappers created
@@ -137,15 +130,15 @@ All feature implementation is complete:
 - [x] Project migrated to use workflow
 - [x] Curation completed
 - [x] Documentation updated
-
-## Uncommitted Work
-Directory consolidation from `001-my-workflow/` to `my-workflow/` - needs commit.
+- [x] Technical debt items resolved (templates consolidated, README updated)
+- [x] STATE.md updated to "maintaining" stage
 
 ## Branch
-`feature/001-my-workflow` - up to date with origin
+
+`feature/001-my-workflow` - ready for PR to main
 
 ## Next Steps
-1. Commit the directory consolidation
-2. Update STATE.md stage to `stopping` or `complete`
-3. Create PR to merge into main
+
+1. Commit remaining changes
+2. Create PR to merge into main
 </current_state>

@@ -48,8 +48,10 @@
 │     │                      checkpoint:decision | checkpoint:human-action    │
 │     │                                                                       │
 │     ├── Deviation? ──► Bug/Blocker ──► Auto-fix immediately                 │
+│     │               ├── Security gap ──► Auto-add critical fix              │
 │     │               ├── Architecture ──► STOP + ASK user                    │
-│     │               └── Enhancement ──► Log + continue                      │
+│     │               ├── Enhancement ──► Log to BACKLOG.md                   │
+│     │               └── Gap detected ──► Gap Protocol (see below)           │
 │     │                                                                       │
 │     ├── More tasks? ──► Context > 15% ──► Continue                          │
 │     │               ├── Context < 15% ──► Offer /stop                       │
@@ -97,11 +99,30 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                           DEVIATION RULES                                   │
 ├─────────────────────────┬───────────────────────────────────────────────────┤
-│ Trigger                 │ Action                                            │
+│ Rule                    │ Trigger → Action                                  │
 ├─────────────────────────┼───────────────────────────────────────────────────┤
-│ Bug/Blocker found       │ Auto-fix immediately                              │
-│ Security gap            │ Auto-add critical fix                             │
-│ Architecture change     │ STOP + ASK user for decision                      │
-│ Enhancement idea        │ Log to STATE.md, continue                         │
+│ 1. Auto-fix bugs        │ Broken behavior → Fix immediately, note STATE.md  │
+│ 2. Auto-add critical    │ Security/correctness gap → Add immediately        │
+│ 3. Auto-fix blockers    │ Can't proceed → Fix immediately                   │
+│ 4. Ask architectural    │ Major structural change → STOP + ASK user         │
+│ 5. Log enhancements     │ Nice-to-have idea → Append to BACKLOG.md          │
+│ 6. Gap Protocol         │ Prerequisite missing → See Gap Protocol below     │
 └─────────────────────────┴───────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           GAP PROTOCOL (Rule 6)                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  When a plan-modifying gap is detected:                                     │
+│                                                                             │
+│  1. PRESERVE ──► Push current task context to Gap Stack in STATE.md         │
+│  2. SCOPE ────► Assess impact: new task? different feature?                 │
+│  3. MODIFY ───► Update PLAN.md if needed (mark "Added via Gap Protocol")    │
+│  4. EXECUTE ──► Complete the gap task                                       │
+│  5. RETURN ───► Pop stack, show reminder, resume original task              │
+│                                                                             │
+│  For user additions ("also add X"): Show impact assessment first            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
