@@ -39,6 +39,11 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Skill versioning and changelog automation
 - [ ] Skill health check command
 - [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+- [ ] Audit agents
+- [ ] Audit skills vs agents distinction
+  - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
+  - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
+  - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
 
 ## Technical Debt
 
