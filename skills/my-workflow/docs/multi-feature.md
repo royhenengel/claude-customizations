@@ -37,6 +37,31 @@ The Feature Registry in STATE.md tracks all features:
 | api-rate | ready | 0/3 | - |
 ```
 
+## Progress Tracking
+
+**STATE.md is the single source of truth for progress.** PLAN.md stays static (the prompt).
+
+When `/build` starts:
+1. Copy task names from PLAN.md to STATE.md `Progress ({feature-name})` section
+2. All tasks start as `- [ ]` (pending)
+
+During execution:
+- `- [x]` = completed
+- `- [ ]` = pending
+- `- [~]` = in progress (with note about partial completion)
+
+```markdown
+## Progress (user-auth)
+
+- [x] Task 1: Setup auth schema
+- [x] Task 2: Create auth middleware
+- [~] Task 3: Implement session management (session store done, need token refresh)
+- [ ] Task 4: Add password reset
+- [ ] Task 5: Integration tests
+```
+
+The `n/m` counter in Feature Registry is derived from this checklist but written explicitly for quick scanning.
+
 ## Common Scenarios
 
 ### Planning Multiple Features Before Building

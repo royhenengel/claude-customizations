@@ -126,6 +126,8 @@ Extract:
 
 ### 4. Update STATE.md and Feature CLAUDE.md
 
+**Copy task list from PLAN.md to STATE.md** - this is the single source of truth for progress.
+
 Update `planning/STATE.md`:
 
 ```markdown
@@ -147,15 +149,17 @@ Update `planning/STATE.md`:
 
 ## Current Focus
 
-Executing {feature} PLAN.md
+Executing {feature} PLAN.md - Task 1
 
-## Progress
+## Progress ({feature-name})
 
-- [x] {Feature} designed
-- [ ] Task 1: {description}
-- [ ] Task 2: {description}
-- [ ] {Feature} complete
+- [ ] Task 1: {description from PLAN.md}
+- [ ] Task 2: {description from PLAN.md}
+- [ ] Task 3: {description from PLAN.md}
+...
 ```
+
+**Key**: Copy task names directly from PLAN.md Task Summary table. PLAN.md stays static (the prompt), STATE.md tracks completion.
 
 Update `planning/specs/{feature}/CLAUDE.md` status:
 
@@ -201,10 +205,19 @@ Apply deviation rules during execution:
 
 **After each task completes:**
 
-- Update STATE.md progress
-- Verify task completion criteria
-- Verify TDD was followed (tests written and passing)
-- Note any deviations
+1. **Update STATE.md Progress section**:
+   - Change `- [ ] Task N:` to `- [x] Task N:`
+   - Update `Progress: {n}/{m}` counter in Active Feature section
+   - Update Feature Registry table progress column
+   - Update `Current Focus` to next task
+
+2. Verify task completion criteria
+3. Verify TDD was followed (tests written and passing)
+4. Note any deviations in STATE.md Notes section
+
+**If task is partially complete** (e.g., interrupted by gap or context limit):
+- Use `- [~] Task N: {description} (progress note)` marker
+- Add note explaining what's done and what remains
 
 ### 6. Apply Deviation Rules
 

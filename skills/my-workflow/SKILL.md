@@ -166,10 +166,20 @@ The workflow tracks state in `planning/STATE.md`. Always read this file to under
 
 [What we're working on now]
 
-## Progress
+## Progress ({feature-name})
 
-- [x] Completed items
-- [ ] Pending items
+Task progress for the active feature. Copied from PLAN.md when `/build` starts.
+
+- [x] Task 1: {description}
+- [x] Task 2: {description}
+- [~] Task 3: {description} (partial progress note)
+- [ ] Task 4: {description}
+- [ ] Task 5: {description}
+
+Markers:
+- `[x]` = completed
+- `[ ]` = pending
+- `[~]` = in progress (with note)
 
 ## Decisions
 

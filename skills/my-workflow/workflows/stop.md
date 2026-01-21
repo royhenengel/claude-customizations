@@ -66,7 +66,17 @@ Collect:
 
 **Feature**: {active feature name}
 **Task**: {current task number and name}
-**Progress**: {what was completed before pause}
+**Task Progress**: {if partially complete, what's done on current task}
+
+## Task Checklist ({feature-name})
+
+Copy from STATE.md Progress section:
+
+- [x] Task 1: {description}
+- [x] Task 2: {description}
+- [~] Task 3: {description} (partial progress note if applicable)
+- [ ] Task 4: {description}
+- [ ] Task 5: {description}
 
 ## Session Summary
 
