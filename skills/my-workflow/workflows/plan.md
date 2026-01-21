@@ -196,9 +196,9 @@ Document approach decisions:
 
 Write to `planning/specs/{feature}/RESEARCH.md`.
 
-### 8. Create PLAN.md (Plans Are Prompts)
+### 8. Create PLAN.md (Detailed Documentation)
 
-The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
+Create a comprehensive implementation plan with as many tasks as needed for clarity.
 
 ```markdown
 # {Feature Name} Implementation Plan
@@ -215,21 +215,31 @@ The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
 
 ## Task Summary
 
-| # | Task | Type | Blocking |
-|---|------|------|----------|
-| 1 | {name} | auto | - |
-| 2 | {name} | checkpoint:human-verify | yes |
-| 3 | {name} | checkpoint:decision | yes |
+| # | Task | Type | Dependencies | Blocking |
+|---|------|------|--------------|----------|
+| 1 | {name} | auto | - | - |
+| 2 | {name} | auto | Task 1 | - |
+| 3 | {name} | checkpoint:decision | Tasks 1-2 | yes |
 
 ## Tasks
 
 ### Task 1: {Description}
 
 **Type**: auto
-**Files**: {files to touch}
-**Action**: {What to do}
-**Verify**: {How to verify it worked}
-**Done**: {Completion criteria}
+**Files**: {exact paths to create/modify}
+**Dependencies**: None
+
+**Context**: {Why this task exists, what problem it solves}
+
+**Action**:
+{Detailed implementation steps:
+- Technology choices and why
+- Edge cases to handle
+- Pitfalls to avoid
+- Code patterns to follow from existing codebase}
+
+**Verify**: {Executable command or test}
+**Done**: {Measurable acceptance criteria}
 
 ---
 
@@ -237,7 +247,11 @@ The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
 
 **Type**: checkpoint:human-verify
 **Blocking**: yes
-**Files**: {files to touch}
+**Files**: {exact paths}
+**Dependencies**: Task 1
+
+**Context**: {Why human verification is needed}
+
 **Action**: {What to do}
 **Verify**: {Manual verification steps for human}
 **Done**: {Human confirms completion}
@@ -248,6 +262,8 @@ The plan IS the execution prompt. Keep it atomic (2-3 tasks max).
 
 **Type**: checkpoint:decision
 **Blocking**: yes
+**Dependencies**: Tasks 1-2
+
 **Question**: {Decision that needs to be made}
 **Options**:
 | Option | Pros | Cons |
@@ -346,17 +362,29 @@ planning/
 
 ## Plan Principles
 
-### Plans Are Prompts
+### Comprehensive Documentation (GSD/CEK Style)
 
-PLAN.md is not documentation that becomes a prompt - it IS the prompt.
+Document everything needed for implementation. PLAN.md should contain enough detail that any developer (or Claude session) can execute it without ambiguity.
 
 Contains:
+
 - Objective (what and why)
 - Context (@file references)
-- Task Summary (quick overview table)
-- Tasks with rich types (auto, checkpoint:human-verify, checkpoint:decision, checkpoint:human-action)
+- Task Summary (overview table with dependencies)
+- Tasks with full context (why, how, edge cases, pitfalls)
 - Verification (overall checks)
 - Success criteria (measurable)
+
+### Task Detail Level
+
+Each task should include:
+
+- **Context**: Why this task exists
+- **Action**: Detailed steps including technology choices, edge cases, pitfalls
+- **Files**: Exact paths to create/modify
+- **Dependencies**: Which tasks must complete first
+- **Verify**: Executable command or test
+- **Done**: Measurable acceptance criteria
 
 ### Task Types
 
@@ -373,15 +401,26 @@ Contains:
 - **Non-blocking**: Logged for review, execution continues
 - **Decision gates**: Present options with pros/cons, wait for choice
 
-### Scope Control (2-3 Tasks Max)
+### Context Health Awareness
 
 Quality degrades at ~40-50% context, not 80%.
 
-Split complex work into multiple small plans:
-- `{feature}/01-PLAN.md` - First chunk (2-3 tasks)
-- `{feature}/02-PLAN.md` - Second chunk (2-3 tasks)
+For large features, use numbered plan files:
 
-Better to have 5 small high-quality plans than 1 large degraded plan.
+- `{feature}/01-PLAN.md` - First phase
+- `{feature}/02-PLAN.md` - Second phase
+
+Create a HANDOFF.md between phases if context is filling.
+
+### Optional Artifacts
+
+For complex features, create additional documentation:
+
+| Artifact | When to Create | Purpose |
+|----------|----------------|---------|
+| `data-model.md` | Features with entities/relationships | Document schema, validation rules |
+| `contract.md` | Features with APIs | Document endpoints, request/response |
+| `design-options.md` | Major architectural decisions | Compare 2-3 approaches with trade-offs |
 
 ### YAGNI Ruthlessly
 
@@ -409,7 +448,7 @@ Create feature directory + CLAUDE.md (cascading context)
 Create RESEARCH.md (decisions)
     |
     v
-Create PLAN.md (2-3 tasks)
+Create PLAN.md (detailed tasks)
     |
     v
 Update STATE.md + feature CLAUDE.md (stage: planning)

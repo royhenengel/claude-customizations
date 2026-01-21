@@ -8,31 +8,14 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [ ] Revisit workflow task granularity (see 001-my-workflow migration)
-  - **Issue**: Original tasks.md had 60 tasks across 7 phases with dependency tracking, spike references, and per-task verification. New PLAN.md condenses to ~5 high-level tasks.
-  - **Observation**: For completed features this is fine (history captured), but during active development the detailed breakdown may be valuable.
-  - **Questions**: Is "plans as prompts" philosophy too aggressive? Should there be a separate detailed task tracker?
-  - **Context from previous chat**:
-      Looking at the original tasks.md, it had 60 detailed tasks across 7 phases with     extensive implementation notes, checkpoints, and dependency tracking. The new PLAN.md format is designed to be much more concise - just 2-3 tasks max per plan, focused on execution.
-
-      The issue is that the original feature was a large, multi-phase effort that doesn't fit the new "plans are prompts" philosophy. The detailed task breakdown was useful during implementation but isn't appropriate for the new format.
-
-      However, since this feature is already complete, the PLAN.md should serve as a historical record. Let me check what key information was lost and whether it matters:
-
-      Lost from tasks.md:
-
-      60 individual task IDs with status tracking
-      Phase-by-phase breakdown (7 phases)
-      Detailed dependency graph
-      Spike documentation references
-      Curation results summary
-      Per-task verification notes
-      What matters for a completed feature:
-
-      What was done (summary) ✓
-      Key decisions made → in RESEARCH.md ✓
-      Final verification → in PLAN.md ✓
-      For a completed feature, the detailed task tracking isn't needed - it served its    purpose during implementation. The condensed PLAN.md captures the essence.
+- [x] Revisit workflow task granularity (see 001-my-workflow migration)
+  - **Resolution**: Decided to adopt GSD/CEK "everything documented" style instead of "plans as prompts" philosophy.
+  - **Changes made**:
+    - Removed 2-3 task cap from plan.md workflow
+    - Enhanced task template with Context, Dependencies, detailed Action sections
+    - Added optional artifacts (data-model.md, contract.md, design-options.md)
+    - Updated SKILL.md with new project structure
+  - **Decision**: Document everything needed for implementation. Plans should be comprehensive enough that any developer (or Claude session) can execute without ambiguity.
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
@@ -47,6 +30,16 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Improve the diagram builder.
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
+- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
+- [ ] Add lightweight mode to My-Workflow
+  - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
+  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
+  - **Triggers to consider**: Single file change, quick fix, less than 3 steps
+  - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
+- [ ] Consolidate CLAUDE.md and claude-code-prefs.md relationship
+  - **Current**: CLAUDE.md = auto-loaded essentials, claude-code-prefs.md = detailed reference
+  - **Question**: Is this separation clear? Should some content move between them?
+  - **Deferred**: Works for now, revisit if confusion arises
 
 ## Technical Debt
 

@@ -159,7 +159,7 @@ Workflow definitions are in `workflows/` subdirectory:
 
 ### Project Structure
 
-```
+```text
 planning/
 ├── CLAUDE.md        # Planning context (cascading)
 ├── OVERVIEW.md      # Project vision (created by /start)
@@ -169,11 +169,14 @@ planning/
 ├── CODEBASE.md      # Brownfield analysis (if applicable)
 └── specs/
     └── {feature}/
-        ├── CLAUDE.md    # Feature context (cascading)
-        ├── SPEC.md      # Requirements
-        ├── RESEARCH.md  # Decisions
-        ├── PLAN.md      # Executable plan
-        └── SUMMARY.md   # Implementation summary (after /build)
+        ├── CLAUDE.md       # Feature context (cascading)
+        ├── SPEC.md         # Requirements
+        ├── RESEARCH.md     # Decisions
+        ├── PLAN.md         # Executable plan (detailed tasks)
+        ├── data-model.md   # (optional) Entity schemas
+        ├── contract.md     # (optional) API specifications
+        ├── design-options.md # (optional) Architectural alternatives
+        └── SUMMARY.md      # Implementation summary (after /build)
 ```
 
 ### Deviation Quick Check
@@ -208,3 +211,32 @@ Monitor context usage. When approaching 50%:
 3. Suggest `/stop` to user
 4. Create clean HANDOFF.md
 5. Resume fresh next session
+
+---
+
+## Relationship with Built-in Plan Mode
+
+My-Workflow and Claude Code's built-in Plan Mode are **complementary, not conflicting**.
+
+| Aspect | My-Workflow | Built-in Plan Mode |
+|--------|-------------|-------------------|
+| **Scope** | Full project management | Single structured task |
+| **Artifacts** | In project (`planning/`) | In `~/.claude/plans/` |
+| **Session scope** | Multi-session with handoffs | Usually single session |
+| **When to use** | Complex features, ongoing work | Quick structured tasks, one-off planning |
+
+**Use My-Workflow** when:
+
+- Work spans multiple sessions
+- You need persistent artifacts in the project
+- Full deviation rules and gap protocol matter
+- You want comprehensive documentation
+
+**Use Built-in Plan Mode** when:
+
+- Quick structured task that fits in one session
+- You want Claude to plan before executing
+- You don't need persistent project artifacts
+- Simpler alternative for smaller tasks
+
+Both can coexist. You might use Plan Mode for a quick refactoring task while using My-Workflow for a larger feature.

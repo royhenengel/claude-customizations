@@ -55,6 +55,34 @@ When working in this repository, follow these principles:
 
 **Adding Commands**: Create `commands/my-command.md` following existing patterns.
 
+## Behavioral Rules
+
+### Uncertainty Protocol
+
+When performing bulk operations or making decisions that affect multiple items:
+
+- STOP and flag uncertain items BEFORE making any changes
+- Never assume based on surface-level patterns (keywords, names, etc.)
+- Present uncertain items to user for clarification first
+- Act only after receiving explicit confirmation
+- If more than 20% of items are uncertain, question whether the approach itself is correct
+
+This applies universally: code changes, file organization, data categorization, refactoring, or any batch operation.
+
+### Performance Tips
+
+For multi-step data operations across MCP servers (querying, filtering, aggregating), prefer using **code-executor's `execute_code` tool** instead of calling MCP tools directly. This reduces token usage by ~98% by:
+
+- Loading tool schemas on-demand instead of all upfront
+- Filtering/transforming data in JavaScript before returning to context
+- Using native loops instead of chained tool calls
+
+Example use cases:
+
+- Query 100 Notion resources, filter to 5 videos → use code-executor
+- Search filesystem then cross-reference with memory → use code-executor
+- Single tool call with small response → call MCP tool directly
+
 ## Planning
 
 For detailed project planning, specifications, and current state:
