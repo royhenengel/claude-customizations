@@ -25,7 +25,22 @@ A personalized workflow system with 4 commands (`/start`, `/plan`, `/build`, `/s
 
 These principles are always active when this skill loads.
 
-### 1. Scope Control
+### 1. Development Discipline
+
+**Test-Driven Development (TDD)**: No production code without a failing test first.
+
+- RED → Verify RED → GREEN → Verify GREEN → REFACTOR
+- Execute test tasks BEFORE implementation tasks
+- Watch tests fail before implementing (mandatory)
+
+**Clean Architecture**: Library-first, domain-driven design.
+
+- Search for existing solutions before writing custom code
+- Avoid `utils`, `helpers`, `common` - use domain-specific names
+- Separate concerns: business logic ≠ UI ≠ data access
+- Size limits: functions < 50 lines, files < 200 lines
+
+### 2. Scope Control
 
 Quality degrades at ~40-50% context - not 80%.
 
@@ -42,7 +57,7 @@ Quality degrades at ~40-50% context - not 80%.
 
 **Practical rule:** If you notice context filling, suggest `/stop` to create HANDOFF.md before quality degrades.
 
-### 2. Deviation Rules
+### 3. Deviation Rules
 
 During execution, handle discoveries automatically:
 
@@ -59,7 +74,7 @@ During execution, handle discoveries automatically:
 
 **Result:** Flow never breaks. Bugs get fixed. Scope stays controlled. Complete transparency.
 
-### 3. Handoff Protocol
+### 4. Handoff Protocol
 
 Before context fills or when pausing, create comprehensive handoff with:
 
@@ -71,7 +86,7 @@ Before context fills or when pausing, create comprehensive handoff with:
 
 Store in `planning/HANDOFF.md`. This enables clean session transitions.
 
-### 4. Stage Awareness
+### 5. Stage Awareness
 
 Read STATE.md to understand current stage. Adapt behavior accordingly:
 
@@ -178,6 +193,16 @@ planning/
         ├── design-options.md # (optional) Architectural alternatives
         └── SUMMARY.md      # Implementation summary (after /build)
 ```
+
+### Development Discipline Quick Check
+
+Before writing code during `/build`:
+
+1. **Test first?** → Write failing test, watch it fail
+2. **Library exists?** → Search before writing custom code
+3. **Good name?** → No utils/helpers/common - use domain names
+4. **Separated concerns?** → Business logic ≠ UI ≠ data access
+5. **Size OK?** → Functions < 50 lines, files < 200 lines
 
 ### Deviation Quick Check
 

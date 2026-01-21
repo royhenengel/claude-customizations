@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Execute the plan with subagent delegation and deviation rules.
+Execute the plan with subagent delegation, deviation rules, and development discipline (TDD + Clean Architecture).
 
 ## When to Use
 
@@ -13,6 +13,58 @@ Execute the plan with subagent delegation and deviation rules.
 ## Entry Point
 
 User invokes `/build` or asks to execute/implement the plan.
+
+## Development Discipline
+
+**These principles apply to ALL task execution during build.**
+
+### Test-Driven Development (TDD)
+
+The Iron Law: **NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST**
+
+For each task involving code changes:
+
+1. **RED** - Write failing test first (one behavior per test)
+2. **Verify RED** - Watch test fail (MANDATORY - never skip)
+3. **GREEN** - Write minimal code to pass
+4. **Verify GREEN** - Confirm test passes
+5. **REFACTOR** - Clean up (only after green)
+
+Task Execution Order: Execute test tasks BEFORE their corresponding implementation tasks.
+
+Common Rationalizations (All Wrong):
+
+| Excuse                 | Reality                                    |
+| ---------------------- | ------------------------------------------ |
+| "Too simple to test"   | Simple code breaks. Test takes 30 seconds. |
+| "I'll test after"      | Tests passing immediately prove nothing.   |
+| "TDD will slow me down"| TDD is faster than debugging.              |
+
+### Clean Architecture
+
+Library-First Approach: Always search for existing solutions before writing custom code.
+
+- Check npm/package managers for existing libraries
+- Consider third-party APIs for common functionality
+- Write custom code only for domain-specific logic
+
+Naming Conventions:
+
+| Avoid                                  | Prefer                                 |
+| -------------------------------------- | -------------------------------------- |
+| `utils`, `helpers`, `common`, `shared` | `OrderCalculator`, `UserAuthenticator` |
+
+Separation of Concerns:
+
+- Do NOT mix business logic with UI components
+- Keep database queries out of controllers
+- Maintain clear boundaries between contexts
+
+Size Limits:
+
+- Functions < 50 lines
+- Files < 200 lines
+- Components < 80 lines
 
 ## Steps
 
@@ -78,6 +130,8 @@ Implementation in progress.
 
 For each task in PLAN.md:
 
+**Task Execution Order (TDD)**: If the plan has separate test and implementation tasks, execute test tasks BEFORE their corresponding implementation tasks.
+
 **Launch Task tool with developer subagent:**
 
 ```
@@ -92,6 +146,12 @@ Done when: {completion criteria}
 Context:
 {Paste relevant context from PLAN.md @references}
 
+Development Discipline:
+- Follow TDD: Write failing test first, verify it fails, write minimal code to pass
+- Library-first: Search for existing solutions before writing custom code
+- Clean Architecture: Separate concerns, use domain-specific names (not utils/helpers)
+- Size limits: Functions < 50 lines, files < 200 lines
+
 Apply deviation rules during execution:
 1. Auto-fix bugs - fix immediately, note in response
 2. Auto-add critical - security/correctness gaps, fix immediately
@@ -101,8 +161,10 @@ Apply deviation rules during execution:
 ```
 
 **After each task completes:**
+
 - Update STATE.md progress
 - Verify task completion criteria
+- Verify TDD was followed (tests written and passing)
 - Note any deviations
 
 ### 6. Apply Deviation Rules
@@ -256,9 +318,53 @@ After all tasks complete:
 
 - Run verification steps from PLAN.md
 - Check success criteria
-- Confirm all tests pass (if applicable)
+- Confirm all tests pass
 
-### 9. Create SUMMARY.md
+### 9. Quality Review
+
+Launch 3 parallel review agents focusing on different aspects:
+
+**Agent 1 - Code Quality:**
+
+```text
+Review the implementation for {feature}. Focus on:
+- Simplicity and DRY principles
+- Elegance and readability
+- Code size limits (functions < 50 lines, files < 200 lines)
+
+Files changed: {list from implementation}
+```
+
+**Agent 2 - Correctness:**
+
+```text
+Review the implementation for {feature}. Focus on:
+- Bugs and functional correctness
+- Edge cases and error handling
+- Test coverage and quality
+
+Files changed: {list from implementation}
+```
+
+**Agent 3 - Architecture:**
+
+```text
+Review the implementation for {feature}. Focus on:
+- Clean Architecture alignment (separation of concerns)
+- Naming conventions (no utils/helpers/common)
+- Project conventions and patterns
+
+Files changed: {list from implementation}
+```
+
+**After reviews complete:**
+
+1. Consolidate findings by severity (Critical, Important, Minor)
+2. Present findings to user with recommendation
+3. Ask: "Fix now, fix later (add to BACKLOG.md), or proceed as-is?"
+4. If fixing, launch developer subagent to address issues
+
+### 10. Create SUMMARY.md
 
 Document what was built:
 
@@ -301,7 +407,7 @@ Document what was built:
 
 Write to `planning/specs/{feature}/SUMMARY.md`.
 
-### 10. Update STATE.md and Feature CLAUDE.md
+### 11. Update STATE.md and Feature CLAUDE.md
 
 Update `planning/STATE.md`:
 
@@ -337,7 +443,7 @@ Update `planning/specs/{feature}/CLAUDE.md` status:
 Implementation complete. See SUMMARY.md for details.
 ```
 
-### 11. Completion Message
+### 12. Completion Message
 
 ```
 Build complete!
