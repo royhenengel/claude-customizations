@@ -30,6 +30,14 @@
   7. Regression checklist - generated
   8. Convention check - evaluated
 
+## Commit
+
+```text
+92aaeaf feat: add /fix command for thorough fix workflow
+```
+
+Pushed to `feature/001-my-workflow` on 2026-01-21.
+
 ## Notes
 
 - Real-world testing deferred to actual issue occurrence
