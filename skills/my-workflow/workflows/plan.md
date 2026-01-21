@@ -16,7 +16,7 @@ User invokes `/plan` or asks to plan work.
 
 ## Steps
 
-### 1. Check Prerequisites
+### 1. Check Prerequisites and Active Features
 
 ```bash
 ls planning/STATE.md 2>/dev/null || echo "No STATE.md - run /start first"
@@ -24,6 +24,27 @@ ls planning/CLAUDE.md 2>/dev/null || echo "No project context"
 ```
 
 If no `planning/` structure exists, suggest running `/start` first.
+
+**Check for active features** by reading STATE.md Feature Registry:
+
+If another feature has status `active` or `paused`:
+
+```text
+You have an active feature: {feature-name} ({status}, {progress})
+
+Planning options:
+1. Pause current feature and plan new one
+2. Add to BACKLOG.md (plan later)
+3. Quick draft (SPEC.md only, continue current work)
+
+Which would you prefer?
+```
+
+- **Option 1**: Update Feature Registry (current → paused), then proceed with planning
+- **Option 2**: Add brief description to BACKLOG.md under Features, return to current work
+- **Option 3**: Create only `planning/specs/{feature}/SPEC.md` with status `drafted`, add to Feature Registry, return to current work
+
+If no active features (or user chooses Option 1), continue to Step 2.
 
 ### 2. Show Backlog and Understand What to Plan
 
@@ -43,10 +64,18 @@ Quick Wins:
 - [ ] {item 2}
 
 Features:
-- [ ] {item 3}
+  Ready to Plan:
+  - [ ] {item 3}
+  - [ ] {item 4} (depends: {other-feature})
+
+  Drafted:
+  - [ ] {item 5} - has SPEC.md, needs PLAN.md
+
+  Ideas:
+  - [ ] {item 6} - needs refinement
 
 Technical Debt:
-- [ ] {item 4}
+- [ ] {item 7}
 
 What would you like to plan?
 
@@ -54,6 +83,13 @@ What would you like to plan?
 2. Add something new
 3. Continue from existing spec
 ```
+
+**Dependency notation**: Use `(depends: feature-name)` to indicate a feature that must complete first. Multiple dependencies: `(depends: feature-a, feature-b)`.
+
+**Feature status in BACKLOG.md**:
+- **Ready to Plan**: Has clear requirements, can create PLAN.md
+- **Drafted**: Has SPEC.md but no PLAN.md yet
+- **Ideas**: Needs refinement before planning
 
 **If BACKLOG.md is empty or doesn't exist**:
 
@@ -305,6 +341,19 @@ Update `planning/STATE.md`:
 **Stage**: planning
 **Last Updated**: {timestamp}
 
+## Active Feature
+
+**Name**: {feature-name}
+**Status**: ready
+**Progress**: 0/{N}
+
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| {feature-name} | ready | 0/{N} | {deps or -} |
+| {other features...} | ... | ... | ... |
+
 ## Current Focus
 
 {Feature name} - planning complete, ready for build
@@ -320,6 +369,11 @@ Update `planning/STATE.md`:
 
 - {Feature}: {approach chosen}
 ```
+
+**Feature Registry updates**:
+- Add new feature with status `ready` and task count from PLAN.md
+- If feature has dependencies, record them in the Dependencies column
+- Remove from BACKLOG.md if it was picked from there
 
 Update `planning/specs/{feature}/CLAUDE.md` status:
 

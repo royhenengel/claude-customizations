@@ -97,6 +97,45 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 | **building** | Focus on execution, follow the plan, apply deviation rules |
 | **stopping** | Focus on handoff, ensure all context is captured |
 
+### 6. Multi-Feature Management
+
+At any moment, only **ONE feature can be actively building**. Multiple features can be planned or paused, but execution focus remains singular.
+
+**Feature Lifecycle States:**
+
+```text
+[drafted] → [ready] → [active] → [complete]
+                ↓         ↓
+            [blocked]  [paused]
+```
+
+| State | Description |
+|-------|-------------|
+| **drafted** | SPEC.md exists but no PLAN.md yet |
+| **ready** | PLAN.md approved, waiting to build |
+| **active** | Currently executing (`/build` in progress) |
+| **paused** | Started, then suspended (via `/stop` or switching) |
+| **blocked** | Depends on another feature that isn't complete |
+| **complete** | All tasks verified |
+
+**Feature Registry** (tracked in STATE.md):
+
+```markdown
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| user-auth | active | 3/5 | - |
+| dashboard | blocked | 0/4 | user-auth |
+| api-rate | ready | 0/3 | - |
+```
+
+**Switching Rules:**
+
+- `/plan` while building: Offer to pause current feature or queue new one
+- `/build` with multiple ready: Show registry, filter blocked, offer selection
+- Blocked features cannot be selected until dependencies complete
+
 ---
 
 ## Stage Awareness
@@ -111,20 +150,37 @@ The workflow tracks state in `planning/STATE.md`. Always read this file to under
 **Stage**: [starting|planning|building|stopping]
 **Last Updated**: [timestamp]
 
+## Active Feature
+
+**Name**: [feature name or "None"]
+**Status**: [drafted|ready|active|paused|blocked|complete]
+**Progress**: [n/m tasks or "-"]
+
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| {name} | {state} | {n/m} | {deps or -} |
+
 ## Current Focus
+
 [What we're working on now]
 
 ## Progress
+
 - [x] Completed items
 - [ ] Pending items
 
 ## Decisions
+
 - [Decision]: [Rationale]
 
 ## Blockers
+
 - [Any blocking issues]
 
 ## Notes
+
 - [Discovery or deviation notes from execution]
 ```
 

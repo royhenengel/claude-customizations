@@ -55,6 +55,19 @@ Collect:
 **Created**: {timestamp}
 **Stage**: {current stage from STATE.md}
 
+## Feature Registry Snapshot
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| {active-feature} | paused | {n}/{m} | - |
+| {other features...} | {status} | {progress} | {deps} |
+
+## Resume Point
+
+**Feature**: {active feature name}
+**Task**: {current task number and name}
+**Progress**: {what was completed before pause}
+
 ## Session Summary
 
 {Brief description of what was worked on this session}
@@ -126,6 +139,19 @@ Write to `planning/HANDOFF.md`.
 ```markdown
 **Stage**: stopping
 **Last Updated**: {timestamp}
+
+## Active Feature
+
+**Name**: {feature-name}
+**Status**: paused
+**Progress**: {n}/{m}
+
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| {feature-name} | paused | {n}/{m} | - |
+| {other features...} | {status} | {progress} | {deps} |
 
 ## Current Focus
 

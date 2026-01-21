@@ -21,7 +21,29 @@ ls planning/HANDOFF.md 2>/dev/null && echo "HANDOFF exists - resuming"
 ls planning/STATE.md 2>/dev/null && echo "STATE exists - project in progress"
 ```
 
-**If HANDOFF.md exists**: Read it first, summarize context, then offer options:
+**If HANDOFF.md exists**: Read it first, check for Feature Registry, then offer options:
+
+**If Feature Registry exists in HANDOFF.md** (multi-feature session):
+
+```text
+Found HANDOFF.md from previous session.
+
+Feature Registry:
+| Feature | Status | Progress |
+|---------|--------|----------|
+| {feature-1} | paused | {n}/{m} |
+| {feature-2} | ready | 0/{m} |
+| {feature-3} | blocked | 0/{m} |
+
+Last session ended while building: {paused feature name} (Task {n}/{m})
+
+What would you like to do?
+1. Resume {paused feature} (continue where you left off)
+2. Switch to {ready feature} (keep {paused feature} paused)
+3. Start fresh (will archive planning/ to planning.bak/)
+```
+
+**If single feature or no registry** (legacy/simple session):
 
 ```text
 Found HANDOFF.md from previous session.
@@ -81,6 +103,18 @@ See STATE.md for current stage and focus.
 **Stage**: starting
 **Last Updated**: {timestamp}
 
+## Active Feature
+
+**Name**: None
+**Status**: -
+**Progress**: -
+
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| (none yet) | - | - | - |
+
 ## Current Focus
 
 Defining project overview
@@ -120,6 +154,12 @@ Defining project overview
 ## Quick Wins
 
 ## Features
+
+### Ready to Plan
+
+### Drafted
+
+### Ideas
 
 ## Technical Debt
 ```

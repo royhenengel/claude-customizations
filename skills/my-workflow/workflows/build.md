@@ -79,14 +79,40 @@ If no plan exists, suggest running `/plan` first.
 
 ### 2. Identify Plan to Execute
 
-If multiple plans exist:
-```
-Found plans:
-1. planning/specs/user-auth/PLAN.md
-2. planning/specs/api-routes/PLAN.md
+Read `planning/STATE.md` Feature Registry to understand available features.
 
-Which plan should I execute?
+**If a paused feature exists**, offer to resume:
+
+```text
+Found paused feature: {feature-name} (Task {n}/{m})
+
+Options:
+1. Resume {feature-name} (continue where you left off)
+2. Choose a different feature
 ```
+
+**If multiple ready features exist**, show Feature Registry:
+
+```text
+Found features:
+
+| # | Feature | Status | Tasks | Dependencies |
+|---|---------|--------|-------|--------------|
+| 1 | user-auth | ready | 5 | - |
+| 2 | api-routes | ready | 3 | - |
+| 3 | dashboard | blocked | 4 | user-auth |
+
+Note: Feature 3 is blocked (depends on user-auth).
+
+Which feature would you like to build?
+- Enter number
+- "continue" to resume paused feature (if any)
+- "first" to build first available (non-blocked)
+```
+
+**Blocked features**: Cannot be selected. Show reason (dependency not complete).
+
+**Single ready feature**: Auto-select it, confirm with user.
 
 ### 3. Load Plan as Execution Prompt
 
@@ -105,6 +131,19 @@ Update `planning/STATE.md`:
 ```markdown
 **Stage**: building
 **Last Updated**: {timestamp}
+
+## Active Feature
+
+**Name**: {feature-name}
+**Status**: active
+**Progress**: 0/{N}
+
+## Feature Registry
+
+| Feature | Status | Progress | Dependencies |
+|---------|--------|----------|--------------|
+| {feature-name} | active | 0/{N} | - |
+| {other features...} | {status} | {progress} | {deps} |
 
 ## Current Focus
 
@@ -271,25 +310,37 @@ Update STATE.md:
 
 When user requests an addition mid-build ("also add X", "can you also..."):
 
+**First, assess if this is same-feature or cross-feature:**
+
+- **Same feature**: Enhancement to current feature (e.g., "also add validation" while building auth)
+- **Cross-feature**: Different concern entirely (e.g., "also build the dashboard" while building auth)
+
 **Always show impact before modifying the plan:**
 
 ```text
-Adding {X} to the current plan would:
-- Add ~{N} task(s) to PLAN.md
+You requested: {X}
+
+Assessment: {Same feature / Cross-feature}
+
+Adding this would:
+- Add ~{N} task(s)
 - Affect: {list affected tasks, if any}
 
 Options:
 1. Add to current plan (extends this build)
 2. Add to BACKLOG.md (handle in next plan)
-3. Create separate plan (parallel feature)
+3. Create separate plan (new feature in Feature Registry)
 
 Which would you prefer?
 ```
 
+**Cross-feature additions**: Present all 3 options without recommendation. Let user decide based on context. If they choose Option 1, warn that mixing features can complicate the build.
+
 Based on user choice:
-- **Option 1**: Use Gap Protocol to insert (Step 2-6)
-- **Option 2**: Add to BACKLOG.md, continue current task
-- **Option 3**: Create new spec directory, continue current task
+
+- **Option 1**: Use Gap Protocol to insert (Step 2-6). For cross-feature, update Feature Registry to note this feature was merged.
+- **Option 2**: Add to BACKLOG.md under appropriate section, continue current task
+- **Option 3**: Create new `planning/specs/{feature}/` directory with SPEC.md (status: drafted), add to Feature Registry, continue current task
 
 ### 7. Monitor Context Health
 
