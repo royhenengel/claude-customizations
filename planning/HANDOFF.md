@@ -1,144 +1,65 @@
-<original_task>
-Implement the my-workflow system - a personalized workflow with 4 commands (`/start`, `/plan`, `/build`, `/stop`) backed by a `my-workflow` skill. Also migrate the claude-customizations project itself to use this workflow (dogfooding).
-</original_task>
+# Session Handoff
 
-<work_completed>
-## Feature Implementation Complete
+**Created**: 2026-01-21
+**Branch**: feature/001-my-workflow
 
-### Core Deliverables (all done)
-1. **my-workflow skill** - `skills/my-workflow/SKILL.md`
-   - Core principles: Scope Control, Deviation Rules, Handoff Protocol
-   - Trigger: `planning/` directory exists
-   - 5 workflows: start, brainstorm, plan, build, stop
+## Context Summary
 
-2. **Command wrappers** - thin commands that invoke skill workflows
-   - `commands/start.md` → project initialization
-   - `commands/plan.md` → spec-driven planning
-   - `commands/build.md` → execution with deviation rules
-   - `commands/stop.md` → handoff creation
+Designed and implemented `/fix` command - a thorough fix workflow that consults git history, respects project conventions, performs root cause analysis, and prevents regressions.
 
-3. **Gap Protocol** - Rule 6 for handling plan-modifying gaps during `/build`
-   - 6 steps: ASSESS, PRESERVE, SCOPE, MODIFY, EXECUTE, RETURN
-   - Gap Stack in STATE.md tracks context
-   - User additions get impact assessment before modifying plan
+## Current State
 
-### Project Migration (dogfooding)
-- Created `planning/` directory structure (OVERVIEW.md, STATE.md, BACKLOG.md, CLAUDE.md)
-- Migrated constitution.md content into OVERVIEW.md
-- Moved specs/001-my-workflow/ → planning/specs/my-workflow/
-- Archived original verbose task files to archive/
-- Populated root CLAUDE.md with project context
-- Installed .claude/hooks.json for STATE.md auto-updates
+### Git Status
 
-### Curation Results
-- Curated skills: 38 active, 16 moved to reference/
-- Curated commands: 62 active, 7 moved to reference/
-- Restored taches-create-plans skill to reference/ for future reference
+```
+ M planning/BACKLOG.md
+ M planning/STATE.md
+?? commands/fix.md
+?? planning/specs/fix-command/
+?? planning/specs/workflow-test-scenario/
+```
 
-### Recent Commits (feature/001-my-workflow)
-- `234edac` docs: populate root CLAUDE.md with project context
-- `f8e3af9` chore: restore taches-create-plans and related commands to reference
-- `4bd1cd2` chore: consolidate 001-my-workflow to proper my-workflow structure
-- `85cc754` feat: add Gap Protocol for handling plan-modifying gaps during /build
-- `3d67902` fix: update /handoff command to write to planning/HANDOFF.md
-- `079631f` feat: migrate project to my-workflow structure
-</work_completed>
+### Recent Commits
 
-<work_remaining>
+```
+bf35d2d feat: wire TDD and Clean Architecture into my-workflow
+d23c70a docs: add SUMMARY.md and migrate curation-log content
+6a41c19 feat: migrate Old CLAUDE.md and adopt GSD/CEK documentation style
+cf313cd feat: complete feature 001-my-workflow with technical debt cleanup
+33a1177 docs: add auto-document strategic decisions to backlog
+```
 
-## Completed Since Last Handoff
+### Uncommitted Changes
 
-- [x] Directory consolidation committed (001-my-workflow/ → my-workflow/)
-- [x] Consolidated duplicate templates (moved legacy to planning/archive/legacy-templates/)
-- [x] Updated README.md to reflect new planning/ structure
-- [x] Updated STATE.md to reflect feature completion
+- `commands/fix.md` - new /fix command (untracked)
+- `planning/specs/fix-command/` - spec, research, plan, summary (untracked)
+- `planning/BACKLOG.md` - added auto-trigger improvement item
+- `planning/STATE.md` - updated to maintaining stage
 
-## Optional Follow-ups (from BACKLOG.md)
+## Progress This Session
 
-- [ ] Audit skills vs agents distinction (which should be which?)
-- [ ] Revisit workflow task granularity philosophy
-- [ ] Create /curate command for skill organization
-- [ ] Add skill dependency validation
-</work_remaining>
-
-<attempted_approaches>
-## Design Decisions Made
-
-### 1. Plans-as-Prompts Philosophy
-- PLAN.md has max 2-3 tasks, each task is a prompt for Claude
-- Detailed task breakdown (like original 60-task tasks.md) lives in BACKLOG.md notes
-- For completed features, condensed format is preferred
-
-### 2. Directory Naming
-- Changed from `001-my-workflow/` to `my-workflow/` (simpler)
-- Numeric prefix was holdover from older system
-
-### 3. Gap Protocol Added
-- Rule 6 handles "plan-modifying gaps" during `/build`
-- Prevents scope creep while allowing necessary additions
-- Uses ASSESS → PRESERVE → SCOPE → MODIFY → EXECUTE → RETURN pattern
-
-## No Blockers
-- All implementation complete
-- Just needs final commit for directory consolidation
-</attempted_approaches>
-
-<critical_context>
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `skills/my-workflow/SKILL.md` | Core skill with principles and deviation rules |
-| `skills/my-workflow/workflows/*.md` | 5 workflow definitions |
-| `commands/{start,plan,build,stop}.md` | Thin command wrappers |
-| `planning/OVERVIEW.md` | Project vision + governance |
-| `planning/STATE.md` | Current state tracker |
-| `planning/BACKLOG.md` | Improvements backlog |
-| `planning/specs/my-workflow/PLAN.md` | Feature plan (all tasks done) |
-
-## Workflow Commands
-
-| Command | Does |
-|---------|------|
-| `/start` | Initialize planning/ structure, create OVERVIEW.md |
-| `/plan` | Create feature spec in planning/specs/{feature}/ |
-| `/build` | Execute plan with deviation rules |
-| `/stop` | Create HANDOFF.md with session context |
-
-## Deviation Rules (from SKILL.md)
-
-| Rule | Deviation | Response |
-|------|-----------|----------|
-| 1 | Scope creep | Flag and skip |
-| 2 | Technical blocker | Smallest viable workaround |
-| 3 | Missing context | Ask one question at a time |
-| 4 | Wrong approach | Note concern, continue |
-| 5 | Emergency fix | Fix, document, return |
-| 6 | Gap detected | Gap Protocol (ASSESS→RETURN) |
-</critical_context>
-
-<current_state>
-
-## Status: Feature Complete
-
-All feature implementation and cleanup is complete:
-
-- [x] my-workflow skill created
-- [x] All 5 workflows implemented
-- [x] 4 command wrappers created
-- [x] Gap Protocol added
-- [x] Project migrated to use workflow
-- [x] Curation completed
-- [x] Documentation updated
-- [x] Technical debt items resolved (templates consolidated, README updated)
-- [x] STATE.md updated to "maintaining" stage
-
-## Branch
-
-`feature/001-my-workflow` - ready for PR to main
+1. Brainstormed `/fix` command requirements through iterative questioning
+2. Created spec at `planning/specs/fix-command/spec.md`
+3. Researched existing `/debug` command and `debugging-practices` skill
+4. Created implementation plan (2 tasks)
+5. Implemented `commands/fix.md` with 8-step workflow
+6. Dry-run tested with hypothetical issue - all steps executed correctly
 
 ## Next Steps
 
-1. Commit remaining changes
-2. Create PR to merge into main
-</current_state>
+1. **Commit the changes** - `/fix` command and related files are ready
+2. **Test with real issue** - Use `/fix` next time an actual issue occurs
+3. **Monitor auto-trigger backlog item** - Evaluate after using `/fix` a few times
+
+## Open Questions
+
+None - design decisions were made during brainstorm:
+- Always thorough (no quick mode)
+- Git history as documentation (no separate fix log)
+- Notify + backlog for convention changes
+
+## Notes
+
+- `/fix` fills gap between `/debug` (finding bugs) and `debugging-practices` (deep analysis)
+- Key differentiator: git history search and regression checklists
+- Future improvement logged: auto-trigger on issue detection language

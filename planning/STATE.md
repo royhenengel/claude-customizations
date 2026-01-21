@@ -1,11 +1,11 @@
 # Project State
 
 **Stage**: maintaining
-**Last Updated**: 2026-01-19
+**Last Updated**: 2026-01-21
 
 ## Current Focus
 
-Technical debt cleanup and README updates
+None - awaiting next task
 
 ## Progress
 
@@ -13,15 +13,17 @@ Technical debt cleanup and README updates
 - [x] Constitution ratified (now in OVERVIEW.md)
 - [x] Feature 001-my-workflow implemented and verified
 - [x] planning/ structure adopted
+- [x] /fix command implemented
 
 ## Active Work
 
-**Focus**: Technical debt from BACKLOG.md
+**Focus**: None
 **Branch**: feature/001-my-workflow
-**Status**: Feature complete, cleaning up technical debt
+**Status**: fix-command complete
 
 ## Decisions
 
+- (2026-01-21) Designed /fix command for thorough fix workflow (always thorough, git history, convention checks, regression checklists)
 - (2026-01-18) Adopted my-workflow system for this project (dogfooding)
 - (2026-01-18) Migrated constitution.md content into OVERVIEW.md
 - (2026-01-15) Curated 38 active skills, moved 16 to reference

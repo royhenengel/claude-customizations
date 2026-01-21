@@ -17,6 +17,14 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
+- [ ] Auto-trigger /fix process on issue detection
+  - **Context**: Currently /fix is explicit. Could auto-detect bug/issue/problem/error language.
+  - **Considerations**:
+    - Detect issue-related language patterns
+    - Could prompt: "This sounds like an issue. Run full /fix process?"
+    - Or confidence threshold for auto-triggering
+    - Avoid false positives on discussions about issues vs actual issues to fix
+  - **Deferred**: Start with explicit /fix command, add auto-trigger later based on usage patterns
 - [x] Revisit workflow task granularity (see 001-my-workflow migration)
   - **Resolution**: Decided to adopt GSD/CEK "everything documented" style instead of "plans as prompts" philosophy.
   - **Changes made**:
