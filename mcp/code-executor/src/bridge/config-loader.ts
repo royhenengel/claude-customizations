@@ -38,12 +38,14 @@ export function getConnectedServers(config: MCPConfig): string[] {
   const envServers = process.env.CONNECTED_SERVERS;
 
   if (envServers) {
-    // Filter to only servers that exist in config and are not disabled
+    // Filter to only servers that exist in config
+    // Note: we ignore disabled flag here - if a server is in CONNECTED_SERVERS,
+    // we connect to it regardless of disabled status (allows lazy loading via code-executor)
     return envServers.split(",")
       .map(s => s.trim())
       .filter(name => {
         const server = config.mcpServers[name];
-        return server && !server.disabled;
+        return !!server;
       });
   }
 

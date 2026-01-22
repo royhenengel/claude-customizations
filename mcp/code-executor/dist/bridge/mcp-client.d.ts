@@ -10,6 +10,7 @@ export declare class MCPClientConnection {
     private _status;
     private _tools;
     private _error;
+    private oauthProvider;
     constructor(name: string, config: MCPServerConfig);
     get status(): ServerStatus;
     get tools(): ToolSchema[];
@@ -18,6 +19,14 @@ export declare class MCPClientConnection {
      * Connect to the MCP server
      */
     connect(): Promise<void>;
+    /**
+     * Connect using stdio transport
+     */
+    private connectStdio;
+    /**
+     * Connect using HTTP/SSE transport with OAuth support
+     */
+    private connectHttp;
     /**
      * Refresh the list of available tools
      */
@@ -34,5 +43,9 @@ export declare class MCPClientConnection {
      * Disconnect from the server
      */
     disconnect(): Promise<void>;
+    /**
+     * Clear OAuth tokens for this server (forces re-authentication)
+     */
+    clearAuthTokens(): void;
 }
 //# sourceMappingURL=mcp-client.d.ts.map

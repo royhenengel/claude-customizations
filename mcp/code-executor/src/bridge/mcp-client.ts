@@ -1,17 +1,22 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+import { auth } from "@modelcontextprotocol/sdk/client/auth.js";
+import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import type { MCPServerConfig, ToolSchema, ServerStatus } from "../types/index.js";
 import { getTransportType } from "./config-loader.js";
+import { CLIOAuthProvider } from "./oauth-provider.js";
 
 /**
  * Wrapper around MCP SDK Client for connecting to individual MCP servers
  */
 export class MCPClientConnection {
   private client: Client | null = null;
-  private transport: StdioClientTransport | null = null;
+  private transport: Transport | null = null;
   private _status: ServerStatus = "disconnected";
   private _tools: ToolSchema[] = [];
   private _error: string | null = null;
+  private oauthProvider: CLIOAuthProvider | null = null;
 
   constructor(
     public readonly name: string,
@@ -36,39 +41,17 @@ export class MCPClientConnection {
   async connect(): Promise<void> {
     const transportType = getTransportType(this.config);
 
-    if (transportType !== "stdio") {
-      this._status = "error";
-      this._error = `Transport type '${transportType}' not yet supported`;
-      console.error(`[mcp-client] ${this.name}: ${this._error}`);
-      return;
-    }
-
-    if (!this.config.command) {
-      this._status = "error";
-      this._error = "No command specified for stdio transport";
-      console.error(`[mcp-client] ${this.name}: ${this._error}`);
-      return;
-    }
-
     try {
       this._status = "connecting";
-      console.error(`[mcp-client] Connecting to ${this.name}...`);
+      console.error(`[mcp-client] Connecting to ${this.name} (${transportType})...`);
 
-      // Create transport using the MCP SDK's expected format
-      this.transport = new StdioClientTransport({
-        command: this.config.command,
-        args: this.config.args || [],
-        env: { ...process.env, ...this.config.env } as Record<string, string>
-      });
-
-      // Create client
-      this.client = new Client(
-        { name: "code-executor", version: "1.0.0" },
-        { capabilities: {} }
-      );
-
-      // Connect
-      await this.client.connect(this.transport);
+      if (transportType === "stdio") {
+        await this.connectStdio();
+      } else if (transportType === "http" || transportType === "sse") {
+        await this.connectHttp();
+      } else {
+        throw new Error(`Unsupported transport type: ${transportType}`);
+      }
 
       // Fetch tools
       await this.refreshTools();
@@ -80,6 +63,111 @@ export class MCPClientConnection {
       this._error = error instanceof Error ? error.message : String(error);
       console.error(`[mcp-client] Failed to connect to ${this.name}:`, this._error);
     }
+  }
+
+  /**
+   * Connect using stdio transport
+   */
+  private async connectStdio(): Promise<void> {
+    if (!this.config.command) {
+      throw new Error("No command specified for stdio transport");
+    }
+
+    this.transport = new StdioClientTransport({
+      command: this.config.command,
+      args: this.config.args || [],
+      env: { ...process.env, ...this.config.env } as Record<string, string>
+    });
+
+    this.client = new Client(
+      { name: "code-executor", version: "1.0.0" },
+      { capabilities: {} }
+    );
+
+    await this.client.connect(this.transport);
+  }
+
+  /**
+   * Connect using HTTP/SSE transport with OAuth support
+   */
+  private async connectHttp(): Promise<void> {
+    if (!this.config.url) {
+      throw new Error("No URL specified for HTTP transport");
+    }
+
+    const serverUrl = new URL(this.config.url);
+    this.oauthProvider = new CLIOAuthProvider(this.name);
+
+    // Check if we have existing tokens
+    const existingTokens = await this.oauthProvider.tokens();
+
+    if (existingTokens) {
+      console.error(`[mcp-client] ${this.name} has existing tokens, attempting connection...`);
+
+      // Create transport and client with existing tokens
+      this.transport = new StreamableHTTPClientTransport(serverUrl, {
+        authProvider: this.oauthProvider
+      });
+      this.client = new Client(
+        { name: "code-executor", version: "1.0.0" },
+        { capabilities: {} }
+      );
+
+      try {
+        await this.client.connect(this.transport);
+        return; // Success with existing tokens
+      } catch (error) {
+        console.error(`[mcp-client] ${this.name} connection with existing tokens failed:`, error);
+        // Clear tokens and fall through to OAuth flow
+        this.oauthProvider.clearTokens();
+      }
+    }
+
+    // No tokens or tokens failed - need to do OAuth flow
+    console.error(`[mcp-client] ${this.name} initiating OAuth flow...`);
+
+    // Perform OAuth flow
+    const result = await auth(this.oauthProvider, {
+      serverUrl: serverUrl.toString()
+    });
+
+    if (result === "REDIRECT") {
+      // Wait for user to complete authorization
+      console.error(`[mcp-client] Waiting for authorization...`);
+      const code = await this.oauthProvider.waitForAuthorizationCode();
+      console.error(`[mcp-client] Got authorization code, exchanging for tokens...`);
+
+      // Complete the auth flow
+      try {
+        const authResult = await auth(this.oauthProvider, {
+          serverUrl: serverUrl.toString(),
+          authorizationCode: code
+        });
+        console.error(`[mcp-client] Token exchange result: ${authResult}`);
+      } catch (authError) {
+        console.error(`[mcp-client] Token exchange failed:`, authError);
+        throw authError;
+      }
+
+      // Verify tokens were saved
+      const tokens = await this.oauthProvider.tokens();
+      if (!tokens) {
+        throw new Error("OAuth completed but no tokens were saved");
+      }
+      console.error(`[mcp-client] Tokens saved successfully`);
+    }
+
+    // Connect with new tokens
+    console.error(`[mcp-client] ${this.name} connecting with fresh tokens...`);
+    this.transport = new StreamableHTTPClientTransport(serverUrl, {
+      authProvider: this.oauthProvider
+    });
+    this.client = new Client(
+      { name: "code-executor", version: "1.0.0" },
+      { capabilities: {} }
+    );
+
+    await this.client.connect(this.transport);
   }
 
   /**
@@ -159,5 +247,14 @@ export class MCPClientConnection {
     this.transport = null;
     this._status = "disconnected";
     this._tools = [];
+  }
+
+  /**
+   * Clear OAuth tokens for this server (forces re-authentication)
+   */
+  clearAuthTokens(): void {
+    if (this.oauthProvider) {
+      this.oauthProvider.clearTokens();
+    }
   }
 }
