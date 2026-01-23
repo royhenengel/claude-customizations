@@ -26,7 +26,7 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 - [ ] Rethink the setup questions for greenfield projects
   - "What problem does it solve?" → Too one-dimensional. Should ask about value, goals, and expected outcomes together
-  - "What is the core value?" → Should be "What should the experience look like?"
+  - "What is the core value?" → Should be "What fshould the experience look like?"
   - "What's in scope/out of scope?" → Too early in the process to expect this answer
   - "What does success look like?" → Good question, keep it (was missing from test script)
 
@@ -55,6 +55,7 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 ## /build Issues
 
 - [ ] **Rule 4 deviation BROKEN**: "Let's use SQLite instead of JSON" didn't stop for approval - continued to migration immediately
+- [ ] **Rule 4 scope violation MISSED**: OVERVIEW.md explicitly states "CLI interface" and "Out of Scope: GUI (no web, desktop, or mobile apps)" but implementation is a React web app. This major architectural deviation should have triggered Rule 4 but didn't.
 - [ ] Subagent execution not visible - unclear if tasks run in subagents or main context
 
 ---
@@ -71,6 +72,53 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 ## Other Issues
 
 - [ ] Brownfield projects: offer to reorganize existing code to my-workflow structure
+
+---
+
+## Artifact Review (Additional Findings)
+
+Reviewed test project at `/Users/royengel/Projects/Claude Code/test/` on 2026-01-23.
+
+### File Naming
+
+- `spec.md` should be `SPEC.md` (already noted above)
+
+### HANDOFF.md Review
+
+Confirmed missing sections:
+
+- Has "Current State" but no explicit "working/not working" verdict
+- Has "Progress This Session" but not "Decisions with rationale"
+- Has "Next Steps" but no "Remaining tasks" checklist format
+
+### SUMMARY.md
+
+- Good: Lists all files changed with clear organization
+- Good: Documents architecture decisions
+- Good: Includes "How to Run" instructions
+- Missing: No mention of deviations from original plan (switched from JSON to SQLite during build)
+
+### STATE.md
+
+- Good: Stage tracking works correctly
+- Good: Decisions documented with rationale
+- Missing: Gap Stack section (never used since Rule 6 not tested)
+
+### OVERVIEW.md vs Implementation Mismatch
+
+- OVERVIEW says: "CLI interface", "Out of Scope: GUI"
+- Implementation: React web app with Node.js backend
+- This is the most critical Rule 4 failure - complete scope mismatch went undetected
+
+---
+
+## Priority Fixes
+
+1. **Critical**: Rule 4 deviation detection - must stop for major scope changes
+2. **High**: File naming consistency (SPEC.md not spec.md)
+3. **High**: HANDOFF.md template completeness
+4. **Medium**: TDD task ordering in PLAN.md
+5. **Medium**: /brainstorm vs /plan role clarity
 
 ---
 
