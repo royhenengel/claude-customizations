@@ -1,0 +1,82 @@
+# My Workflow Test Results
+
+**Date**: 2026-01-23
+**Test scenario**: TaskPulse (greenfield CLI time tracker)
+**Overall result**: Partial Pass
+
+## Summary
+
+Core workflow functions correctly. Deviation rules and document completeness need work.
+
+| Phase | Result | Notes |
+|-------|--------|-------|
+| /start | ✅ Pass | Questions need rethinking |
+| /brainstorm | ⚠️ Partial | Role confusion with /plan |
+| /plan | ⚠️ Partial | No TDD pattern in output |
+| /build (normal) | ✅ Pass | |
+| /build (Rule 4) | ❌ Fail | Didn't stop for major change |
+| /build (Rule 5) | ✅ Pass | Added to backlog correctly |
+| /build (Rules 1,2,3,6) | ⏭️ Skipped | |
+| /stop | ⚠️ Partial | HANDOFF missing sections |
+| Resume | ✅ Pass | |
+
+---
+
+## /start Issues
+
+- [ ] Rethink the setup questions for greenfield projects
+  - "What problem does it solve?" → Too one-dimensional. Should ask about value, goals, and expected outcomes together
+  - "What is the core value?" → Should be "What should the experience look like?"
+  - "What's in scope/out of scope?" → Too early in the process to expect this answer
+  - "What does success look like?" → Good question, keep it (was missing from test script)
+
+---
+
+## /brainstorm Issues
+
+- [ ] Remove "(optional)" label - it's a core part of the workflow
+- [ ] Clarify the distinction between /brainstorm and /plan
+  - /brainstorm creates a SPEC file with behavior/requirements
+  - /plan creates a PLAN file with implementation tasks
+  - Currently feels like /brainstorm is doing planning work
+  - Question: If SPEC has task list, what does /plan add?
+- [ ] RESEARCH.md creation timing - should be /plan, not /brainstorm (test checklist was wrong)
+- [ ] RESEARCH.md should focus on gathered information, not just decision rationale
+
+---
+
+## /plan Issues
+
+- [ ] SPEC.md uses lowercase filename - should be uppercase like other planning files
+- [ ] No TDD pattern in generated PLAN - test tasks should appear before/alongside implementation
+
+---
+
+## /build Issues
+
+- [ ] **Rule 4 deviation BROKEN**: "Let's use SQLite instead of JSON" didn't stop for approval - continued to migration immediately
+- [ ] Subagent execution not visible - unclear if tasks run in subagents or main context
+
+---
+
+## /stop Issues
+
+- [ ] HANDOFF.md missing required sections:
+  - No explicit "working/not working" status
+  - No "Decisions with rationale" section
+  - No "Remaining tasks" checklist (only "Next Steps")
+
+---
+
+## Other Issues
+
+- [ ] Brownfield projects: offer to reorganize existing code to my-workflow structure
+
+---
+
+## Test Artifacts
+
+- Test project: `/Users/royengel/Projects/Claude Code/test/`
+- HANDOFF.md: [test/planning/HANDOFF.md](/Users/royengel/Projects/Claude%20Code/test/planning/HANDOFF.md)
+- Test checklist: [TEST-CHECKLIST.md](TEST-CHECKLIST.md)
+- Test scenario: [TEST-SCENARIO.md](TEST-SCENARIO.md)

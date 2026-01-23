@@ -14,6 +14,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     - Added Development Discipline Quick Check to SKILL.md
     - Updated subagent prompt in Step 5 with TDD/Clean Architecture reminders
   - **Decision**: TDD and Clean Architecture are now explicitly wired into /build, not relying on skill composition
+- [ ] Make the new project intro more fun
 
 ## Improvements
 
