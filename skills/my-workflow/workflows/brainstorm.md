@@ -93,7 +93,7 @@ Based on the design complexity, determine appropriate structure:
 - No phases needed
 
 **Feature** (clear scope):
-- spec.md + PLAN.md
+- SPEC.md + PLAN.md
 - Single feature directory
 
 **Multi-feature** (complex):
@@ -107,8 +107,8 @@ Ask user to confirm the scope determination.
 Write the validated design to:
 ```
 planning/specs/{feature-name}/
-├── spec.md          # Requirements from brainstorm
-└── research.md      # Alternatives considered, decisions made
+├── SPEC.md          # Requirements from brainstorm
+└── RESEARCH.md      # Alternatives considered, decisions made
 ```
 
 Update `planning/STATE.md`:
@@ -125,8 +125,8 @@ After brainstorm completes:
 Brainstorm complete!
 
 Created:
-- planning/specs/{feature}/spec.md (requirements)
-- planning/specs/{feature}/research.md (decisions)
+- planning/specs/{feature}/SPEC.md (requirements)
+- planning/specs/{feature}/RESEARCH.md (decisions)
 
 Next: Ready to create the implementation plan?
 (This will generate PLAN.md with executable tasks)
@@ -154,7 +154,7 @@ Requirements clear?
     +-- No/Unclear --> Run brainstorm.md workflow
     |                      |
     |                      v
-    |                  spec.md + research.md created
+    |                  SPEC.md + RESEARCH.md created
     |                      |
     +-- Yes ----------+----+
                       |

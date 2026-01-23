@@ -254,8 +254,9 @@ Create a comprehensive implementation plan with as many tasks as needed for clar
 | # | Task | Type | Dependencies | Blocking |
 |---|------|------|--------------|----------|
 | 1 | {name} | auto | - | - |
-| 2 | {name} | auto | Task 1 | - |
-| 3 | {name} | checkpoint:decision | Tasks 1-2 | yes |
+| 2 | Write tests for {component} | auto | Task 1 | - |
+| 3 | Implement {component} | auto | Task 2 | - |
+| 4 | {name} | checkpoint:decision | Tasks 1-3 | yes |
 
 ## Tasks
 
@@ -415,6 +416,30 @@ planning/
 ```
 
 ## Plan Principles
+
+### TDD Task Ordering
+
+Follow the Red-Green-Refactor cycle from the software-development-practices skill:
+
+1. **RED** - Write failing test for one behavior
+2. **Verify RED** - Run test, confirm it fails for the right reason
+3. **GREEN** - Write minimal code to pass
+4. **Verify GREEN** - Run test, confirm it passes
+5. **REFACTOR** - Clean up while staying green
+6. **Repeat** - Next behavior
+
+Tasks should be structured per-behavior, not batched:
+
+```text
+Task 1: Set up module structure
+Task 2: Write test for user creation (RED)
+Task 3: Implement user creation to pass test (GREEN)
+Task 4: Write test for user validation (RED)
+Task 5: Implement user validation to pass test (GREEN)
+Task 6: Refactor and verify all tests pass
+```
+
+Key: Each test must be seen failing before implementation. A test that passes immediately proves nothing.
 
 ### Comprehensive Documentation (GSD/CEK Style)
 
