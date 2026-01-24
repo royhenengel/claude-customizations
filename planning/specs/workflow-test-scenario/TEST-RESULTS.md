@@ -24,22 +24,24 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## /start Issues
 
-- [x] Rethink the setup questions for greenfield projects
-  - ~~"What problem does it solve?" → Too one-dimensional~~ ✅ Combined into "Vision and goals" question
-  - ~~"What is the core value?" → Should be "What should the experience look like?"~~ ✅ Changed to "Desired experience"
-  - ~~"What's in scope/out of scope?" → Too early in the process~~ ✅ Added note that scope emerges during /brainstorm and /plan
-  - "What does success look like?" → Good question, keep it ✅ Kept as "Success criteria"
+- [ ] Rethink the setup questions for greenfield projects
+  - "What problem does it solve?" → Too one-dimensional. Should ask about value, goals, and expected outcomes together
+  - "What is the core value?" → Should be "What fshould the experience look like?"
+  - "What's in scope/out of scope?" → Too early in the process to expect this answer
+  - "What does success look like?" → Good question, keep it (was missing from test script)
 
 ---
 
 ## /brainstorm Issues
 
-- [x] Remove "(optional)" label - it's a core part of the workflow ✅ Added "This is NOT optional" and role distinction table
-- [x] Clarify the distinction between /brainstorm and /plan ✅ Added Role Distinction table and clarified in both files
-  - /brainstorm creates SPEC.md (what to build and why)
-  - /plan creates RESEARCH.md + PLAN.md (how to build it)
-- [x] RESEARCH.md creation timing - should be /plan, not /brainstorm ✅ Fixed: brainstorm only creates SPEC.md now
-- [x] RESEARCH.md should focus on gathered information, not just decision rationale ✅ Added "Information Gathered" section with codebase analysis and external research
+- [ ] Remove "(optional)" label - it's a core part of the workflow
+- [ ] Clarify the distinction between /brainstorm and /plan
+  - /brainstorm creates a SPEC file with behavior/requirements
+  - /plan creates a PLAN file with implementation tasks
+  - Currently feels like /brainstorm is doing planning work
+  - Question: If SPEC has task list, what does /plan add?
+- [ ] RESEARCH.md creation timing - should be /plan, not /brainstorm (test checklist was wrong)
+- [ ] RESEARCH.md should focus on gathered information, not just decision rationale
 
 ---
 
@@ -116,7 +118,7 @@ Reviewed test project at `/Users/royengel/Projects/Claude Code/test/` on 2026-01
 2. ~~**High**: File naming consistency (SPEC.md not spec.md)~~ ✅ Fixed
 3. ~~**High**: HANDOFF.md template completeness~~ ✅ Fixed
 4. ~~**Medium**: TDD task ordering in PLAN.md~~ ✅ Fixed
-5. ~~**Medium**: /brainstorm vs /plan role clarity~~ ✅ Fixed
+5. **Medium**: /brainstorm vs /plan role clarity
 
 ---
 

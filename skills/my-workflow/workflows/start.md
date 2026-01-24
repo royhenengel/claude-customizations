@@ -255,30 +255,14 @@ Say:
 Now let's start by outlining the overview for this project.
 ```
 
-**Enter plan mode** and guide the user through creating the project overview. Ask questions one at a time (prefer multiple choice when possible).
+**Enter plan mode** and guide the user through creating the project overview. Ask questions one at a time (prefer multiple choice when possible) to gather:
 
-**Greenfield questions** (ask in this order):
-
-1. **Project name**: What is this called?
-
-2. **Vision and goals** (holistic, not one-dimensional):
-   ```text
-   Tell me about this project:
-   - What problem are you solving?
-   - What's the goal or desired outcome?
-   - Why does this matter to you or your users?
-   ```
-
-3. **Target users**: Who is this for? (Can be yourself, a team, customers, etc.)
-
-4. **Desired experience**: What should using this feel like? What's the ideal interaction?
-   ```text
-   Imagine the project is done. How do people use it? What does the experience look like?
-   ```
-
-5. **Success criteria**: How will you know the project succeeded?
-
-**Note on scope**: Don't ask about scope boundaries during /start. Scope emerges naturally during /brainstorm and /plan. Asking "what's out of scope?" too early forces premature decisions.
+- **Project name**: What is this called?
+- **Problem statement**: What problem does this solve?
+- **Target users**: Who is this for?
+- **Core value**: What's the main benefit?
+- **Scope boundaries**: What's explicitly NOT included?
+- **Success criteria**: How do we know this project succeeded?
 
 ### 8. Create OVERVIEW.md
 
@@ -299,22 +283,21 @@ After gathering input, create `planning/OVERVIEW.md`:
 
 {Who is this for?}
 
-## Desired Experience
+## Core Value Proposition
 
-{What should using this feel like? What's the ideal interaction?}
+{What's the main benefit? Why would someone use this?}
 
 ## Scope
 
-<!-- Scope details emerge during /brainstorm and /plan. Start with high-level intent. -->
-
 ### In Scope
 
-- {High-level capability 1}
-- {High-level capability 2}
+- {Feature/capability 1}
+- {Feature/capability 2}
 
 ### Out of Scope
 
-- {Explicitly excluded 1, if known}
+- {Explicitly excluded 1}
+- {Explicitly excluded 2}
 
 ## Success Criteria
 
