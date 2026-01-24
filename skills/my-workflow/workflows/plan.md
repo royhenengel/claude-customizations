@@ -105,7 +105,7 @@ When picking from backlog, remove the item from BACKLOG.md after creating the sp
 
 ### 3. Offer Brainstorm (If Needed)
 
-If requirements seem unclear or exploratory, offer (but don't require) brainstorm:
+If requirements seem unclear or exploratory, offer brainstorm:
 
 ```text
 Your requirements seem a bit open-ended. Would you like to clarify first?
@@ -114,11 +114,11 @@ Your requirements seem a bit open-ended. Would you like to clarify first?
 2. No - I know what I want, let's plan
 ```
 
-**If yes**: Run `workflows/brainstorm.md`, then return here with spec.md created.
+**If yes**: Run `workflows/brainstorm.md`, then return here with SPEC.md created.
 
 **If no**: Continue to step 4.
 
-**Note**: Brainstorm is optional. Not everything needs clarification.
+**Role distinction**: /brainstorm creates requirements (SPEC.md), /plan creates implementation tasks (PLAN.md). If user can describe exact requirements, brainstorm is not needed. If requirements are unclear, brainstorm prevents wasted implementation effort.
 
 ### 4. Create Feature Directory
 
@@ -203,12 +203,26 @@ Write to `planning/specs/{feature}/SPEC.md`.
 
 **Validation before proceeding**: Ensure NO `[NEEDS CLARIFICATION]` markers remain. If any exist, resolve them with the user before creating PLAN.md.
 
-### 7. Create RESEARCH.md (Decisions)
+### 7. Create RESEARCH.md (Research & Decisions)
 
-Document approach decisions:
+Document research findings and implementation decisions. This file captures both gathered information and decision rationale.
 
 ```markdown
 # {Feature Name} Research
+
+## Information Gathered
+
+### Codebase Analysis
+
+- {Existing patterns discovered}
+- {Related code that will be affected}
+- {Conventions to follow}
+
+### External Research
+
+- {Library/API documentation findings}
+- {Best practices discovered}
+- {Constraints identified}
 
 ## Approach
 
@@ -231,6 +245,8 @@ Document approach decisions:
 ```
 
 Write to `planning/specs/{feature}/RESEARCH.md`.
+
+**Key**: RESEARCH.md is created during /plan, not /brainstorm. It captures implementation research and decisions, which are made when planning how to build (not what to build).
 
 ### 8. Create PLAN.md (Detailed Documentation)
 

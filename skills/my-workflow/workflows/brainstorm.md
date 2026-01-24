@@ -2,7 +2,18 @@
 
 ## Purpose
 
-Turn unclear ideas into fully formed designs through collaborative dialogue.
+Turn unclear ideas into clear requirements (SPEC.md) through collaborative dialogue.
+
+**This is NOT optional.** Unclear requirements lead to wasted implementation effort. Use /brainstorm when you have an idea but don't yet have clear requirements.
+
+## Role Distinction
+
+| Workflow | Input | Output | Focus |
+|----------|-------|--------|-------|
+| /brainstorm | Unclear idea | SPEC.md | What to build and why |
+| /plan | Clear requirements | PLAN.md | How to build it (tasks) |
+
+If you can describe exact requirements, skip to /plan. If you need to explore, use /brainstorm first.
 
 ## When to Use
 
@@ -105,11 +116,13 @@ Ask user to confirm the scope determination.
 ## Output
 
 Write the validated design to:
-```
+
+```text
 planning/specs/{feature-name}/
-├── SPEC.md          # Requirements from brainstorm
-└── RESEARCH.md      # Alternatives considered, decisions made
+└── SPEC.md          # Requirements from brainstorm
 ```
+
+Note: RESEARCH.md is created during /plan, not /brainstorm. Research captures implementation decisions (technology choices, approach rationale), which are made during planning, not requirements gathering.
 
 Update `planning/STATE.md`:
 
@@ -126,10 +139,9 @@ Brainstorm complete!
 
 Created:
 - planning/specs/{feature}/SPEC.md (requirements)
-- planning/specs/{feature}/RESEARCH.md (decisions)
 
 Next: Ready to create the implementation plan?
-(This will generate PLAN.md with executable tasks)
+(This will generate RESEARCH.md + PLAN.md)
 ```
 
 If yes, continue with the `/plan` workflow's planning phase.
@@ -154,11 +166,11 @@ Requirements clear?
     +-- No/Unclear --> Run brainstorm.md workflow
     |                      |
     |                      v
-    |                  SPEC.md + RESEARCH.md created
+    |                  SPEC.md created (requirements)
     |                      |
     +-- Yes ----------+----+
                       |
                       v
                 Continue to planning phase
-                (create PLAN.md)
+                (create RESEARCH.md + PLAN.md)
 ```

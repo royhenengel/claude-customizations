@@ -34,14 +34,12 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## /brainstorm Issues
 
-- [ ] Remove "(optional)" label - it's a core part of the workflow
-- [ ] Clarify the distinction between /brainstorm and /plan
-  - /brainstorm creates a SPEC file with behavior/requirements
-  - /plan creates a PLAN file with implementation tasks
-  - Currently feels like /brainstorm is doing planning work
-  - Question: If SPEC has task list, what does /plan add?
-- [ ] RESEARCH.md creation timing - should be /plan, not /brainstorm (test checklist was wrong)
-- [ ] RESEARCH.md should focus on gathered information, not just decision rationale
+- [x] Remove "(optional)" label - it's a core part of the workflow ✅ Added "This is NOT optional" and role distinction table
+- [x] Clarify the distinction between /brainstorm and /plan ✅ Added Role Distinction table and clarified in both files
+  - /brainstorm creates SPEC.md (what to build and why)
+  - /plan creates RESEARCH.md + PLAN.md (how to build it)
+- [x] RESEARCH.md creation timing - should be /plan, not /brainstorm ✅ Fixed: brainstorm only creates SPEC.md now
+- [x] RESEARCH.md should focus on gathered information, not just decision rationale ✅ Added "Information Gathered" section with codebase analysis and external research
 
 ---
 
@@ -118,7 +116,7 @@ Reviewed test project at `/Users/royengel/Projects/Claude Code/test/` on 2026-01
 2. ~~**High**: File naming consistency (SPEC.md not spec.md)~~ ✅ Fixed
 3. ~~**High**: HANDOFF.md template completeness~~ ✅ Fixed
 4. ~~**Medium**: TDD task ordering in PLAN.md~~ ✅ Fixed
-5. **Medium**: /brainstorm vs /plan role clarity
+5. ~~**Medium**: /brainstorm vs /plan role clarity~~ ✅ Fixed
 
 ---
 
