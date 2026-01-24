@@ -24,24 +24,22 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## /start Issues
 
-- [ ] Rethink the setup questions for greenfield projects
-  - "What problem does it solve?" → Too one-dimensional. Should ask about value, goals, and expected outcomes together
-  - "What is the core value?" → Should be "What fshould the experience look like?"
-  - "What's in scope/out of scope?" → Too early in the process to expect this answer
-  - "What does success look like?" → Good question, keep it (was missing from test script)
+- [x] Rethink the setup questions for greenfield projects ✅ Fixed
+  - ~~"What problem does it solve?"~~ → Combined into "Vision and goals" question
+  - ~~"What is the core value?"~~ → Changed to "Desired experience: Describe how someone would use this"
+  - ~~"What's in scope/out of scope?"~~ → Removed (scope emerges during /brainstorm and /plan)
+  - "What does success look like?" → Kept as "Success criteria"
 
 ---
 
 ## /brainstorm Issues
 
-- [ ] Remove "(optional)" label - it's a core part of the workflow
-- [ ] Clarify the distinction between /brainstorm and /plan
-  - /brainstorm creates a SPEC file with behavior/requirements
-  - /plan creates a PLAN file with implementation tasks
-  - Currently feels like /brainstorm is doing planning work
-  - Question: If SPEC has task list, what does /plan add?
-- [ ] RESEARCH.md creation timing - should be /plan, not /brainstorm (test checklist was wrong)
-- [ ] RESEARCH.md should focus on gathered information, not just decision rationale
+- [x] Remove "(optional)" label - it's a core part of the workflow ✅ Replaced with role distinction note
+- [x] Clarify the distinction between /brainstorm and /plan ✅ Added Flow section to brainstorm.md
+  - /brainstorm outputs SPEC only
+  - /plan outputs SPEC + PLAN (or just PLAN if SPEC already exists)
+- [x] RESEARCH.md creation timing - kept in both (user decision to leave as-is)
+- [x] RESEARCH.md should focus on gathered information, not just decision rationale ✅ Added "Information Gathered" section
 
 ---
 
@@ -71,7 +69,7 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## Other Issues
 
-- [ ] Brownfield projects: offer to reorganize existing code to my-workflow structure
+- [x] Brownfield projects: offer to reorganize existing code to my-workflow structure → Added to BACKLOG.md
 
 ---
 

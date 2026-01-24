@@ -49,6 +49,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
 - [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
+- [ ] Brownfield project support in /start
+  - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
+  - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
 - [ ] Add lightweight mode to My-Workflow
   - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
   - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
