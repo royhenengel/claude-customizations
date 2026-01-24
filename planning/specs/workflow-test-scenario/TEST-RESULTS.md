@@ -47,22 +47,22 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## /plan Issues
 
-- [ ] SPEC.md uses lowercase filename - should be uppercase like other planning files
-- [ ] No TDD pattern in generated PLAN - test tasks should appear before/alongside implementation
+- [x] SPEC.md uses lowercase filename - should be uppercase like other planning files
+- [x] No TDD pattern in generated PLAN - test tasks should appear before/alongside implementation
 
 ---
 
 ## /build Issues
 
-- [ ] **Rule 4 deviation BROKEN**: "Let's use SQLite instead of JSON" didn't stop for approval - continued to migration immediately
-- [ ] **Rule 4 scope violation MISSED**: OVERVIEW.md explicitly states "CLI interface" and "Out of Scope: GUI (no web, desktop, or mobile apps)" but implementation is a React web app. This major architectural deviation should have triggered Rule 4 but didn't.
-- [ ] Subagent execution not visible - unclear if tasks run in subagents or main context
+- [x] **Rule 4 deviation BROKEN**: "Let's use SQLite instead of JSON" didn't stop for approval - continued to migration immediately
+- [x] **Rule 4 scope violation MISSED**: OVERVIEW.md explicitly states "CLI interface" and "Out of Scope: GUI (no web, desktop, or mobile apps)" but implementation is a React web app. This major architectural deviation should have triggered Rule 4 but didn't.
+- [x] Subagent execution not visible - unclear if tasks run in subagents or main context
 
 ---
 
 ## /stop Issues
 
-- [ ] HANDOFF.md missing required sections:
+- [x] HANDOFF.md missing required sections:
   - No explicit "working/not working" status
   - No "Decisions with rationale" section
   - No "Remaining tasks" checklist (only "Next Steps")
@@ -81,15 +81,15 @@ Reviewed test project at `/Users/royengel/Projects/Claude Code/test/` on 2026-01
 
 ### File Naming
 
-- `spec.md` should be `SPEC.md` (already noted above)
+- ~~`spec.md` should be `SPEC.md`~~ ✅ Fixed in brainstorm.md
 
 ### HANDOFF.md Review
 
-Confirmed missing sections:
+~~Confirmed missing sections~~ ✅ Fixed in stop.md template:
 
-- Has "Current State" but no explicit "working/not working" verdict
-- Has "Progress This Session" but not "Decisions with rationale"
-- Has "Next Steps" but no "Remaining tasks" checklist format
+- ~~Has "Current State" but no explicit "working/not working" verdict~~ Added Verdict line
+- ~~Has "Progress This Session" but not "Decisions with rationale"~~ Added Alternatives Rejected column
+- ~~Has "Next Steps" but no "Remaining tasks" checklist format~~ Added Remaining Tasks section
 
 ### SUMMARY.md
 
@@ -114,10 +114,10 @@ Confirmed missing sections:
 
 ## Priority Fixes
 
-1. **Critical**: Rule 4 deviation detection - must stop for major scope changes
-2. **High**: File naming consistency (SPEC.md not spec.md)
-3. **High**: HANDOFF.md template completeness
-4. **Medium**: TDD task ordering in PLAN.md
+1. ~~**Critical**: Rule 4 deviation detection - must stop for major scope changes~~ ✅ Fixed
+2. ~~**High**: File naming consistency (SPEC.md not spec.md)~~ ✅ Fixed
+3. ~~**High**: HANDOFF.md template completeness~~ ✅ Fixed
+4. ~~**Medium**: TDD task ordering in PLAN.md~~ ✅ Fixed
 5. **Medium**: /brainstorm vs /plan role clarity
 
 ---
