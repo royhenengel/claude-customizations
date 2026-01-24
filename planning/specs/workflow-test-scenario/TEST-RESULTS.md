@@ -24,11 +24,11 @@ Core workflow functions correctly. Deviation rules and document completeness nee
 
 ## /start Issues
 
-- [ ] Rethink the setup questions for greenfield projects
-  - "What problem does it solve?" → Too one-dimensional. Should ask about value, goals, and expected outcomes together
-  - "What is the core value?" → Should be "What fshould the experience look like?"
-  - "What's in scope/out of scope?" → Too early in the process to expect this answer
-  - "What does success look like?" → Good question, keep it (was missing from test script)
+- [x] Rethink the setup questions for greenfield projects
+  - ~~"What problem does it solve?" → Too one-dimensional~~ ✅ Combined into "Vision and goals" question
+  - ~~"What is the core value?" → Should be "What should the experience look like?"~~ ✅ Changed to "Desired experience"
+  - ~~"What's in scope/out of scope?" → Too early in the process~~ ✅ Added note that scope emerges during /brainstorm and /plan
+  - "What does success look like?" → Good question, keep it ✅ Kept as "Success criteria"
 
 ---
 
