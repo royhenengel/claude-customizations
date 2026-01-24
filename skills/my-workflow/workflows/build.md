@@ -175,6 +175,15 @@ For each task in PLAN.md:
 
 **Task Execution Order (TDD)**: If the plan has separate test and implementation tasks, execute test tasks BEFORE their corresponding implementation tasks.
 
+**Announce subagent launch visibly:**
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 TASK {N}/{TOTAL}: {Task Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Launching developer subagent...
+```
+
 **Launch Task tool with developer subagent:**
 
 ```
@@ -203,7 +212,16 @@ Apply deviation rules during execution:
 5. Log enhancements - add to BACKLOG.md, continue with task
 ```
 
-**After each task completes:**
+**After each task completes, announce completion:**
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ TASK {N}/{TOTAL} COMPLETE: {Task Name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Result: {brief summary}
+```
+
+**Then update tracking:**
 
 1. **Update STATE.md Progress section**:
    - Change `- [ ] Task N:` to `- [x] Task N:`
@@ -228,13 +246,61 @@ During execution, handle discoveries automatically:
 | **1. Auto-fix bugs** | Broken behavior found | Fix immediately, note in STATE.md |
 | **2. Auto-add critical** | Security/correctness gap | Add immediately, note in STATE.md |
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, note in STATE.md |
-| **4. Ask architectural** | Major structural change | STOP. Ask user for decision. |
+| **4. Ask architectural** | Major structural change (see below) | STOP. Ask user for decision. |
 | **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md under appropriate category, continue |
 | **6. Gap detected** | Prerequisite missing / plan needs modification | Invoke Gap Protocol (see below) |
 
 **Rules 1-3, 5**: No user intervention needed.
 **Rule 4**: Requires user decision before proceeding.
 **Rule 6**: Preserves context, modifies plan, then returns to original task.
+
+### Rule 4 Triggers (MUST STOP)
+
+Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user approval:
+
+**Technology Changes:**
+
+- Switching data storage (JSON → SQLite, file → database, etc.)
+- Changing frameworks or major libraries
+- Adding new infrastructure dependencies
+
+**Scope Violations:**
+
+- Implementation contradicts OVERVIEW.md constraints
+- Building something listed as "Out of Scope"
+- Changing interface type (CLI → GUI, REST → GraphQL, etc.)
+
+**Architecture Changes:**
+
+- Changing the fundamental structure of the system
+- Adding new architectural layers not in the plan
+- Significantly altering data flow patterns
+
+**Before ANY implementation, verify:**
+
+1. Read `planning/OVERVIEW.md` - check "In Scope" and "Out of Scope" sections
+2. Confirm implementation matches declared interface type (CLI, web, API, etc.)
+3. Confirm technology choices match plan
+
+**Rule 4 Stop Message:**
+
+```text
+⚠️ RULE 4 STOP - Architectural Decision Required
+
+Proposed change: {what you're about to do}
+Conflicts with: {OVERVIEW.md constraint or PLAN.md specification}
+
+This requires your approval before proceeding.
+
+Options:
+1. Approve change (update OVERVIEW.md/PLAN.md to match)
+2. Reject change (continue with original spec)
+3. Discuss alternatives
+
+Which would you prefer?
+```
+
+**Do NOT rationalize around Rule 4.** If uncertain whether something triggers Rule 4, it triggers Rule 4.
 
 ### 6a. Gap Protocol
 
