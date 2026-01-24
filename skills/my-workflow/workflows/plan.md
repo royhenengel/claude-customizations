@@ -118,7 +118,7 @@ Your requirements seem a bit open-ended. Would you like to clarify first?
 
 **If no**: Continue to step 4.
 
-**Note**: Brainstorm is optional. Not everything needs clarification.
+**Role distinction**: /brainstorm creates requirements (SPEC.md) through dialogue, /plan creates implementation tasks (PLAN.md). If requirements are clear, proceed directly. If unclear, brainstorm prevents wasted implementation.
 
 ### 4. Create Feature Directory
 
@@ -203,12 +203,26 @@ Write to `planning/specs/{feature}/SPEC.md`.
 
 **Validation before proceeding**: Ensure NO `[NEEDS CLARIFICATION]` markers remain. If any exist, resolve them with the user before creating PLAN.md.
 
-### 7. Create RESEARCH.md (Decisions)
+### 7. Create RESEARCH.md (Research & Decisions)
 
-Document approach decisions:
+Document research findings and approach decisions:
 
 ```markdown
 # {Feature Name} Research
+
+## Information Gathered
+
+### Codebase Analysis
+
+- {Existing patterns discovered}
+- {Related code that will be affected}
+- {Conventions to follow}
+
+### External Research
+
+- {Library/API documentation findings}
+- {Best practices discovered}
+- {Constraints identified}
 
 ## Approach
 

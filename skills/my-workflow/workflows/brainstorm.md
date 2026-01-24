@@ -2,7 +2,19 @@
 
 ## Purpose
 
-Turn unclear ideas into fully formed designs through collaborative dialogue.
+Turn unclear ideas into clear requirements (SPEC.md) through collaborative dialogue.
+
+## Flow
+
+```text
+Option 1 (clear requirements):
+/start → /plan → (creates SPEC + PLAN) → /build
+
+Option 2 (unclear requirements):
+/start → /brainstorm → (creates SPEC) → /plan → (creates PLAN) → /build
+```
+
+/brainstorm outputs SPEC only. /plan outputs SPEC + PLAN (or just PLAN if SPEC already exists).
 
 ## When to Use
 
