@@ -278,9 +278,10 @@ Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user app
 
 **Before ANY implementation, verify:**
 
-1. Read `planning/OVERVIEW.md` - check "In Scope" and "Out of Scope" sections
-2. Confirm implementation matches declared interface type (CLI, web, API, etc.)
-3. Confirm technology choices match plan
+1. Read `planning/OVERVIEW.md` - check Scope section and Vision
+2. Read `planning/specs/{feature}/SPEC.md` - check Constraints section
+3. Confirm implementation matches declared interface type (CLI, web, API, etc.)
+4. Confirm technology choices match plan
 
 **Rule 4 Stop Message:**
 

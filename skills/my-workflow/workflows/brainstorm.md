@@ -8,13 +8,13 @@ Turn unclear ideas into clear requirements (SPEC.md) through collaborative dialo
 
 ```text
 Option 1 (clear requirements):
-/start → /plan → (creates SPEC + PLAN) → /build
+/start → /plan → (creates SPEC + RESEARCH + PLAN) → /build
 
 Option 2 (unclear requirements):
-/start → /brainstorm → (creates SPEC) → /plan → (creates PLAN) → /build
+/start → /brainstorm → (creates SPEC + RESEARCH) → /plan → (creates PLAN) → /build
 ```
 
-/brainstorm outputs SPEC only. /plan outputs SPEC + PLAN (or just PLAN if SPEC already exists).
+Both /brainstorm and /plan can create SPEC + RESEARCH. /plan also creates PLAN.
 
 ## When to Use
 
@@ -117,10 +117,40 @@ Ask user to confirm the scope determination.
 ## Output
 
 Write the validated design to:
-```
+
+```text
 planning/specs/{feature-name}/
 ├── SPEC.md          # Requirements from brainstorm
-└── RESEARCH.md      # Alternatives considered, decisions made
+└── RESEARCH.md      # Research findings and decisions
+```
+
+**RESEARCH.md template** (same as /plan):
+
+```markdown
+# {Feature Name} Research
+
+## Information Gathered
+
+### Codebase Analysis
+
+- {Existing patterns discovered}
+- {Related code that will be affected}
+
+### External Research
+
+- {Library/API documentation findings}
+- {Best practices discovered}
+
+## Approach
+
+{Chosen approach and why}
+
+## Alternatives Considered
+
+| Option | Pros | Cons | Decision |
+|--------|------|------|----------|
+| A | ... | ... | SELECTED |
+| B | ... | ... | Rejected: reason |
 ```
 
 Update `planning/STATE.md`:

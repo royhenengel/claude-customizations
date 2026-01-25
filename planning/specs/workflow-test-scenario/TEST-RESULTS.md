@@ -116,7 +116,7 @@ Reviewed test project at `/Users/royengel/Projects/Claude Code/test/` on 2026-01
 2. ~~**High**: File naming consistency (SPEC.md not spec.md)~~ ✅ Fixed
 3. ~~**High**: HANDOFF.md template completeness~~ ✅ Fixed
 4. ~~**Medium**: TDD task ordering in PLAN.md~~ ✅ Fixed
-5. **Medium**: /brainstorm vs /plan role clarity
+5. ~~**Medium**: /brainstorm vs /plan role clarity~~ ✅ Fixed
 
 ---
 
