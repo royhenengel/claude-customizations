@@ -39,11 +39,12 @@ Read:
 
 ### 2. Gather Handoff Information
 
-Collect:
-- **Current state**: What's working, what's not
-- **Decisions made**: And why (from STATE.md + conversation)
-- **Progress**: What's done, what's left (from STATE.md)
-- **Next steps**: Clear actions for resuming
+Collect (all sections are REQUIRED):
+
+- **Working/Not Working**: Explicit verdict on what functions vs what's broken/incomplete
+- **Decisions made**: Every significant choice with rationale (from STATE.md + conversation)
+- **Remaining tasks**: Checklist of incomplete tasks from PLAN.md
+- **Next steps**: Clear actions for resuming (different from remaining tasks - these are immediate actions)
 - **Open questions**: Uncertainties that need resolution
 - **Files changed**: Recent modifications
 
@@ -82,44 +83,51 @@ Copy from STATE.md Progress section:
 
 {Brief description of what was worked on this session}
 
-## Current State
+## Current State (REQUIRED)
 
 ### What's Working
 
-- {Thing 1 that works}
-- {Thing 2 that works}
+- {Thing 1 that works and how to verify}
+- {Thing 2 that works and how to verify}
 
-### What's Not Working / In Progress
+### What's Not Working
 
-- {Thing 1 in progress}
+- {Thing 1 that's broken or incomplete}
 - {Blocker or issue if any}
 
-## Decisions Made
+**Verdict**: {One-line summary: "Core functionality works, edge cases incomplete" or similar}
 
-| Decision | Rationale |
-|----------|-----------|
-| {Decision 1} | {Why} |
-| {Decision 2} | {Why} |
+## Decisions Made (REQUIRED)
 
-## Progress
+| Decision | Rationale | Alternatives Rejected |
+|----------|-----------|----------------------|
+| {Decision 1} | {Why this choice} | {What else was considered} |
+| {Decision 2} | {Why this choice} | {What else was considered} |
+
+If no decisions were made this session, state: "No architectural decisions this session."
+
+## Progress (REQUIRED)
 
 ### Completed This Session
 
-- [x] {Task 1}
-- [x] {Task 2}
+- [x] {Task 1 from PLAN.md}
+- [x] {Task 2 from PLAN.md}
 
-### Remaining
+### Remaining Tasks (from PLAN.md)
 
-- [ ] {Task 3}
-- [ ] {Task 4}
+- [ ] {Task 3 - exact task name from plan}
+- [ ] {Task 4 - exact task name from plan}
+- [ ] {Task 5 - exact task name from plan}
 
-## Next Steps
+Copy remaining tasks directly from PLAN.md. Do not summarize or paraphrase.
 
-When resuming, do these in order:
+## Next Steps (REQUIRED)
 
-1. {First thing to do}
-2. {Second thing to do}
-3. {Third thing to do}
+Immediate actions when resuming (not the same as Remaining Tasks above):
+
+1. {First action - e.g., "Review test failures from last run"}
+2. {Second action - e.g., "Address open question about X"}
+3. {Third action - e.g., "Continue with Task 3 from plan"}
 
 ## Open Questions
 
