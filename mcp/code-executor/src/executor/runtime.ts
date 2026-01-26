@@ -28,7 +28,7 @@ export class SandboxRuntime {
   /**
    * Get tool schema (to be injected into sandbox)
    */
-  getToolSchema(server: string, tool: string): unknown {
+  async getToolSchema(server: string, tool: string): Promise<unknown> {
     return this.pool.getToolSchema(server, tool);
   }
 
@@ -38,7 +38,7 @@ export class SandboxRuntime {
   getRuntime(): {
     callMCPTool: (server: string, tool: string, params: unknown) => Promise<unknown>;
     listServers: () => unknown;
-    getToolSchema: (server: string, tool: string) => unknown;
+    getToolSchema: (server: string, tool: string) => Promise<unknown>;
   } {
     return {
       callMCPTool: this.callMCPTool.bind(this),

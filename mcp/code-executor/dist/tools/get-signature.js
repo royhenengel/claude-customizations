@@ -69,7 +69,7 @@ function jsonSchemaToTypeScript(schema, indent = "") {
  * Get the signature of a specific tool
  */
 export async function getToolSignature(pool, input) {
-    const schema = pool.getToolSchema(input.server, input.tool);
+    const schema = await pool.getToolSchema(input.server, input.tool);
     if (!schema) {
         throw new Error(`Tool not found: ${input.server}/${input.tool}`);
     }

@@ -27,7 +27,7 @@ export class SandboxRuntime {
     /**
      * Get tool schema (to be injected into sandbox)
      */
-    getToolSchema(server, tool) {
+    async getToolSchema(server, tool) {
         return this.pool.getToolSchema(server, tool);
     }
     /**

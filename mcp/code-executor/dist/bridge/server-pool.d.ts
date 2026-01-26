@@ -20,13 +20,13 @@ export declare class ServerPool {
      */
     getServer(name: string): MCPClientConnection | null;
     /**
-     * Call a tool on a specific server
+     * Call a tool on a specific server (with lazy loading support)
      */
     callTool(serverName: string, toolName: string, params: unknown): Promise<unknown>;
     /**
-     * Get schema for a specific tool
+     * Get schema for a specific tool (with lazy loading support)
      */
-    getToolSchema(serverName: string, toolName: string): ToolSchema | null;
+    getToolSchema(serverName: string, toolName: string): Promise<ToolSchema | null>;
     /**
      * Get all tools across all servers as a flat index
      */

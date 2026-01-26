@@ -54,22 +54,53 @@ export class ServerPool {
         return this.connections.get(name) ?? null;
     }
     /**
-     * Call a tool on a specific server
+     * Call a tool on a specific server (with lazy loading support)
      */
     async callTool(serverName, toolName, params) {
-        const client = this.connections.get(serverName);
+        let client = this.connections.get(serverName);
+        // Lazy loading: if server not connected, try to connect on-demand
         if (!client) {
-            throw new Error(`Server not found: ${serverName}`);
+            const serverConfig = getServerConfig(this.config, serverName);
+            if (!serverConfig) {
+                throw new Error(`Server not found in config: ${serverName}`);
+            }
+            console.error(`[server-pool] Lazy loading server: ${serverName}`);
+            client = new MCPClientConnection(serverName, serverConfig);
+            this.connections.set(serverName, client);
+            try {
+                await client.connect();
+            }
+            catch (error) {
+                console.error(`[server-pool] Failed to lazy-connect to ${serverName}:`, error);
+                throw new Error(`Failed to connect to server ${serverName}: ${error}`);
+            }
+            if (client.status !== "connected") {
+                throw new Error(`Server ${serverName} failed to connect: ${client.error || "unknown error"}`);
+            }
         }
         return client.callTool(toolName, params);
     }
     /**
-     * Get schema for a specific tool
+     * Get schema for a specific tool (with lazy loading support)
      */
-    getToolSchema(serverName, toolName) {
-        const client = this.connections.get(serverName);
+    async getToolSchema(serverName, toolName) {
+        let client = this.connections.get(serverName);
+        // Lazy loading: if server not connected, try to connect on-demand
         if (!client) {
-            return null;
+            const serverConfig = getServerConfig(this.config, serverName);
+            if (!serverConfig) {
+                return null;
+            }
+            console.error(`[server-pool] Lazy loading server for schema: ${serverName}`);
+            client = new MCPClientConnection(serverName, serverConfig);
+            this.connections.set(serverName, client);
+            try {
+                await client.connect();
+            }
+            catch (error) {
+                console.error(`[server-pool] Failed to lazy-connect to ${serverName}:`, error);
+                return null;
+            }
         }
         return client.getToolSchema(toolName);
     }

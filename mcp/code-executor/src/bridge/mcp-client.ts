@@ -102,9 +102,25 @@ export class MCPClientConnection {
     const existingTokens = await this.oauthProvider.tokens();
 
     if (existingTokens) {
-      console.error(`[mcp-client] ${this.name} has existing tokens, attempting connection...`);
+      // Check if tokens need refresh before attempting connection
+      if (this.oauthProvider.shouldRefreshTokens() && this.oauthProvider.hasRefreshToken()) {
+        console.error(`[mcp-client] ${this.name} tokens expiring soon, refreshing proactively...`);
+        // Call auth() which will use refresh_token to get new tokens
+        const refreshResult = await auth(this.oauthProvider, {
+          serverUrl: serverUrl.toString()
+        });
+        if (refreshResult === "AUTHORIZED") {
+          console.error(`[mcp-client] ${this.name} tokens refreshed successfully`);
+        } else if (refreshResult === "REDIRECT") {
+          // Refresh failed, need re-auth - this shouldn't happen if refresh token is valid
+          console.error(`[mcp-client] ${this.name} token refresh failed, need re-authorization`);
+          return this.handleOAuthRedirect(serverUrl);
+        }
+      } else {
+        console.error(`[mcp-client] ${this.name} has valid tokens, attempting connection...`);
+      }
 
-      // Create transport and client with existing tokens
+      // Create transport and client with tokens
       this.transport = new StreamableHTTPClientTransport(serverUrl, {
         authProvider: this.oauthProvider
       });
@@ -117,29 +133,61 @@ export class MCPClientConnection {
         await this.client.connect(this.transport);
         return; // Success with existing tokens
       } catch (error) {
-        console.error(`[mcp-client] ${this.name} connection with existing tokens failed:`, error);
-        // Clear tokens and fall through to OAuth flow
+        console.error(`[mcp-client] ${this.name} connection failed:`, error);
+
+        // Try refresh via auth() instead of clearing tokens immediately
+        if (this.oauthProvider.hasRefreshToken()) {
+          console.error(`[mcp-client] ${this.name} attempting token refresh...`);
+          try {
+            const refreshResult = await auth(this.oauthProvider, {
+              serverUrl: serverUrl.toString()
+            });
+            if (refreshResult === "AUTHORIZED") {
+              console.error(`[mcp-client] ${this.name} tokens refreshed, retrying connection...`);
+              // Create new transport with refreshed tokens
+              this.transport = new StreamableHTTPClientTransport(serverUrl, {
+                authProvider: this.oauthProvider
+              });
+              this.client = new Client(
+                { name: "code-executor", version: "1.0.0" },
+                { capabilities: {} }
+              );
+              await this.client.connect(this.transport);
+              return; // Success after refresh
+            }
+          } catch (refreshError) {
+            console.error(`[mcp-client] ${this.name} token refresh failed:`, refreshError);
+          }
+        }
+
+        // Refresh failed or not available - clear tokens and fall through to full OAuth
         this.oauthProvider.clearTokens();
       }
     }
 
-    // No tokens or tokens failed - need to do OAuth flow
+    // No tokens or tokens failed - need to do full OAuth flow
     console.error(`[mcp-client] ${this.name} initiating OAuth flow...`);
+    return this.handleOAuthRedirect(serverUrl);
+  }
 
+  /**
+   * Handle the OAuth redirect flow (browser authorization)
+   */
+  private async handleOAuthRedirect(serverUrl: URL): Promise<void> {
     // Perform OAuth flow
-    const result = await auth(this.oauthProvider, {
+    const result = await auth(this.oauthProvider!, {
       serverUrl: serverUrl.toString()
     });
 
     if (result === "REDIRECT") {
       // Wait for user to complete authorization
       console.error(`[mcp-client] Waiting for authorization...`);
-      const code = await this.oauthProvider.waitForAuthorizationCode();
+      const code = await this.oauthProvider!.waitForAuthorizationCode();
       console.error(`[mcp-client] Got authorization code, exchanging for tokens...`);
 
       // Complete the auth flow
       try {
-        const authResult = await auth(this.oauthProvider, {
+        const authResult = await auth(this.oauthProvider!, {
           serverUrl: serverUrl.toString(),
           authorizationCode: code
         });
@@ -150,7 +198,7 @@ export class MCPClientConnection {
       }
 
       // Verify tokens were saved
-      const tokens = await this.oauthProvider.tokens();
+      const tokens = await this.oauthProvider!.tokens();
       if (!tokens) {
         throw new Error("OAuth completed but no tokens were saved");
       }
@@ -160,7 +208,7 @@ export class MCPClientConnection {
     // Connect with new tokens
     console.error(`[mcp-client] ${this.name} connecting with fresh tokens...`);
     this.transport = new StreamableHTTPClientTransport(serverUrl, {
-      authProvider: this.oauthProvider
+      authProvider: this.oauthProvider!
     });
     this.client = new Client(
       { name: "code-executor", version: "1.0.0" },

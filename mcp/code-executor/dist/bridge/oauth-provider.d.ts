@@ -33,6 +33,19 @@ export declare class CLIOAuthProvider implements OAuthClientProvider {
     private loadStoredData;
     private saveStoredData;
     /**
+     * Check if stored tokens are expired or about to expire
+     * Returns true if tokens should be refreshed
+     */
+    shouldRefreshTokens(): boolean;
+    /**
+     * Check if we have a refresh token available
+     */
+    hasRefreshToken(): boolean;
+    /**
+     * Get the refresh token if available
+     */
+    getRefreshToken(): string | undefined;
+    /**
      * Clear stored tokens and client info
      */
     clearTokens(): void;

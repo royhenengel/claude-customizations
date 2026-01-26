@@ -16,14 +16,14 @@ export declare class SandboxRuntime {
     /**
      * Get tool schema (to be injected into sandbox)
      */
-    getToolSchema(server: string, tool: string): unknown;
+    getToolSchema(server: string, tool: string): Promise<unknown>;
     /**
      * Get runtime object for sandbox initialization
      */
     getRuntime(): {
         callMCPTool: (server: string, tool: string, params: unknown) => Promise<unknown>;
         listServers: () => unknown;
-        getToolSchema: (server: string, tool: string) => unknown;
+        getToolSchema: (server: string, tool: string) => Promise<unknown>;
     };
 }
 //# sourceMappingURL=runtime.d.ts.map

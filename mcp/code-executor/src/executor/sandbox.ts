@@ -20,7 +20,7 @@ export class Sandbox {
   async initialize(runtime: {
     callMCPTool: (server: string, tool: string, params: unknown) => Promise<unknown>;
     listServers: () => unknown;
-    getToolSchema: (server: string, tool: string) => unknown;
+    getToolSchema: (server: string, tool: string) => Promise<unknown>;
   }): Promise<void> {
     this.logs = [];
 

@@ -97,7 +97,7 @@ export async function getToolSignature(
   description: string;
   annotations?: Record<string, unknown>;
 }> {
-  const schema = pool.getToolSchema(input.server, input.tool);
+  const schema = await pool.getToolSchema(input.server, input.tool);
 
   if (!schema) {
     throw new Error(`Tool not found: ${input.server}/${input.tool}`);

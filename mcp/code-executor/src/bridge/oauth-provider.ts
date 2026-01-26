@@ -7,6 +7,8 @@ import type { OAuthClientMetadata, OAuthClientInformationMixed, OAuthTokens } fr
 
 const TOKEN_DIR = resolve(process.env.HOME || "~", ".claude", "mcp-tokens");
 const CALLBACK_PORT = 8976;
+// Refresh tokens 5 minutes before they expire
+const TOKEN_REFRESH_BUFFER_SECONDS = 300;
 
 /**
  * Simple OAuth client provider for CLI usage.
@@ -72,8 +74,10 @@ export class CLIOAuthProvider implements OAuthClientProvider {
   async saveTokens(tokens: OAuthTokens): Promise<void> {
     const data = this.loadStoredData() || {};
     data.tokens = tokens;
+    // Store the timestamp when tokens were issued for expiration tracking
+    data.tokensIssuedAt = Math.floor(Date.now() / 1000);
     this.saveStoredData(data);
-    console.error(`[oauth] Tokens saved for ${this.serverName}`);
+    console.error(`[oauth] Tokens saved for ${this.serverName} (expires_in: ${tokens.expires_in}s)`);
   }
 
   async redirectToAuthorization(authorizationUrl: URL): Promise<void> {
@@ -182,7 +186,7 @@ export class CLIOAuthProvider implements OAuthClientProvider {
     }
   }
 
-  private loadStoredData(): { tokens?: OAuthTokens; clientInfo?: OAuthClientInformationMixed } | null {
+  private loadStoredData(): { tokens?: OAuthTokens; clientInfo?: OAuthClientInformationMixed; tokensIssuedAt?: number } | null {
     try {
       if (existsSync(this.tokenPath)) {
         return JSON.parse(readFileSync(this.tokenPath, "utf-8"));
@@ -193,12 +197,55 @@ export class CLIOAuthProvider implements OAuthClientProvider {
     return null;
   }
 
-  private saveStoredData(data: { tokens?: OAuthTokens; clientInfo?: OAuthClientInformationMixed }): void {
+  private saveStoredData(data: { tokens?: OAuthTokens; clientInfo?: OAuthClientInformationMixed; tokensIssuedAt?: number }): void {
     try {
       writeFileSync(this.tokenPath, JSON.stringify(data, null, 2));
     } catch (error) {
       console.error(`[oauth] Failed to save data:`, error);
     }
+  }
+
+  /**
+   * Check if stored tokens are expired or about to expire
+   * Returns true if tokens should be refreshed
+   */
+  shouldRefreshTokens(): boolean {
+    const data = this.loadStoredData();
+    if (!data?.tokens || !data.tokensIssuedAt) {
+      return false; // No tokens or no issue time - let normal flow handle it
+    }
+
+    const expiresIn = data.tokens.expires_in;
+    if (!expiresIn) {
+      return false; // No expiration info - assume valid
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    const expiresAt = data.tokensIssuedAt + expiresIn;
+    const secondsUntilExpiry = expiresAt - now;
+
+    if (secondsUntilExpiry <= TOKEN_REFRESH_BUFFER_SECONDS) {
+      console.error(`[oauth] ${this.serverName} tokens expiring in ${secondsUntilExpiry}s, should refresh`);
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if we have a refresh token available
+   */
+  hasRefreshToken(): boolean {
+    const data = this.loadStoredData();
+    return !!data?.tokens?.refresh_token;
+  }
+
+  /**
+   * Get the refresh token if available
+   */
+  getRefreshToken(): string | undefined {
+    const data = this.loadStoredData();
+    return data?.tokens?.refresh_token;
   }
 
   /**

@@ -57,7 +57,7 @@ export interface ExecutionResult {
 export interface ExecutionContext {
   callMCPTool: (server: string, tool: string, params: unknown) => Promise<unknown>;
   listServers: () => ServerInfo[];
-  getToolSchema: (server: string, tool: string) => ToolSchema | null;
+  getToolSchema: (server: string, tool: string) => Promise<ToolSchema | null>;
 }
 
 // Zod schemas for tool inputs

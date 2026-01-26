@@ -28,6 +28,10 @@ export declare class MCPClientConnection {
      */
     private connectHttp;
     /**
+     * Handle the OAuth redirect flow (browser authorization)
+     */
+    private handleOAuthRedirect;
+    /**
      * Refresh the list of available tools
      */
     refreshTools(): Promise<void>;
