@@ -1,11 +1,23 @@
 # Project State
 
-**Stage**: stopping
+**Stage**: planning
 **Last Updated**: 2026-01-28
+
+## Active Feature
+
+**Name**: everything-claude-code-migration
+**Status**: ready
+**Progress**: 0/22
+
+## Feature Registry
+
+| Feature                          | Status | Progress | Dependencies |
+|----------------------------------|--------|----------|--------------|
+| everything-claude-code-migration | ready  | 0/22     | -            |
 
 ## Current Focus
 
-Session paused - see HANDOFF.md for resume context
+Everything Claude Code Migration - planning complete, ready for build
 
 ## Progress
 
@@ -18,9 +30,13 @@ Session paused - see HANDOFF.md for resume context
 - [x] AI Chat Prefs auto-loading via SessionStart hook
 - [x] Workflow test scenario fixes (PR #1 merged 2026-01-25)
 - [x] Workflow refinements (brainstorm, plan, build) - 2026-01-28
+- [x] Everything Claude Code migration spec created
+- [x] Everything Claude Code migration plan created (22 tasks across 3 phases)
+- [ ] Everything Claude Code migration implementation
 
 ## Decisions
 
+- (2026-01-28) Integrate 3 features from affaan-m/everything-claude-code: session hooks, rules system, continuous learning v2
 - (2026-01-28) Gap Protocol requires user approval before modifying plan (consistency with Rule 4)
 - (2026-01-28) Rules 1-3 tested by design (same pattern as 4/5)
 - (2026-01-22) AI Chat Prefs stored in repo with symlink to ~/.claude/, loaded via SessionStart hook for cross-tool consistency
@@ -37,5 +53,3 @@ Session paused - see HANDOFF.md for resume context
 - This project is adopting the workflow system it created (meta/dogfooding)
 - Migration from specs/ to planning/ completed
 - Original constitution.md preserved in planning/archive/ for reference
-- Session ended: 2026-01-28
-- Handoff created: planning/HANDOFF.md
