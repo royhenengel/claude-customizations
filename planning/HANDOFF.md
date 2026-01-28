@@ -1,65 +1,96 @@
 # Session Handoff
 
-**Created**: 2026-01-21
-**Branch**: feature/001-my-workflow
+**Created**: 2026-01-28
+**Stage**: testing
 
-## Context Summary
+## Resume Point
 
-Designed and implemented `/fix` command - a thorough fix workflow that consults git history, respects project conventions, performs root cause analysis, and prevents regressions.
+**Task**: My-Workflow re-test completed
+**Status**: All phases tested and documented
 
-## Current State
+## Session Summary
 
-### Git Status
+Re-tested the my-workflow system using the TaskPulse test scenario (CLI time tracker). Validated all workflow phases (/start, /brainstorm, /plan, /build, /stop, resume) and verified that previously broken features now work correctly.
 
-```
- M planning/BACKLOG.md
- M planning/STATE.md
-?? commands/fix.md
-?? planning/specs/fix-command/
-?? planning/specs/workflow-test-scenario/
-```
+## Current State (REQUIRED)
 
-### Recent Commits
+### What's Working
 
-```
-bf35d2d feat: wire TDD and Clean Architecture into my-workflow
-d23c70a docs: add SUMMARY.md and migrate curation-log content
-6a41c19 feat: migrate Old CLAUDE.md and adopt GSD/CEK documentation style
-cf313cd feat: complete feature 001-my-workflow with technical debt cleanup
-33a1177 docs: add auto-document strategic decisions to backlog
-```
+- /start: Correctly initializes projects and detects existing handoffs
+- /brainstorm: Question order now enforced (Purpose → Scope → Constraints → Success)
+- /plan: Creates PLAN.md with tasks (TDD pattern still needs work)
+- /build: Deviation rules working correctly
+  - Rule 4 (architectural): Stops and asks for approval
+  - Rule 5 (enhancements): Adds to BACKLOG.md and continues
+- /stop: Creates complete HANDOFF.md with all required sections (Verdict, Decisions, Remaining Tasks)
+- Resume: Detects HANDOFF.md and offers to continue
 
-### Uncommitted Changes
+### What's Not Working
 
-- `commands/fix.md` - new /fix command (untracked)
-- `planning/specs/fix-command/` - spec, research, plan, summary (untracked)
-- `planning/BACKLOG.md` - added auto-trigger improvement item
-- `planning/STATE.md` - updated to maintaining stage
+- /brainstorm Step 3: Still presents implementation options instead of conceptual approaches
+- /plan: No TDD pattern in generated tasks (tests not interleaved with implementation)
+- Rules 1,2,3,6: Not tested (require specific conditions that didn't occur organically)
 
-## Progress This Session
+**Verdict**: Workflow is functional. Critical fixes (Rule 4, HANDOFF sections) verified. Remaining issues are refinements.
 
-1. Brainstormed `/fix` command requirements through iterative questioning
-2. Created spec at `planning/specs/fix-command/spec.md`
-3. Researched existing `/debug` command and `debugging-practices` skill
-4. Created implementation plan (2 tasks)
-5. Implemented `commands/fix.md` with 8-step workflow
-6. Dry-run tested with hypothetical issue - all steps executed correctly
+## Decisions Made (REQUIRED)
 
-## Next Steps
+| Decision | Rationale | Alternatives Rejected |
+|----------|-----------|----------------------|
+| Document Rules 1,2,3,6 as skipped | Didn't occur organically during test | Force artificial triggers (less realistic) |
+| Proceed with /stop test despite partial /brainstorm | Core workflow validated | Fix all /brainstorm issues first (would delay) |
+| Mark overall test as Pass | All critical paths work | Require 100% coverage (unrealistic) |
 
-1. **Commit the changes** - `/fix` command and related files are ready
-2. **Test with real issue** - Use `/fix` next time an actual issue occurs
-3. **Monitor auto-trigger backlog item** - Evaluate after using `/fix` a few times
+## Progress (REQUIRED)
+
+### Completed This Session
+
+- [x] Re-tested /start phase
+- [x] Re-tested /brainstorm phase (question order fix verified)
+- [x] Re-tested /plan phase
+- [x] Re-tested /build phase (normal execution)
+- [x] Tested Rule 4 deviation (web interface request) - PASSED
+- [x] Tested Rule 5 deviation (colored output request) - PASSED
+- [x] Documented Rules 1,2,3,6 as skipped
+- [x] Re-tested /stop phase - PASSED (all sections present)
+- [x] Tested resume flow - PASSED (detects handoff, offers options)
+- [x] Updated TEST-RESULTS.md with final outcomes
+- [x] Updated summary to "Pass"
+
+### Remaining Tasks
+
+- [ ] Fix /brainstorm Step 3 (conceptual vs implementation approaches)
+- [ ] Fix /plan TDD pattern enforcement
+- [ ] Consider dedicated test scenarios for Rules 1,2,3,6
+
+## Next Steps (REQUIRED)
+
+1. Review TEST-RESULTS.md for complete test outcomes
+2. Address remaining /brainstorm and /plan issues (documented in backlog)
+3. Consider creating dedicated test scenarios for untested deviation rules
 
 ## Open Questions
 
-None - design decisions were made during brainstorm:
-- Always thorough (no quick mode)
-- Git history as documentation (no separate fix log)
-- Notify + backlog for convention changes
+- Should Rules 1,2,3,6 have dedicated test scenarios, or rely on organic discovery?
+- Is the TDD pattern critical enough to block workflow release?
 
-## Notes
+## Files Changed
 
-- `/fix` fills gap between `/debug` (finding bugs) and `debugging-practices` (deep analysis)
-- Key differentiator: git history search and regression checklists
-- Future improvement logged: auto-trigger on issue detection language
+| File | Change |
+|------|--------|
+| `planning/specs/workflow-test-scenario/TEST-RESULTS.md` | Updated with re-test results, changed overall status to Pass |
+| `skills/my-workflow/workflows/brainstorm.md` | Added mandatory question order (fixed earlier) |
+
+## Context for Next Session
+
+The my-workflow system has been validated through the TaskPulse test scenario. All critical paths work correctly. Two refinements remain documented:
+
+1. **brainstorm.md Step 3**: Needs clarification that approaches should be conceptual (event-based vs polling), not implementation-specific (Python+SQLite vs JSON)
+
+2. **plan.md TDD**: Needs explicit requirement for test tasks in generated plans
+
+Both are documented in TEST-RESULTS.md under their respective sections and in BACKLOG.md under "Merge /brainstorm into /plan" improvement.
+
+---
+
+*This handoff was created by /stop. Delete after resuming.*

@@ -52,6 +52,12 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Brownfield project support in /start
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
+- [ ] Merge /brainstorm into /plan
+  - **Context**: Current design has /brainstorm (explore) and /plan (tasks) as separate commands
+  - **Issue**: User doesn't need to know the distinction. They just want idea → executable plan.
+  - **Decision**: Single /plan command that brainstorms first if requirements are unclear
+  - **New flow**: /plan checks if SPEC exists or requirements are clear → if not, runs brainstorm phase → then creates PLAN.md
+  - **Result**: User only needs /start → /plan → /build → /stop
 - [ ] Add lightweight mode to My-Workflow
   - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
   - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead

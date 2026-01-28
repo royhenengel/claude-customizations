@@ -36,20 +36,35 @@ Check project state:
 - Check `planning/specs/` for existing features
 - Look at recent work to understand project direction
 
-### 2. Explore the Idea (One Question at a Time)
+### 2. Explore the Idea (Mandatory Question Order)
 
-Ask questions to refine understanding:
+Ask questions in THIS ORDER. Do NOT skip ahead to technology or implementation.
 
-- **Purpose**: What problem does this solve? Who benefits?
-- **Scope**: What's in scope vs explicitly out of scope?
-- **Constraints**: Technical limitations, timeline, dependencies?
-- **Success criteria**: How do we know it's done?
+**Question 1 - Purpose** (MUST ask first):
+> "What problem does this solve? Who benefits from solving it?"
 
-**Key principles:**
+Wait for answer before proceeding.
+
+**Question 2 - Scope**:
+> "What's explicitly in scope vs out of scope for this feature?"
+
+Wait for answer before proceeding.
+
+**Question 3 - Constraints**:
+> "Are there any constraints I should know about? (timeline, dependencies, technical limitations)"
+
+Wait for answer before proceeding.
+
+**Question 4 - Success criteria**:
+> "How will we know this is done? What does success look like?"
+
+Wait for answer before proceeding.
+
+**IMPORTANT:**
 - ONE question per message
 - Prefer multiple choice when possible
-- Open-ended is fine for exploratory topics
-- Don't overwhelm with multiple questions at once
+- Do NOT ask about technology, architecture, or implementation until Step 3 (Propose Approaches)
+- Technology choices come AFTER understanding the problem
 
 ### 3. Propose Approaches (2-3 Options)
 
