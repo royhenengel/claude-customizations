@@ -68,7 +68,13 @@ Wait for answer before proceeding.
 
 ### 3. Propose Approaches (2-3 Options)
 
-Once you understand the idea, present alternatives:
+Once you understand the idea, present **conceptual approaches** (not technology choices):
+
+**IMPORTANT:** Approaches describe HOW the feature works at a design level:
+- Good: "Event-based tracking" vs "Polling-based" vs "Passive detection"
+- Bad: "Python + SQLite" vs "Node.js + JSON" vs "Go + BoltDB"
+
+Technology choices come later during /plan's research phase.
 
 ```
 Based on what you've described, here are approaches:

@@ -265,12 +265,19 @@ Create a comprehensive implementation plan with as many tasks as needed for clar
 
 ## Task Summary
 
+**Task ordering**: Follow TDD (Red-Green pattern). For each behavior:
+1. Write failing test first
+2. Implement minimal code to pass test
+3. Repeat for next behavior
+
 | # | Task | Type | Dependencies | Blocking |
 |---|------|------|--------------|----------|
-| 1 | {name} | auto | - | - |
-| 2 | Write tests for {component} | auto | Task 1 | - |
-| 3 | Implement {component} | auto | Task 2 | - |
-| 4 | {name} | checkpoint:decision | Tasks 1-3 | yes |
+| 1 | Set up module structure | auto | - | - |
+| 2 | Write test for {behavior 1} | auto | Task 1 | - |
+| 3 | Implement {behavior 1} | auto | Task 2 | - |
+| 4 | Write test for {behavior 2} | auto | Task 3 | - |
+| 5 | Implement {behavior 2} | auto | Task 4 | - |
+| 6 | {checkpoint if needed} | checkpoint:decision | Task 5 | yes |
 
 ## Tasks
 

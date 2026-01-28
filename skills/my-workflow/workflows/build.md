@@ -347,7 +347,33 @@ Assess impact on current plan:
 - **Different feature?** → Add to BACKLOG.md, pop stack, continue original task
 - **New task in current plan?** → Continue to Step 4
 
-#### Step 4: MODIFY
+#### Step 4: REQUEST APPROVAL
+
+**Do NOT modify the plan without user approval.** Present the gap and options:
+
+```text
+⚠️ GAP DETECTED - Plan Modification Required
+
+Gap discovered: {description of what's missing}
+Impact: Blocks Task {N} until resolved
+
+Proposed solution:
+- Add Task {N}a: {gap task description}
+- Then continue with Task {N}
+
+Options:
+1. Add task to current plan (recommended)
+2. Add to BACKLOG.md (defer and continue without it)
+3. Stop and reassess the plan
+
+Which would you prefer?
+```
+
+**If user approves (Option 1)**: Continue to Step 5
+**If user defers (Option 2)**: Add to BACKLOG.md, clear Gap Stack, continue original task (may fail)
+**If user stops (Option 3)**: Clear Gap Stack, pause build, await further direction
+
+#### Step 5: MODIFY
 
 Update PLAN.md:
 
@@ -356,11 +382,11 @@ Update PLAN.md:
 - Update Task Summary table
 - Example: If blocked on Task 3, insert "Task 3a: {gap work} (Added via Gap Protocol)"
 
-#### Step 5: EXECUTE
+#### Step 6: EXECUTE
 
 Complete the gap task. Apply deviation rules recursively (gaps can nest).
 
-#### Step 6: RETURN
+#### Step 7: RETURN
 
 After gap task completes, pop context from Gap Stack and display:
 
