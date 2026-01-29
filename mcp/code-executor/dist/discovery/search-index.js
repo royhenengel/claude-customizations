@@ -5,11 +5,42 @@ import Fuse from "fuse.js";
 export class ToolSearchIndex {
     fuse = null;
     tools = [];
+    indexedServers = new Set();
     /**
      * Build the search index from the server pool
      */
     buildIndex(pool) {
         this.tools = pool.getAllTools();
+        // Track which servers are indexed
+        this.indexedServers.clear();
+        for (const tool of this.tools) {
+            this.indexedServers.add(tool.server);
+        }
+        this.rebuildFuseIndex();
+        console.error(`[search-index] Built index with ${this.tools.length} tools from ${this.indexedServers.size} servers`);
+    }
+    /**
+     * Add tools from a newly-connected server to the index
+     */
+    addServerTools(serverName, tools) {
+        if (this.indexedServers.has(serverName)) {
+            return; // Already indexed
+        }
+        this.tools.push(...tools);
+        this.indexedServers.add(serverName);
+        this.rebuildFuseIndex();
+        console.error(`[search-index] Added ${tools.length} tools from ${serverName}, total: ${this.tools.length}`);
+    }
+    /**
+     * Check if a server is already indexed
+     */
+    isServerIndexed(serverName) {
+        return this.indexedServers.has(serverName);
+    }
+    /**
+     * Rebuild the Fuse.js index
+     */
+    rebuildFuseIndex() {
         this.fuse = new Fuse(this.tools, {
             keys: [
                 { name: "tool", weight: 0.4 },
@@ -21,7 +52,6 @@ export class ToolSearchIndex {
             ignoreLocation: true,
             minMatchCharLength: 2
         });
-        console.error(`[search-index] Built index with ${this.tools.length} tools`);
     }
     /**
      * Search for tools matching a query

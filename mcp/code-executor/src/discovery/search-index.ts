@@ -8,6 +8,7 @@ import type { ServerPool } from "../bridge/server-pool.js";
 export class ToolSearchIndex {
   private fuse: Fuse<ToolIndex> | null = null;
   private tools: ToolIndex[] = [];
+  private indexedServers: Set<string> = new Set();
 
   /**
    * Build the search index from the server pool
@@ -15,6 +16,41 @@ export class ToolSearchIndex {
   buildIndex(pool: ServerPool): void {
     this.tools = pool.getAllTools();
 
+    // Track which servers are indexed
+    this.indexedServers.clear();
+    for (const tool of this.tools) {
+      this.indexedServers.add(tool.server);
+    }
+
+    this.rebuildFuseIndex();
+    console.error(`[search-index] Built index with ${this.tools.length} tools from ${this.indexedServers.size} servers`);
+  }
+
+  /**
+   * Add tools from a newly-connected server to the index
+   */
+  addServerTools(serverName: string, tools: ToolIndex[]): void {
+    if (this.indexedServers.has(serverName)) {
+      return; // Already indexed
+    }
+
+    this.tools.push(...tools);
+    this.indexedServers.add(serverName);
+    this.rebuildFuseIndex();
+    console.error(`[search-index] Added ${tools.length} tools from ${serverName}, total: ${this.tools.length}`);
+  }
+
+  /**
+   * Check if a server is already indexed
+   */
+  isServerIndexed(serverName: string): boolean {
+    return this.indexedServers.has(serverName);
+  }
+
+  /**
+   * Rebuild the Fuse.js index
+   */
+  private rebuildFuseIndex(): void {
     this.fuse = new Fuse(this.tools, {
       keys: [
         { name: "tool", weight: 0.4 },
@@ -26,8 +62,6 @@ export class ToolSearchIndex {
       ignoreLocation: true,
       minMatchCharLength: 2
     });
-
-    console.error(`[search-index] Built index with ${this.tools.length} tools`);
   }
 
   /**

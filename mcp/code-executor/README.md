@@ -38,6 +38,7 @@ Traditional approach:                    Code Executor approach:
 - **Token Efficiency**: ~98% reduction by filtering data in code before returning
 - **Better Control Flow**: Native JavaScript loops, conditionals, and async/await
 - **Progressive Discovery**: Search for tools without loading all schemas upfront
+- **Lazy Server Loading**: Servers are connected on-demand when searched or called
 - **Multi-Server Access**: Call tools across all connected MCP servers
 
 ## Installation
@@ -97,11 +98,23 @@ claude mcp list
 | `MCP_CONFIG_PATH` | No | Path to .claude.json file. Auto-detected if not set. |
 | `CONNECTED_SERVERS` | No | Comma-separated list of servers to connect to. Defaults to all non-disabled servers. |
 
-### Choosing Which Servers to Connect
+### Choosing Which Servers to Connect at Startup
 
-Only include servers that benefit from code-based access:
-- **Include**: Data-heavy servers (notion, filesystem, memory, github)
-- **Exclude**: Interactive servers (puppeteer), specialized servers (mermaid, plantuml)
+The `CONNECTED_SERVERS` variable controls which servers connect immediately at startup. Other servers in your config are available for **lazy loading** - they connect on-demand when searched or called.
+
+**Startup servers** (in `CONNECTED_SERVERS`):
+
+- Connect immediately when code-executor starts
+- Tools are indexed and searchable right away
+- Best for frequently-used servers (notion, filesystem, memory, github)
+
+**Lazy-loaded servers** (not in `CONNECTED_SERVERS`):
+
+- Connect only when explicitly searched for or called
+- Reduces startup time and resource usage
+- Best for occasionally-used servers (supabase, puppeteer, etc.)
+
+Example: If `CONNECTED_SERVERS="notion-workspace,memory,github"` but your config also has `supabase`, searching for "supabase" will trigger lazy connection to Supabase and index its tools.
 
 ## Tools
 
@@ -140,29 +153,35 @@ getToolSchema(server, tool)
 
 ### `search_tools`
 
-Search for tools across all connected MCP servers using fuzzy matching.
+Search for tools across MCP servers using fuzzy matching. Supports lazy loading: if the query matches a server name that isn't connected yet, it will connect to that server and include its tools in the results.
 
 **Parameters:**
+
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| `query` | string | Yes | Search term |
+| `query` | string | Yes | Search term (also triggers lazy loading if it matches a server name) |
 | `detail` | string | No | `"minimal"`, `"standard"` (default), or `"full"` |
-| `server` | string | No | Filter to specific server |
+| `server` | string | No | Filter to specific server (triggers lazy loading if not connected) |
 | `limit` | number | No | Max results (default: 10, max: 100) |
 
 **Example Response:**
+
 ```json
 {
   "tools": [
     {
-      "server": "notion-workspace",
-      "tool": "query_resources",
-      "description": "Search and filter resources from the database"
+      "server": "supabase",
+      "tool": "execute_sql",
+      "description": "Execute SQL queries against the database"
     }
   ],
-  "total": 1
+  "total": 1,
+  "query": "supabase execute sql",
+  "lazyLoaded": ["supabase"]
 }
 ```
+
+The `lazyLoaded` field shows which servers were connected on-demand during this search.
 
 ### `get_tool_signature`
 
@@ -185,18 +204,27 @@ Get TypeScript signature and details for a specific tool.
 
 ### `list_servers`
 
-List all connected MCP servers and their status.
+List all MCP servers - both connected and available for lazy loading.
 
 **Response:**
+
 ```json
 {
   "servers": [
     { "name": "notion-workspace", "status": "connected", "toolCount": 20 },
-    { "name": "filesystem", "status": "connected", "toolCount": 14 },
-    { "name": "memory", "status": "connected", "toolCount": 9 }
-  ]
+    { "name": "memory", "status": "connected", "toolCount": 9 },
+    { "name": "github", "status": "connected", "toolCount": 26 }
+  ],
+  "available": ["supabase", "puppeteer", "filesystem", "sequential-thinking"],
+  "totalTools": 55
 }
 ```
+
+- `servers`: Currently connected servers with their tools
+- `available`: Server names from config that can be lazily loaded
+- `totalTools`: Total tools across connected servers
+
+Use `search_tools` with a server name to trigger lazy loading of available servers.
 
 ## Usage Examples
 
@@ -338,9 +366,12 @@ Check that:
 ### Tool calls fail with "Server not connected"
 
 The specified server might:
-- Not be in your `CONNECTED_SERVERS` list
+
+- Not be in your config file
 - Have failed to start (check stderr for connection errors)
-- Use an unsupported transport (only stdio is currently supported)
+- Require OAuth re-authorization (for HTTP servers like Supabase)
+
+Note: Servers not in `CONNECTED_SERVERS` will be lazily loaded when searched or called.
 
 ### Code execution times out
 
@@ -348,9 +379,15 @@ The specified server might:
 - Maximum is 5 minutes (300000ms)
 - Increase timeout in the tool call: `{ "timeout_ms": 60000 }`
 
-### "Transport type 'http' not yet supported"
+### OAuth servers require re-authorization
 
-Currently only stdio-based MCP servers are supported. HTTP and SSE transports are planned for a future release.
+HTTP-based servers (like Supabase, Notion) use OAuth for authentication. If you see authorization errors:
+
+1. The server will open a browser for OAuth flow
+2. Complete the authorization in your browser
+3. The server will automatically connect after authorization
+
+Tokens are cached and refreshed automatically. Re-authorization is only needed when tokens expire or are revoked.
 
 ## Development
 

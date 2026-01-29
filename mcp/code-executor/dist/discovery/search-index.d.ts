@@ -6,10 +6,23 @@ import type { ServerPool } from "../bridge/server-pool.js";
 export declare class ToolSearchIndex {
     private fuse;
     private tools;
+    private indexedServers;
     /**
      * Build the search index from the server pool
      */
     buildIndex(pool: ServerPool): void;
+    /**
+     * Add tools from a newly-connected server to the index
+     */
+    addServerTools(serverName: string, tools: ToolIndex[]): void;
+    /**
+     * Check if a server is already indexed
+     */
+    isServerIndexed(serverName: string): boolean;
+    /**
+     * Rebuild the Fuse.js index
+     */
+    private rebuildFuseIndex;
     /**
      * Search for tools matching a query
      */

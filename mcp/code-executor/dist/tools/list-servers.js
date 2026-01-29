@@ -1,15 +1,20 @@
 /**
- * List all connected MCP servers and their status
+ * List all MCP servers - both connected and available for lazy loading
  */
-export async function listServers(pool) {
-    const servers = pool.listServers(true);
+export async function listServers(pool, config) {
+    const connectedServers = pool.listServers(true);
+    const connectedNames = new Set(connectedServers.map(s => s.name));
+    // Get all available servers from config that aren't connected yet
+    const availableServers = Object.keys(config.mcpServers)
+        .filter(name => !connectedNames.has(name) && name !== "code-executor");
     return {
-        servers: servers.map(s => ({
+        servers: connectedServers.map(s => ({
             name: s.name,
             status: s.status,
             toolCount: s.toolCount,
             tools: s.tools
         })),
+        available: availableServers,
         totalTools: pool.getTotalToolCount()
     };
 }

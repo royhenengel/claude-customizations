@@ -21,15 +21,16 @@ import { getToolSignature } from "./tools/get-signature.js";
 // Global state
 let serverPool;
 let searchIndex;
+let mcpConfig;
 /**
  * Initialize MCP server and register tools
  */
 async function main() {
     console.error("[code-executor] Starting Code Executor MCP Server...");
     // Load configuration
-    const config = loadMCPConfig();
+    mcpConfig = loadMCPConfig();
     // Initialize server pool
-    serverPool = new ServerPool(config);
+    serverPool = new ServerPool(mcpConfig);
     await serverPool.initialize();
     // Build search index
     searchIndex = new ToolSearchIndex();
@@ -108,7 +109,7 @@ Detail levels:
             server: params.server,
             limit: params.limit ?? 10
         };
-        const result = await searchTools(searchIndex, input);
+        const result = await searchTools(searchIndex, serverPool, mcpConfig, input);
         return {
             content: [{
                     type: "text",
@@ -151,11 +152,15 @@ before calling a tool via execute_code.`, {
         }
     });
     // Register list_servers tool
-    server.tool("list_servers", `List all connected MCP servers and their status.
+    server.tool("list_servers", `List all MCP servers - both connected and available for lazy loading.
 
-Returns the name, connection status, and tool count for each server.
-Use this to see what's available before searching for specific tools.`, {}, async () => {
-        const result = await listServers(serverPool);
+Returns:
+- servers: Currently connected servers with their tools
+- available: Server names that can be lazily loaded when searched or called
+- totalTools: Total tools across connected servers
+
+Use search_tools with a server name to trigger lazy loading of available servers.`, {}, async () => {
+        const result = await listServers(serverPool, mcpConfig);
         return {
             content: [{
                     type: "text",

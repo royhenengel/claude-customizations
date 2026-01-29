@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.1.0 (2025-01-29)
+
+### Features
+
+- **Lazy Server Loading** - Servers not in `CONNECTED_SERVERS` are now loaded on-demand
+  - `search_tools` automatically connects to servers matching the query
+  - `callMCPTool` and `getToolSchema` trigger lazy connection when calling unconnected servers
+  - Reduces startup time by only connecting to frequently-used servers at startup
+
+- **Enhanced `list_servers`** - Now shows both connected and available servers
+  - `servers`: Currently connected servers with tools
+  - `available`: Server names that can be lazily loaded
+  - Helps discover what servers are configured but not yet connected
+
+- **Enhanced `search_tools`** - Returns `lazyLoaded` field showing which servers were connected on-demand
+
+### Changes
+
+- `search_tools` now accepts `serverPool` and `config` parameters for lazy loading
+- `list_servers` now accepts `config` parameter to show available servers
+- Search index supports dynamic addition of tools from newly-connected servers
+
 ## 1.0.0 (2025-01-06)
 
 Initial release of the Code Executor MCP Server.
@@ -38,7 +60,6 @@ Initial release of the Code Executor MCP Server.
 
 ### Known Limitations
 
-- Only stdio transport supported (HTTP/SSE planned)
 - vm module is not a security boundary (suitable for Claude-generated code only)
 
 ### Implementation Notes
