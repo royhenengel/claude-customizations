@@ -1,23 +1,30 @@
 # Project State
 
-**Stage**: building
+**Stage**: stopping
 **Last Updated**: 2026-01-31
 
 ## Active Feature
 
-**Name**: everything-claude-code-migration
-**Status**: active
-**Progress**: 18/18
+**Name**: reddit-mcp-server
+**Status**: complete
+**Progress**: 3/3
 
 ## Feature Registry
 
-| Feature                          | Status | Progress | Dependencies |
-|----------------------------------|--------|----------|--------------|
+| Feature                          | Status   | Progress | Dependencies |
+|----------------------------------|----------|----------|--------------|
 | everything-claude-code-migration | complete | 18/18    | -            |
+| reddit-mcp-server                | complete | 3/3      | -            |
 
 ## Current Focus
 
-Phase 3: Continuous Learning v2 (Tasks 11-18)
+Session paused - see HANDOFF.md for resume context
+
+## Progress (reddit-mcp-server)
+
+- [x] Task 1: Add reddit-mcp-buddy to MCP configuration
+- [x] Task 2: Restart Claude Code to load server
+- [x] Task 3: Verify server connection and tools
 
 ## Progress (everything-claude-code-migration)
 
@@ -62,6 +69,7 @@ Phase 3: Continuous Learning v2 (Tasks 11-18)
 
 ## Decisions
 
+- (2026-01-31) Selected reddit-mcp-buddy: npm package (technical consistency), ~360 stars, optional auth (anonymous 10 req/min)
 - (2026-01-31) claude-mem installed via plugin system (v9.0.12) instead of manual hooks - cleaner, auto-updates
 - (2026-01-31) **Pivot**: claude-mem replaces Phase 1 (session hooks). Phase 3 modified to integrate instinct system with claude-mem's SQLite. Task count reduced from 22 to 18.
 - (2026-01-28) Integrate 3 features from affaan-m/everything-claude-code: session hooks, rules system, continuous learning v2
@@ -87,3 +95,4 @@ Phase 3: Continuous Learning v2 (Tasks 11-18)
 - Fixed: bun symlink (~/.local/bin/bun) and session project association
 - Observations generated at session end/checkpoints, not per-tool-call
 - Instinct system implemented: 10 instincts bootstrapped, CLI working, commands created
+- Session resumed: 2026-01-31 (from HANDOFF.md)

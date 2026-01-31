@@ -4,9 +4,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Quick Wins
 
-- [ ] Set up Reddit MCP server for fetching Reddit content
-  - **Options**: [zicochaos/reddit-mcp](https://github.com/zicochaos/reddit-mcp) (recommended - has caching, filtering, nested comments), [Hawstein/mcp-server-reddit](https://github.com/Hawstein/mcp-server-reddit), [Arindam200/reddit-mcp](https://github.com/Arindam200/reddit-mcp)
-  - **Purpose**: Fetch Reddit posts/comments without browser overhead (Puppeteer alternative)
+- [x] Set up Reddit MCP server for fetching Reddit content
+  - **Resolution**: Planned - see planning/specs/reddit-mcp-server/
 - [x] Populate root CLAUDE.md with project context
 - [x] Wire TDD and Clean Architecture into My-Workflow (similar to CEK)
   - **Resolution**: Added Development Discipline as Core Principle #1 in SKILL.md
