@@ -18,10 +18,10 @@ Integrate three features from affaan-m/everything-claude-code into claude-custom
 ### Functional
 
 #### Phase 1: Session Compaction Hooks
-- [ ] PreCompact hook writes to planning/COMPACTION-LOG.md on compaction events
-- [ ] SessionEnd hook creates lightweight HANDOFF.md if /stop wasn't called
-- [ ] Both hooks integrate with existing planning/ directory structure
-- [ ] Hooks are Node.js for cross-platform compatibility
+- [ ] Create .sessions/ directory at project root for session files
+- [ ] PreCompact hook writes to .sessions/compaction-log.txt with STATE.md snapshot
+- [ ] SessionEnd hook creates {date}-{id}-session.tmp if /stop wasn't called
+- [ ] SessionStart hook finds recent session files (7 days) and outputs context
 
 #### Phase 2: Rules System
 - [ ] Create skills/my-workflow/rules/ directory
@@ -32,7 +32,7 @@ Integrate three features from affaan-m/everything-claude-code into claude-custom
 - [ ] Security check runs before commit in /build workflow
 
 #### Phase 3: Continuous Learning v2
-- [ ] Create ~/.claude/homunculus/ directory structure
+- [ ] Create ~/.claude/learning/ directory structure
 - [ ] Port observe.sh hook for PreToolUse/PostToolUse observation
 - [ ] Add observation hooks to hooks configuration
 - [ ] Port instinct-cli.py for managing instincts
@@ -44,7 +44,6 @@ Integrate three features from affaan-m/everything-claude-code into claude-custom
 - [ ] Hooks must not block session startup/shutdown (async, always exit 0)
 - [ ] Observation logging must cap at 10MB with rotation
 - [ ] Background observer is optional (disabled by default to avoid API cost)
-- [ ] All scripts cross-platform (Node.js or Python, not bash)
 
 ## Constraints
 

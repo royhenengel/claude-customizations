@@ -42,6 +42,10 @@ Sources:
 
 - [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit) (13 agents)
 
+- [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) (9 agents) — Hackathon-winning config with session hooks, rules system, continuous learning
+
+- [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done) (11 agents) — Meta-prompting system with context engineering, 6-step workflow cycle
+
 Note: Both repos provided code-reviewer agents. Kept both with distinct purposes:
 
 - `code-reviewer.md` — General comprehensive reviews (VoltAgent)

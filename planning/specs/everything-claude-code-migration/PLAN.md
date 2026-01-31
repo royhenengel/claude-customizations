@@ -27,7 +27,7 @@ Integrate session compaction hooks, rules system, and continuous learning v2 fro
 | 10 | Wire rules into SKILL.md | auto | Tasks 7-9 | 2 |
 | 11 | Add security check to /build workflow | auto | Task 10 | 2 |
 | 12 | Test rules loading and security check | checkpoint:human-verify | Task 11 | 2 |
-| 13 | Create homunculus/ directory structure | auto | - | 3 |
+| 13 | Create learning/ directory structure | auto | - | 3 |
 | 14 | Create observe.js hook script | auto | Task 3 | 3 |
 | 15 | Create instinct-cli.py | auto | Task 13 | 3 |
 | 16 | Create /instinct-status command | auto | Task 15 | 3 |
@@ -506,18 +506,18 @@ Reference: @rules/security-checklist.md
 
 ## Phase 3: Continuous Learning v2
 
-### Task 13: Create homunculus/ directory structure
+### Task 13: Create learning/ directory structure
 
 **Type**: auto
-**Files**: ~/.claude/homunculus/
+**Files**: ~/.claude/learning/
 **Dependencies**: None
 
 **Context**: Homunculus is the learning system's home. Lives in ~/.claude/ for cross-project learning.
 
 **Action**:
 ```bash
-mkdir -p ~/.claude/homunculus/{instincts/{personal,inherited},evolved/{agents,skills,commands}}
-touch ~/.claude/homunculus/observations.jsonl
+mkdir -p ~/.claude/learning/{instincts/{personal,inherited},evolved/{agents,skills,commands}}
+touch ~/.claude/learning/observations.jsonl
 ```
 
 Create identity.json:
@@ -536,13 +536,13 @@ Create config.json:
   "version": "2.0",
   "observation": {
     "enabled": true,
-    "store_path": "~/.claude/homunculus/observations.jsonl",
+    "store_path": "~/.claude/learning/observations.jsonl",
     "max_file_size_mb": 10,
     "archive_after_days": 7
   },
   "instincts": {
-    "personal_path": "~/.claude/homunculus/instincts/personal/",
-    "inherited_path": "~/.claude/homunculus/instincts/inherited/",
+    "personal_path": "~/.claude/learning/instincts/personal/",
+    "inherited_path": "~/.claude/learning/instincts/inherited/",
     "min_confidence": 0.3,
     "auto_approve_threshold": 0.7,
     "confidence_decay_rate": 0.05
@@ -554,14 +554,14 @@ Create config.json:
   },
   "evolution": {
     "cluster_threshold": 3,
-    "evolved_path": "~/.claude/homunculus/evolved/"
+    "evolved_path": "~/.claude/learning/evolved/"
   }
 }
 ```
 
 Note: observer.enabled = false by default (no API cost).
 
-**Verify**: `ls ~/.claude/homunculus/instincts/` shows personal/ and inherited/
+**Verify**: `ls ~/.claude/learning/instincts/` shows personal/ and inherited/
 **Done**: Full directory structure created
 
 ---
@@ -582,7 +582,7 @@ Create Node.js script (not bash, for cross-platform):
 const fs = require('fs');
 const path = require('path');
 
-const HOMUNCULUS_DIR = path.join(require('os').homedir(), '.claude', 'homunculus');
+const HOMUNCULUS_DIR = path.join(require('os').homedir(), '.claude', 'learning');
 const OBSERVATIONS_FILE = path.join(HOMUNCULUS_DIR, 'observations.jsonl');
 const MAX_SIZE_MB = 10;
 
@@ -657,7 +657,7 @@ main();
 Port instinct-cli.py from source (already fetched in research).
 
 Key adaptations:
-- Use ~/.claude/homunculus/ paths
+- Use ~/.claude/learning/ paths
 - Add `bootstrap` command for AI Chat Prefs import
 - Keep all existing commands: status, import, export, evolve
 
@@ -827,7 +827,7 @@ Import only high-confidence:
 
 ## Behavior
 
-- New instincts are added to ~/.claude/homunculus/instincts/inherited/
+- New instincts are added to ~/.claude/learning/instincts/inherited/
 - Duplicates are skipped unless new version has higher confidence
 - Dry-run shows what would be imported without changes
 ```
@@ -876,9 +876,9 @@ Shows:
 ## Generate Mode
 
 With `--generate`, creates actual files in:
-- ~/.claude/homunculus/evolved/skills/
-- ~/.claude/homunculus/evolved/commands/
-- ~/.claude/homunculus/evolved/agents/
+- ~/.claude/learning/evolved/skills/
+- ~/.claude/learning/evolved/commands/
+- ~/.claude/learning/evolved/agents/
 
 Generated files can be reviewed and moved to active directories.
 
@@ -934,7 +934,7 @@ Note: These hooks are lightweight (just logging) so won't slow down operations.
 ### Task 21: Bootstrap instincts from AI Chat Prefs
 
 **Type**: auto
-**Files**: ~/.claude/homunculus/instincts/personal/ai-chat-prefs-bootstrap.yaml
+**Files**: ~/.claude/learning/instincts/personal/ai-chat-prefs-bootstrap.yaml
 **Dependencies**: Tasks 15, 20
 
 **Context**: Seed the instinct system with existing preferences from AI Chat Prefs.
@@ -991,7 +991,7 @@ Create ~10 instincts with high confidence (0.9) since they're explicitly documen
 **Action**:
 1. Run `/instinct-status` - should show bootstrapped instincts
 2. Work briefly to generate observations
-3. Check `~/.claude/homunculus/observations.jsonl` has entries
+3. Check `~/.claude/learning/observations.jsonl` has entries
 4. Run `/evolve` - should analyze instincts (may be too few for suggestions)
 5. Run `/instinct-export` - should output instinct YAML
 
