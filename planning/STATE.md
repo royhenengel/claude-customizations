@@ -7,13 +7,13 @@
 
 **Name**: everything-claude-code-migration
 **Status**: paused
-**Progress**: 0/22
+**Progress**: 0/18
 
 ## Feature Registry
 
 | Feature                          | Status | Progress | Dependencies |
 |----------------------------------|--------|----------|--------------|
-| everything-claude-code-migration | paused | 0/22     | -            |
+| everything-claude-code-migration | paused | 0/18     | -            |
 
 ## Current Focus
 
@@ -36,6 +36,7 @@ Pre-build review complete. Ready for /build when user is ready.
 
 ## Decisions
 
+- (2026-01-31) **Pivot**: claude-mem replaces Phase 1 (session hooks). Phase 3 modified to integrate instinct system with claude-mem's SQLite. Task count reduced from 22 to 18.
 - (2026-01-28) Integrate 3 features from affaan-m/everything-claude-code: session hooks, rules system, continuous learning v2
 - (2026-01-28) Gap Protocol requires user approval before modifying plan (consistency with Rule 4)
 - (2026-01-28) Rules 1-3 tested by design (same pattern as 4/5)

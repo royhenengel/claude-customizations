@@ -4,6 +4,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Quick Wins
 
+- [ ] Set up Reddit MCP server for fetching Reddit content
+  - **Options**: [zicochaos/reddit-mcp](https://github.com/zicochaos/reddit-mcp) (recommended - has caching, filtering, nested comments), [Hawstein/mcp-server-reddit](https://github.com/Hawstein/mcp-server-reddit), [Arindam200/reddit-mcp](https://github.com/Arindam200/reddit-mcp)
+  - **Purpose**: Fetch Reddit posts/comments without browser overhead (Puppeteer alternative)
 - [x] Populate root CLAUDE.md with project context
 - [x] Wire TDD and Clean Architecture into My-Workflow (similar to CEK)
   - **Resolution**: Added Development Discipline as Core Principle #1 in SKILL.md
@@ -114,6 +117,54 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     1. Archive it (my-workflow supersedes most content)
     2. Keep but link from CLAUDE.md and update stale references
     3. Extract still-valuable content (tool selection guide) to dedicated doc
+
+## Inspiration Sources
+
+Reference repositories being evaluated for cherry-picking. See [reddit-sources-evaluation.md](specs/reddit-sources-evaluation.md) for detailed analysis.
+
+### Session Continuity & Memory
+
+| Source | Status | Value |
+| --- | --- | --- |
+| [claude-mem](https://github.com/thedotmack/claude-mem) | **NEXT ACTION** | Best session continuity, auto-injection, semantic search. Replaces Everything Claude Phase 1. |
+| Everything Claude sessions | Superseded | claude-mem is more comprehensive |
+| Knowledge Graph MCP | Keep | Different purpose (curated facts vs automatic capture) |
+
+### Workflow Systems
+
+| Source | Status | Value |
+| --- | --- | --- |
+| [GSD](https://github.com/glittercowboy/get-shit-done) | Cherry-picked | Subagent patterns in my-workflow |
+| [CEK](https://github.com/NeoLabHQ/context-engineering-kit) | Cherry-picked | TDD, Clean Architecture in my-workflow |
+| [Everything Claude](https://github.com/affaan-m/everything-claude-code) | In progress | Instinct system, rules |
+| [superpowers](https://github.com/obra/superpowers) | Evaluate | Git worktrees skill |
+| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | Evaluate | /compound learning step |
+
+### Utilities
+
+| Source | Status | Value |
+| --- | --- | --- |
+| [repomix](https://github.com/yamadashy/repomix) | Optional | Pack repo for external AI tools |
+| [call-me](https://github.com/ZeframLou/call-me) | Optional | Phone notifications |
+| [plannotator](https://github.com/backnotprop/plannotator) | Evaluate | Visual plan annotation (BSL license) |
+
+### Learning Systems
+
+| Source | Status | Value |
+| --- | --- | --- |
+| Everything Claude Continuous Learning v2 | **Recommended** | Instincts, confidence scoring, evolution |
+| claude-mem | No learning | Pure capture + retrieval |
+
+### Recommended Strategy
+
+**Hybrid approach:**
+
+1. **claude-mem** for session continuity (capture, search, injection)
+2. **Everything Claude instinct system** for pattern learning
+3. **Cherry-pick** git-worktrees from superpowers
+4. **Port** /compound concept for explicit learning capture
+
+---
 
 ## Technical Debt
 

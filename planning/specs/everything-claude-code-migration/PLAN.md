@@ -2,197 +2,141 @@
 
 ## Objective
 
-Integrate session compaction hooks, rules system, and continuous learning v2 from affaan-m/everything-claude-code into claude-customizations.
+Integrate rules system and continuous learning v2 (instincts) from affaan-m/everything-claude-code into claude-customizations. Session continuity now handled by claude-mem.
+
+## Pivot Decision (2026-01-31)
+
+**claude-mem replaces Phase 1.** See [memory-systems-comparison.md](memory-systems-comparison.md) for rationale.
+
+- Phase 1 (Session Hooks) → **REMOVED** - claude-mem handles session continuity better
+- Phase 3 (Learning) → **MODIFIED** - Remove observation hooks, integrate instinct-cli with claude-mem's SQLite
 
 ## Context
 
 @planning/specs/everything-claude-code-migration/SPEC.md
 @planning/specs/everything-claude-code-migration/RESEARCH.md
+@planning/specs/reddit-sources-evaluation.md
 @hooks/hooks.json
 @skills/my-workflow/SKILL.md
 
 ## Task Summary
 
 | # | Task | Type | Dependencies | Phase |
-|---|------|------|--------------|-------|
-| 1 | Create pre-compact.js hook script | auto | - | 1 |
-| 2 | Create session-end.js hook script | auto | - | 1 |
-| 3 | Create utils.js shared library | auto | - | 1 |
-| 4 | Update hooks.json with PreCompact and Stop hooks | auto | Tasks 1-3 | 1 |
-| 5 | Test compaction hook manually | checkpoint:human-verify | Task 4 | 1 |
-| 6 | Create rules/ directory structure | auto | - | 2 |
-| 7 | Create security-checklist.md | auto | Task 6 | 2 |
-| 8 | Create coding-standards.md | auto | Task 6 | 2 |
-| 9 | Create model-selection.md | auto | Task 6 | 2 |
-| 10 | Wire rules into SKILL.md | auto | Tasks 7-9 | 2 |
-| 11 | Add security check to /build workflow | auto | Task 10 | 2 |
-| 12 | Test rules loading and security check | checkpoint:human-verify | Task 11 | 2 |
-| 13 | Create learning/ directory structure | auto | - | 3 |
-| 14 | Create observe.js hook script | auto | Task 3 | 3 |
-| 15 | Create instinct-cli.py | auto | Task 13 | 3 |
-| 16 | Create /instinct-status command | auto | Task 15 | 3 |
-| 17 | Create /instinct-export command | auto | Task 15 | 3 |
-| 18 | Create /instinct-import command | auto | Task 15 | 3 |
-| 19 | Create /evolve command | auto | Task 15 | 3 |
-| 20 | Update hooks.json with observation hooks | auto | Task 14 | 3 |
-| 21 | Bootstrap instincts from AI Chat Prefs | auto | Tasks 15, 20 | 3 |
-| 22 | Test instinct system end-to-end | checkpoint:human-verify | Task 21 | 3 |
+| --- | --- | --- | --- | --- |
+| 1 | Install claude-mem | checkpoint:human-action | - | 0 |
+| 2 | Configure claude-mem hooks | auto | Task 1 | 0 |
+| 3 | Verify claude-mem auto-injection | checkpoint:human-verify | Task 2 | 0 |
+| 4 | Create rules/ directory structure | auto | - | 2 |
+| 5 | Create security-checklist.md | auto | Task 4 | 2 |
+| 6 | Create coding-standards.md | auto | Task 4 | 2 |
+| 7 | Create model-selection.md | auto | Task 4 | 2 |
+| 8 | Wire rules into SKILL.md | auto | Tasks 5-7 | 2 |
+| 9 | Add security check to /build workflow | auto | Task 8 | 2 |
+| 10 | Test rules loading and security check | checkpoint:human-verify | Task 9 | 2 |
+| 11 | Create learning/ directory structure (instincts only) | auto | Task 3 | 3 |
+| 12 | Create instinct-cli.py with claude-mem integration | auto | Tasks 3, 11 | 3 |
+| 13 | Create /instinct-status command | auto | Task 12 | 3 |
+| 14 | Create /instinct-export command | auto | Task 12 | 3 |
+| 15 | Create /instinct-import command | auto | Task 12 | 3 |
+| 16 | Create /evolve command | auto | Task 12 | 3 |
+| 17 | Bootstrap instincts from AI Chat Prefs | auto | Task 12 | 3 |
+| 18 | Test instinct system end-to-end | checkpoint:human-verify | Task 17 | 3 |
+
+**Total: 18 tasks** (down from 22, with claude-mem prerequisite added)
 
 ---
 
-## Phase 1: Session Compaction Hooks
+## Phase 0: Session Continuity (claude-mem)
 
-### Task 1: Create pre-compact.js hook script
+### Task 1: Install claude-mem
 
-**Type**: auto
-**Files**: hooks/scripts/pre-compact.js
+**Type**: checkpoint:human-action
 **Dependencies**: None
 
-**Context**: PreCompact hook fires when Claude's context is about to compact. Without this, context can summarize unexpectedly and lose work state.
+**Context**: claude-mem provides superior session continuity compared to custom hooks. See [memory-systems-comparison.md](memory-systems-comparison.md).
 
 **Action**:
-Create Node.js script that:
-1. Reads current working directory to determine project context
-2. Appends entry to planning/COMPACTION-LOG.md with timestamp
-3. If planning/STATE.md exists, copies current state to log entry
-4. Always exits 0 (non-blocking)
+Follow installation from [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem):
 
-Pattern from source:
-```javascript
-// Append compaction event to log
-const logEntry = `\n## ${timestamp}\n\nContext compacted during session.\n`;
-fs.appendFileSync(compactionLogPath, logEntry);
+```bash
+# Clone and install
+git clone https://github.com/thedotmack/claude-mem.git
+cd claude-mem
+bun install
+
+# Start worker service
+bun run start
 ```
 
-Edge cases:
-- planning/ directory doesn't exist: create it
-- STATE.md doesn't exist: log without state snapshot
-- File write fails: log to console, exit 0 anyway
+**Requirements**:
 
-**Verify**: Run `node hooks/scripts/pre-compact.js` - should create/append to planning/COMPACTION-LOG.md
-**Done**: COMPACTION-LOG.md contains timestamped entry
+- Node.js 18+
+- Bun runtime
+- uv (Python package manager)
+- SQLite 3
 
----
-
-### Task 2: Create session-end.js hook script
-
-**Type**: auto
-**Files**: hooks/scripts/session-end.js
-**Dependencies**: None
-
-**Context**: Catches sessions that end without /stop being called. Creates lightweight handoff so work isn't lost.
-
-**Action**:
-Create Node.js script that:
-1. Checks if planning/HANDOFF.md was recently updated (within last 5 minutes)
-2. If yes: skip (user ran /stop)
-3. If no: create lightweight HANDOFF.md with:
-   - Timestamp
-   - Note: "Auto-generated on session end (no /stop called)"
-   - Current STATE.md content if available
-4. Always exits 0
-
-Distinguish from /stop:
-- /stop creates detailed handoff with user context
-- session-end creates minimal handoff as safety net
-
-**Verify**: Run `node hooks/scripts/session-end.js` - should create HANDOFF.md if missing/stale
-**Done**: HANDOFF.md created with auto-generated note
+**Verify**: Worker service running at localhost:37777
+**Done**: `curl localhost:37777/health` returns OK
 
 ---
 
-### Task 3: Create utils.js shared library
+### Task 2: Configure claude-mem hooks
 
 **Type**: auto
-**Files**: hooks/scripts/lib/utils.js
-**Dependencies**: None
+**Dependencies**: Task 1
 
-**Context**: Shared utilities for hook scripts. Avoid duplicating file I/O and timestamp logic.
-
-**Action**:
-Create utility module with:
-```javascript
-module.exports = {
-  getTimestamp: () => new Date().toISOString(),
-  getDateString: () => new Date().toISOString().split('T')[0],
-  ensureDir: (dir) => { if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true }); },
-  safeRead: (path) => { try { return fs.readFileSync(path, 'utf8'); } catch { return null; } },
-  safeAppend: (path, content) => { try { fs.appendFileSync(path, content); return true; } catch { return false; } },
-  getPlanningDir: () => path.join(process.cwd(), 'planning'),
-};
-```
-
-Keep minimal - only what's needed for hooks.
-
-**Verify**: `node -e "require('./hooks/scripts/lib/utils.js').getTimestamp()"` returns ISO timestamp
-**Done**: utils.js exports all listed functions
-
----
-
-### Task 4: Update hooks.json with PreCompact and Stop hooks
-
-**Type**: auto
-**Files**: hooks/hooks.json
-**Dependencies**: Tasks 1-3
-
-**Context**: Wire the new hooks into Claude Code's hook system.
+**Context**: claude-mem uses 5 lifecycle hooks. These need to be added to ~/.claude/settings.json.
 
 **Action**:
-Add to existing hooks.json:
+Add claude-mem hooks to settings.json (not hooks.json - this is user settings):
+
 ```json
 {
   "hooks": {
-    "PreCompact": [{
-      "matcher": "*",
-      "hooks": [{
-        "type": "command",
-        "command": "node ~/.claude/hooks/scripts/pre-compact.js"
-      }]
-    }],
-    "Stop": [{
-      "matcher": "*",
-      "hooks": [{
-        "type": "command",
-        "command": "node ~/.claude/hooks/scripts/session-end.js"
-      }]
-    }]
+    "SessionStart": [{ "command": "claude-mem session-start" }],
+    "UserPromptSubmit": [{ "command": "claude-mem prompt-submit" }],
+    "PostToolUse": [{ "command": "claude-mem tool-use" }],
+    "Stop": [{ "command": "claude-mem stop" }],
+    "SessionEnd": [{ "command": "claude-mem session-end" }]
   }
 }
 ```
 
-Preserve existing SessionStart hook - add to it, don't replace.
+Preserve existing SessionStart hook (AI Chat Prefs) - claude-mem hooks should run alongside.
 
-**Verify**: `cat hooks/hooks.json | jq '.hooks.PreCompact'` shows new hook
-**Done**: hooks.json contains PreCompact and Stop configurations
+**Verify**: `cat ~/.claude/settings.json | jq '.hooks'` shows claude-mem hooks
+**Done**: All 5 claude-mem hooks configured
 
 ---
 
-### Task 5: Test compaction hook manually
+### Task 3: Verify claude-mem auto-injection
 
 **Type**: checkpoint:human-verify
 **Blocking**: yes
-**Dependencies**: Task 4
+**Dependencies**: Task 2
 
-**Context**: Verify hooks work in real session before proceeding.
+**Context**: Key feature is auto-injection of last 50 observations at session start.
 
 **Action**:
-1. Start new Claude Code session in this project
-2. Work briefly to generate some context
-3. Check planning/COMPACTION-LOG.md exists (may be empty if no compaction yet)
-4. End session without /stop
-5. Check planning/HANDOFF.md was auto-created
+
+1. Start new Claude Code session
+2. Verify claude-mem worker is capturing observations
+3. End session, start new session
+4. Check that context includes injected observations from previous session
 
 **Verify**:
-- COMPACTION-LOG.md file exists
-- HANDOFF.md contains "Auto-generated on session end"
 
-**Done**: Human confirms both hooks triggered correctly
+- Worker logs show observation capture
+- New session starts with injected context
+- Web UI at localhost:37777 shows observation stream
+
+**Done**: Human confirms auto-injection working
 
 ---
 
 ## Phase 2: Rules System
 
-### Task 6: Create rules/ directory structure
+### Task 4: Create rules/ directory structure
 
 **Type**: auto
 **Files**: skills/my-workflow/rules/
@@ -229,11 +173,11 @@ Always-on guidelines that apply during all workflow stages.
 
 ---
 
-### Task 7: Create security-checklist.md
+### Task 5: Create security-checklist.md
 
 **Type**: auto
 **Files**: skills/my-workflow/rules/security-checklist.md
-**Dependencies**: Task 6
+**Dependencies**: Task 4
 
 **Context**: 8-point security checklist from source, adapted for this project.
 
@@ -283,11 +227,11 @@ If vulnerability detected:
 
 ---
 
-### Task 8: Create coding-standards.md
+### Task 6: Create coding-standards.md
 
 **Type**: auto
 **Files**: skills/my-workflow/rules/coding-standards.md
-**Dependencies**: Task 6
+**Dependencies**: Task 4
 
 **Context**: Coding standards from source, merged with existing my-workflow size limits.
 
@@ -350,11 +294,11 @@ Before completion:
 
 ---
 
-### Task 9: Create model-selection.md
+### Task 7: Create model-selection.md
 
 **Type**: auto
 **Files**: skills/my-workflow/rules/model-selection.md
-**Dependencies**: Task 6
+**Dependencies**: Task 4
 
 **Context**: Document when to use Haiku vs Sonnet vs Opus for cost optimization.
 
@@ -422,11 +366,11 @@ Default to haiku for Task tool calls unless task requires deep reasoning.
 
 ---
 
-### Task 10: Wire rules into SKILL.md
+### Task 8: Wire rules into SKILL.md
 
 **Type**: auto
 **Files**: skills/my-workflow/SKILL.md
-**Dependencies**: Tasks 7-9
+**Dependencies**: Tasks 5-7
 
 **Context**: Reference rules from SKILL.md so they load as cascading context.
 
@@ -450,11 +394,11 @@ Place after "Core Principles" section, before "Commands" section.
 
 ---
 
-### Task 11: Add security check to /build workflow
+### Task 9: Add security check to /build workflow
 
 **Type**: auto
 **Files**: skills/my-workflow/workflows/build.md
-**Dependencies**: Task 10
+**Dependencies**: Task 8
 
 **Context**: Security checklist should run before commit in /build.
 
@@ -485,11 +429,11 @@ Reference: @rules/security-checklist.md
 
 ---
 
-### Task 12: Test rules loading and security check
+### Task 10: Test rules loading and security check
 
 **Type**: checkpoint:human-verify
 **Blocking**: yes
-**Dependencies**: Task 11
+**Dependencies**: Task 9
 
 **Context**: Verify rules load and security check runs.
 
@@ -504,41 +448,44 @@ Reference: @rules/security-checklist.md
 
 ---
 
-## Phase 3: Continuous Learning v2
+## Phase 3: Continuous Learning v2 (Instincts Only)
 
-### Task 13: Create learning/ directory structure
+> **Note:** Observation capture is now handled by claude-mem. This phase focuses only on the instinct system, which reads patterns from claude-mem's SQLite database.
+
+### Task 11: Create learning/ directory structure (instincts only)
 
 **Type**: auto
 **Files**: ~/.claude/learning/
-**Dependencies**: None
+**Dependencies**: Task 3 (claude-mem verified)
 
-**Context**: Homunculus is the learning system's home. Lives in ~/.claude/ for cross-project learning.
+**Context**: Learning directory holds instincts only. Observations are stored in claude-mem's SQLite.
 
 **Action**:
+
 ```bash
 mkdir -p ~/.claude/learning/{instincts/{personal,inherited},evolved/{agents,skills,commands}}
-touch ~/.claude/learning/observations.jsonl
 ```
 
 Create identity.json:
+
 ```json
 {
-  "version": "2.0",
-  "created": "2026-01-28",
+  "version": "2.1",
+  "created": "2026-01-31",
   "technical_level": "advanced",
-  "preferences_source": "AI Chat Prefs (Notion)"
+  "preferences_source": "AI Chat Prefs (Notion)",
+  "observation_source": "claude-mem"
 }
 ```
 
 Create config.json:
+
 ```json
 {
-  "version": "2.0",
+  "version": "2.1",
   "observation": {
-    "enabled": true,
-    "store_path": "~/.claude/learning/observations.jsonl",
-    "max_file_size_mb": 10,
-    "archive_after_days": 7
+    "source": "claude-mem",
+    "claude_mem_db": "~/.claude-mem/data/observations.db"
   },
   "instincts": {
     "personal_path": "~/.claude/learning/instincts/personal/",
@@ -547,11 +494,6 @@ Create config.json:
     "auto_approve_threshold": 0.7,
     "confidence_decay_rate": 0.05
   },
-  "observer": {
-    "enabled": false,
-    "model": "haiku",
-    "run_interval_minutes": 5
-  },
   "evolution": {
     "cluster_threshold": 3,
     "evolved_path": "~/.claude/learning/evolved/"
@@ -559,123 +501,58 @@ Create config.json:
 }
 ```
 
-Note: observer.enabled = false by default (no API cost).
-
 **Verify**: `ls ~/.claude/learning/instincts/` shows personal/ and inherited/
-**Done**: Full directory structure created
+**Done**: Directory structure created (no observations.jsonl needed)
 
 ---
 
-### Task 14: Create observe.js hook script
-
-**Type**: auto
-**Files**: hooks/scripts/observe.js
-**Dependencies**: Task 3
-
-**Context**: Captures PreToolUse and PostToolUse events for pattern analysis.
-
-**Action**:
-Create Node.js script (not bash, for cross-platform):
-
-```javascript
-#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-
-const HOMUNCULUS_DIR = path.join(require('os').homedir(), '.claude', 'learning');
-const OBSERVATIONS_FILE = path.join(HOMUNCULUS_DIR, 'observations.jsonl');
-const MAX_SIZE_MB = 10;
-
-function main() {
-  const eventType = process.argv[2]; // 'pre' or 'post'
-
-  // Read from stdin (Claude passes hook data via stdin)
-  let input = '';
-  process.stdin.setEncoding('utf8');
-  process.stdin.on('data', chunk => input += chunk);
-  process.stdin.on('end', () => {
-    try {
-      const hookData = JSON.parse(input);
-
-      const observation = {
-        timestamp: new Date().toISOString(),
-        event: eventType,
-        tool: hookData.tool_name || 'unknown',
-        session_id: process.env.CLAUDE_SESSION_ID || 'unknown',
-        input_preview: truncate(JSON.stringify(hookData.tool_input), 1000),
-        output_preview: eventType === 'post' ? truncate(JSON.stringify(hookData.tool_output), 1000) : null,
-      };
-
-      // Check file size, rotate if needed
-      rotateIfNeeded();
-
-      // Append observation
-      fs.appendFileSync(OBSERVATIONS_FILE, JSON.stringify(observation) + '\n');
-    } catch (e) {
-      // Log error but don't block
-      console.error('Observation error:', e.message);
-    }
-    process.exit(0);
-  });
-}
-
-function truncate(str, maxLen) {
-  return str && str.length > maxLen ? str.substring(0, maxLen) + '...' : str;
-}
-
-function rotateIfNeeded() {
-  try {
-    const stats = fs.statSync(OBSERVATIONS_FILE);
-    if (stats.size > MAX_SIZE_MB * 1024 * 1024) {
-      const archiveDir = path.join(HOMUNCULUS_DIR, 'observations.archive');
-      if (!fs.existsSync(archiveDir)) fs.mkdirSync(archiveDir, { recursive: true });
-      const archiveName = `observations-${Date.now()}.jsonl`;
-      fs.renameSync(OBSERVATIONS_FILE, path.join(archiveDir, archiveName));
-    }
-  } catch (e) {
-    // File doesn't exist yet, that's fine
-  }
-}
-
-main();
-```
-
-**Verify**: `echo '{"tool_name":"test"}' | node hooks/scripts/observe.js pre` appends to observations.jsonl
-**Done**: observe.js captures and logs tool events
-
----
-
-### Task 15: Create instinct-cli.py
+### Task 12: Create instinct-cli.py with claude-mem integration
 
 **Type**: auto
 **Files**: hooks/scripts/instinct-cli.py
-**Dependencies**: Task 13
+**Dependencies**: Tasks 3, 11
 
-**Context**: Python CLI for managing instincts. Port from source with adaptations.
+**Context**: Python CLI for managing instincts. Port from source with claude-mem integration.
 
 **Action**:
-Port instinct-cli.py from source (already fetched in research).
+Port instinct-cli.py from source with key modifications:
+
+1. **Remove observation hooks** - claude-mem handles capture
+2. **Add SQLite query module** - Read patterns from claude-mem's database
+3. **Keep instinct management** - status, import, export, evolve commands
 
 Key adaptations:
-- Use ~/.claude/learning/ paths
-- Add `bootstrap` command for AI Chat Prefs import
-- Keep all existing commands: status, import, export, evolve
 
-The source implementation is complete and well-structured. Copy with minimal changes:
-1. Update path constants to match our structure
-2. Add docstring noting source attribution
-3. Ensure Python 3.8+ compatibility
+```python
+# Instead of reading observations.jsonl:
+# OLD: observations = read_jsonl('~/.claude/learning/observations.jsonl')
+# NEW: Query claude-mem's SQLite
+import sqlite3
+def get_observations_from_claude_mem():
+    db_path = os.path.expanduser('~/.claude-mem/data/observations.db')
+    conn = sqlite3.connect(db_path)
+    # Query recent observations for pattern analysis
+    return conn.execute('SELECT * FROM observations ORDER BY timestamp DESC LIMIT 1000').fetchall()
+```
+
+Commands to implement:
+
+- `status` - Show instincts with confidence scores
+- `import` - Import instincts from file/URL
+- `export` - Export instincts to file
+- `evolve` - Analyze patterns and suggest skill/command/agent candidates
+- `bootstrap` - Generate initial instincts from AI Chat Prefs
 
 **Verify**: `python3 hooks/scripts/instinct-cli.py status` runs without error
 **Done**: CLI shows help when run without arguments
 
 ---
 
-### Task 16: Create /instinct-status command
+### Task 13: Create /instinct-status command
 
 **Type**: auto
 **Files**: commands/instinct-status.md
-**Dependencies**: Task 15
+**Dependencies**: Task 12
 
 **Context**: Slash command to show learned instincts.
 
@@ -715,11 +592,11 @@ If no instincts exist, suggest running /instinct-import or generating from AI Ch
 
 ---
 
-### Task 17: Create /instinct-export command
+### Task 14: Create /instinct-export command
 
 **Type**: auto
 **Files**: commands/instinct-export.md
-**Dependencies**: Task 15
+**Dependencies**: Task 12
 
 **Context**: Export instincts for sharing.
 
@@ -773,11 +650,11 @@ Export only code-style instincts:
 
 ---
 
-### Task 18: Create /instinct-import command
+### Task 15: Create /instinct-import command
 
 **Type**: auto
 **Files**: commands/instinct-import.md
-**Dependencies**: Task 15
+**Dependencies**: Task 12
 
 **Context**: Import instincts from others.
 
@@ -837,11 +714,11 @@ Import only high-confidence:
 
 ---
 
-### Task 19: Create /evolve command
+### Task 16: Create /evolve command
 
 **Type**: auto
 **Files**: commands/evolve.md
-**Dependencies**: Task 15
+**Dependencies**: Task 12
 
 **Context**: Cluster instincts into skills/commands/agents.
 
@@ -892,50 +769,11 @@ Needs at least 3 instincts to analyze patterns.
 
 ---
 
-### Task 20: Update hooks.json with observation hooks
-
-**Type**: auto
-**Files**: hooks/hooks.json
-**Dependencies**: Task 14
-
-**Context**: Wire observation hooks for PreToolUse and PostToolUse.
-
-**Action**:
-Add to hooks.json:
-
-```json
-{
-  "PreToolUse": [{
-    "matcher": "*",
-    "hooks": [{
-      "type": "command",
-      "command": "node ~/.claude/hooks/scripts/observe.js pre"
-    }]
-  }],
-  "PostToolUse": [{
-    "matcher": "*",
-    "hooks": [{
-      "type": "command",
-      "command": "node ~/.claude/hooks/scripts/observe.js post"
-    }]
-  }]
-}
-```
-
-Add to existing hooks array, don't replace.
-
-Note: These hooks are lightweight (just logging) so won't slow down operations.
-
-**Verify**: `cat hooks/hooks.json | jq '.hooks.PreToolUse'` shows observe.js hook
-**Done**: hooks.json includes observation hooks
-
----
-
-### Task 21: Bootstrap instincts from AI Chat Prefs
+### Task 17: Bootstrap instincts from AI Chat Prefs
 
 **Type**: auto
 **Files**: ~/.claude/learning/instincts/personal/ai-chat-prefs-bootstrap.yaml
-**Dependencies**: Tasks 15, 20
+**Dependencies**: Task 12
 
 **Context**: Seed the instinct system with existing preferences from AI Chat Prefs.
 
@@ -980,24 +818,26 @@ Create ~10 instincts with high confidence (0.9) since they're explicitly documen
 
 ---
 
-### Task 22: Test instinct system end-to-end
+### Task 18: Test instinct system end-to-end
 
 **Type**: checkpoint:human-verify
 **Blocking**: yes
-**Dependencies**: Task 21
+**Dependencies**: Task 17
 
 **Context**: Verify complete learning system works.
 
 **Action**:
+
 1. Run `/instinct-status` - should show bootstrapped instincts
-2. Work briefly to generate observations
-3. Check `~/.claude/learning/observations.jsonl` has entries
+2. Work briefly to generate observations (captured by claude-mem)
+3. Check claude-mem web UI shows observation capture
 4. Run `/evolve` - should analyze instincts (may be too few for suggestions)
 5. Run `/instinct-export` - should output instinct YAML
 
 **Verify**:
+
 - /instinct-status shows 5+ instincts with confidence bars
-- observations.jsonl contains recent tool use entries
+- claude-mem is capturing observations (check localhost:37777)
 - /instinct-export outputs valid YAML
 
 **Done**: Human confirms learning system operational
@@ -1006,18 +846,19 @@ Create ~10 instincts with high confidence (0.9) since they're explicitly documen
 
 ## Verification
 
-- [ ] PreCompact hook creates COMPACTION-LOG.md entries
-- [ ] SessionEnd hook creates HANDOFF.md when /stop not called
+- [ ] claude-mem worker running at localhost:37777
+- [ ] claude-mem auto-injects context at session start
 - [ ] Security checklist runs before /build commits
 - [ ] Rules load as cascading context in my-workflow
-- [ ] Observation hooks capture tool use to observations.jsonl
+- [ ] instinct-cli can query claude-mem's SQLite for patterns
 - [ ] /instinct-status shows learned patterns
 - [ ] No regressions in existing /start, /plan, /build, /stop
 
 ## Success Criteria
 
-1. Context compaction triggers automatic state preservation
+1. claude-mem installed and auto-injecting context at session start
 2. Security checklist runs on every /build commit
 3. At least 5 instincts bootstrapped from AI Chat Prefs
 4. /instinct-status shows patterns with confidence scores
-5. No regressions in existing workflow
+5. instinct-cli successfully queries claude-mem's observation database
+6. No regressions in existing workflow
