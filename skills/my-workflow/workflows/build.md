@@ -477,6 +477,29 @@ After all tasks complete:
 - Check success criteria
 - Confirm all tests pass
 
+### 8a. Pre-Completion Security Check
+
+Before finalizing the build, verify against the security checklist:
+
+1. **Review all changed files** for:
+   - Hardcoded credentials (API keys, passwords, tokens)
+   - Unvalidated input (user input, API responses, file content)
+   - Injection vulnerabilities (SQL, shell, XSS)
+
+2. **If security issue found**:
+   - Fix before proceeding
+   - Note in STATE.md under Notes
+   - If architectural (requires new auth system, etc.) → Rule 4 stop
+
+3. **Checklist verification**:
+   - [ ] No hardcoded credentials
+   - [ ] Input validation at boundaries
+   - [ ] Injection prevention (parameterized queries, escaped commands)
+   - [ ] XSS mitigation (escaped user content)
+   - [ ] Secure error handling (errors logged, not exposed)
+
+Reference: @rules/security-checklist.md
+
 ### 9. Quality Review
 
 Launch 3 parallel review agents focusing on different aspects:

@@ -136,6 +136,14 @@ At any moment, only **ONE feature can be actively building**. Multiple features 
 - `/build` with multiple ready: Show registry, filter blocked, offer selection
 - Blocked features cannot be selected until dependencies complete
 
+### 7. Always-Active Rules
+
+These rules apply during all workflow stages:
+
+@rules/security-checklist.md
+@rules/coding-standards.md
+@rules/model-selection.md
+
 ---
 
 ## Stage Awareness

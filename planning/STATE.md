@@ -1,25 +1,51 @@
 # Project State
 
-**Stage**: stopping
+**Stage**: building
 **Last Updated**: 2026-01-31
 
 ## Active Feature
 
 **Name**: everything-claude-code-migration
-**Status**: paused
-**Progress**: 0/18
+**Status**: active
+**Progress**: 18/18
 
 ## Feature Registry
 
 | Feature                          | Status | Progress | Dependencies |
 |----------------------------------|--------|----------|--------------|
-| everything-claude-code-migration | paused | 0/18     | -            |
+| everything-claude-code-migration | complete | 18/18    | -            |
 
 ## Current Focus
 
-Pre-build review complete. Ready for /build when user is ready.
+Phase 3: Continuous Learning v2 (Tasks 11-18)
 
-## Progress
+## Progress (everything-claude-code-migration)
+
+**Phase 0: Session Continuity (claude-mem)**
+- [x] Task 1: Install claude-mem
+- [x] Task 2: Configure claude-mem hooks (via plugin)
+- [x] Task 3: Verify claude-mem auto-injection (checkpoint:human-verify)
+
+**Phase 2: Rules System**
+- [x] Task 4: Create rules/ directory structure
+- [x] Task 5: Create security-checklist.md
+- [x] Task 6: Create coding-standards.md
+- [x] Task 7: Create model-selection.md
+- [x] Task 8: Wire rules into SKILL.md
+- [x] Task 9: Add security check to /build workflow
+- [x] Task 10: Test rules loading and security check (checkpoint:human-verify)
+
+**Phase 3: Continuous Learning v2 (Instincts Only)**
+- [x] Task 11: Create learning/ directory structure
+- [x] Task 12: Create instinct-cli.py with claude-mem integration
+- [x] Task 13: Create /instinct-status command
+- [x] Task 14: Create /instinct-export command
+- [x] Task 15: Create /instinct-import command
+- [x] Task 16: Create /evolve command
+- [x] Task 17: Bootstrap instincts from AI Chat Prefs
+- [x] Task 18: Test instinct system end-to-end (checkpoint:human-verify)
+
+## Project Progress
 
 - [x] Project structure established (skills/, commands/, agents/, etc.)
 - [x] Constitution ratified (now in OVERVIEW.md)
@@ -32,10 +58,11 @@ Pre-build review complete. Ready for /build when user is ready.
 - [x] Workflow refinements (brainstorm, plan, build) - 2026-01-28
 - [x] Everything Claude Code migration spec created
 - [x] Everything Claude Code migration plan created (22 tasks across 3 phases)
-- [ ] Everything Claude Code migration implementation
+- [x] Everything Claude Code migration implementation (2026-01-31)
 
 ## Decisions
 
+- (2026-01-31) claude-mem installed via plugin system (v9.0.12) instead of manual hooks - cleaner, auto-updates
 - (2026-01-31) **Pivot**: claude-mem replaces Phase 1 (session hooks). Phase 3 modified to integrate instinct system with claude-mem's SQLite. Task count reduced from 22 to 18.
 - (2026-01-28) Integrate 3 features from affaan-m/everything-claude-code: session hooks, rules system, continuous learning v2
 - (2026-01-28) Gap Protocol requires user approval before modifying plan (consistency with Rule 4)
@@ -54,3 +81,9 @@ Pre-build review complete. Ready for /build when user is ready.
 - This project is adopting the workflow system it created (meta/dogfooding)
 - Migration from specs/ to planning/ completed
 - Original constitution.md preserved in planning/archive/ for reference
+- Session resumed: 2026-01-31
+- Installed: bun, uv, claude-mem plugin (v9.0.12)
+- claude-mem verified: worker running, hooks triggering, MCP tools available
+- Fixed: bun symlink (~/.local/bin/bun) and session project association
+- Observations generated at session end/checkpoints, not per-tool-call
+- Instinct system implemented: 10 instincts bootstrapped, CLI working, commands created
