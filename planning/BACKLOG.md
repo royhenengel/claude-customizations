@@ -56,7 +56,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Master using instincts system
 - [ ] Possibly save session transcripts in claude mem
-- [ ] Master git worktrees
+- [x] Master git worktrees (wired into /build as optional Step 2a)
+- [ ] Reevaluate /stop not that we have claude-mem which injects the context, or regardless maybe we should automate it in hooks?
+- [ ] Possibly automate /compound?
 
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
@@ -121,7 +123,7 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 | [CEK](https://github.com/NeoLabHQ/context-engineering-kit) | Cherry-picked | TDD, Clean Architecture in my-workflow |
 | [Everything Claude](https://github.com/affaan-m/everything-claude-code) | **Complete** | Instinct system, rules (18/18 tasks) |
 | [superpowers](https://github.com/obra/superpowers) | **Complete** | Git worktrees skill cherry-picked (MIT) |
-| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | Evaluate | /compound learning step |
+| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | **Complete** | /compound command ported (project-specific solutions → docs/solutions/) |
 
 ### Utilities
 
@@ -145,7 +147,7 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 1. ~~**claude-mem** for session continuity (capture, search, injection)~~ ✓ Complete
 2. ~~**Everything Claude instinct system** for pattern learning~~ ✓ Complete
 3. ~~**Cherry-pick** git-worktrees from superpowers~~ ✓ Complete
-4. **Port** /compound concept for explicit learning capture
+4. ~~**Port** /compound concept for explicit learning capture~~ ✓ Complete
 
 ---
 

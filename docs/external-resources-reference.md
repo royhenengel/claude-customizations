@@ -34,11 +34,11 @@ External repositories, plugins, and tools that have been evaluated and integrate
 
 ---
 
-## Pending Evaluation
+## Learning & Knowledge
 
-| Resource | License | Value |
-|----------|---------|-------|
-| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | - | /compound learning step |
+| Resource | License | Status | Integration |
+|----------|---------|--------|-------------|
+| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | - | Complete | /compound command → docs/solutions/ |
 
 ---
 
