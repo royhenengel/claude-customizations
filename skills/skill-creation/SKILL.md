@@ -21,7 +21,7 @@ allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 ## 1. Finding Skills
 
 ### Search Strategy
-1. Check local catalog: `~/.claude/skills/skill-creation/catalog/`
+1. Check local catalog: `~/.claude/reference/skills/`
 2. Browse skill directories in `~/.claude/skills/`
 3. Search GitHub: https://github.com/ComposioHQ/awesome-claude-skills
 
@@ -29,7 +29,7 @@ allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 
 **From local catalog:**
 ```bash
-cp -r ~/.claude/skills/skill-creation/catalog/<skill-name> ~/.claude/skills/
+cp -r ~/.claude/reference/skills/<skill-name> ~/.claude/skills/
 ```
 
 **From GitHub:**

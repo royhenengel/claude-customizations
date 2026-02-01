@@ -373,6 +373,29 @@ The specified server might:
 
 Note: Servers not in `CONNECTED_SERVERS` will be lazily loaded when searched or called.
 
+### Understanding `listServers().available` and Claude Code's `disabled: true`
+
+**This is important to understand:**
+
+Servers with `disabled: true` in Claude Code's config (`.claude.json`) do NOT start when Claude Code begins a session. However, `listServers()` still shows them as "available" because **code-executor can connect to them on-demand**.
+
+```text
+Claude Code config:                    code-executor listServers():
+┌─────────────────────────────────┐    ┌─────────────────────────────────┐
+│ "github": { ... }               │ → │ connected: ["github"]           │
+│ "supabase": { disabled: true }  │ → │ available: ["supabase"]         │
+│ "puppeteer": { disabled: true } │ → │ available: ["puppeteer"]        │
+└─────────────────────────────────┘    └─────────────────────────────────┘
+```
+
+This is **intentional behavior**:
+
+- `disabled: true` = Claude Code won't start this server at session start
+- `available` = code-executor CAN connect to this server on-demand
+- When you call `search_tools("supabase")` or `callMCPTool("supabase", ...)`, code-executor lazily connects
+
+**Do not "fix" this by filtering out disabled servers from `available`** - that would break lazy loading.
+
 ### Code execution times out
 
 - Default timeout is 30 seconds
