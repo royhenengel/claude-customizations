@@ -4,18 +4,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Quick Wins
 
-- [x] Set up Reddit MCP server for fetching Reddit content
-  - **Resolution**: Planned - see planning/specs/reddit-mcp-server/
-- [x] Populate root CLAUDE.md with project context
-- [x] Wire TDD and Clean Architecture into My-Workflow (similar to CEK)
-  - **Resolution**: Added Development Discipline as Core Principle #1 in SKILL.md
-  - **Changes made**:
-    - Added TDD (Iron Law, RED-GREEN-REFACTOR cycle) to SKILL.md and build.md
-    - Added Clean Architecture (library-first, naming conventions, size limits) to both files
-    - Added Step 9 Quality Review (3 parallel agents) to build.md
-    - Added Development Discipline Quick Check to SKILL.md
-    - Updated subagent prompt in Step 5 with TDD/Clean Architecture reminders
-  - **Decision**: TDD and Clean Architecture are now explicitly wired into /build, not relying on skill composition
 - [ ] Make the new project intro more fun
 
 ## Improvements
@@ -28,14 +16,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     - Or confidence threshold for auto-triggering
     - Avoid false positives on discussions about issues vs actual issues to fix
   - **Deferred**: Start with explicit /fix command, add auto-trigger later based on usage patterns
-- [x] Revisit workflow task granularity (see 001-my-workflow migration)
-  - **Resolution**: Decided to adopt GSD/CEK "everything documented" style instead of "plans as prompts" philosophy.
-  - **Changes made**:
-    - Removed 2-3 task cap from plan.md workflow
-    - Enhanced task template with Context, Dependencies, detailed Action sections
-    - Added optional artifacts (data-model.md, contract.md, design-options.md)
-    - Updated SKILL.md with new project structure
-  - **Decision**: Document everything needed for implementation. Plans should be comprehensive enough that any developer (or Claude session) can execute without ambiguity.
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
@@ -72,7 +52,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     | Invocation rules | Explicit (Complex→planner, Bugs→tdd) | Task type triggers | Role-based | None defined |
     | Specialized roles | factual, senior, security, consistency, redundancy | researcher, planner, executor, verifier, debugger | executor, verifier, reviewer, architect | N/A |
     | Multi-perspective | Yes (5 reviewers same artifact) | No | Partial (3 review agents) | Partial (Step 9 quality review) |
-    | Parallel execution | Reviewers run parallel | Yes (fresh context each) | Yes | Sequential |
+    | Parallel execution | Reviewers run parallel | Yes (fresh context each) | Yes | Sequential |  
+
+- [ ] Master using instincts system
+- [ ] Possibly save session transcripts in claude mem
 
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
@@ -125,8 +108,8 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 
 | Source | Status | Value |
 | --- | --- | --- |
-| [claude-mem](https://github.com/thedotmack/claude-mem) | **NEXT ACTION** | Best session continuity, auto-injection, semantic search. Replaces Everything Claude Phase 1. |
-| Everything Claude sessions | Superseded | claude-mem is more comprehensive |
+| [claude-mem](https://github.com/thedotmack/claude-mem) | **Complete** | Installed via plugin (v9.0.12). Session continuity, auto-injection, semantic search. |
+| Everything Claude sessions | **Complete** | Superseded by claude-mem |
 | Knowledge Graph MCP | Keep | Different purpose (curated facts vs automatic capture) |
 
 ### Workflow Systems
@@ -135,7 +118,7 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 | --- | --- | --- |
 | [GSD](https://github.com/glittercowboy/get-shit-done) | Cherry-picked | Subagent patterns in my-workflow |
 | [CEK](https://github.com/NeoLabHQ/context-engineering-kit) | Cherry-picked | TDD, Clean Architecture in my-workflow |
-| [Everything Claude](https://github.com/affaan-m/everything-claude-code) | In progress | Instinct system, rules |
+| [Everything Claude](https://github.com/affaan-m/everything-claude-code) | **Complete** | Instinct system, rules (18/18 tasks) |
 | [superpowers](https://github.com/obra/superpowers) | Evaluate | Git worktrees skill |
 | [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | Evaluate | /compound learning step |
 
@@ -145,21 +128,21 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 | --- | --- | --- |
 | [repomix](https://github.com/yamadashy/repomix) | Optional | Pack repo for external AI tools |
 | [call-me](https://github.com/ZeframLou/call-me) | Optional | Phone notifications |
-| [plannotator](https://github.com/backnotprop/plannotator) | Evaluate | Visual plan annotation (BSL license) |
+| [plannotator](https://github.com/backnotprop/plannotator) | **Complete** | Visual plan/diff annotation (v0.6.8, BSL license) |
 
 ### Learning Systems
 
 | Source | Status | Value |
 | --- | --- | --- |
-| Everything Claude Continuous Learning v2 | **Recommended** | Instincts, confidence scoring, evolution |
-| claude-mem | No learning | Pure capture + retrieval |
+| Everything Claude Continuous Learning v2 | **Complete** | Instincts, confidence scoring, evolution - integrated with claude-mem |
+| claude-mem | **Complete** | Session capture + retrieval (plugin v9.0.12) |
 
 ### Recommended Strategy
 
 **Hybrid approach:**
 
-1. **claude-mem** for session continuity (capture, search, injection)
-2. **Everything Claude instinct system** for pattern learning
+1. ~~**claude-mem** for session continuity (capture, search, injection)~~ ✓ Complete
+2. ~~**Everything Claude instinct system** for pattern learning~~ ✓ Complete
 3. **Cherry-pick** git-worktrees from superpowers
 4. **Port** /compound concept for explicit learning capture
 
@@ -167,7 +150,4 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 
 ## Technical Debt
 
-- [x] Consolidate duplicate template files (planning/specs/templates/ vs skills/my-workflow/templates/)
-  - **Resolution**: Moved legacy templates to planning/archive/legacy-templates/. The skills/my-workflow/templates/ is now the single source of truth.
-- [x] Review and update README.md to reflect new planning/ structure
-  - **Resolution**: Updated README.md with current structure, my-workflow commands, and planning/ directory documentation.
+(None currently)
