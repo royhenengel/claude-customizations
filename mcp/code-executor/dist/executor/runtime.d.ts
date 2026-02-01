@@ -1,18 +1,30 @@
 import type { ServerPool } from "../bridge/server-pool.js";
+import type { MCPConfig } from "../types/index.js";
 /**
  * Runtime functions available inside the sandbox
  */
 export declare class SandboxRuntime {
     private pool;
-    constructor(pool: ServerPool);
+    private config;
+    constructor(pool: ServerPool, config: MCPConfig);
     /**
      * Call an MCP tool (to be injected into sandbox)
      */
     callMCPTool(server: string, tool: string, params: unknown): Promise<unknown>;
     /**
-     * List available servers (to be injected into sandbox)
+     * List all MCP servers - both connected and available for lazy loading
+     * Returns both currently connected servers and all servers from config
      */
-    listServers(): unknown;
+    listServers(): {
+        connected: Array<{
+            name: string;
+            status: string;
+            toolCount: number;
+            tools?: string[];
+        }>;
+        available: string[];
+        all: string[];
+    };
     /**
      * Get tool schema (to be injected into sandbox)
      */

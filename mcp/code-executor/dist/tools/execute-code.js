@@ -3,10 +3,10 @@ import { SandboxRuntime } from "../executor/runtime.js";
 /**
  * Execute JavaScript code in a sandboxed environment with access to MCP tools
  */
-export async function executeCode(pool, input) {
+export async function executeCode(pool, config, input) {
     // Create fresh sandbox for each execution
     const sandbox = new Sandbox();
-    const runtime = new SandboxRuntime(pool);
+    const runtime = new SandboxRuntime(pool, config);
     try {
         // Initialize sandbox with runtime functions
         await sandbox.initialize(runtime.getRuntime());

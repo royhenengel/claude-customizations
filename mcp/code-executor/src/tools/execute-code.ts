@@ -1,4 +1,4 @@
-import type { ExecuteCodeInput, ExecutionResult } from "../types/index.js";
+import type { ExecuteCodeInput, ExecutionResult, MCPConfig } from "../types/index.js";
 import { Sandbox } from "../executor/sandbox.js";
 import { SandboxRuntime } from "../executor/runtime.js";
 import type { ServerPool } from "../bridge/server-pool.js";
@@ -8,11 +8,12 @@ import type { ServerPool } from "../bridge/server-pool.js";
  */
 export async function executeCode(
   pool: ServerPool,
+  config: MCPConfig,
   input: ExecuteCodeInput
 ): Promise<ExecutionResult> {
   // Create fresh sandbox for each execution
   const sandbox = new Sandbox();
-  const runtime = new SandboxRuntime(pool);
+  const runtime = new SandboxRuntime(pool, config);
 
   try {
     // Initialize sandbox with runtime functions

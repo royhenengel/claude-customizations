@@ -85,7 +85,7 @@ Console output (console.log) is captured and returned in the logs field.`,
         code: params.code,
         timeout_ms: params.timeout_ms ?? 30000
       };
-      const result = await executeCode(serverPool, input);
+      const result = await executeCode(serverPool, mcpConfig, input);
 
       return {
         content: [{

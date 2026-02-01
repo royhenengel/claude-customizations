@@ -3,8 +3,10 @@
  */
 export class SandboxRuntime {
     pool;
-    constructor(pool) {
+    config;
+    constructor(pool, config) {
         this.pool = pool;
+        this.config = config;
     }
     /**
      * Call an MCP tool (to be injected into sandbox)
@@ -19,10 +21,30 @@ export class SandboxRuntime {
         }
     }
     /**
-     * List available servers (to be injected into sandbox)
+     * List all MCP servers - both connected and available for lazy loading
+     * Returns both currently connected servers and all servers from config
      */
     listServers() {
-        return this.pool.listServers(true);
+        const connectedServers = this.pool.listServers(true);
+        const connectedNames = new Set(connectedServers.map(s => s.name));
+        // Get all available servers from config that aren't connected yet
+        const availableServers = Object.keys(this.config.mcpServers)
+            .filter(name => !connectedNames.has(name) && name !== "code-executor");
+        // All servers = connected + available
+        const allServers = [
+            ...connectedServers.map(s => s.name),
+            ...availableServers
+        ];
+        return {
+            connected: connectedServers.map(s => ({
+                name: s.name,
+                status: s.status,
+                toolCount: s.toolCount,
+                tools: s.tools
+            })),
+            available: availableServers,
+            all: allServers
+        };
     }
     /**
      * Get tool schema (to be injected into sandbox)

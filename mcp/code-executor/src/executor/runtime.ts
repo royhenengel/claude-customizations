@@ -1,10 +1,14 @@
 import type { ServerPool } from "../bridge/server-pool.js";
+import type { MCPConfig } from "../types/index.js";
 
 /**
  * Runtime functions available inside the sandbox
  */
 export class SandboxRuntime {
-  constructor(private pool: ServerPool) {}
+  constructor(
+    private pool: ServerPool,
+    private config: MCPConfig
+  ) {}
 
   /**
    * Call an MCP tool (to be injected into sandbox)
@@ -19,10 +23,37 @@ export class SandboxRuntime {
   }
 
   /**
-   * List available servers (to be injected into sandbox)
+   * List all MCP servers - both connected and available for lazy loading
+   * Returns both currently connected servers and all servers from config
    */
-  listServers(): unknown {
-    return this.pool.listServers(true);
+  listServers(): {
+    connected: Array<{ name: string; status: string; toolCount: number; tools?: string[] }>;
+    available: string[];
+    all: string[];
+  } {
+    const connectedServers = this.pool.listServers(true);
+    const connectedNames = new Set(connectedServers.map(s => s.name));
+
+    // Get all available servers from config that aren't connected yet
+    const availableServers = Object.keys(this.config.mcpServers)
+      .filter(name => !connectedNames.has(name) && name !== "code-executor");
+
+    // All servers = connected + available
+    const allServers = [
+      ...connectedServers.map(s => s.name),
+      ...availableServers
+    ];
+
+    return {
+      connected: connectedServers.map(s => ({
+        name: s.name,
+        status: s.status,
+        toolCount: s.toolCount,
+        tools: s.tools
+      })),
+      available: availableServers,
+      all: allServers
+    };
   }
 
   /**
