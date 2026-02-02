@@ -1,0 +1,16 @@
+{
+  "description": "Auto-commit claude-mem context injections at session end",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/scripts/auto-commit-claude-mem.js",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}
