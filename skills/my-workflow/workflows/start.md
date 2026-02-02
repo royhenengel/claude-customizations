@@ -329,8 +329,7 @@ After OVERVIEW.md is created, display:
 Project initialized!
 
 Next steps:
-- Brainstorm      - Run /brainstorm to explore and clarify ideas
-- Plan a feature  - Run /plan when ready to plan your first feature
+- Plan a feature  - Run /plan to plan your first feature (includes clarification if needed)
 - Build           - Run /build to execute an implementation plan
 - End session     - Run /stop to create a handoff document
 

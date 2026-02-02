@@ -8,14 +8,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [ ] Auto-trigger /fix process on issue detection
-  - **Context**: Currently /fix is explicit. Could auto-detect bug/issue/problem/error language.
-  - **Considerations**:
-    - Detect issue-related language patterns
-    - Could prompt: "This sounds like an issue. Run full /fix process?"
-    - Or confidence threshold for auto-triggering
-    - Avoid false positives on discussions about issues vs actual issues to fix
-  - **Deferred**: Start with explicit /fix command, add auto-trigger later based on usage patterns
+- [x] Auto-trigger /fix process on issue detection ✓ Complete (2026-02-02)
+  - **Implementation**: Dual-hook architecture (UserPromptSubmit + PostToolUse) with issue detection script
+  - **Result**: Hooks automatically detect issue patterns and trigger /fix workflow
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
@@ -76,12 +71,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Brownfield project support in /start
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
-- [ ] Merge /brainstorm into /plan
-  - **Context**: Current design has /brainstorm (explore) and /plan (tasks) as separate commands
-  - **Issue**: User doesn't need to know the distinction. They just want idea → executable plan.
-  - **Decision**: Single /plan command that brainstorms first if requirements are unclear
-  - **New flow**: /plan checks if SPEC exists or requirements are clear → if not, runs brainstorm phase → then creates PLAN.md
-  - **Result**: User only needs /start → /plan → /build → /stop
+- [x] Merge /brainstorm into /plan ✓ Complete (2026-02-02)
+  - **Result**: /plan now includes inline clarification phase. User flow: /start → /plan → /build → /stop
 - [ ] Add lightweight mode to My-Workflow
   - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
   - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead

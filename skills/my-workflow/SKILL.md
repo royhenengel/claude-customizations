@@ -228,8 +228,7 @@ Workflow definitions are in `workflows/` subdirectory:
 | File | Command | Purpose |
 |------|---------|---------|
 | `start.md` | `/start` | Begin project with context setup |
-| `brainstorm.md` | (via /plan) | Explore unclear ideas |
-| `plan.md` | `/plan` | Plan work with spec-driven approach |
+| `plan.md` | `/plan` | Plan work with spec-driven approach (includes inline clarification) |
 | `build.md` | `/build` | Execute plan with deviation rules |
 | `stop.md` | `/stop` | Pause with comprehensive handoff |
 

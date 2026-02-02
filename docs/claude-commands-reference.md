@@ -490,13 +490,6 @@ All custom commands are located in `~/.claude/commands/`.
 
 ### Planning and Execution
 
-#### `/brainstorm`
-**Description:** Explores requirements and design before implementation. MUST use before any creative work - creating features, building components, adding functionality, or modifying behavior.
-
-**Usage:** `/brainstorm`
-
----
-
 #### `/write-plan`
 **Description:** Create detailed implementation plan with bite-sized tasks.
 

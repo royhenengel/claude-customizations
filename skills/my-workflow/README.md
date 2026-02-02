@@ -6,8 +6,7 @@ Personal workflow system for solo development with Claude Code.
 
 ```bash
 /start              # Initialize project with planning/ structure + OVERVIEW.md
-/brainstorm         # Clarify unclear ideas (standalone, optional)
-/plan               # Plan a feature with specs and executable plan
+/plan               # Plan a feature (includes clarification option for unclear ideas)
 /build              # Execute plan with subagent delegation
 /stop               # Create handoff and pause cleanly
 ```
@@ -50,19 +49,11 @@ Initializes project structure, creates OVERVIEW.md (project definition), and ins
 
 **Resume behavior**: If HANDOFF.md exists, reads it first and offers to continue.
 
-### /brainstorm
-
-Clarifies unclear ideas through collaborative dialogue. Standalone command, use when needed.
-
-**Pattern**: One question at a time, multiple choice when possible, proposes 2-3 approaches.
-
-**Creates**: `planning/specs/{feature}/SPEC.md`, `RESEARCH.md` (if planning a feature)
-
 ### /plan
 
 Plans work with spec-driven approach.
 
-**Offers brainstorm** for unclear requirements (optional, not required).
+**Includes inline clarification** option for unclear requirements (Purpose → Scope → Constraints → Success → Approaches).
 
 **Creates**: `planning/specs/{feature}/SPEC.md`, `RESEARCH.md`, `PLAN.md`
 
@@ -198,7 +189,7 @@ The workflow is built from patterns in these skills:
 
 - **living-requirements**: Cascading CLAUDE.md context
 - **taches-create-plans**: Plans-as-prompts, spec-driven approach
-- **brainstorm**: One-question-at-a-time dialogue
+- **brainstorming**: One-question-at-a-time dialogue (now integrated into /plan)
 - **GSD subagents**: Task tool delegation for fresh context
 
 To incorporate additional patterns:

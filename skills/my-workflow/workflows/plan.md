@@ -80,8 +80,9 @@ Technical Debt:
 What would you like to plan?
 
 1. Pick from backlog (specify item)
-2. Add something new
-3. Continue from existing spec
+2. Explore a new idea (let's clarify requirements first)
+3. Add something specific (I know what I want)
+4. Continue from existing spec
 ```
 
 **Dependency notation**: Use `(depends: feature-name)` to indicate a feature that must complete first. Multiple dependencies: `(depends: feature-a, feature-b)`.
@@ -96,29 +97,63 @@ What would you like to plan?
 ```text
 What would you like to plan?
 
-1. A specific feature (describe it)
-2. Continue from existing spec
-3. Fix/improve something in the codebase
+1. Explore a new idea (let's clarify requirements first)
+2. Add something specific (I know what I want)
+3. Continue from existing spec
 ```
 
 When picking from backlog, remove the item from BACKLOG.md after creating the spec.
 
-### 3. Offer Brainstorm (If Needed)
+### 3. Clarify Requirements (If Needed)
 
-If requirements seem unclear or exploratory, offer (but don't require) brainstorm:
+**If user chose "Explore a new idea"**: Run inline clarification process below.
+
+**If user chose "Add something specific" or picked from backlog**: Skip to step 4.
+
+#### Inline Clarification Process
+
+Ask questions in THIS ORDER. One question per message. Prefer multiple choice.
+
+**Question 1 - Purpose** (MUST ask first):
+> "What problem does this solve? Who benefits from solving it?"
+
+Wait for answer.
+
+**Question 2 - Scope**:
+> "What's explicitly in scope vs out of scope for this feature?"
+
+Wait for answer.
+
+**Question 3 - Constraints**:
+> "Are there any constraints I should know about? (timeline, dependencies, technical limitations)"
+
+Wait for answer.
+
+**Question 4 - Success criteria**:
+> "How will we know this is done? What does success look like?"
+
+Wait for answer.
+
+**Then propose 2-3 approaches** (conceptual, not technology choices):
 
 ```text
-Your requirements seem a bit open-ended. Would you like to clarify first?
+Based on what you've described, here are approaches:
 
-1. Yes - let's brainstorm to clarify scope
-2. No - I know what I want, let's plan
+**Option A: {Name}** (Recommended)
+- How it works: ...
+- Pros: ...
+- Cons: ...
+- Why I recommend it: ...
+
+**Option B: {Name}**
+- How it works: ...
+- Pros: ...
+- Cons: ...
+
+Which approach resonates with you?
 ```
 
-**If yes**: Run `workflows/brainstorm.md`, then return here with spec.md created.
-
-**If no**: Continue to step 4.
-
-**Role distinction**: /brainstorm creates requirements (SPEC.md) through dialogue, /plan creates implementation tasks (PLAN.md). If requirements are clear, proceed directly. If unclear, brainstorm prevents wasted implementation.
+Once approach is chosen, continue to step 4 with clear requirements.
 
 ### 4. Create Feature Directory
 
@@ -535,14 +570,21 @@ Remove unnecessary features. If it's not in the spec, it's not in the plan.
 Check prerequisites (planning/ exists?)
     |
     v
-"What to plan?" + "Clarify first?" (optional)
+"What to plan?"
+    |
+    +-- "Explore a new idea" --> Inline clarification (Purpose→Scope→Constraints→Success→Approaches)
+    |                                   |
+    +-- "Pick from backlog" -----------+
+    |                                   |
+    +-- "Add something specific" ------+
+    |                                   |
+    +-- "Continue from existing" ------+
     |
     v
 Create feature directory + CLAUDE.md (cascading context)
     |
-    +-- Brainstorm --> brainstorm.md --> SPEC.md created
-    |
-    +-- Direct --> Gather requirements --> SPEC.md
+    v
+Create SPEC.md (requirements)
     |
     v
 Create RESEARCH.md (decisions)

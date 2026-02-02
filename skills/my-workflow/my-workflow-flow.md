@@ -9,27 +9,18 @@
 │     │                                                                       │
 │     ├── HANDOFF.md exists? ──► Resume previous session                      │
 │     │                                                                       │
-│     └── New project? ────────► Brainstorm first ──► /brainstorm             │
-│                        │                                                    │
-│                        └─────► Define directly ──► OVERVIEW.md              │
-│                                                    CLAUDE.md                │
-│                                                    STATE.md                 │
-│                                                                             │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  /brainstorm (standalone) ──────────────────────────────────────────────►   │
-│     │                                                                       │
-│     ├── One question at a time                                              │
-│     ├── Propose 2-3 approaches                                              │
-│     └── Creates: SPEC.md + RESEARCH.md                                      │
+│     └── New project? ──► Define OVERVIEW.md, CLAUDE.md, STATE.md            │
 │                                                                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  /plan ─────────────────────────────────────────────────────────────────►   │
 │     │                                                                       │
-│     ├── Requirements clear? ──► No ──► Offer /brainstorm                    │
+│     ├── "Explore a new idea" ──► Inline clarification                       │
+│     │      └── Purpose → Scope → Constraints → Success → Approaches         │
 │     │                                                                       │
-│     └── Yes ──► Gather requirements                                         │
+│     ├── "Pick from backlog" / "Add specific" ──► Gather requirements        │
+│     │                                                                       │
+│     └── All resolved? ──► SPEC.md + RESEARCH.md + PLAN.md                                         │
 │                    │                                                        │
 │                    └── SPEC.md with [NEEDS CLARIFICATION]                   │
 │                           │                                                 │
