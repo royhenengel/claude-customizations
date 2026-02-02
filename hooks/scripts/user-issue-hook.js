@@ -62,17 +62,17 @@ async function main() {
       : userPrompt;
     const escapedPrompt = truncatedPrompt.replace(/"/g, '\\"').replace(/\n/g, '\\n');
 
-    const systemMessage = `Issue detected in user message.
+    const additionalContext = `[AUTO-TRIGGER-FIX] Issue detected in user message.
 
-This looks like an issue. Run /fix process?
+This looks like an issue report. Offer to run /fix.
 
 If user confirms, invoke the /fix skill with context:
 - Original message: "${escapedPrompt}"
 - Detection reason: ${result.reason}
 - Detection source: UserPromptSubmit`;
 
-    // Output JSON with systemMessage field for Claude Code to inject
-    const output = JSON.stringify({ systemMessage });
+    // Output JSON with additionalContext field for Claude Code to inject into context
+    const output = JSON.stringify({ additionalContext });
     debugLog(`Outputting: ${output}`);
     console.log(output);
   } else {

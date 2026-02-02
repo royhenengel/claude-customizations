@@ -157,9 +157,9 @@ async function main() {
         typeof toolInput === 'string' ? toolInput : JSON.stringify(toolInput);
       const outputSnippet = truncateOutput(output);
 
-      const prompt = `Error detected in tool output.
+      const additionalContext = `[AUTO-TRIGGER-FIX] Error detected in tool output.
 
-This looks like an issue. Run /fix process?
+This looks like an issue. Offer to run /fix.
 
 If user confirms, invoke the /fix skill with context:
 - Tool: ${toolName || 'Bash'}
@@ -171,14 +171,7 @@ ${outputSnippet}
 - Detection reason: ${result.reason}
 - Detection source: ${result.source}`;
 
-      console.log(
-        JSON.stringify({
-          hookSpecificOutput: {
-            hookEventName: 'PostToolUse',
-            additionalContext: prompt,
-          },
-        })
-      );
+      console.log(JSON.stringify({ additionalContext }));
     } else {
       // No error detected - continue normally
       console.log(JSON.stringify({ continue: true, suppressOutput: true }));
