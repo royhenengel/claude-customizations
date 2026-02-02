@@ -24,8 +24,3 @@ node_modules/
 
 # Logs
 *.log
-
-# Claude-mem auto-generated context files (subdirectories only)
-# The root CLAUDE.md is kept for project-wide instructions
-**/CLAUDE.md
-!/CLAUDE.md
