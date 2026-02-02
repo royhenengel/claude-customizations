@@ -18,7 +18,7 @@
 
 ## Current Focus
 
-Auto-trigger-fix feature verification. Testing hooks for issue detection before merging to main.
+Backlog evaluation complete. compound-engineering evaluated (complementary to instincts). git-worktrees wired into /build.
 
 ## Progress (reddit-mcp-server)
 
