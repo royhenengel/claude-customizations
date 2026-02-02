@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/royengel/worktrees/claude-customizations/auto-trigger-fix/hooks/scripts/user-issue-hook.js",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /Users/royengel/worktrees/claude-customizations/auto-trigger-fix/hooks/scripts/issue-detector-tool-hook.js",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}
