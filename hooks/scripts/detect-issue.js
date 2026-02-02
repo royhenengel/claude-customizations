@@ -121,6 +121,7 @@ function isInBuildStage() {
   const stateFilePaths = [
     path.join(process.cwd(), 'planning', 'STATE.md'),
     path.join(process.env.HOME || '', '.claude', 'planning', 'STATE.md'),
+    path.join(process.env.HOME || '', 'worktrees', 'claude-customizations', 'auto-trigger-fix', 'planning', 'STATE.md'),
   ];
 
   for (const statePath of stateFilePaths) {
