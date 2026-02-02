@@ -11,7 +11,7 @@
  *   - tool_response: The tool response (output, may include exit code info)
  *
  * Output (to stdout): JSON response
- *   - On error detected: { hookSpecificOutput: { hookEventName, additionalContext } }
+ *   - On error detected: { hookSpecificOutput: { hookEventName: "PostToolUse", additionalContext: "..." } }
  *   - On no error: { continue: true, suppressOutput: true }
  */
 
@@ -171,7 +171,12 @@ ${outputSnippet}
 - Detection reason: ${result.reason}
 - Detection source: ${result.source}`;
 
-      console.log(JSON.stringify({ additionalContext }));
+      console.log(JSON.stringify({
+        hookSpecificOutput: {
+          hookEventName: 'PostToolUse',
+          additionalContext
+        }
+      }));
     } else {
       // No error detected - continue normally
       console.log(JSON.stringify({ continue: true, suppressOutput: true }));

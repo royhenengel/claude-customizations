@@ -71,8 +71,13 @@ If user confirms, invoke the /fix skill with context:
 - Detection reason: ${result.reason}
 - Detection source: UserPromptSubmit`;
 
-    // Output JSON with additionalContext field for Claude Code to inject into context
-    const output = JSON.stringify({ additionalContext });
+    // Output JSON with hookSpecificOutput wrapper for Claude Code to inject into context
+    const output = JSON.stringify({
+      hookSpecificOutput: {
+        hookEventName: 'UserPromptSubmit',
+        additionalContext
+      }
+    });
     debugLog(`Outputting: ${output}`);
     console.log(output);
   } else {
