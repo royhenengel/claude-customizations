@@ -218,3 +218,14 @@ Every 10-15 messages on long tasks:
 **Before making external API calls, ALWAYS:**
 
 1. **Check existing context first**
+
+### Git Commit Verification
+
+**Trigger:** Any request to commit changes.
+
+**Before committing, ALWAYS:**
+
+1. Review all staged changes (`git status`)
+2. Verify each staged file relates to the current task
+3. Unstage unrelated changes before proceeding
+4. Never assume pre-staged changes are intentional
