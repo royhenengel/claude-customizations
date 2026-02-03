@@ -1,13 +1,13 @@
 # Project State
 
-**Stage**: building
+**Stage**: planning
 **Last Updated**: 2026-02-03
 
 ## Active Feature
 
-**Name**: enhance-research-template
-**Status**: active
-**Progress**: 2/2
+**Name**: None
+**Status**: -
+**Progress**: -
 
 ## Feature Registry
 
@@ -24,7 +24,7 @@
 
 ## Current Focus
 
-enhance-research-template implementation complete
+Ready for next feature (audit-agents paused at 0/10)
 
 ## Progress (enhance-research-template)
 
