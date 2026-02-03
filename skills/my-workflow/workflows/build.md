@@ -751,6 +751,25 @@ Next steps:
 - Review the changes
 - Run `/plan` for next feature
 
+### 13. Finalize Changes
+
+When user says "complete", "mark as complete", or similar:
+
+1. **Commit and push**:
+   - Stage all changes
+   - Create conventional commit with summary
+   - Push to remote
+
+2. **If on feature branch** (worktree or otherwise):
+   - Create PR with summary of changes
+   - Wait for approval
+   - Once approved: merge PR and delete branch
+
+3. **If using worktree**:
+   - After merge, remove worktree: `git worktree remove {path}`
+
+This applies to both features (`/build` completion) and fixes (`/fix` completion).
+
 ## Subagent Execution Pattern
 
 Each task runs in fresh subagent context:
