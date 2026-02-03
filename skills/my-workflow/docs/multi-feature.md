@@ -115,7 +115,7 @@ Mid-build, want to work on something else?
     │
     ├─ Is it urgent/blocking?
     │       │
-    │       ├─ Yes → Pause current (/stop), build new
+    │       ├─ Yes → Pause current, build new
     │       └─ No  → Add to backlog, continue current
     │
     └─ Is current feature near completion?
@@ -155,10 +155,9 @@ User provides multiple features to implement
 
 | Command | Multi-Feature Behavior |
 |---------|------------------------|
-| `/start` | Shows Feature Registry from HANDOFF.md, offers resume/switch |
+| `/start` | Shows Feature Registry from STATE.md, offers resume/switch |
 | `/plan` | Detects active feature, offers pause/queue/draft |
 | `/build` | Shows registry, filters blocked, offers selection |
-| `/stop` | Marks active feature as paused, snapshots registry |
 
 ## Example Session
 
@@ -168,8 +167,8 @@ Session 1:
 /plan user-auth → Creates spec, status: ready
 /plan api-rate → Creates spec, status: ready
 /build → Shows both, user picks user-auth
-... builds 3/5 tasks ...
-/stop → user-auth: paused (3/5), api-rate: ready (0/3)
+... builds 3/5 tasks, session ends ...
+(Current State saved: user-auth 3/5, api-rate ready 0/3)
 
 Session 2:
 /start → Shows registry

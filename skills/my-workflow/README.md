@@ -8,15 +8,14 @@ Personal workflow system for solo development with Claude Code.
 /start              # Initialize project with planning/ structure + OVERVIEW.md
 /plan               # Plan a feature (includes clarification option for unclear ideas)
 /build              # Execute plan with subagent delegation
-/stop               # Create handoff and pause cleanly
 ```
 
 ## Core Principles
 
 1. **Scope Control**: Quality degrades at ~40-50% context, not 80%. Keep plans atomic (2-3 tasks max).
 2. **Deviation Rules**: Auto-fix bugs/blockers, ask on architecture, log enhancements.
-3. **Handoff Protocol**: Create HANDOFF.md when stopping, delete on resume.
-4. **Stage Awareness**: starting → planning → building → stopping
+3. **Living Current State**: STATE.md maintains current state continuously; session can end cleanly anytime.
+4. **Stage Awareness**: starting → planning → building
 
 ## Directory Structure
 
@@ -26,9 +25,8 @@ After `/start`:
 planning/
 ├── OVERVIEW.md         # Project definition (vision, scope)
 ├── CLAUDE.md           # Planning context (references OVERVIEW)
-├── STATE.md            # Living state tracker (auto-updated by hook)
+├── STATE.md            # Living state tracker (includes Current State section)
 ├── BACKLOG.md          # Persistent backlog (Quick Wins, Features, Tech Debt)
-├── HANDOFF.md          # Session handoff (created by /stop)
 └── specs/
     └── {feature}/
         ├── SPEC.md     # Requirements
@@ -47,7 +45,7 @@ Initializes project structure, creates OVERVIEW.md (project definition), and ins
 
 **New project**: Invokes brainstorm patterns to help craft the project definition.
 
-**Resume behavior**: If HANDOFF.md exists, reads it first and offers to continue.
+**Resume behavior**: Reads Current State from STATE.md and offers to continue.
 
 ### /plan
 
@@ -83,17 +81,7 @@ Executes plan with subagent delegation.
 | Ask architectural | Major change | STOP and ask |
 | Log enhancements | Nice-to-have | Add to BACKLOG.md, continue |
 
-**Context monitoring**: Offers `/stop` at 15% remaining, auto-triggers at 10%.
-
-### /stop
-
-Creates handoff and pauses cleanly.
-
-**Creates**: `planning/HANDOFF.md` with full context for next session.
-
-**Updates**: `STATE.md` to stopping stage.
-
-**Resume**: HANDOFF.md is deleted when user continues via `/start`.
+**Context monitoring**: Mentions context filling at 15% remaining. Current State is maintained continuously.
 
 ## Creating New Commands
 
@@ -221,11 +209,5 @@ cat .claude/hooks.json
 ### Context filling too fast
 
 - Break plans into smaller chunks (2-3 tasks max)
-- Use `/stop` proactively at 25% remaining
+- Current State in STATE.md is maintained continuously
 - Each task in `/build` uses fresh subagent context
-
-### HANDOFF.md not being read
-
-Ensure running `/start` (not just opening project).
-
-`/start` specifically checks for HANDOFF.md and offers resume.

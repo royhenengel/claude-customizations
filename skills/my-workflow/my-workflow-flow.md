@@ -7,7 +7,7 @@
 │                                                                             │
 │  /start ─────────────────────────────────────────────────────────────────►  │
 │     │                                                                       │
-│     ├── HANDOFF.md exists? ──► Resume previous session                      │
+│     ├── Current State in STATE.md? ──► Resume previous session              │
 │     │                                                                       │
 │     └── New project? ──► Define OVERVIEW.md, CLAUDE.md, STATE.md            │
 │                                                                             │
@@ -46,17 +46,14 @@
 │     │               └── Gap detected ──► Gap Protocol (see below)           │
 │     │                                                                       │
 │     ├── More tasks? ──► Context > 15% ──► Continue                          │
-│     │               ├── Context < 15% ──► Offer /stop                       │
-│     │               └── Context < 10% ──► Auto /stop                        │
+│     │               ├── Context < 15% ──► Mention context filling           │
+│     │               └── Context < 10% ──► Complete task, end session        │
 │     │                                                                       │
 │     └── Complete ──► SUMMARY.md                                             │
 │                                                                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  /stop ─────────────────────────────────────────────────────────────────►   │
-│     │                                                                       │
-│     ├── Park full context                                                   │
-│     └── Creates: HANDOFF.md ──► Next session loops to /start                │
+│  Session ends naturally (Current State maintained in STATE.md)              │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 
@@ -70,9 +67,8 @@
 │ SPEC.md      │ WHAT are we building? (requirements)                         │
 │ RESEARCH.md  │ HOW did we decide? (alternatives, decisions)                 │
 │ PLAN.md      │ HOW do we execute? (tasks, verification)                     │
-│ STATE.md     │ WHERE are we now? (stage, progress)                          │
+│ STATE.md     │ WHERE are we now? (stage, progress, current state)           │
 │ SUMMARY.md   │ WHAT happened? (outcomes, deviations)                        │
-│ HANDOFF.md   │ WHAT to continue? (context for next session)                 │
 └──────────────┴──────────────────────────────────────────────────────────────┘
 
 

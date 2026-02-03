@@ -14,7 +14,7 @@
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
 | fun-project-intro                | complete | 7/7      | -            |
-| clarify-rule-3-blockers          | paused   | 5/6      | -            |
+| clarify-blockers          | complete | 6/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
 | everything-claude-code-migration | complete | 18/18    | -            |
 | reddit-mcp-server                | complete | 3/3      | -            |
@@ -22,7 +22,7 @@
 
 ## Current Focus
 
-fun-project-intro complete. clarify-rule-3-blockers paused at 5/6.
+Both fun-project-intro and clarify-blockers complete.
 
 ## Progress (fun-project-intro)
 
@@ -34,14 +34,14 @@ fun-project-intro complete. clarify-rule-3-blockers paused at 5/6.
 - [x] Task 6: Update plan.md with new visual format
 - [x] Task 7: Test /start on new project (SKIPPED - fix as we go)
 
-## Progress (clarify-rule-3-blockers)
+## Progress (clarify-blockers)
 
 - [x] Task 1: Update deviation rules table in build.md
 - [x] Task 2: Add examples section for Rules 1, 3, 6 in build.md
 - [x] Task 3: Add decision tree quick reference in build.md
 - [x] Task 4: Update SKILL.md deviation handling summary
 - [x] Task 5: Update flow diagram files
-- [ ] Task 6: Verify consistency across all files (checkpoint:human-verify)
+- [x] Task 6: Verify consistency across all files (checkpoint:human-verify)
 
 ## Progress (automate-stop)
 
@@ -141,7 +141,7 @@ fun-project-intro complete. clarify-rule-3-blockers paused at 5/6.
 ### What's Working
 
 - fun-project-intro complete: visual notifications across all workflows
-- clarify-rule-3-blockers at 5/6 (paused)
+- clarify-blockers complete (6/6)
 
 ### What's Not Working
 
@@ -149,8 +149,7 @@ fun-project-intro complete. clarify-rule-3-blockers paused at 5/6.
 
 ### Next Steps
 
-1. Resume clarify-rule-3-blockers (Task 6: verify consistency)
-2. Or select another item from backlog
+1. Select next item from backlog
 
 ### Open Questions
 

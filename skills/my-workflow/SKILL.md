@@ -1,16 +1,16 @@
 ---
 name: my-workflow
 version: 1.0.0
-description: Personal workflow system - principles and stage awareness for solo development. Provides core principles (scope control, deviation rules, handoff protocol) and stage-aware behavior for /start, /plan, /build, /stop commands.
+description: Personal workflow system - principles and stage awareness for solo development. Provides core principles (scope control, deviation rules, Living Current State) and stage-aware behavior for /start, /plan, /build commands.
 triggers:
   - planning/ directory exists
   - STATE.md mentions workflow stages
-  - User mentions start/plan/build/stop workflow
+  - User mentions start/plan/build workflow
 ---
 
 # My Workflow
 
-A personalized workflow system with 4 commands (`/start`, `/plan`, `/build`, `/stop`) that provide clear entry points for project stages.
+A personalized workflow system with 3 commands (`/start`, `/plan`, `/build`) that provide clear entry points for project stages.
 
 ## Table of Contents
 
@@ -53,9 +53,9 @@ Quality degrades at ~40-50% context - not 80%.
 
 **Critical insight:** Claude enters "completion mode" at ~40-50% when it sees context mounting. By 80%, quality has already crashed.
 
-**Solution:** Recommend handoff before hitting limits. Better to pause with a clean handoff than push through with degraded output.
+**Solution:** Current State in STATE.md is maintained continuously. Session can end cleanly at any time without manual handoff creation.
 
-**Practical rule:** If you notice context filling, suggest `/stop` to create HANDOFF.md before quality degrades.
+**Practical rule:** If context is filling, mention it to the user. State is already captured in STATE.md.
 
 ### 3. Deviation Rules
 
@@ -74,17 +74,17 @@ During execution, handle discoveries automatically:
 
 **Result:** Flow never breaks. Bugs get fixed. Scope stays controlled. Complete transparency.
 
-### 4. Handoff Protocol
+### 4. Living Current State
 
-Before context fills or when pausing, create comprehensive handoff with:
+STATE.md maintains a `## Current State` section that is updated continuously during work. This enables clean session transitions without manual handoff creation.
 
-- **Current state**: What's working, what's not
-- **Decisions made**: And why
-- **Progress**: What's done, what's left
-- **Next steps**: Clear actions for resuming
-- **Open questions**: Uncertainties that need resolution
+The Current State captures:
 
-Store in `planning/HANDOFF.md`. This enables clean session transitions.
+- **What's Working**: Verified functionality
+- **What's Not**: Known issues or blockers
+- **Next Steps**: Clear actions for resuming
+
+Session can end at any time; state is already captured.
 
 ### 5. Stage Awareness
 
@@ -95,7 +95,6 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 | **starting** | Focus on setup, project structure, context gathering |
 | **planning** | Focus on specification, ask clarifying questions |
 | **building** | Focus on execution, follow the plan, apply deviation rules |
-| **stopping** | Focus on handoff, ensure all context is captured |
 
 ### 6. Multi-Feature Management
 
@@ -114,7 +113,7 @@ At any moment, only **ONE feature can be actively building**. Multiple features 
 | **drafted** | SPEC.md exists but no PLAN.md yet |
 | **ready** | PLAN.md approved, waiting to build |
 | **active** | Currently executing (`/build` in progress) |
-| **paused** | Started, then suspended (via `/stop` or switching) |
+| **paused** | Started, then suspended (via switching features) |
 | **blocked** | Depends on another feature that isn't complete |
 | **complete** | All tasks verified |
 
@@ -212,11 +211,8 @@ Markers:
       → Transitions to building after plan approved
 
 /build → stage: building
-       → Stays in building until plan complete or /stop called
-
-/stop → stage: stopping
-      → Creates HANDOFF.md
-      → Next session starts fresh with handoff context
+       → Stays in building until plan complete
+       → Current State in STATE.md updated continuously
 ```
 
 ---
@@ -230,7 +226,6 @@ Workflow definitions are in `workflows/` subdirectory:
 | `start.md` | `/start` | Begin project with context setup |
 | `plan.md` | `/plan` | Plan work with spec-driven approach (includes inline clarification) |
 | `build.md` | `/build` | Execute plan with deviation rules |
-| `stop.md` | `/stop` | Pause with comprehensive handoff |
 
 ---
 
@@ -243,7 +238,6 @@ Workflow definitions are in `workflows/` subdirectory:
 | `/start` | Beginning a new project | `planning/OVERVIEW.md`, `STATE.md` |
 | `/plan` | Ready to plan work | `planning/ROADMAP.md`, specs |
 | `/build` | Plan approved, ready to execute | Code changes, STATE.md updates |
-| `/stop` | Pausing work or context filling | `planning/HANDOFF.md` |
 
 ### Project Structure
 
@@ -253,7 +247,6 @@ planning/
 ├── OVERVIEW.md      # Project vision (created by /start)
 ├── STATE.md         # Living state (updated continuously)
 ├── BACKLOG.md       # Persistent improvements backlog
-├── HANDOFF.md       # Session handoff (created by /stop)
 ├── CODEBASE.md      # Brownfield analysis (if applicable)
 └── specs/
     └── {feature}/
@@ -302,13 +295,14 @@ For user-initiated additions ("also add X"), always show impact assessment befor
 
 ### Context Health
 
-Monitor context usage. When approaching 50%:
+Monitor context usage. STATE.md Current State is maintained continuously, so session can end cleanly at any time.
+
+When approaching 50%:
 
 1. Complete current atomic task
 2. Commit work
-3. Suggest `/stop` to user
-4. Create clean HANDOFF.md
-5. Resume fresh next session
+3. Mention context is filling
+4. Continue or end session (state already captured)
 
 ---
 
@@ -320,7 +314,7 @@ My-Workflow and Claude Code's built-in Plan Mode are **complementary, not confli
 |--------|-------------|-------------------|
 | **Scope** | Full project management | Single structured task |
 | **Artifacts** | In project (`planning/`) | In `~/.claude/plans/` |
-| **Session scope** | Multi-session with handoffs | Usually single session |
+| **Session scope** | Multi-session with Living Current State | Usually single session |
 | **When to use** | Complex features, ongoing work | Quick structured tasks, one-off planning |
 
 **Use My-Workflow** when:

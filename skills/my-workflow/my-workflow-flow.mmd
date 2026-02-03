@@ -3,7 +3,7 @@ flowchart TD
     %% MAIN FLOW - Simple linear with branches
 
     START["🚀 /start"]
-    START --> CHECK{HANDOFF.md?}
+    START --> CHECK{Current State?}
 
     CHECK -->|Yes| RESUME["Resume previous session"]
     CHECK -->|No| NEW{New project?}
@@ -63,28 +63,19 @@ flowchart TD
     MORE{More tasks?}
     MORE -->|Yes| CTX{Context?}
     CTX -->|"> 15%"| EXEC
-    CTX -->|"< 15%"| OFFERSTOP["Offer /stop"]
-    CTX -->|"< 10%"| AUTOSTOP["Auto /stop"]
+    CTX -->|"< 15%"| MENTION["Mention context filling"]
+    CTX -->|"< 10%"| ENDTASK["Complete task, end session"]
 
     MORE -->|No| SUMMARY["SUMMARY.md"]
     SUMMARY --> DONE(["✅ COMPLETE"])
 
-    %% STOP SECTION
-    STOP["🛑 /stop"]
-    ASK --> STOP
-    OFFERSTOP --> STOP
-    AUTOSTOP --> STOP
-
-    STOP --> PARK["Park context"]
-    PARK --> HANDOFF["HANDOFF.md"]
-    HANDOFF --> PARKED(["✅ PARKED"])
-    PARKED -.->|Next session| CHECK
+    MENTION --> EXEC
+    ENDTASK --> DONE
+    ASK --> DONE
 
     %% Styling
     style START fill:#1e3a5f,stroke:#3d5a80,stroke-width:2px,color:#fff
     style BRAIN fill:#2d4a3f,stroke:#4a7c59,stroke-width:2px,color:#fff
     style PLAN fill:#3d3a5f,stroke:#5d5a80,stroke-width:2px,color:#fff
     style BUILD fill:#4a3a2f,stroke:#7a5a3f,stroke-width:2px,color:#fff
-    style STOP fill:#5f1e1e,stroke:#803d3d,stroke-width:2px,color:#fff
     style DONE fill:#2d4a3f,stroke:#4a7c59
-    style PARKED fill:#2d4a3f,stroke:#4a7c59

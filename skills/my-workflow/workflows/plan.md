@@ -569,7 +569,7 @@ For large features, use numbered plan files:
 - `{feature}/01-PLAN.md` - First phase
 - `{feature}/02-PLAN.md` - Second phase
 
-Create a HANDOFF.md between phases if context is filling.
+Current State in STATE.md is maintained continuously between phases.
 
 ### Optional Artifacts
 
