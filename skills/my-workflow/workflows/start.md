@@ -7,7 +7,7 @@ Initialize a new project with the unified `planning/` structure, including a pro
 ## When to Use
 
 - Starting a new project from scratch
-- Resuming after a `/stop` handoff (will read HANDOFF.md first)
+- Resuming after a `/stop` session (will read Current State from STATE.md first)
 
 ## Steps
 
@@ -17,16 +17,21 @@ Say: `Welcome, checking the current state.`
 
 ```bash
 ls -la planning/ 2>/dev/null || echo "No planning/ directory"
-ls planning/HANDOFF.md 2>/dev/null && echo "HANDOFF exists - resuming"
-ls planning/STATE.md 2>/dev/null && echo "STATE exists - project in progress"
+ls planning/STATE.md 2>/dev/null && echo "STATE exists - checking for resume context"
 ```
 
-**If HANDOFF.md exists**: Read it first, check for Feature Registry, then offer options:
+**Check if Current State has content** by examining STATE.md:
 
-**If Feature Registry exists in HANDOFF.md** (multi-feature session):
+- Read the "Current State" section
+- Check if "What's Working" has values other than "(Nothing verified yet)"
+- Check if "What's Not Working" has values other than "(No issues identified)"
+
+**If Current State has content**: Read it first, check for Feature Registry, then offer options:
+
+**If Feature Registry exists in STATE.md** (multi-feature session):
 
 ```text
-Found HANDOFF.md from previous session.
+Found session context in STATE.md.
 
 Feature Registry:
 | Feature | Status | Progress |
@@ -37,25 +42,33 @@ Feature Registry:
 
 Last session ended while building: {paused feature name} (Task {n}/{m})
 
+Current State:
+- What's Working: {summary}
+- What's Not Working: {summary}
+- Next Steps: {first item}
+
 What would you like to do?
 1. Resume {paused feature} (continue where you left off)
 2. Switch to {ready feature} (keep {paused feature} paused)
 3. Start fresh (will archive planning/ to planning.bak/)
 ```
 
-**If single feature or no registry** (legacy/simple session):
+**If single feature or no registry** (simple session):
 
 ```text
-Found HANDOFF.md from previous session.
+Found session context in STATE.md.
 
-Last session ended with: {summary from handoff}
+Current State:
+- What's Working: {summary}
+- What's Not Working: {summary}
+- Next Steps: {first item}
 
 What would you like to do?
 1. Resume where you left off
 2. Start fresh (will archive planning/ to planning.bak/)
 ```
 
-**If STATE.md exists but no HANDOFF**: Project is in progress. Ask user what they want to do.
+**If STATE.md exists but Current State is empty/defaults**: Project is in progress but no session context. Ask user what they want to do.
 
 **If new project (no planning/)**: Say and proceed:
 
@@ -92,7 +105,6 @@ See STATE.md for current stage and focus.
 - `OVERVIEW.md` - Project vision and scope
 - `STATE.md` - Living state tracker (auto-updated)
 - `BACKLOG.md` - Persistent backlog of improvements
-- `HANDOFF.md` - Session handoff (created by /stop)
 - `specs/` - Feature specifications and plans
 ```
 
@@ -145,6 +157,26 @@ Defining project overview
 ### Gap History
 
 (None this session)
+
+## Current State
+
+**Last Updated**: {timestamp}
+
+### What's Working
+
+(Nothing verified yet)
+
+### What's Not Working
+
+(No issues identified)
+
+### Next Steps
+
+1. (Determined during /plan or /build)
+
+### Open Questions
+
+(None)
 ```
 
 **planning/BACKLOG.md:**
@@ -318,6 +350,7 @@ After gathering input, create `planning/OVERVIEW.md`:
 ```
 
 Update `planning/STATE.md` progress:
+
 - Mark `OVERVIEW.md defined` as complete
 - Mark `Ready for /plan` as complete
 
@@ -331,7 +364,7 @@ Project initialized!
 Next steps:
 - Plan a feature  - Run /plan to plan your first feature (includes clarification if needed)
 - Build           - Run /build to execute an implementation plan
-- End session     - Run /stop to create a handoff document
+- End session     - Run /stop to save session context
 
 The workflow system will help you maintain focus, track progress, and create clean handoffs between sessions.
 ```
@@ -353,17 +386,26 @@ planning/
 
 ## Resume Behavior
 
-When HANDOFF.md exists:
+When Current State has content in STATE.md:
 
-1. Read HANDOFF.md completely
-2. Summarize: "Last session ended with: {summary}"
-3. Show: Current state, decisions made, next steps from handoff
+1. Read STATE.md completely, focusing on Current State section
+2. Summarize: "Last session context: {summary from What's Working/What's Not Working}"
+3. Show: Current state, decisions made, next steps from STATE.md
 4. Ask: "Ready to continue from here, or do you want to start fresh?"
 
 If continuing:
-- Delete HANDOFF.md (it's temporary)
+
 - Update STATE.md with resumed focus
 - Pick up where left off
+
+If starting fresh:
+
+- Reset Current State section to defaults:
+  - What's Working: "(Nothing verified yet)"
+  - What's Not Working: "(No issues identified)"
+  - Next Steps: "1. (Determined during /plan or /build)"
+  - Open Questions: "(None)"
+- Or archive planning/ to planning.bak/ for complete reset
 
 ## Error Handling
 
@@ -377,5 +419,6 @@ Options:
 ```
 
 **Hook installation fails:**
+
 - Warn user but continue
 - Suggest manual hook installation later
