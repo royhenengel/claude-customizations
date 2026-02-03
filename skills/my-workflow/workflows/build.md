@@ -369,6 +369,7 @@ Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user app
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔ Architectural Decision Required
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Proposed change: {what you're about to do}
 Conflicts with: {OVERVIEW.md constraint or PLAN.md specification}
@@ -376,12 +377,12 @@ Conflicts with: {OVERVIEW.md constraint or PLAN.md specification}
 This requires your approval before proceeding.
 
 Options:
+
 1. Approve change (update OVERVIEW.md/PLAN.md to match)
 2. Reject change (continue with original spec)
 3. Discuss alternatives
 
 Which would you prefer?
-```
 
 **Do NOT rationalize around Rule 4.** If uncertain whether something triggers Rule 4, it triggers Rule 4.
 
@@ -443,21 +444,23 @@ Assess impact on current plan:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔ Gap Detected
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Gap discovered: {description of what's missing}
 Impact: Blocks Task {N} until resolved
 
 Proposed solution:
+
 - Add Task {N}a: {gap task description}
 - Then continue with Task {N}
 
 Options:
+
 1. Add task to current plan (recommended)
 2. Add to BACKLOG.md (defer and continue without it)
 3. Stop and reassess the plan
 
 Which would you prefer?
-```
 
 **If user approves (Option 1)**: Continue to Step 5
 **If user defers (Option 2)**: Add to BACKLOG.md, clear Gap Stack, continue original task (may fail)
@@ -484,18 +487,18 @@ After gap task completes, pop context from Gap Stack and display:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Gap Resolved
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Gap Completed: {description of gap task}
 Gap Result: {outcome}
 
 Returning to:
-  Task: {original task name}
-  Objective: {what we were trying to achieve}
-  Progress: {what was done before gap}
-  Next Step: {what to do now}
+- Task: {original task name}
+- Objective: {what we were trying to achieve}
+- Progress: {what was done before gap}
+- Next Step: {what to do now}
 
 Continuing...
-```
 
 Update STATE.md:
 
@@ -518,22 +521,24 @@ When user requests an addition mid-build ("also add X", "can you also..."):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 User Addition
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 You requested: {X}
 
 Assessment: {Same feature / Cross-feature}
 
 Adding this would:
+
 - Add ~{N} task(s)
 - Affect: {list affected tasks, if any}
 
 Options:
+
 1. Add to current plan (extends this build)
 2. Add to BACKLOG.md (handle in next plan)
 3. Create separate plan (new feature in Feature Registry)
 
 Which would you prefer?
-```
 
 **Cross-feature additions**: Present all 3 options without recommendation. Let user decide based on context. If they choose Option 1, warn that mixing features can complicate the build.
 
@@ -558,15 +563,16 @@ Watch for context filling. Current State in STATE.md is maintained continuously,
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💾 Context Health
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Context is at ~{X}% remaining.
 
 Options:
+
 1. Continue (tasks {remaining} left)
 2. End session (Current State already captured in STATE.md)
 
 I recommend {recommendation based on remaining work}.
-```
 
 ### 8. Verify Completion
 
@@ -730,18 +736,20 @@ Implementation complete. See SUMMARY.md for details.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Build Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Implemented: {feature name}
 Tasks: {N} completed
-Deviations: {N} (see SUMMARY.md)
+Deviations: {N} (see [SUMMARY.md](planning/specs/{feature}/SUMMARY.md))
 
 Created:
-- planning/specs/{feature}/SUMMARY.md
+
+- [planning/specs/{feature}/SUMMARY.md](planning/specs/{feature}/SUMMARY.md)
 
 Next steps:
+
 - Review the changes
-- Run /plan for next feature
-```
+- Run `/plan` for next feature
 
 ## Subagent Execution Pattern
 

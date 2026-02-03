@@ -1,7 +1,7 @@
-# Fun Project Intro Implementation Summary
+# My Workflow Visual Design Implementation Summary
 
 **Completed**: 2026-02-03
-**Plan**: planning/specs/fun-project-intro/PLAN.md
+**Plan**: planning/specs/my-workflow-visual-design/PLAN.md
 
 ## What Was Built
 

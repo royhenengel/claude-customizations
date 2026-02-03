@@ -39,8 +39,10 @@ ls planning/STATE.md 2>/dev/null && echo "STATE exists - checking for resume con
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Project state loaded
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Feature Registry:
+
 | Feature | Status | Progress |
 |---------|--------|----------|
 | {feature-1} | paused | {n}/{m} |
@@ -55,9 +57,9 @@ Current State:
 - Next Steps: {first item}
 
 What would you like to do?
+
 1. Resume {paused feature} (continue where you left off)
 2. Switch to {ready feature} (keep {paused feature} paused)
-```
 
 **If single feature or no registry** (simple session):
 
@@ -65,14 +67,15 @@ What would you like to do?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Project state loaded
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Current State:
+
 - What's Working: {summary}
 - What's Not Working: {summary}
 - Next Steps: {first item}
 
 Ready to continue?
-```
 
 **If STATE.md exists but Current State is empty/defaults**: Project is in progress but no session context. Ask user what they want to do.
 

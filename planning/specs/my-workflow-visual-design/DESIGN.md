@@ -1,4 +1,4 @@
-# Design: Fun Project Intro
+# Design: My Workflow Visual Design
 
 Full design questionnaire with all options and selections.
 
@@ -151,6 +151,7 @@ Asked user to describe:
 - Line extends if text is longer
 - Icon changes per action type
 - Applies to all workflows (start, build, plan)
+- **Code block separation**: Only the banner (top line, icon+text, bottom line) goes in the `text` code block. All follow-up content (lists, tables, file paths, questions) must be outside the code block to enable proper markdown rendering and clickable links
 
 ---
 

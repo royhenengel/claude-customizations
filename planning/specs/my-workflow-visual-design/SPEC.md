@@ -1,4 +1,4 @@
-# Feature: Fun Project Intro
+# Feature: My Workflow Visual Design
 
 ## Problem
 

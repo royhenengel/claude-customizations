@@ -33,6 +33,7 @@ If another feature has status `active` or `paused`:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚠️ Active Feature Exists
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Feature: {feature-name} ({status}, {progress})
 
@@ -42,7 +43,6 @@ Options:
 3. Quick draft (SPEC.md only, continue current work)
 
 Which would you prefer?
-```
 
 - **Option 1**: Update Feature Registry (current → paused), then proceed with planning
 - **Option 2**: Add brief description to BACKLOG.md under Features, return to current work
@@ -64,12 +64,14 @@ cat planning/BACKLOG.md 2>/dev/null || echo "No backlog yet"
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 Backlog
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Quick Wins:
 - [ ] {item 1}
 - [ ] {item 2}
 
 Features:
+
   Ready to Plan:
   - [ ] {item 3}
   - [ ] {item 4} (depends: {other-feature})
@@ -89,7 +91,6 @@ What would you like to plan?
 2. Explore a new idea (let's clarify requirements first)
 3. Add something specific (I know what I want)
 4. Continue from existing spec
-```
 
 **Dependency notation**: Use `(depends: feature-name)` to indicate a feature that must complete first. Multiple dependencies: `(depends: feature-a, feature-b)`.
 
@@ -105,12 +106,13 @@ What would you like to plan?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 What to Plan
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Options:
+
 1. Explore a new idea (let's clarify requirements first)
 2. Add something specific (I know what I want)
 3. Continue from existing spec
-```
 
 When picking from backlog, remove the item from BACKLOG.md after creating the spec.
 
@@ -470,14 +472,15 @@ After plan is created:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Plan Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Created:
-- planning/specs/{feature}/SPEC.md (requirements)
-- planning/specs/{feature}/RESEARCH.md (decisions)
-- planning/specs/{feature}/PLAN.md (executable plan with {N} tasks)
 
-Ready to build? Run /build to execute the plan.
-```
+- [planning/specs/{feature}/SPEC.md](planning/specs/{feature}/SPEC.md) (requirements)
+- [planning/specs/{feature}/RESEARCH.md](planning/specs/{feature}/RESEARCH.md) (decisions)
+- [planning/specs/{feature}/PLAN.md](planning/specs/{feature}/PLAN.md) (executable plan with {N} tasks)
+
+Ready to build? Run `/build` to execute the plan.
 
 ## Output Structure
 

@@ -1,4 +1,4 @@
-# Plan: Fun Project Intro
+# Plan: My Workflow Visual Design
 
 ## Tasks
 

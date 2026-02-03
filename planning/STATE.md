@@ -14,7 +14,7 @@
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
 | audit-agents                     | ready    | 0/10     | -            |
-| fun-project-intro                | complete | 7/7      | -            |
+| my-workflow-visual-design        | complete | 7/7      | -            |
 | clarify-blockers                 | complete | 6/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
 | everything-claude-code-migration | complete | 18/18    | -            |
@@ -38,7 +38,7 @@ audit-agents - planning complete, ready for build
 - [ ] Task 9: Archive redundant/outdated agents
 - [ ] Task 10: Final verification (checkpoint:human-verify)
 
-## Progress (fun-project-intro)
+## Progress (my-workflow-visual-design)
 
 - [x] Task 1: Design visual format
 - [x] Task 2: Define start.md messages 1-4 (scanning, resume, new project, brownfield)
@@ -116,7 +116,7 @@ audit-agents - planning complete, ready for build
 
 ## Decisions
 
-- (2026-02-03) fun-project-intro: Visual format uses thick lines (━), icon + text, 50 char minimum, polished/professional/warm tone
+- (2026-02-03) my-workflow-visual-design: Visual format uses thick lines (━), icon + text, 50 char minimum, polished/professional/warm tone
 - (2026-01-31) Selected reddit-mcp-buddy: npm package (technical consistency), ~360 stars, optional auth (anonymous 10 req/min)
 - (2026-01-31) claude-mem installed via plugin system (v9.0.12) instead of manual hooks - cleaner, auto-updates
 - (2026-01-31) **Pivot**: claude-mem replaces Phase 1 (session hooks). Phase 3 modified to integrate instinct system with claude-mem's SQLite. Task count reduced from 22 to 18.
