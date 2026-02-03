@@ -8,15 +8,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [x] Auto-trigger /fix process on issue detection ✓ Complete (2026-02-02)
-  - **Implementation**: Dual-hook architecture (UserPromptSubmit + PostToolUse) with issue detection script
-  - **Result**: Hooks automatically detect issue patterns and trigger /fix workflow
-- [ ] Create /curate command for skill organization (deferred - manual process for now)
-- [ ] Add skill dependency validation
-- [ ] Create skill testing framework
-- [ ] Skill versioning and changelog automation
-- [ ] Skill health check command
-- [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
 - [ ] Clarify Rule 3 (Blockers) definition and examples
   - **Context**: Current "auto-fix blocking issues" is ambiguous
   - **Question**: What counts as a blocker vs a bug vs a gap?
@@ -49,12 +40,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     | Multi-perspective | Yes (5 reviewers same artifact) | No | Partial (3 review agents) | Partial (Step 9 quality review) |
     | Parallel execution | Reviewers run parallel | Yes (fresh context each) | Yes | Sequential |  
 
-- [ ] Master using instincts system
-- [ ] Possibly save session transcripts in claude mem
-- [x] Master git worktrees (wired into /build as optional Step 2a)
-- [ ] Reevaluate /stop not that we have claude-mem which injects the context, or regardless maybe we should automate it in hooks?
+- [x] Reevaluate /stop → Planned as `automate-stop` feature (2026-02-03)
 - [ ] Possibly automate /compound?
-
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
     - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/ref/gsd/README.md
@@ -64,20 +51,11 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
   - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
-- [ ] Improve the diagram builder.
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
-- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
 - [ ] Brownfield project support in /start
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
-- [x] Merge /brainstorm into /plan ✓ Complete (2026-02-02)
-  - **Result**: /plan now includes inline clarification phase. User flow: /start → /plan → /build → /stop
-- [ ] Add lightweight mode to My-Workflow
-  - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
-  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
-  - **Triggers to consider**: Single file change, quick fix, less than 3 steps
-  - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
 - [ ] Enhance RESEARCH.md template with in-depth analysis requirements
   - **Context**: Research docs should include deep breakdowns, comparisons, and comprehensive topic exploration
   - **Current**: RESEARCH.md template focuses on approach/alternatives but lacks depth requirements
@@ -93,6 +71,23 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     1. Archive it (my-workflow supersedes most content)
     2. Keep but link from CLAUDE.md and update stale references
     3. Extract still-valuable content (tool selection guide) to dedicated doc
+- [ ] Cleanup docs - The second part of this doc shouldn't be here
+- [ ] Add skill dependency validation
+- [ ] Create skill testing framework
+- [ ] Skill versioning and changelog automation
+- [ ] Skill health check command
+- [ ] Create /curate command for skill organization (deferred - manual process for now)
+- [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+- [ ] Master using instincts system
+- [ ] Master git worktrees (wired into /build as optional Step 2a)
+- [ ] Possibly save session transcripts in claude mem
+- [ ] Improve the diagram builder.
+- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
+- [ ] Add lightweight mode to My-Workflow
+  - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
+  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
+  - **Triggers to consider**: Single file change, quick fix, less than 3 steps
+  - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
 
 ## Inspiration Sources
 
