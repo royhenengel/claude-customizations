@@ -88,6 +88,7 @@ What would you like to plan?
 **Dependency notation**: Use `(depends: feature-name)` to indicate a feature that must complete first. Multiple dependencies: `(depends: feature-a, feature-b)`.
 
 **Feature status in BACKLOG.md**:
+
 - **Ready to Plan**: Has clear requirements, can create PLAN.md
 - **Drafted**: Has SPEC.md but no PLAN.md yet
 - **Ideas**: Needs refinement before planning
@@ -421,13 +422,25 @@ Update `planning/STATE.md`:
 - [x] {Feature} spec created
 - [x] {Feature} plan created
 - [ ] {Feature} implementation
+```
 
+Update `## Current State`:
+
+- Set "Next Steps" to first task from plan
+- Reset "What's Working" to "(Nothing verified yet)"
+- Reset "What's Not Working" to "(No issues identified)"
+- Update "Last Updated" timestamp
+
+Record decisions made during planning:
+
+```markdown
 ## Decisions
 
 - {Feature}: {approach chosen}
 ```
 
 **Feature Registry updates**:
+
 - Add new feature with status `ready` and task count from PLAN.md
 - If feature has dependencies, record them in the Dependencies column
 - Remove from BACKLOG.md if it was picked from there

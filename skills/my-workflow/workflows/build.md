@@ -151,6 +151,7 @@ Worktrees provide:
 Read the PLAN.md completely. It IS the execution prompt.
 
 Extract:
+
 - Objective
 - Context files (read all @references)
 - Tasks with verification criteria
@@ -265,7 +266,13 @@ Result: {brief summary}
 3. Verify TDD was followed (tests written and passing)
 4. Note any deviations in STATE.md Notes section
 
+5. **Update STATE.md Current State section**:
+   - Add verified functionality to "What's Working" (e.g., "Task N: {description} - verified")
+   - Update "Next Steps" with the next task to execute
+   - Update "Last Updated" timestamp
+
 **If task is partially complete** (e.g., interrupted by gap or context limit):
+
 - Use `- [~] Task N: {description} (progress note)` marker
 - Add note explaining what's done and what remains
 
@@ -347,6 +354,7 @@ Determine if this is an in-scope fix (Rules 1-5) or a plan-modifying gap:
 - **Plan-modifying?** → Continue to Step 2
 
 A gap is plan-modifying when:
+
 - A prerequisite is discovered that requires new work before current task can complete
 - User requests an addition mid-build that affects the current feature
 - A blocker fix reveals additional required changes beyond a quick fix
@@ -371,6 +379,11 @@ Push context to Gap Stack in STATE.md:
 
 1. {previous gaps this session, if any}
 ```
+
+**Update STATE.md Current State section**:
+
+- Add the gap/issue to "What's Not Working" (e.g., "Gap: {description} - blocks Task N")
+- Update "Last Updated" timestamp
 
 #### Step 3: SCOPE
 
@@ -441,8 +454,10 @@ Continuing...
 ```
 
 Update STATE.md:
+
 - Clear Active Gap section (set to "(None)")
 - Add entry to Gap History: `[timestamp] {gap description} - resolved`
+- Remove resolved gap from "What's Not Working" in Current State section
 
 ### 6b. User Addition Assessment
 
@@ -691,6 +706,7 @@ Main conversation (orchestration)
 ```
 
 Benefits:
+
 - Each task has full context capacity
 - No degradation from accumulated work
 - Clean verification per task
