@@ -7,7 +7,7 @@ Initialize a new project with the unified `planning/` structure, including a pro
 ## When to Use
 
 - Starting a new project from scratch
-- Resuming after a `/stop` session (will read Current State from STATE.md first)
+- Resuming work (will read Current State from STATE.md)
 
 ## Steps
 
@@ -50,7 +50,6 @@ Current State:
 What would you like to do?
 1. Resume {paused feature} (continue where you left off)
 2. Switch to {ready feature} (keep {paused feature} paused)
-3. Start fresh (will archive planning/ to planning.bak/)
 ```
 
 **If single feature or no registry** (simple session):
@@ -63,9 +62,7 @@ Current State:
 - What's Not Working: {summary}
 - Next Steps: {first item}
 
-What would you like to do?
-1. Resume where you left off
-2. Start fresh (will archive planning/ to planning.bak/)
+Ready to continue?
 ```
 
 **If STATE.md exists but Current State is empty/defaults**: Project is in progress but no session context. Ask user what they want to do.
@@ -364,9 +361,8 @@ Project initialized!
 Next steps:
 - Plan a feature  - Run /plan to plan your first feature (includes clarification if needed)
 - Build           - Run /build to execute an implementation plan
-- End session     - Run /stop to save session context
 
-The workflow system will help you maintain focus, track progress, and create clean handoffs between sessions.
+The workflow system will help you maintain focus and track progress. Current State is maintained automatically.
 ```
 
 ## Output Structure
@@ -391,32 +387,13 @@ When Current State has content in STATE.md:
 1. Read STATE.md completely, focusing on Current State section
 2. Summarize: "Last session context: {summary from What's Working/What's Not Working}"
 3. Show: Current state, decisions made, next steps from STATE.md
-4. Ask: "Ready to continue from here, or do you want to start fresh?"
-
-If continuing:
-
-- Update STATE.md with resumed focus
-- Pick up where left off
-
-If starting fresh:
-
-- Reset Current State section to defaults:
-  - What's Working: "(Nothing verified yet)"
-  - What's Not Working: "(No issues identified)"
-  - Next Steps: "1. (Determined during /plan or /build)"
-  - Open Questions: "(None)"
-- Or archive planning/ to planning.bak/ for complete reset
+4. Continue where left off
 
 ## Error Handling
 
 **planning/ already exists with STATE.md:**
-```
-A project is already in progress (stage: {stage}).
 
-Options:
-1. Continue where you left off
-2. Start fresh (will archive existing planning/ to planning.bak/)
-```
+This is normal for resuming work. Read Current State and continue.
 
 **Hook installation fails:**
 

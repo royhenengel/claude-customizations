@@ -19,7 +19,7 @@ This guide documents how the my-workflow system handles multiple features in a s
 | **drafted** | SPEC.md exists but no PLAN.md yet |
 | **ready** | PLAN.md approved, waiting to build |
 | **active** | Currently executing (`/build` in progress) |
-| **paused** | Started, then suspended (via `/stop` or switching) |
+| **paused** | Started, then suspended (via switching features) |
 | **blocked** | Depends on another feature that isn't complete |
 | **complete** | All tasks verified |
 
@@ -74,12 +74,11 @@ The `n/m` counter in Feature Registry is derived from this checklist but written
 
 ### Switching Features Mid-Build
 
-1. Building Feature A, need to pause → run `/stop`
-2. Feature A becomes `paused` in registry
+1. Building Feature A, need to switch → end session
+2. Feature A becomes `paused` in registry (Current State preserved in STATE.md)
 3. Next session, `/start` shows:
    - Resume Feature A
    - Switch to Feature B (if ready)
-   - Start fresh
 
 ### Cross-Feature Requests During Build
 

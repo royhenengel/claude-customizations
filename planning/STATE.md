@@ -98,7 +98,7 @@ automate-stop complete - ready for merge and cleanup
 
 ## Notes
 
-- (2026-02-03) Worktree: ~/worktrees/claude-customizations/automate-stop (branch: feature/automate-stop)
+- (2026-02-03) automate-stop worktree cleaned up, branch deleted
 - (2026-02-03) Planning automate-stop feature - Living Current State pattern
 - This project is adopting the workflow system it created (meta/dogfooding)
 - Migration from specs/ to planning/ completed
@@ -129,9 +129,7 @@ automate-stop complete - ready for merge and cleanup
 
 ### Next Steps
 
-1. Merge feature branch to main
-2. Clean up worktree
-3. Select next feature from backlog
+1. Select next feature from backlog
 
 ### Open Questions
 
