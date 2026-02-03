@@ -88,6 +88,14 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
   - **Triggers to consider**: Single file change, quick fix, less than 3 steps
   - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
+- [ ] Current State updates outside /plan and /build
+  - **Gap**: Current State only updates during formal workflow commands. Informal work ("fix this bug", "add this") leaves STATE.md stale.
+  - **Current behavior**: claude-mem captures session activity, but STATE.md's Current State section doesn't reflect it
+  - **Options**:
+    1. Accept it (workflows are opt-in, informal work is informal)
+    2. Add hook to auto-update on significant file changes
+    3. Add lightweight manual refresh command (risk: recreating /stop)
+  - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
 
 ## Inspiration Sources
 
