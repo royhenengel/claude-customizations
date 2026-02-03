@@ -8,30 +8,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [ ] Audit agents
-  - **Scope**: Review 142 agents for quality, relevance, and workflow integration
-  - **Sub-tasks**:
-    1. Map agents to workflow stages (which agents for planning, execution, review, etc.)
-    2. Define agent invocation rules (when to use which agent, e.g., "Complex → planner")
-    3. Consider adopting specialized agent pattern from GSD/CEK (executor, verifier, debugger, etc.)
-    4. Wire CEK subagent-driven-development patterns into my-workflow build.md
-    5. Adopt multi-perspective review pattern from Everything Claude:
-       - Factual reviewer (checks accuracy of claims/data)
-       - Senior engineer (evaluates technical soundness)
-       - Security expert (identifies vulnerabilities)
-       - Consistency reviewer (checks for contradictions)
-       - Redundancy checker (identifies duplicate logic)
-       - Each reviews same artifact, findings consolidated
-  - **Delegation Comparison**:
-
-    | Aspect | Everything Claude | GSD | CEK | My-Workflow |
-    | ------ | ----------------- | --- | --- | ----------- |
-    | Agent count | 9 | 11 | 13 | 1 (generic "developer") |
-    | Invocation rules | Explicit (Complex→planner, Bugs→tdd) | Task type triggers | Role-based | None defined |
-    | Specialized roles | factual, senior, security, consistency, redundancy | researcher, planner, executor, verifier, debugger | executor, verifier, reviewer, architect | N/A |
-    | Multi-perspective | Yes (5 reviewers same artifact) | No | Partial (3 review agents) | Partial (Step 9 quality review) |
-    | Parallel execution | Reviewers run parallel | Yes (fresh context each) | Yes | Sequential |  
-
 - [ ] Possibly automate /compound?
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:

@@ -1,20 +1,21 @@
 # Project State
 
-**Stage**: building
+**Stage**: planning
 **Last Updated**: 2026-02-03
 
 ## Active Feature
 
-**Name**: fun-project-intro
-**Status**: complete
-**Progress**: 7/7
+**Name**: audit-agents
+**Status**: ready
+**Progress**: 0/10
 
 ## Feature Registry
 
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
+| audit-agents                     | ready    | 0/10     | -            |
 | fun-project-intro                | complete | 7/7      | -            |
-| clarify-blockers          | complete | 6/6      | -            |
+| clarify-blockers                 | complete | 6/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
 | everything-claude-code-migration | complete | 18/18    | -            |
 | reddit-mcp-server                | complete | 3/3      | -            |
@@ -22,7 +23,20 @@
 
 ## Current Focus
 
-Both fun-project-intro and clarify-blockers complete.
+audit-agents - planning complete, ready for build
+
+## Progress (audit-agents)
+
+- [ ] Task 1: Create agent categorization document
+- [ ] Task 2: Categorize all 135 agents by workflow stage
+- [ ] Task 3: Verify categories and identify archive candidates (checkpoint:human-verify)
+- [ ] Task 4: Draft invocation rules document
+- [ ] Task 5: Verify invocation rules (checkpoint:human-verify)
+- [ ] Task 6: Update build.md with specialized agent invocation
+- [ ] Task 7: Add multi-perspective review pattern to build.md
+- [ ] Task 8: Verify build.md integration (checkpoint:human-verify)
+- [ ] Task 9: Archive redundant/outdated agents
+- [ ] Task 10: Final verification (checkpoint:human-verify)
 
 ## Progress (fun-project-intro)
 
@@ -140,8 +154,7 @@ Both fun-project-intro and clarify-blockers complete.
 
 ### What's Working
 
-- fun-project-intro complete: visual notifications across all workflows
-- clarify-blockers complete (6/6)
+(Nothing verified yet)
 
 ### What's Not Working
 
@@ -149,7 +162,7 @@ Both fun-project-intro and clarify-blockers complete.
 
 ### Next Steps
 
-1. Select next item from backlog
+1. Task 1: Create agent categorization document
 
 ### Open Questions
 
