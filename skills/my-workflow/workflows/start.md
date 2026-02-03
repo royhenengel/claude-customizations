@@ -13,7 +13,12 @@ Initialize a new project with the unified `planning/` structure, including a pro
 
 ### 1. Check Current State
 
-Say: `Welcome, checking the current state.`
+Say:
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 Scanning project...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ```bash
 ls -la planning/ 2>/dev/null || echo "No planning/ directory"
@@ -31,7 +36,9 @@ ls planning/STATE.md 2>/dev/null && echo "STATE exists - checking for resume con
 **If Feature Registry exists in STATE.md** (multi-feature session):
 
 ```text
-Found session context in STATE.md.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Project state loaded
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Feature Registry:
 | Feature | Status | Progress |
@@ -55,7 +62,9 @@ What would you like to do?
 **If single feature or no registry** (simple session):
 
 ```text
-Found session context in STATE.md.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Project state loaded
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Current State:
 - What's Working: {summary}
@@ -70,7 +79,9 @@ Ready to continue?
 **If new project (no planning/)**: Say and proceed:
 
 ```text
-I see this is a new project, I'm going to set it up.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 Setting up new project
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 Continue to step 2.
@@ -233,8 +244,10 @@ find . -maxdepth 3 -type f \( -name "*.ts" -o -name "*.js" -o -name "*.py" -o -n
 
 **If source files exist → This is brownfield. Run codebase analysis:**
 
-```
-Detected existing codebase. Mapping structure...
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 Codebase detected, analyzing...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 Run `/map-codebase` workflow to analyze and store findings in `planning/CODEBASE.md`.
@@ -247,7 +260,9 @@ Display what was created:
 
 **For greenfield projects:**
 ```text
-Project structure created:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 Planning Workspace Ready
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 planning/
 ├── CLAUDE.md    (planning context)
@@ -261,7 +276,9 @@ planning/
 
 **For brownfield projects:**
 ```text
-Project structure created:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 Planning Workspace Ready
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 planning/
 ├── CLAUDE.md    (planning context)
@@ -281,7 +298,9 @@ Codebase summary:
 
 Say:
 ```text
-Now let's start by outlining the overview for this project.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 Let's define this project
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Enter plan mode** and guide the user through creating the project overview. Ask questions one at a time (prefer multiple choice when possible).
@@ -356,7 +375,9 @@ Update `planning/STATE.md` progress:
 After OVERVIEW.md is created, display:
 
 ```text
-Project initialized!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 Project initialized
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Next steps:
 - Plan a feature  - Run /plan to plan your first feature (includes clarification if needed)

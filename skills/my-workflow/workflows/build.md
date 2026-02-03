@@ -282,16 +282,57 @@ During execution, handle discoveries automatically:
 
 | Rule | Trigger | Action |
 |------|---------|--------|
-| **1. Auto-fix bugs** | Broken behavior found | Fix immediately, note in STATE.md |
+| **1. Auto-fix bugs** | Code logic error (wrong output, failed test, crash) | Fix immediately, note in STATE.md |
 | **2. Auto-add critical** | Security/correctness gap | Add immediately, note in STATE.md |
-| **3. Auto-fix blockers** | Can't proceed | Fix immediately, note in STATE.md |
+| **3. Auto-fix blockers** | Environment/setup issue (missing dep, bad import path, config) | Fix immediately, note in STATE.md |
 | **4. Ask architectural** | Major structural change (see below) | STOP. Ask user for decision. |
 | **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md under appropriate category, continue |
-| **6. Gap detected** | Prerequisite missing / plan needs modification | Invoke Gap Protocol (see below) |
+| **6. Gap detected** | Plan ordering issue (need functionality not yet built) | Invoke Gap Protocol (see below) |
 
 **Rules 1-3, 5**: No user intervention needed.
 **Rule 4**: Requires user decision before proceeding.
 **Rule 6**: Preserves context, modifies plan, then returns to original task.
+
+### Deviation Examples
+
+**Rule 1 (Bug) - Code is wrong:**
+
+- Function returns incorrect value (logic error)
+- Test fails because implementation doesn't match spec
+- Null pointer exception from missing check
+- Race condition causing intermittent failures
+
+**Rule 3 (Blocker) - Environment is wrong:**
+
+- `npm install` fails - dependency not in package.json
+- Import path points to moved/renamed file
+- Environment variable not set
+- Database connection refused
+- Circular dependency blocking module load
+
+**Rule 6 (Gap) - Plan is wrong:**
+
+- Task 5 needs UserService, but Task 3 (create UserService) isn't complete
+- Test requires mock that wasn't created in earlier task
+- Integration depends on API endpoint not yet implemented
+
+### Rule Selection Quick Reference
+
+```
+Issue encountered during task:
+│
+├─ Can you START the task at all?
+│  └─ NO → Is it missing planned functionality?
+│         ├─ YES → Rule 6 (Gap) - invoke Gap Protocol
+│         └─ NO → Rule 3 (Blocker) - fix environment/setup
+│
+└─ YES, task started but something went wrong:
+   └─ Is the CODE producing wrong results?
+      ├─ YES → Rule 1 (Bug) - fix the code
+      └─ NO → Re-evaluate (likely Rule 3 or 6)
+```
+
+**Summary**: Bugs are code problems. Blockers are setup problems. Gaps are plan problems.
 
 ### Rule 4 Triggers (MUST STOP)
 
@@ -325,7 +366,9 @@ Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user app
 **Rule 4 Stop Message:**
 
 ```text
-⚠️ RULE 4 STOP - Architectural Decision Required
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ Architectural Decision Required
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Proposed change: {what you're about to do}
 Conflicts with: {OVERVIEW.md constraint or PLAN.md specification}
@@ -397,7 +440,9 @@ Assess impact on current plan:
 **Do NOT modify the plan without user approval.** Present the gap and options:
 
 ```text
-⚠️ GAP DETECTED - Plan Modification Required
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⛔ Gap Detected
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Gap discovered: {description of what's missing}
 Impact: Blocks Task {N} until resolved
@@ -436,9 +481,9 @@ Complete the gap task. Apply deviation rules recursively (gaps can nest).
 After gap task completes, pop context from Gap Stack and display:
 
 ```text
-═══════════════════════════════════════════════════
-GAP RESOLVED - Returning to Original Task
-═══════════════════════════════════════════════════
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Gap Resolved
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Gap Completed: {description of gap task}
 Gap Result: {outcome}
@@ -450,7 +495,6 @@ Returning to:
   Next Step: {what to do now}
 
 Continuing...
-═══════════════════════════════════════════════════
 ```
 
 Update STATE.md:
@@ -471,6 +515,10 @@ When user requests an addition mid-build ("also add X", "can you also..."):
 **Always show impact before modifying the plan:**
 
 ```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 User Addition
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 You requested: {X}
 
 Assessment: {Same feature / Cross-feature}
@@ -506,12 +554,16 @@ Watch for context filling:
 | **15% remaining** | Pause, offer `/stop` handoff |
 | **10% remaining** | Auto-create handoff, stop |
 
-```
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💾 Context Health
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Context is at ~{X}% remaining.
 
 Options:
 1. Continue (tasks {remaining} left)
-2. Stop now and create handoff (/stop)
+2. Stop now and create handoff
 
 I recommend {recommendation based on remaining work}.
 ```
@@ -672,8 +724,10 @@ Implementation complete. See SUMMARY.md for details.
 
 ### 12. Completion Message
 
-```
-Build complete!
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Build Complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Implemented: {feature name}
 Tasks: {N} completed
@@ -684,7 +738,6 @@ Created:
 
 Next steps:
 - Review the changes
-- Run /stop if done for now
 - Run /plan for next feature
 ```
 

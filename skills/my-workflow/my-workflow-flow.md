@@ -38,7 +38,8 @@
 │     │      └── Task Types: auto | checkpoint:human-verify                   │
 │     │                      checkpoint:decision | checkpoint:human-action    │
 │     │                                                                       │
-│     ├── Deviation? ──► Bug/Blocker ──► Auto-fix immediately                 │
+│     ├── Deviation? ──► Bug (code) ──► Auto-fix immediately                  │
+│     │               ├── Blocker (env) ──► Auto-fix immediately              │
 │     │               ├── Security gap ──► Auto-add critical fix              │
 │     │               ├── Architecture ──► STOP + ASK user                    │
 │     │               ├── Enhancement ──► Log to BACKLOG.md                   │

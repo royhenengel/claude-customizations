@@ -4,18 +4,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Quick Wins
 
-- [ ] Make the new project intro more fun
+(None currently)
 
 ## Improvements
 
-- [ ] Clarify Rule 3 (Blockers) definition and examples
-  - **Context**: Current "auto-fix blocking issues" is ambiguous
-  - **Question**: What counts as a blocker vs a bug vs a gap?
-  - **Proposed definition**: "Can't proceed → Fix immediately" (not autofix)
-  - **Categories to define**:
-    - Blocker: Cannot proceed without resolution (missing dep, broken import)
-    - Bug: Code error that breaks functionality → use /fix process
-    - Gap: Missing functionality needed for feature → Rule 2 applies
 - [ ] Audit agents
   - **Scope**: Review 142 agents for quality, relevance, and workflow integration
   - **Sub-tasks**:
@@ -40,7 +32,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     | Multi-perspective | Yes (5 reviewers same artifact) | No | Partial (3 review agents) | Partial (Step 9 quality review) |
     | Parallel execution | Reviewers run parallel | Yes (fresh context each) | Yes | Sequential |  
 
-- [x] Reevaluate /stop → Planned as `automate-stop` feature (2026-02-03)
 - [ ] Possibly automate /compound?
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
@@ -72,6 +63,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Keep but link from CLAUDE.md and update stale references
     3. Extract still-valuable content (tool selection guide) to dedicated doc
 - [ ] Cleanup docs - The second part of this doc shouldn't be here
+- [ ] Review the commands text format. i.e instead of cek-plan-01 --> cek:XXX . Add the source as the prefix
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
 - [ ] Skill versioning and changelog automation

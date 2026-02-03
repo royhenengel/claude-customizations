@@ -5,7 +5,7 @@
 
 ## Active Feature
 
-**Name**: automate-stop
+**Name**: fun-project-intro
 **Status**: complete
 **Progress**: 7/7
 
@@ -13,6 +13,8 @@
 
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
+| fun-project-intro                | complete | 7/7      | -            |
+| clarify-rule-3-blockers          | paused   | 5/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
 | everything-claude-code-migration | complete | 18/18    | -            |
 | reddit-mcp-server                | complete | 3/3      | -            |
@@ -20,7 +22,26 @@
 
 ## Current Focus
 
-automate-stop complete - ready for merge and cleanup
+fun-project-intro complete. clarify-rule-3-blockers paused at 5/6.
+
+## Progress (fun-project-intro)
+
+- [x] Task 1: Design visual format
+- [x] Task 2: Define start.md messages 1-4 (scanning, resume, new project, brownfield)
+- [x] Task 3: Define start.md messages 5-7 (structure created, overview guidance, project initialized)
+- [x] Task 4: Update start.md with new visual format
+- [x] Task 5: Update build.md with new visual format
+- [x] Task 6: Update plan.md with new visual format
+- [x] Task 7: Test /start on new project (SKIPPED - fix as we go)
+
+## Progress (clarify-rule-3-blockers)
+
+- [x] Task 1: Update deviation rules table in build.md
+- [x] Task 2: Add examples section for Rules 1, 3, 6 in build.md
+- [x] Task 3: Add decision tree quick reference in build.md
+- [x] Task 4: Update SKILL.md deviation handling summary
+- [x] Task 5: Update flow diagram files
+- [ ] Task 6: Verify consistency across all files (checkpoint:human-verify)
 
 ## Progress (automate-stop)
 
@@ -81,6 +102,7 @@ automate-stop complete - ready for merge and cleanup
 
 ## Decisions
 
+- (2026-02-03) fun-project-intro: Visual format uses thick lines (━), icon + text, 50 char minimum, polished/professional/warm tone
 - (2026-01-31) Selected reddit-mcp-buddy: npm package (technical consistency), ~360 stars, optional auth (anonymous 10 req/min)
 - (2026-01-31) claude-mem installed via plugin system (v9.0.12) instead of manual hooks - cleaner, auto-updates
 - (2026-01-31) **Pivot**: claude-mem replaces Phase 1 (session hooks). Phase 3 modified to integrate instinct system with claude-mem's SQLite. Task count reduced from 22 to 18.
@@ -118,10 +140,8 @@ automate-stop complete - ready for merge and cleanup
 
 ### What's Working
 
-- Living Current State pattern verified end-to-end
-- Session resume reads from STATE.md (no HANDOFF.md needed)
-- Feature Registry displays correctly on resume
-- automate-stop feature complete (7/7 tasks)
+- fun-project-intro complete: visual notifications across all workflows
+- clarify-rule-3-blockers at 5/6 (paused)
 
 ### What's Not Working
 
@@ -129,7 +149,8 @@ automate-stop complete - ready for merge and cleanup
 
 ### Next Steps
 
-1. Select next feature from backlog
+1. Resume clarify-rule-3-blockers (Task 6: verify consistency)
+2. Or select another item from backlog
 
 ### Open Questions
 

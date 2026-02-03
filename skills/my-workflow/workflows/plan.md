@@ -30,9 +30,13 @@ If no `planning/` structure exists, suggest running `/start` first.
 If another feature has status `active` or `paused`:
 
 ```text
-You have an active feature: {feature-name} ({status}, {progress})
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ Active Feature Exists
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Planning options:
+Feature: {feature-name} ({status}, {progress})
+
+Options:
 1. Pause current feature and plan new one
 2. Add to BACKLOG.md (plan later)
 3. Quick draft (SPEC.md only, continue current work)
@@ -57,7 +61,9 @@ cat planning/BACKLOG.md 2>/dev/null || echo "No backlog yet"
 **If BACKLOG.md has items**, show them first:
 
 ```text
-Current backlog:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Backlog
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Quick Wins:
 - [ ] {item 1}
@@ -96,8 +102,11 @@ What would you like to plan?
 **If BACKLOG.md is empty or doesn't exist**:
 
 ```text
-What would you like to plan?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 What to Plan
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Options:
 1. Explore a new idea (let's clarify requirements first)
 2. Add something specific (I know what I want)
 3. Continue from existing spec
@@ -458,7 +467,9 @@ Planning complete. Ready for /build.
 After plan is created:
 
 ```text
-Plan complete!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Plan Complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Created:
 - planning/specs/{feature}/SPEC.md (requirements)

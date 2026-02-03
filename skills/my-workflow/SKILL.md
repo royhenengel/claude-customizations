@@ -281,12 +281,12 @@ Before writing code during `/build`:
 
 When you encounter something unexpected during `/build`:
 
-1. **Bug?** → Fix it, note in STATE.md
+1. **Bug?** (code logic error) → Fix it, note in STATE.md
 2. **Security gap?** → Fix it, note in STATE.md
-3. **Blocker?** → Fix it, note in STATE.md
+3. **Blocker?** (environment/setup issue) → Fix it, note in STATE.md
 4. **Architecture change?** → STOP. Ask user.
 5. **Enhancement idea?** → Add to BACKLOG.md, continue
-6. **Prerequisite missing / plan needs change?** → Invoke Gap Protocol
+6. **Gap?** (plan ordering issue) → Invoke Gap Protocol
 
 ### Gap Protocol (Rule 6)
 

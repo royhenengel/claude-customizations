@@ -46,13 +46,15 @@ flowchart TD
     ACTION --> DEV
 
     DEV{Deviation?}
-    DEV -->|Bug/Blocker| FIX["Auto-fix"]
+    DEV -->|Bug - code| FIX["Auto-fix code"]
+    DEV -->|Blocker - env| FIXENV["Auto-fix env"]
     DEV -->|Security gap| ADDSEC["Auto-add critical"]
     DEV -->|Architecture| ASK["STOP + ASK"]
     DEV -->|Enhancement| LOG["Log to BACKLOG.md"]
     DEV -->|Gap detected| GAP["Gap Protocol"]
 
     FIX --> MORE
+    FIXENV --> MORE
     ADDSEC --> MORE
     LOG --> MORE
     GAP --> GAPPROT["PRESERVE → SCOPE →<br/>MODIFY → EXECUTE → RETURN"]
