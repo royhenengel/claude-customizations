@@ -217,6 +217,8 @@ For each task in PLAN.md:
 Launching developer subagent...
 ```
 
+Note: Extend lines to match text length if task name is long. Lines must never be shorter than the text.
+
 **Launch Task tool with developer subagent:**
 
 ```
@@ -253,6 +255,8 @@ Apply deviation rules during execution:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Result: {brief summary}
 ```
+
+Note: Extend lines to match text length if task name is long. Lines must never be shorter than the text.
 
 **Then update tracking:**
 

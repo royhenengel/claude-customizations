@@ -14,6 +14,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/ref/gsd/README.md
     - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/ref/cek-subagent-driven-development/SKILL.md
     - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/rules/agents.md)
+- [ ] Claude Code remote setup
+  - [ ] Tried configured the terminal notifier but that doesn't seem to work reliably. Not sure if that is the right solution and if I should spend time configuring it.
+  - [ ] Review TikTok links and capture what others have done.
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
