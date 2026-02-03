@@ -545,14 +545,14 @@ Based on user choice:
 
 ### 7. Monitor Context Health
 
-Watch for context filling:
+Watch for context filling. Current State in STATE.md is maintained continuously, so session can end cleanly at any time.
 
 | Context Level | Action |
 |---------------|--------|
 | **50%** | Note that context is growing |
 | **25% remaining** | Mention context getting full |
-| **15% remaining** | Pause, offer `/stop` handoff |
-| **10% remaining** | Auto-create handoff, stop |
+| **15% remaining** | Pause, confirm whether to continue |
+| **10% remaining** | Complete current task, then end session |
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -563,7 +563,7 @@ Context is at ~{X}% remaining.
 
 Options:
 1. Continue (tasks {remaining} left)
-2. Stop now and create handoff
+2. End session (Current State already captured in STATE.md)
 
 I recommend {recommendation based on remaining work}.
 ```
@@ -644,6 +644,8 @@ Files changed: {list from implementation}
 4. If fixing, launch developer subagent to address issues
 
 ### 10. Create SUMMARY.md
+
+**REQUIRED** - This step cannot be skipped. SUMMARY.md must exist before declaring a feature complete. Even if verification/testing is skipped, documentation is mandatory.
 
 Document what was built:
 
