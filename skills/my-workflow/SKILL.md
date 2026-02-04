@@ -135,7 +135,18 @@ At any moment, only **ONE feature can be actively building**. Multiple features 
 - `/build` with multiple ready: Show registry, filter blocked, offer selection
 - Blocked features cannot be selected until dependencies complete
 
-### 7. Always-Active Rules
+### 7. Proposal Validation
+
+Before proposing structural or architectural changes (especially during `/plan`):
+
+1. **Pick a scenario** — Use one the user described
+2. **Walk through it** — Step-by-step with the proposed solution
+3. **Trace data flow** — Where does each piece come from? Where does it go?
+4. **Only present if it works** — Don't propose solutions that fail simulation
+
+**Why:** Solutions that "sound reasonable" often break when simulated. Solve this before presenting, not after.
+
+### 8. Always-Active Rules
 
 These rules apply during all workflow stages:
 

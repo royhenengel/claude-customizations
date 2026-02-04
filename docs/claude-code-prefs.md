@@ -229,3 +229,16 @@ Every 10-15 messages on long tasks:
 2. Verify each staged file relates to the current task
 3. Unstage unrelated changes before proceeding
 4. Never assume pre-staged changes are intentional
+
+### Proposal Validation
+
+**Trigger:** Before proposing any structural, architectural, or design change.
+
+**Before presenting a solution, ALWAYS:**
+
+1. Pick one concrete scenario the user described
+2. Walk through it step-by-step with the proposed solution
+3. Trace data flow at each step (where does X come from? where does it go?)
+4. Only present if the walkthrough succeeds
+
+**Why:** Solutions that "sound reasonable" often break when simulated. The user shouldn't have to catch flaws that would surface from a simple walkthrough.

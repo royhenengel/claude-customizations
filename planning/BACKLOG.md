@@ -8,6 +8,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
+- [ ] Multiple features STATE support.
+- [ ] Resuming chats in VS Code Claude in different worktrees
 - [ ] Possibly automate /compound?
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
@@ -38,10 +40,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Keep but link from CLAUDE.md and update stale references
     3. Extract still-valuable content (tool selection guide) to dedicated doc
 - [ ] Cleanup docs - The second part of this doc shouldn't be here
+- [ ] Commands & skills migration - Anthropic just merged the two. Check the impact and see if these can be streamlined to avoid confusion working with commands & skills.
 - [ ] Review the commands text format. i.e instead of cek-plan-01 --> cek:XXX . Add the source as the prefix
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
-- [ ] Skill versioning and changelog automation
 - [ ] Skill health check command
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
