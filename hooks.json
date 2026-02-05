@@ -7,6 +7,11 @@
             "type": "command",
             "command": "node ~/.claude/hooks/scripts/user-issue-hook.js",
             "timeout": 5000
+          },
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/scripts/auto-commit-claude-mem.js",
+            "timeout": 5000
           }
         ]
       }
