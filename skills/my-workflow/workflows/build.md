@@ -114,37 +114,30 @@ Which feature would you like to build?
 
 **Single ready feature**: Auto-select it, confirm with user.
 
-### 2a. Offer Worktree Isolation (Optional)
+### 2a. Create Worktree for Multi-Task Features
 
-After selecting the feature, offer isolated workspace:
+After selecting the feature, create isolated workspace automatically for non-trivial work.
 
 **Check task count from PLAN.md Task Summary:**
 
-- **3+ tasks**: Suggest worktree (multi-task feature benefits from isolation)
-- **< 3 tasks**: Default to no worktree (quick change)
+- **3+ tasks**: Auto-create worktree (no prompt)
+- **< 3 tasks**: Work directly on current branch (quick change)
+
+**For 3+ tasks:**
 
 ```text
-This feature has {N} tasks.
-
-Would you like to create an isolated worktree?
-1. Yes - Create isolated workspace (recommended for 3+ tasks)
-2. No - Work directly on current branch (default for quick changes)
-
-Worktrees provide:
-- Clean isolation from main branch
-- Easy rollback if needed
-- Persistent workspace across sessions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌿 Creating worktree for {feature-name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**If user chooses Yes:**
-
 - Invoke git-worktrees skill to create isolated workspace
-- Note worktree path in STATE.md Notes section
+- Note worktree path in STATE.md Active Feature section
 - Continue with Step 3 from the worktree
 
-**If user chooses No:**
+**For < 3 tasks:**
 
-- Continue with Step 3 on current branch
+- Continue with Step 3 on current branch (no worktree needed for quick changes)
 
 ### 3. Load Plan as Execution Prompt
 

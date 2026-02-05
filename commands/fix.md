@@ -19,15 +19,31 @@ Parse the issue description to understand:
 - How can it be reproduced?
 
 **If no issue provided:**
-Ask:
+
+First, check if `planning/STATE.md` exists with a Feature Registry. If it does, show recent features:
+
 ```
 What issue would you like to fix?
 
+Recent features (select if related):
+1. {feature-1} ({status})
+2. {feature-2} ({status})
+3. {feature-3} ({status})
+4. Not related to a feature
+
+Pick a number, or describe the issue directly:
+```
+
+After user responds, ask for details:
+
+```
 Please describe:
 1. What's happening (the problem)
 2. What should happen (expected behavior)
 3. How to reproduce it (if known)
 ```
+
+If user selected a feature, automatically include that feature's context (SPEC.md, PLAN.md, SUMMARY.md if exists) in the git history search.
 
 ## Step 2: Git History Search
 

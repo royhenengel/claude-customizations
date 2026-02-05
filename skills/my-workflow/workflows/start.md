@@ -60,6 +60,32 @@ What would you like to do?
 
 1. Resume {paused feature} (continue where you left off)
 2. Switch to {ready feature} (keep {paused feature} paused)
+3. Start new feature
+
+**If user selects "Start new feature":**
+
+Read `planning/BACKLOG.md` and show actionable items:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 Starting new feature
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+From backlog:
+
+- {backlog item 1}
+- {backlog item 2}
+- {backlog item 3}
+
+Pick a number, or describe something new:
+
+After user picks or describes → **auto-invoke /plan** with that as input:
+
+- If backlog item selected: Pass the backlog item text to /plan
+- If user described something new: Pass their description to /plan
+
+Do NOT ask additional questions. Proceed directly to /plan.
 
 **If single feature or no registry** (simple session):
 
