@@ -13,6 +13,7 @@
 
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
+| claude-mem-injection             | complete | 13/13    | -            |
 | enhance-research-template        | complete | 2/2      | -            |
 | audit-agents                     | paused   | 0/10     | -            |
 | my-workflow-visual-design        | complete | 7/7      | -            |
@@ -25,6 +26,22 @@
 ## Current Focus
 
 Ready for next feature (audit-agents paused at 0/10)
+
+## Progress (claude-mem-injection)
+
+- [x] Task 1: Install claude-mem via plugin system
+- [x] Task 2: Verify worker service running on port 37777
+- [x] Task 3: Verify MCP tools available
+- [x] Task 4: Verify context injection at session start
+- [x] Task 5: Create auto-commit-claude-mem.js script
+- [x] Task 6: Create hook configuration
+- [x] Task 7: Configure Stop event trigger
+- [x] Task 8: Add SessionEnd event trigger
+- [x] Task 9: Move hooks.json to project root
+- [x] Task 10: Symlink hooks.json to ~/.claude/
+- [x] Task 11: Fix stale paths in hooks.json
+- [x] Task 12: Add UserPromptSubmit event trigger
+- [x] Task 13: Verify immediate commit on user prompt
 
 ## Progress (enhance-research-template)
 
