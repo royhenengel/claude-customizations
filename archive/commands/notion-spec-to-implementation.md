@@ -15,5 +15,5 @@ Invoke the notion-spec-to-implementation skill to:
 3. Create implementation plan (phases, approach, risks, timeline)
 4. Find the task database
 5. Create individual tasks with properties and acceptance criteria
-6. Link spec → plan → tasks bidirectionally
+6. Link spec -> plan -> tasks bidirectionally
 7. Track progress as implementation proceeds
