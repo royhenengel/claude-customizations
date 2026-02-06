@@ -6,9 +6,10 @@
 ## Active Feature
 
 **Name**: commands-skills-migration
-**Status**: active
-**Progress**: 5/11
+**Status**: complete
+**Progress**: 11/11
 **Worktree**: ~/worktrees/claude-customizations/commands-skills-migration
+**PR**: #2
 
 ## Paused Feature
 
@@ -22,7 +23,7 @@
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
 | enhance-research-template        | complete | 2/2      | -            |
-| commands-skills-migration        | active   | 5/11     | -            |
+| commands-skills-migration        | complete | 11/11    | -            |
 | audit-agents                     | paused   | 11/14    | -            |
 | my-workflow-visual-design        | complete | 7/7      | -            |
 | clarify-blockers                 | complete | 6/6      | -            |
@@ -33,7 +34,7 @@
 
 ## Current Focus
 
-Executing commands-skills-migration PLAN.md - Task 1
+commands-skills-migration complete - PR #2 open for merge
 
 ## Progress (commands-skills-migration)
 
@@ -42,12 +43,12 @@ Executing commands-skills-migration PLAN.md - Task 1
 - [x] Task 3: Consolidate CEK commands into single skill
 - [x] Task 4: Verify CEK consolidation (checkpoint:human-verify)
 - [x] Task 5: Categorize remaining commands for migration
-- [ ] Task 6: Review migration plan (checkpoint:human-verify)
-- [ ] Task 7: Migrate commands batch 1
-- [ ] Task 8: Migrate commands batch 2
-- [ ] Task 9: Archive original commands/ directory
-- [ ] Task 10: Update CLAUDE.md and documentation
-- [ ] Task 11: Final verification (checkpoint:human-verify)
+- [x] Task 6: Review migration plan (checkpoint:human-verify)
+- [x] Task 7: Migrate commands batch 1 (17 groups, 91 skills)
+- [x] Task 8: Migrate commands batch 2
+- [x] Task 9: Archive original commands/ directory
+- [x] Task 10: Update CLAUDE.md and documentation
+- [x] Task 11: Final verification - PR #2 review complete
 
 ## Progress (enhance-research-template)
 
@@ -186,19 +187,25 @@ Executing commands-skills-migration PLAN.md - Task 1
 
 ## Current State
 
-**Last Updated**: 2026-02-05
+**Last Updated**: 2026-02-06
 
 ### What's Working
 
-(Nothing verified yet)
+- 91 SKILL.md files organized in 17 functional groups
+- All slash commands invocable by flat name (no group prefix)
+- Consider frameworks as individual skills with autocomplete
+- CEK consolidated into single skill with references
+- Broken references and duplicate names resolved
+- PR #2 open and reviewed
 
 ### What's Not Working
 
-(No issues identified)
+- Live testing blocked until merge to main (worktree limitation)
 
 ### Next Steps
 
-1. Task 1: Resolve 4 naming conflicts (notion-knowledge-capture, notion-meeting-intelligence, notion-research-docs, notion-spec-to-implementation)
+1. Merge PR #2 to main
+2. Test key skills live: /commit, /vital-few, /stop, /notion-search
 
 ### Open Questions
 
