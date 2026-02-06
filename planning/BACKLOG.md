@@ -8,6 +8,9 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
+- [ ] Autmatically switch dir to the worktree after creating it
+- [ ] Store worktrees in the project dir and not the global dir
+- [ ] Incident Report command
 - [ ] Multiple features STATE support.
 - [ ] Resuming chats in VS Code Claude in different worktrees
 - [ ] Possibly automate /compound?
@@ -116,4 +119,12 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 
 ## Technical Debt
 
-(None currently)
+- [ ] Fix auto-trigger-fix hooks false positives
+  - **Incident**: [INCIDENT-2026-02-05.md](specs/auto-trigger-fix/INCIDENT-2026-02-05.md)
+  - **Status**: Hooks disabled pending fix
+  - **Root cause**: Overly broad regex patterns (`/error:/i`, `/\berror\b/i`)
+  - **Fix needed**:
+    1. Make patterns context-aware (line start, command type)
+    2. Add exclusions for grep/search commands
+    3. Add exclusions for meta-discussions about the feature
+    4. Consider requiring multiple signals before triggering
