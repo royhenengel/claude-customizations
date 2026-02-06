@@ -14,7 +14,7 @@
 
 ## Status
 
-Implementation in progress.
+Implementation complete. See SUMMARY.md for details.
 
 
 <claude-mem-context>
