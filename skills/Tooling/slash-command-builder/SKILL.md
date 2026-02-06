@@ -198,7 +198,7 @@ Related files: !`grep -r "TODO.*$ARGUMENTS" src/`
 
 ### Bash Commands
 
-Execute bash commands before the prompt using `!` prefix directly before backticks:
+Execute bash commands before the prompt using the "!" prefix directly before backticks:
 
 ```markdown
 <context>

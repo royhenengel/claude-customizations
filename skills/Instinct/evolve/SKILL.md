@@ -3,10 +3,6 @@ name: evolve
 description: Analyze instinct patterns and suggest evolved capabilities
 ---
 
----
-description: Analyze instinct patterns and suggest evolved capabilities
----
-
 Analyze clusters of related instincts and observations to suggest evolved capabilities (skills, commands, agents).
 
 ## Process

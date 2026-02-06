@@ -42,7 +42,7 @@ Create a well-crafted conventional commit for staged changes.
 
 - **Subject line**: Max 50 chars, imperative mood, no period
 - **Body**: Wrap at 72 chars, explain motivation
-- **Breaking changes**: Add `!` after type/scope AND footer note
+- **Breaking changes**: Add "!" after type/scope AND footer note
 
 ## Examples
 

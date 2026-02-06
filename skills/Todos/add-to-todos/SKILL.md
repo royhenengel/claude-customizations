@@ -1,9 +1,5 @@
 ---
 name: add-to-todos
-description: Add Todo Item
----
-
----
 description: Add todo item to TO-DOS.md with context from conversation
 argument-hint: <todo-description> (optional - infers from conversation if omitted)
 allowed-tools:

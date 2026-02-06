@@ -1,4 +1,5 @@
 ---
+name: map-codebase
 description: Analyze existing codebase structure and patterns
 ---
 

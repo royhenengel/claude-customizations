@@ -3,10 +3,6 @@ name: instinct-bootstrap
 description: Bootstrap initial instincts from AI Chat Prefs
 ---
 
----
-description: Bootstrap initial instincts from AI Chat Prefs
----
-
 Generate initial high-confidence instincts from documented AI Chat Prefs.
 
 ## Process

@@ -1,9 +1,5 @@
 ---
 name: check-todos
-description: Check Todos
----
-
----
 description: List outstanding todos and select one to work on
 allowed-tools:
   - Read

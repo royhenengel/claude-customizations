@@ -3,10 +3,6 @@ name: instinct-status
 description: Show all instincts with confidence scores
 ---
 
----
-description: Show all instincts with confidence scores
----
-
 Display learned behavioral patterns and their confidence levels.
 
 ## Process

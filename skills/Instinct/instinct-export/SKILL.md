@@ -1,10 +1,6 @@
 ---
 name: instinct-export
 description: Export instincts to file
----
-
----
-description: Export instincts to file
 argument: "[path]"
 ---
 
