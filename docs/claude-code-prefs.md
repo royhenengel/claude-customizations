@@ -122,12 +122,12 @@ MCP servers are **not always running** — they start with Claude Code sessions 
 └── ...
 
 /Users/royengel/Projects/Claude Code/claude-customizations/
-├── skills/           # All installed skills
+├── skills/           # All skills (17 groups + depth-2 symlinks for discovery)
 ├── agents/           # Custom agents
-├── commands/         # Slash commands (symlinked to ~/.claude/commands)
+├── archive/          # Archived items (original commands/, etc.)
 ├── mcp/              # MCP server docs/configs
+├── docs/             # Preferences and documentation
 ├── CLAUDE.md         # Auto-loaded by Claude Code
-├── PREFERENCES.md    # This file (referenced by CLAUDE.md)
 └── .mcp.json         # MCP server config (gitignored)
 ```
 
@@ -229,6 +229,20 @@ Every 10-15 messages on long tasks:
 2. Verify each staged file relates to the current task
 3. Unstage unrelated changes before proceeding
 4. Never assume pre-staged changes are intentional
+
+### Verification Before Recommendation
+
+**Trigger:** Any request for a solution, fix, or recommendation.
+
+**Rules:**
+
+1. **Research before recommending.** Treat solution requests as "research then recommend", not "brainstorm options." Verify feasibility before presenting.
+2. **Never present unverified solutions.** If you haven't confirmed something works, say so explicitly. Do not present unverified ideas as options in comparison tables or recommendation lists.
+3. **Check project docs first.** Before proposing changes, read existing documentation for prior decisions, failed approaches, and rationale. This project uses `planning/specs/{feature}/` with RESEARCH.md, SPEC.md, PLAN.md, SUMMARY.md.
+4. **State uncertainty explicitly.** "This might work but I haven't confirmed it" is acceptable. Presenting guesses as validated options is not.
+5. **Verify primary sources, not just documentation about them.** Documentation labels (e.g., "thin wrapper", "deprecated", "unused") are categorizations, not facts. Always inspect the actual artifact (file, code, config) before acting on what a document says about it.
+
+**Why:** The user's trust depends on accuracy. Plausible-sounding suggestions that turn out to be wrong or already rejected waste time and erode confidence.
 
 ### Proposal Validation
 

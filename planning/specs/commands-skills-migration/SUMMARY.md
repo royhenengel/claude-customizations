@@ -38,9 +38,10 @@ Audit, CEK, Code-Quality, Communications, Design, Documentation, Git, Instinct, 
 | Bug fix (Rule 1) | Duplicate skill names (n8n-workflow-patterns, prompt-engineering) | Renamed/removed duplicates |
 | Enhancement (Rule 5) | Colon prefix in SKILL.md names not supported | Accepted flat names; groups are directory-only |
 
-## Incident
+## Incidents
 
-[INCIDENT-2026-02-06.md](INCIDENT-2026-02-06.md): Build completion flow (steps 10-13) was skipped when feature was marked complete. Backlog entry added for enforcement mechanism.
+1. [INCIDENT-2026-02-06.md](INCIDENT-2026-02-06.md): Build completion flow (steps 10-13) was skipped when feature was marked complete. Backlog entry added for enforcement mechanism.
+2. [INCIDENT-2026-02-06-skill-discovery.md](INCIDENT-2026-02-06-skill-discovery.md): Group directories pushed skills to depth 3, beyond Claude Code's fixed depth-2 discovery. 67 of 69 skills invisible as slash commands. Fixed with depth-2 symlinks. Also removed broken `~/.claude/commands` symlink.
 
 ## Verification
 
@@ -49,7 +50,7 @@ Audit, CEK, Code-Quality, Communications, Design, Documentation, Git, Instinct, 
 - [x] No broken @skills/ references
 - [x] No orphaned files in skills/ root
 - [x] CLAUDE.md updated
-- [ ] Live testing (blocked by worktree; post-merge)
+- [x] Live testing: discovered depth-2 discovery limitation, fixed with symlinks (see incident #2)
 
 ## Files Changed
 
@@ -60,7 +61,14 @@ Audit, CEK, Code-Quality, Communications, Design, Documentation, Git, Instinct, 
 - `skills/cek/` consolidated with references/ subdirectories
 - `CLAUDE.md` updated
 
+## Post-Merge Fixes
+
+- Removed broken `~/.claude/commands` symlink (target archived during Task 9)
+- Re-committed `skills/notebooklm/` as regular files (submodule reference accidentally deleted during migration)
+- Created 66 depth-2 symlinks to fix skill discovery (Claude Code only scans `skills/{name}/SKILL.md`)
+- Symlinks are temporary until Claude Code ships recursive discovery ([GitHub #18192](https://github.com/anthropics/claude-code/issues/18192))
+
 ## Next Steps
 
-- Live-test key skills after merge: /commit, /vital-few, /stop, /notion-search
 - Address backlog: "Enforce build completion flow"
+- Monitor GitHub #18192 for recursive skill discovery fix; remove symlinks when shipped
