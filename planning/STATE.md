@@ -1,15 +1,14 @@
 # Project State
 
-**Stage**: building
-**Last Updated**: 2026-02-05
+**Stage**: idle
+**Last Updated**: 2026-02-06
 
-## Active Feature
+## Completed Feature
 
 **Name**: commands-skills-migration
 **Status**: complete
 **Progress**: 11/11
-**Worktree**: ~/worktrees/claude-customizations/commands-skills-migration
-**PR**: #2
+**PR**: #2 (merged)
 
 ## Paused Feature
 
@@ -34,7 +33,7 @@
 
 ## Current Focus
 
-commands-skills-migration complete - PR #2 open for merge
+Idle. commands-skills-migration complete (PR #2 merged).
 
 ## Progress (commands-skills-migration)
 
@@ -196,16 +195,16 @@ commands-skills-migration complete - PR #2 open for merge
 - Consider frameworks as individual skills with autocomplete
 - CEK consolidated into single skill with references
 - Broken references and duplicate names resolved
-- PR #2 open and reviewed
+- PR #2 merged to main
 
 ### What's Not Working
 
-- Live testing blocked until merge to main (worktree limitation)
+(None)
 
 ### Next Steps
 
-1. Merge PR #2 to main
-2. Test key skills live: /commit, /vital-few, /stop, /notion-search
+- Live-test key skills: /commit, /vital-few, /stop, /notion-search
+- Address backlog: "Enforce build completion flow"
 
 ### Open Questions
 

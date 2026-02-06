@@ -10,6 +10,14 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [x] Automatically switch dir to the worktree after creating it (resolved: auto-open VS Code window)
 - [x] Store worktrees in the project dir and not the global dir (resolved: .worktrees/ is now default)
+- [ ] Enforce build completion flow
+  - **Incident**: [INCIDENT-2026-02-06.md](specs/commands-skills-migration/INCIDENT-2026-02-06.md)
+  - **Problem**: "Mark as complete" outside an active `/build` session bypasses steps 10-13 (SUMMARY.md, STATE.md finalization, worktree cleanup)
+  - **Options**:
+    1. Skill trigger: Add "mark as complete", "complete the feature", "done with feature" to build skill description so it auto-activates and dispatches to the completion flow
+    2. Hook: UserPromptSubmit hook detects completion language, injects reminder to follow build.md steps 10-13
+    3. Pre-merge check: Hook on `gh pr merge` that verifies SUMMARY.md exists and worktree cleanup is planned
+  - **Minimum fix**: Add completion-related triggers to build skill description
 - [ ] Incident Report command
 - [ ] Multiple features STATE support.
 - [ ] Resuming chats in VS Code Claude in different worktrees
