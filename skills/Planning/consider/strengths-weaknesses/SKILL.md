@@ -1,4 +1,5 @@
 ---
+name: strengths-weaknesses
 description: Map strengths, weaknesses, opportunities, and threats
 argument-hint: [subject or leave blank for current context]
 ---

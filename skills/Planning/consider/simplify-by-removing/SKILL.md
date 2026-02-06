@@ -1,4 +1,5 @@
 ---
+name: simplify-by-removing
 description: Improve by removing rather than adding
 argument-hint: [situation or leave blank for current context]
 ---

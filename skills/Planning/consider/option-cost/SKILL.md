@@ -1,4 +1,5 @@
 ---
+name: option-cost
 description: Analyze what you give up by choosing this option
 argument-hint: [choice or leave blank for current context]
 ---
