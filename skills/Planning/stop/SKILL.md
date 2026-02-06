@@ -1,17 +1,8 @@
 ---
 name: stop
-description: Create handoff document and pause work cleanly
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, TodoWrite
+description: Create handoff document and pause work cleanly (deprecated, archived for reference)
 ---
 
-Create handoff document and pause work cleanly.
+> **Deprecated**: This workflow was automated in the `automate-stop` feature. Current State in STATE.md is now maintained automatically during `/build`.
 
-> **Note**: Manual /stop is optional. Current State in STATE.md is maintained automatically during /build.
-
-## Process
-
-Execute the workflow defined in:
-
-@skills/Planning/my-workflow/workflows/archive/stop.md
-
-Follow that workflow exactly.
+This skill is preserved for reference only. The original workflow is at `skills/Planning/my-workflow/workflows/archive/stop.md` if restoration is needed.
