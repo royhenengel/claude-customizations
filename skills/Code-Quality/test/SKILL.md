@@ -1,4 +1,5 @@
 ---
+name: test
 description: Run or create tests with coverage analysis
 arguments:
   - name: action

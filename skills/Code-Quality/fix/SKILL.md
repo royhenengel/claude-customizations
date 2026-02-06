@@ -1,4 +1,5 @@
 ---
+name: fix
 description: Thorough fix workflow with git history, root cause analysis, and regression prevention
 arguments:
   - name: issue

@@ -1,4 +1,5 @@
 ---
+name: commit
 description: Smart conventional commits with analysis
 ---
 

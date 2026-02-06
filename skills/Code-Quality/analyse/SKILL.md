@@ -1,4 +1,5 @@
 ---
+name: analyse
 description: Analyze codebase, file, or pattern
 arguments:
   - name: target

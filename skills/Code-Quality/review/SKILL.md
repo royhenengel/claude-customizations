@@ -1,4 +1,5 @@
 ---
+name: review
 description: Review code changes with comprehensive checklist
 arguments:
   - name: target

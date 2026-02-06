@@ -1,4 +1,5 @@
 ---
+name: compound
 description: Document solved problems to make future fixes faster
 arguments:
   - name: context

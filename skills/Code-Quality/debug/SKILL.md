@@ -1,4 +1,5 @@
 ---
+name: debug
 description: Systematic debugging workflow
 arguments:
   - name: issue
