@@ -27,8 +27,8 @@ description: {One-line description of what this command does}
 Load the my-workflow skill and execute the workflow:
 
 ```
-@skills/my-workflow/SKILL.md
-@skills/my-workflow/workflows/{command-name}.md
+@skills/Planning/my-workflow/SKILL.md
+@skills/Planning/my-workflow/workflows/{command-name}.md
 
 Execute the /{command-name} workflow as documented.
 ```

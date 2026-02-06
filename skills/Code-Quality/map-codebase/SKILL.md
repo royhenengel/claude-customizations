@@ -30,8 +30,8 @@ Map an existing codebase to understand its structure, conventions, and patterns.
 Load the my-workflow skill and execute the map-codebase workflow:
 
 ```
-@skills/my-workflow/SKILL.md
-@skills/my-workflow/workflows/map-codebase.md
+@skills/Planning/my-workflow/SKILL.md
+@skills/Planning/my-workflow/workflows/map-codebase.md
 
 Execute the /map-codebase workflow as documented.
 ```

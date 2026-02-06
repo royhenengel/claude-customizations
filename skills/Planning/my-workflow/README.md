@@ -158,8 +158,8 @@ description: {One-line description}
 Load the my-workflow skill and execute the workflow:
 
 \`\`\`
-@skills/my-workflow/SKILL.md
-@skills/my-workflow/workflows/{command}.md
+@skills/Planning/my-workflow/SKILL.md
+@skills/Planning/my-workflow/workflows/{command}.md
 
 Execute the /{command} workflow as documented.
 \`\`\`
