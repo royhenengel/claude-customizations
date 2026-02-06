@@ -1,11 +1,6 @@
 ---
 name: git-worktrees
-description: Creates isolated git worktrees for feature development. Use before /build to work on separate branches without switching workspaces.
-triggers:
-  - starting feature work
-  - need isolation from main branch
-  - before executing implementation plans
-  - parallel development
+description: Creates isolated git worktrees for feature development. Use when user wants to work on a feature in isolation. Creates worktree, opens VS Code window, updates STATE.md.
 ---
 
 # Git Worktrees
@@ -18,35 +13,20 @@ Creates isolated workspaces sharing the same repository, allowing work on multip
 
 ## Directory Selection Process
 
-Follow this priority order:
+Default to project-local `.worktrees/` directory. Follow this priority order:
 
 ### 1. Check Existing Directories
 
 ```bash
-ls -d .worktrees 2>/dev/null     # Preferred (hidden)
+ls -d .worktrees 2>/dev/null     # Preferred (project-local, hidden)
 ls -d worktrees 2>/dev/null      # Alternative
 ```
 
 **If found:** Use that directory. If both exist, `.worktrees` wins.
 
-### 2. Check CLAUDE.md
+### 2. Create .worktrees/
 
-```bash
-grep -i "worktree.*director" CLAUDE.md 2>/dev/null
-```
-
-**If preference specified:** Use it without asking.
-
-### 3. Ask User
-
-If no directory exists and no CLAUDE.md preference:
-
-```
-No worktree directory found. Where should I create worktrees?
-
-1. .worktrees/ (project-local, hidden)
-2. ~/worktrees/<project-name>/ (global location)
-```
+If no directory exists, create `.worktrees/` in the project root (project-local is the default).
 
 ## Safety Verification
 
@@ -105,12 +85,20 @@ npm test / cargo test / pytest / go test ./...
 
 **If tests fail:** Report failures, ask whether to proceed or investigate.
 
-### 5. Report Location
+### 5. Open VS Code Window
+
+```bash
+code --new-window "$worktree_path"
+```
+
+This opens the worktree in a new VS Code window with full editor context (sidebar, git status, terminal all on the feature branch).
+
+### 6. Report and Hand Off
 
 ```
 Worktree ready at <full-path>
-Tests passing (<N> tests, 0 failures)
-Ready to implement <feature-name>
+VS Code window opened.
+Continue with /plan in the new window.
 ```
 
 ## Quick Reference
@@ -126,12 +114,9 @@ Ready to implement <feature-name>
 
 ## Integration with My-Workflow
 
-**Use before:**
-- `/build` - when feature needs isolation from main branch
-- Starting any feature that may take multiple sessions
+Worktree creation is decoupled from `/plan` and `/build`. It happens conversationally when the user decides to work on a feature. After creation, the user switches to the new VS Code window and runs `/plan` and `/build` there.
 
-**Use after:**
-- `/plan` - when plan is approved and ready for implementation
+See [planning/specs/my-workflow/WORKTREE-WORKFLOW.md] for design rationale.
 
 **Cleanup:**
 When feature is complete and merged:
