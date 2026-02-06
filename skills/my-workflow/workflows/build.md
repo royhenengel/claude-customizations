@@ -114,16 +114,14 @@ Which feature would you like to build?
 
 **Single ready feature**: Auto-select it, confirm with user.
 
-### 2a. Create Worktree for Multi-Task Features
+### 2a. Verify Worktree Exists
 
-After selecting the feature, create isolated workspace automatically for non-trivial work.
+Worktrees are created during `/plan` (Step 3a). Verify the worktree exists before proceeding.
 
-**Check task count from PLAN.md Task Summary:**
+**Check STATE.md Active Feature section for Worktree path:**
 
-- **3+ tasks**: Auto-create worktree (no prompt)
-- **< 3 tasks**: Work directly on current branch (quick change)
-
-**For 3+ tasks:**
+- **Worktree exists**: Change to worktree directory, continue with Step 3
+- **No worktree recorded**: This is a legacy feature planned before worktree-at-plan-time. Create worktree now:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -134,10 +132,6 @@ After selecting the feature, create isolated workspace automatically for non-tri
 - Invoke git-worktrees skill to create isolated workspace
 - Note worktree path in STATE.md Active Feature section
 - Continue with Step 3 from the worktree
-
-**For < 3 tasks:**
-
-- Continue with Step 3 on current branch (no worktree needed for quick changes)
 
 ### 3. Load Plan as Execution Prompt
 

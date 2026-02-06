@@ -165,7 +165,24 @@ Based on what you've described, here are approaches:
 Which approach resonates with you?
 ```
 
-Once approach is chosen, continue to step 4 with clear requirements.
+Once approach is chosen, continue to step 3a with clear requirements.
+
+### 3a. Create Worktree for Feature
+
+Create isolated workspace before planning artifacts are created. This ensures all feature work (planning + implementation) lives in the feature branch.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌿 Creating worktree for {feature-name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+- Invoke git-worktrees skill to create isolated workspace at `~/worktrees/{repo-name}/{feature-name}`
+- Note worktree path in STATE.md Active Feature section
+- Change working directory to the worktree
+- Continue with Step 4 from the worktree
+
+**Note**: All subsequent steps (creating SPEC.md, RESEARCH.md, PLAN.md) happen in the worktree.
 
 ### 4. Create Feature Directory
 
