@@ -114,25 +114,6 @@ Which feature would you like to build?
 
 **Single ready feature**: Auto-select it, confirm with user.
 
-### 2a. Verify Worktree Exists
-
-Worktrees are created during `/plan` (Step 3a). Verify the worktree exists before proceeding.
-
-**Check STATE.md Active Feature section for Worktree path:**
-
-- **Worktree exists**: Change to worktree directory, continue with Step 3
-- **No worktree recorded**: This is a legacy feature planned before worktree-at-plan-time. Create worktree now:
-
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌿 Creating worktree for {feature-name}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-- Invoke git-worktrees skill to create isolated workspace
-- Note worktree path in STATE.md Active Feature section
-- Continue with Step 3 from the worktree
-
 ### 3. Load Plan as Execution Prompt
 
 Read the PLAN.md completely. It IS the execution prompt.

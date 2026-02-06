@@ -8,8 +8,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [ ] Autmatically switch dir to the worktree after creating it
-- [ ] Store worktrees in the project dir and not the global dir
+- [x] Automatically switch dir to the worktree after creating it (resolved: auto-open VS Code window)
+- [x] Store worktrees in the project dir and not the global dir (resolved: .worktrees/ is now default)
 - [ ] Incident Report command
 - [ ] Multiple features STATE support.
 - [ ] Resuming chats in VS Code Claude in different worktrees
