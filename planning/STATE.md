@@ -1,12 +1,19 @@
 # Project State
 
 **Stage**: building
-**Last Updated**: 2026-02-04
+**Last Updated**: 2026-02-05
 
 ## Active Feature
 
-**Name**: audit-agents
+**Name**: commands-skills-migration
 **Status**: active
+**Progress**: 5/11
+**Worktree**: ~/worktrees/claude-customizations/commands-skills-migration
+
+## Paused Feature
+
+**Name**: audit-agents
+**Status**: paused
 **Progress**: 11/14
 **Worktree**: ~/worktrees/claude-customizations/audit-agents
 
@@ -15,7 +22,8 @@
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
 | enhance-research-template        | complete | 2/2      | -            |
-| audit-agents                     | active   | 10/14    | -            |
+| commands-skills-migration        | active   | 5/11     | -            |
+| audit-agents                     | paused   | 11/14    | -            |
 | my-workflow-visual-design        | complete | 7/7      | -            |
 | clarify-blockers                 | complete | 6/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
@@ -25,7 +33,21 @@
 
 ## Current Focus
 
-Executing audit-agents PLAN.md - Task 8 (checkpoint)
+Executing commands-skills-migration PLAN.md - Task 1
+
+## Progress (commands-skills-migration)
+
+- [x] Task 1: Resolve 4 naming conflicts
+- [x] Task 2: Verify conflict resolution (checkpoint:human-verify)
+- [x] Task 3: Consolidate CEK commands into single skill
+- [x] Task 4: Verify CEK consolidation (checkpoint:human-verify)
+- [x] Task 5: Categorize remaining commands for migration
+- [ ] Task 6: Review migration plan (checkpoint:human-verify)
+- [ ] Task 7: Migrate commands batch 1
+- [ ] Task 8: Migrate commands batch 2
+- [ ] Task 9: Archive original commands/ directory
+- [ ] Task 10: Update CLAUDE.md and documentation
+- [ ] Task 11: Final verification (checkpoint:human-verify)
 
 ## Progress (enhance-research-template)
 
@@ -127,6 +149,8 @@ Executing audit-agents PLAN.md - Task 8 (checkpoint)
 
 ## Decisions
 
+- (2026-02-05) Workflow: Worktree creation moved from /build to /plan (Step 3a). All feature artifacts now live in feature branch from start.
+- (2026-02-05) commands-skills-migration: Skills-only structure chosen (migrate all commands to skills/, archive commands/). CEK commands will be consolidated into single skill with references/.
 - (2026-02-03) my-workflow-visual-design: Visual format uses thick lines (━), icon + text, 50 char minimum, polished/professional/warm tone
 - (2026-01-31) Selected reddit-mcp-buddy: npm package (technical consistency), ~360 stars, optional auth (anonymous 10 req/min)
 - (2026-01-31) claude-mem installed via plugin system (v9.0.12) instead of manual hooks - cleaner, auto-updates
@@ -161,7 +185,7 @@ Executing audit-agents PLAN.md - Task 8 (checkpoint)
 
 ## Current State
 
-**Last Updated**: 2026-02-03
+**Last Updated**: 2026-02-05
 
 ### What's Working
 
@@ -173,7 +197,7 @@ Executing audit-agents PLAN.md - Task 8 (checkpoint)
 
 ### Next Steps
 
-1. Task 1: Update RESEARCH.md template in plan.md
+1. Task 1: Resolve 4 naming conflicts (notion-knowledge-capture, notion-meeting-intelligence, notion-research-docs, notion-spec-to-implementation)
 
 ### Open Questions
 

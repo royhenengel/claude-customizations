@@ -32,4 +32,10 @@ See `specs/my-workflow/` for current feature implementation.
 | ID | Time | T | Title | Read |
 |----|------|---|-------|------|
 | #208 | 8:03 AM | ⚖️ | Code-Executor Intentionally Exposes Disabled MCP Servers for Lazy Loading | ~324 |
+
+### Feb 5, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #1305 | 3:19 PM | ✅ | Documented Auto-Trigger-Fix Hooks Technical Debt | ~376 |
 </claude-mem-context>
