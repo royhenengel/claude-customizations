@@ -8,8 +8,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Improvements
 
-- [x] Automatically switch dir to the worktree after creating it (resolved: auto-open VS Code window)
-- [x] Store worktrees in the project dir and not the global dir (resolved: .worktrees/ is now default)
+### Workflow Guardrails
+
 - [ ] Enforce build completion flow
   - **Incident**: [INCIDENT-2026-02-06.md](specs/commands-skills-migration/INCIDENT-2026-02-06.md)
   - **Problem**: "Mark as complete" outside an active `/build` session bypasses steps 10-13 (SUMMARY.md, STATE.md finalization, worktree cleanup)
@@ -18,27 +18,53 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Hook: UserPromptSubmit hook detects completion language, injects reminder to follow build.md steps 10-13
     3. Pre-merge check: Hook on `gh pr merge` that verifies SUMMARY.md exists and worktree cleanup is planned
   - **Minimum fix**: Add completion-related triggers to build skill description
-- [ ] Incident Report command
-- [ ] Multiple features STATE support.
-- [ ] Resuming chats in VS Code Claude in different worktrees
+- [ ] Current State updates outside /plan and /build
+  - **Gap**: Current State only updates during formal workflow commands. Informal work ("fix this bug", "add this") leaves STATE.md stale.
+  - **Current behavior**: claude-mem captures session activity, but STATE.md's Current State section doesn't reflect it
+  - **Options**:
+    1. Accept it (workflows are opt-in, informal work is informal)
+    2. Add hook to auto-update on significant file changes
+    3. Add lightweight manual refresh command (risk: recreating /stop)
+  - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
+- [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+
+### Workflow UX
+
+- [ ] Add lightweight mode to My-Workflow
+  - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
+  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
+  - **Triggers to consider**: Single file change, quick fix, less than 3 steps
+  - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
+- [ ] Brownfield project support in /start
+  - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
+  - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
+- [ ] Multiple features STATE support
+- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
+
+### Skill & Agent Architecture
+
+- [ ] Audit skills vs agents distinction
+  - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
+  - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
+  - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
+- [ ] Commands & skills migration - Anthropic just merged the two. Check the impact and see if these can be streamlined to avoid confusion working with commands & skills.
+- [ ] Review the commands text format. i.e instead of cek-plan-01 --> cek:XXX . Add the source as the prefix
+- [ ] Add skill dependency validation
+- [ ] Create skill testing framework
+- [ ] Skill health check command
+- [ ] Create /curate command for skill organization (deferred - manual process for now)
+- [ ] Improve the diagram builder
 - [ ] Possibly automate /compound?
   - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
   - **References**:
     - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/ref/gsd/README.md
     - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/ref/cek-subagent-driven-development/SKILL.md
     - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/rules/agents.md)
-- [ ] Claude Code remote setup
-  - [ ] Tried configured the terminal notifier but that doesn't seem to work reliably. Not sure if that is the right solution and if I should spend time configuring it.
-  - [ ] Review TikTok links and capture what others have done.
-- [ ] Audit skills vs agents distinction
-  - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
-  - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
-  - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
+
+### Docs & Knowledge Capture
+
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
-- [ ] Brownfield project support in /start
-  - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
-  - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
 - [ ] Consolidate CLAUDE.md and claude-code-prefs.md relationship
   - **Current**: CLAUDE.md = auto-loaded essentials, claude-code-prefs.md = detailed reference in docs/
   - **Status**: Deferred - the separation works, but claude-code-prefs.md is orphaned (not referenced from CLAUDE.md)
@@ -51,31 +77,20 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Keep but link from CLAUDE.md and update stale references
     3. Extract still-valuable content (tool selection guide) to dedicated doc
 - [ ] Cleanup docs - The second part of this doc shouldn't be here
-- [ ] Commands & skills migration - Anthropic just merged the two. Check the impact and see if these can be streamlined to avoid confusion working with commands & skills.
-- [ ] Review the commands text format. i.e instead of cek-plan-01 --> cek:XXX . Add the source as the prefix
-- [ ] Add skill dependency validation
-- [ ] Create skill testing framework
-- [ ] Skill health check command
-- [ ] Create /curate command for skill organization (deferred - manual process for now)
-- [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+- [ ] Incident Report command
+
+### Remote & Sessions
+
+- [ ] Claude Code remote setup
+  - [ ] Tried configured the terminal notifier but that doesn't seem to work reliably. Not sure if that is the right solution and if I should spend time configuring it.
+  - [ ] Review TikTok links and capture what others have done.
+- [ ] Resuming chats in VS Code Claude in different worktrees
+- [ ] Possibly save session transcripts in claude-mem
+
+### Learning & Mastery
+
 - [ ] Master using instincts system
 - [ ] Master git worktrees (wired into /build as optional Step 2a)
-- [ ] Possibly save session transcripts in claude mem
-- [ ] Improve the diagram builder.
-- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
-- [ ] Add lightweight mode to My-Workflow
-  - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
-  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
-  - **Triggers to consider**: Single file change, quick fix, less than 3 steps
-  - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
-- [ ] Current State updates outside /plan and /build
-  - **Gap**: Current State only updates during formal workflow commands. Informal work ("fix this bug", "add this") leaves STATE.md stale.
-  - **Current behavior**: claude-mem captures session activity, but STATE.md's Current State section doesn't reflect it
-  - **Options**:
-    1. Accept it (workflows are opt-in, informal work is informal)
-    2. Add hook to auto-update on significant file changes
-    3. Add lightweight manual refresh command (risk: recreating /stop)
-  - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
 
 ## Inspiration Sources
 

@@ -1,20 +1,13 @@
 # Project State
 
-**Stage**: idle
-**Last Updated**: 2026-02-06
+**Stage**: building
+**Last Updated**: 2026-02-07
 
-## Completed Feature
-
-**Name**: commands-skills-migration
-**Status**: complete
-**Progress**: 11/11
-**PR**: #2 (merged)
-
-## Paused Feature
+## Active Feature
 
 **Name**: audit-agents
-**Status**: paused
-**Progress**: 11/14
+**Status**: active
+**Progress**: 7/10
 **Worktree**: ~/worktrees/claude-customizations/audit-agents
 
 ## Feature Registry
@@ -23,7 +16,7 @@
 |----------------------------------|----------|
 | enhance-research-template        | complete |
 | commands-skills-migration        | complete |
-| audit-agents                     | paused   |
+| audit-agents                     | active   |
 | my-workflow-visual-design        | complete |
 | clarify-blockers                 | complete |
 | automate-stop                    | complete |
@@ -33,7 +26,7 @@
 
 ## Current Focus
 
-Idle. commands-skills-migration complete (PR #2 merged).
+audit-agents: 3 remaining checkpoints + 1 archive task.
 
 ## Decisions
 
