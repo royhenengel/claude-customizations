@@ -19,133 +19,21 @@
 
 ## Feature Registry
 
-| Feature                          | Status   | Progress | Dependencies |
-|----------------------------------|----------|----------|--------------|
-| enhance-research-template        | complete | 2/2      | -            |
-| commands-skills-migration        | complete | 11/11    | -            |
-| audit-agents                     | paused   | 11/14    | -            |
-| my-workflow-visual-design        | complete | 7/7      | -            |
-| clarify-blockers                 | complete | 6/6      | -            |
-| automate-stop                    | complete | 7/7      | -            |
-| everything-claude-code-migration | complete | 18/18    | -            |
-| reddit-mcp-server                | complete | 3/3      | -            |
-| auto-trigger-fix                 | complete | -        | -            |
+| Feature                          | Status   |
+|----------------------------------|----------|
+| enhance-research-template        | complete |
+| commands-skills-migration        | complete |
+| audit-agents                     | paused   |
+| my-workflow-visual-design        | complete |
+| clarify-blockers                 | complete |
+| automate-stop                    | complete |
+| everything-claude-code-migration | complete |
+| reddit-mcp-server                | complete |
+| auto-trigger-fix                 | complete |
 
 ## Current Focus
 
 Idle. commands-skills-migration complete (PR #2 merged).
-
-## Progress (commands-skills-migration)
-
-- [x] Task 1: Resolve 4 naming conflicts
-- [x] Task 2: Verify conflict resolution (checkpoint:human-verify)
-- [x] Task 3: Consolidate CEK commands into single skill
-- [x] Task 4: Verify CEK consolidation (checkpoint:human-verify)
-- [x] Task 5: Categorize remaining commands for migration
-- [x] Task 6: Review migration plan (checkpoint:human-verify)
-- [x] Task 7: Migrate commands batch 1 (17 groups, 91 skills)
-- [x] Task 8: Migrate commands batch 2
-- [x] Task 9: Archive original commands/ directory
-- [x] Task 10: Update CLAUDE.md and documentation
-- [x] Task 11: Final verification - PR #2 review complete
-
-## Progress (enhance-research-template)
-
-- [x] Task 1: Update RESEARCH.md template in plan.md
-- [x] Task 2: Verify template structure (checkpoint:human-verify)
-
-## Progress (audit-agents)
-
-- [x] Task 1: Create agent categorization document
-- [x] Task 2: Categorize all 135 agents by workflow stage
-- [x] Task 3: Verify categories and identify archive candidates (checkpoint:human-verify)
-- [x] Task 4: Draft invocation rules document
-- [x] Task 5: Verify invocation rules (checkpoint:human-verify)
-- [x] Task 5-orch: Research multi-agent orchestration patterns (Added via Gap Protocol)
-- [x] Task 5a: Compare overlapping agents by source and capability (Added via Gap Protocol)
-- [x] Task 5b: Update invocation rules with justified selections (Added via Gap Protocol)
-- [x] Task 5c: Decide disposition for untriggered agents (Added via Gap Protocol)
-- [x] Task 6: Update build.md with specialized agent invocation
-- [x] Task 7: Add multi-perspective review pattern to build.md
-- [ ] Task 8: Verify build.md integration (checkpoint:human-verify)
-- [ ] Task 9: Archive redundant/outdated agents
-- [ ] Task 10: Final verification (checkpoint:human-verify)
-
-## Progress (my-workflow-visual-design)
-
-- [x] Task 1: Design visual format
-- [x] Task 2: Define start.md messages 1-4 (scanning, resume, new project, brownfield)
-- [x] Task 3: Define start.md messages 5-7 (structure created, overview guidance, project initialized)
-- [x] Task 4: Update start.md with new visual format
-- [x] Task 5: Update build.md with new visual format
-- [x] Task 6: Update plan.md with new visual format
-- [x] Task 7: Test /start on new project (SKIPPED - fix as we go)
-
-## Progress (clarify-blockers)
-
-- [x] Task 1: Update deviation rules table in build.md
-- [x] Task 2: Add examples section for Rules 1, 3, 6 in build.md
-- [x] Task 3: Add decision tree quick reference in build.md
-- [x] Task 4: Update SKILL.md deviation handling summary
-- [x] Task 5: Update flow diagram files
-- [x] Task 6: Verify consistency across all files (checkpoint:human-verify)
-
-## Progress (automate-stop)
-
-- [x] Task 1: Add Current State section to STATE.md template in start.md
-- [x] Task 2: Update build.md to maintain Current State during execution
-- [x] Task 3: Update start.md to read Current State instead of HANDOFF.md
-- [x] Task 4: Update plan.md to initialize Current State
-- [x] Task 5: Deprecate stop.md (convert to optional utility)
-- [x] Task 6: Update this project's STATE.md with Current State section
-- [x] Task 7: Verify end-to-end flow (checkpoint:human-verify) ✓
-
-## Progress (reddit-mcp-server)
-
-- [x] Task 1: Add reddit-mcp-buddy to MCP configuration
-- [x] Task 2: Restart Claude Code to load server
-- [x] Task 3: Verify server connection and tools
-
-## Progress (everything-claude-code-migration)
-
-**Phase 0: Session Continuity (claude-mem)**
-- [x] Task 1: Install claude-mem
-- [x] Task 2: Configure claude-mem hooks (via plugin)
-- [x] Task 3: Verify claude-mem auto-injection (checkpoint:human-verify)
-
-**Phase 2: Rules System**
-- [x] Task 4: Create rules/ directory structure
-- [x] Task 5: Create security-checklist.md
-- [x] Task 6: Create coding-standards.md
-- [x] Task 7: Create model-selection.md
-- [x] Task 8: Wire rules into SKILL.md
-- [x] Task 9: Add security check to /build workflow
-- [x] Task 10: Test rules loading and security check (checkpoint:human-verify)
-
-**Phase 3: Continuous Learning v2 (Instincts Only)**
-- [x] Task 11: Create learning/ directory structure
-- [x] Task 12: Create instinct-cli.py with claude-mem integration
-- [x] Task 13: Create /instinct-status command
-- [x] Task 14: Create /instinct-export command
-- [x] Task 15: Create /instinct-import command
-- [x] Task 16: Create /evolve command
-- [x] Task 17: Bootstrap instincts from AI Chat Prefs
-- [x] Task 18: Test instinct system end-to-end (checkpoint:human-verify)
-
-## Project Progress
-
-- [x] Project structure established (skills/, commands/, agents/, etc.)
-- [x] Constitution ratified (now in OVERVIEW.md)
-- [x] Feature 001-my-workflow implemented and verified
-- [x] planning/ structure adopted
-- [x] /fix command implemented
-- [x] code-executor HTTP/OAuth support for Notion MCP
-- [x] AI Chat Prefs auto-loading via SessionStart hook
-- [x] Workflow test scenario fixes (PR #1 merged 2026-01-25)
-- [x] Workflow refinements (brainstorm, plan, build) - 2026-01-28
-- [x] Everything Claude Code migration spec created
-- [x] Everything Claude Code migration plan created (22 tasks across 3 phases)
-- [x] Everything Claude Code migration implementation (2026-01-31)
 
 ## Decisions
 
