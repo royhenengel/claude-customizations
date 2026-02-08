@@ -1,14 +1,11 @@
 # Project State
 
 **Stage**: building
-**Last Updated**: 2026-02-07
+**Last Updated**: 2026-02-08
 
 ## Active Feature
 
-**Name**: audit-agents
-**Status**: active
-**Progress**: 7/10
-**Worktree**: ~/worktrees/claude-customizations/audit-agents
+(None - between features)
 
 ## Feature Registry
 
@@ -16,7 +13,7 @@
 |----------------------------------|----------|
 | enhance-research-template        | complete |
 | commands-skills-migration        | complete |
-| audit-agents                     | active   |
+| audit-agents                     | complete |
 | my-workflow-visual-design        | complete |
 | clarify-blockers                 | complete |
 | automate-stop                    | complete |
@@ -26,7 +23,7 @@
 
 ## Current Focus
 
-audit-agents: 3 remaining checkpoints + 1 archive task.
+No active feature. audit-agents merged to main.
 
 ## Decisions
 
@@ -67,16 +64,16 @@ audit-agents: 3 remaining checkpoints + 1 archive task.
 
 ## Current State
 
-**Last Updated**: 2026-02-06
+**Last Updated**: 2026-02-08
 
 ### What's Working
 
+- audit-agents feature complete and merged. 135 agents audited, 132 kept, 3 archived.
 - 91 SKILL.md files organized in 17 functional groups
 - All slash commands invocable by flat name (no group prefix)
-- Consider frameworks as individual skills with autocomplete
-- CEK consolidated into single skill with references
-- Broken references and duplicate names resolved
-- PR #2 merged to main
+- Agent invocation rules: trigger → language → stage → fullstack-developer fallback
+- build.md Step 5 uses invocation rules, Step 9 has 3 review agents
+- INCIDENT-001 resolved: evidence-based agent comparison active
 
 ### What's Not Working
 
@@ -85,8 +82,9 @@ audit-agents: 3 remaining checkpoints + 1 archive task.
 ### Next Steps
 
 - Live-test key skills: /commit, /vital-few, /stop, /notion-search
+- Validate invocation rules during actual /build workflow execution
 - Address backlog: "Enforce build completion flow"
 
 ### Open Questions
 
-(None)
+- None

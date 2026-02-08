@@ -5,7 +5,7 @@ Personal Claude Code customizations - skills, agents, hooks, and plugins that ex
 ## Structure
 
 - `skills/` - 91 SKILL.md files organized in 17 functional groups (auto-activate based on context, invoke via `/skill-name`)
-- `agents/` - 142 subagent definitions (specialized workers via Task tool)
+- `agents/` - 132 subagent definitions (specialized workers via Task tool)
 - `hooks/` - Event-driven behaviors
 - `mcp/` - MCP server configurations
 - `planning/` - Project planning, state, and specifications

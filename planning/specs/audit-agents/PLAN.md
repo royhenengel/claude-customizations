@@ -19,7 +19,11 @@ Review 135 agents for quality and relevance. Define invocation rules. Wire speci
 | 3 | Verify categories and identify archive candidates | checkpoint:human-verify | Task 2 | yes |
 | 4 | Draft invocation rules document | auto | Task 3 | - |
 | 5 | Verify invocation rules | checkpoint:human-verify | Task 4 | yes |
-| 6 | Update build.md with specialized agent invocation | auto | Task 5 | - |
+| 5-orch | Research multi-agent orchestration patterns | auto | Task 5 | - |
+| 5a | Compare overlapping agents by source and capability | auto | Task 5-orch | - |
+| 5b | Update invocation rules with justified selections | auto | Task 5a | - |
+| 5c | Decide disposition for untriggered agents | checkpoint:human-verify | Task 5b | yes |
+| 6 | Update build.md with specialized agent invocation | auto | Task 5c | - |
 | 7 | Add multi-perspective review pattern to build.md | auto | Task 6 | - |
 | 8 | Verify build.md integration | checkpoint:human-verify | Task 7 | yes |
 | 9 | Archive redundant/outdated agents | auto | Task 8 | - |
@@ -30,13 +34,13 @@ Review 135 agents for quality and relevance. Define invocation rules. Wire speci
 ### Task 1: Create agent categorization document
 
 **Type**: auto
-**Files**: `planning/specs/audit-agents/CATEGORIZATION.md`
+**Files**: `planning/specs/audit-agents/AGENTS-CATEGORIZATION.md`
 **Dependencies**: None
 
 **Context**: Need a structured document to track agent categorization and audit results.
 
 **Action**:
-Create `CATEGORIZATION.md` with:
+Create `AGENTS-CATEGORIZATION.md` with:
 - Table structure for all 135 agents
 - Columns: Agent Name, Category, Workflow Stage, Quality (keep/review/archive), Notes
 - Categories: Language, Role, Domain, Infrastructure, Review, Management, Utility
@@ -150,11 +154,132 @@ Create `agent-invocation-rules.md` with:
 
 ---
 
+### Task 5-orch: Research multi-agent orchestration patterns (Added via Gap Protocol)
+
+**Type**: auto
+**Files**: `skills/my-workflow/docs/multi-agent-orchestration.md`
+**Dependencies**: Task 5
+
+**Context**: Before selecting which agents to use, understand HOW to effectively work with multiple agents. This foundational knowledge should inform agent selection decisions.
+
+**Action**:
+Research and document multi-agent orchestration patterns:
+
+1. **Context window management**
+   - What to include in subagent prompts (essential context only)
+   - What to omit (accumulated conversation, irrelevant history)
+   - Fresh context per subagent vs. shared state
+
+2. **Data handoff patterns**
+   - Structured outputs (JSON, markdown templates)
+   - State files and shared artifacts
+   - How to pass results between agents
+
+3. **Goal alignment**
+   - Ensuring subagents work toward the main objective
+   - Prompt engineering for focused execution
+   - Preventing scope creep within subagents
+
+4. **Verification strategies**
+   - How to validate subagent outputs before continuing
+   - Error detection and recovery
+   - Quality gates between agent handoffs
+
+5. **Coordination patterns**
+   - Sequential (A → B → C)
+   - Parallel (A, B, C simultaneously)
+   - Hierarchical (orchestrator + workers)
+   - When to use each pattern
+
+6. **Agent granularity**
+   - When to use one generalist vs. multiple specialists
+   - Cost/benefit of agent switching
+   - Context loss at boundaries
+
+Create `multi-agent-orchestration.md` with practical guidance for each area.
+
+**Verify**: Document covers all 6 areas with actionable patterns
+**Done**: Orchestration patterns documented
+
+---
+
+### Task 5a: Compare overlapping agents by source and capability (Added via Gap Protocol)
+
+**Type**: auto
+**Files**: `planning/specs/audit-agents/agent-comparison.md`
+**Dependencies**: Task 5
+
+**Context**: Current invocation rules pick agents without comparing alternatives. Need to understand which agents overlap and why one should be preferred over another.
+
+**Action**:
+1. Identify agent groups with overlapping capabilities:
+   - Developers: developer, cek-developer, fullstack-developer, backend-developer, frontend-developer
+   - Reviewers: code-reviewer, code-reviewer-plan, cek-code-quality-reviewer
+   - Architects: software-architect, cek-software-architect, architect-reviewer
+   - Security: security-auditor, cek-security-auditor, penetration-tester
+   - Bug hunters: debugger, cek-bug-hunter, error-detective
+2. For each group, document:
+   - Source repository (built-in, CEK, GSD, etc.)
+   - Key differentiators (scope, tools, approach)
+   - Recommended selection with justification
+3. Create `agent-comparison.md` with findings
+
+**Verify**: All overlapping groups identified and compared
+**Done**: Comparison document created with recommendations
+
+---
+
+### Task 5b: Update invocation rules with justified selections (Added via Gap Protocol)
+
+**Type**: auto
+**Files**: `skills/my-workflow/docs/agent-invocation-rules.md`
+**Dependencies**: Task 5a
+
+**Context**: Update invocation rules based on comparison findings.
+
+**Action**:
+1. Review agent-comparison.md recommendations
+2. Update agent-invocation-rules.md to:
+   - Use recommended agents from comparison
+   - Add brief justification for each selection (e.g., "cek-developer preferred: broader tool access")
+   - Note alternatives when context-dependent
+
+**Verify**: All trigger mappings have justified selections
+**Done**: Invocation rules updated with rationale
+
+---
+
+### Task 5c: Decide disposition for untriggered agents (Added via Gap Protocol)
+
+**Type**: checkpoint:human-verify
+**Blocking**: yes
+**Dependencies**: Task 5b
+
+**Context**: ~100 agents aren't covered by invocation rules. Need to decide what to do with them.
+
+**Action**:
+Present options for untriggered agents:
+
+1. **Domain routing**: Add domain-specific triggers (e.g., "fintech codebase → fintech-engineer")
+2. **Implicit discovery**: Accept that domain agents are invoked when context makes them relevant
+3. **Archive candidates**: Mark rarely-useful agents for archive
+4. **Hybrid**: Combine approaches (domain routing for common domains, implicit for niche)
+
+For each untriggered agent category, recommend disposition:
+- Domain specialists (fintech, game, etc.)
+- Platform specialists (wordpress, home-assistant)
+- Specialized roles (legal, customer-success)
+
+**Verify**: Human approves disposition strategy
+**Done**: Clear policy for untriggered agents
+
+---
+
 ### Task 6: Update build.md with specialized agent invocation
 
 **Type**: auto
 **Files**: `skills/my-workflow/workflows/build.md`
-**Dependencies**: Task 5
+**Dependencies**: Task 5c
 
 **Context**: Replace generic "developer" with invocation rules.
 
@@ -166,6 +291,8 @@ Create `agent-invocation-rules.md` with:
    - If task specifies language → use language-specific agent
    - Otherwise → use cek-developer
 3. Add reference to `@skills/my-workflow/docs/agent-invocation-rules.md`
+
+**Deviation**: Fallback changed from cek-developer to fullstack-developer per v2 comparison evidence (fullstack-developer scored 22 vs cek-developer's 19 on domain-focused criteria).
 
 **Verify**: build.md references invocation rules
 **Done**: Step 5 uses specialized agents based on rules
@@ -190,6 +317,8 @@ Create `agent-invocation-rules.md` with:
    - Collect findings from all reviewers
    - Categorize by severity (Critical/Important/Minor)
    - Present consolidated summary
+
+**Deviation**: Review agents changed to cek-code-quality-reviewer (binary pass/fail quality gate with numeric score), cek-security-auditor (kept), and architect-reviewer (broader architecture review). CEK agents retained in Step 9 specifically for their structured output format in review gates.
 
 **Verify**: Step 9 uses 3 specialized review agents
 **Done**: Multi-perspective review pattern integrated

@@ -170,24 +170,55 @@ Update `planning/specs/{feature}/CLAUDE.md` status:
 Implementation in progress.
 ```
 
-### 5. Execute Tasks via Subagent
+### 5. Execute Tasks
+
+**Execution mode** (default: subagent):
+
+| Mode | When | How to Enable |
+|------|------|---------------|
+| **Subagent** (default) | Most tasks, cost-efficient, clear ownership | No action needed |
+| **Agent Teams** (optional) | Peer debate needed, cross-layer coordination, subagent results insufficient | Set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings.json env, then request team creation |
+
+See @skills/Planning/my-workflow/docs/multi-agent-orchestration.md for detailed comparison and open concerns.
 
 For each task in PLAN.md:
 
 **Task Execution Order (TDD)**: If the plan has separate test and implementation tasks, execute test tasks BEFORE their corresponding implementation tasks.
 
+**Select agent using invocation rules** (@skills/Planning/my-workflow/docs/agent-invocation-rules.md):
+
+1. **Check trigger**: Does the task match a trigger-based selection?
+   - Complex feature planning → cek-software-architect
+   - Code review needed → code-reviewer
+   - Security assessment → security-auditor
+   - Tests failing → debugger
+   - Bug investigation → cek-bug-hunter
+   - Technical research → cek-researcher
+   - API design → api-designer
+   - Performance issues → performance-engineer
+
+2. **Check language/framework**: For implementation tasks, route to language-specific agent:
+   - TypeScript → typescript-pro
+   - Python → python-pro
+   - Go → golang-pro
+   - React → react-specialist
+   - (See agent-invocation-rules.md for full list)
+
+3. **Fallback**: Use fullstack-developer for general implementation tasks
+
 **Announce subagent launch visibly:**
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 TASK {N}/{TOTAL}: {Task Name}
+TASK {N}/{TOTAL}: {Task Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Launching developer subagent...
+Agent: {selected_agent} (reason: {trigger match | language: X | default})
+Launching subagent...
 ```
 
 Note: Extend lines to match text length if task name is long. Lines must never be shorter than the text.
 
-**Launch Task tool with developer subagent:**
+**Launch Task tool with selected subagent:**
 
 ```
 Execute Task {N} from the plan:
@@ -219,7 +250,7 @@ Apply deviation rules during execution:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ TASK {N}/{TOTAL} COMPLETE: {Task Name}
+TASK {N}/{TOTAL} COMPLETE: {Task Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Result: {brief summary}
 ```
@@ -339,7 +370,7 @@ Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user app
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⛔ Architectural Decision Required
+Architectural Decision Required
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -414,7 +445,7 @@ Assess impact on current plan:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⛔ Gap Detected
+Gap Detected
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -457,7 +488,7 @@ After gap task completes, pop context from Gap Stack and display:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Gap Resolved
+Gap Resolved
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -491,7 +522,7 @@ When user requests an addition mid-build ("also add X", "can you also..."):
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 User Addition
+User Addition
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -533,7 +564,7 @@ Watch for context filling. Current State in STATE.md is maintained continuously,
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💾 Context Health
+Context Health
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -577,49 +608,124 @@ Before finalizing the build, verify against the security checklist:
 
 Reference: @rules/security-checklist.md
 
-### 9. Quality Review
+### 9. Quality Review (Multi-Perspective)
 
-Launch 3 parallel review agents focusing on different aspects:
+Launch 3 specialized review agents in parallel, each focusing on their domain expertise.
 
-**Agent 1 - Code Quality:**
+**Announce review phase:**
 
 ```text
-Review the implementation for {feature}. Focus on:
-- Simplicity and DRY principles
-- Elegance and readability
-- Code size limits (functions < 50 lines, files < 200 lines)
-
-Files changed: {list from implementation}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUALITY REVIEW: Multi-Perspective Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Launching 3 specialized reviewers in parallel...
 ```
 
-**Agent 2 - Correctness:**
+**Agent 1 - Code Quality (cek-code-quality-reviewer):**
 
 ```text
-Review the implementation for {feature}. Focus on:
-- Bugs and functional correctness
-- Edge cases and error handling
-- Test coverage and quality
+Review the implementation for {feature}.
 
-Files changed: {list from implementation}
-```
-
-**Agent 3 - Architecture:**
-
-```text
-Review the implementation for {feature}. Focus on:
-- Clean Architecture alignment (separation of concerns)
+Focus areas (your specialty):
+- Clean Code principles and DRY
+- SOLID principles adherence
 - Naming conventions (no utils/helpers/common)
-- Project conventions and patterns
+- Code size limits (functions < 50 lines, files < 200 lines)
+- Readability and maintainability
 
 Files changed: {list from implementation}
+
+Provide:
+- Binary pass/fail for each checklist item
+- Quality score (0-100)
+- Issues with file:line citations
+- Severity classification (Critical/Important/Minor)
 ```
 
-**After reviews complete:**
+**Agent 2 - Security (cek-security-auditor):**
 
-1. Consolidate findings by severity (Critical, Important, Minor)
-2. Present findings to user with recommendation
-3. Ask: "Fix now, fix later (add to BACKLOG.md), or proceed as-is?"
-4. If fixing, launch developer subagent to address issues
+```text
+Review the implementation for {feature}.
+
+Focus areas (your specialty):
+- Security vulnerabilities (OWASP Top 10)
+- Input validation and sanitization
+- Authentication/authorization gaps
+- Injection risks (SQL, XSS, command)
+- Sensitive data exposure
+- Hardcoded credentials or secrets
+
+Files changed: {list from implementation}
+
+Provide:
+- Binary pass/fail for security checks
+- Attack scenarios with file:line evidence
+- Severity classification (Critical/High/Medium/Low)
+- Remediation recommendations
+```
+
+**Agent 3 - Architecture (architect-reviewer):**
+
+```text
+Review the implementation for {feature}.
+
+Focus areas (your specialty):
+- Clean Architecture alignment (separation of concerns)
+- Design pattern appropriateness
+- Scalability considerations
+- Technical debt introduction
+- Integration patterns and coupling
+- Project conventions compliance
+
+Files changed: {list from implementation}
+
+Provide:
+- Architecture alignment assessment
+- Technical debt items with severity
+- Pattern violations with file:line citations
+- Recommendations for improvement
+```
+
+**After all reviews complete:**
+
+1. **Consolidate findings by severity:**
+   - **Critical**: Must fix before completion (security vulnerabilities, major bugs)
+   - **Important**: Should fix, may impact maintainability
+   - **Minor**: Nice to fix, low impact
+
+2. **Present consolidated review to user:**
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REVIEW COMPLETE: {feature}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Summary:
+- Code Quality: {score}/100 | {pass/fail count}
+- Security: {pass/fail count} | {critical/high/medium/low counts}
+- Architecture: {alignment assessment} | {tech debt items}
+
+Critical Issues ({count}):
+{list with file:line and reviewer source}
+
+Important Issues ({count}):
+{list with file:line and reviewer source}
+
+Minor Issues ({count}):
+{list with file:line and reviewer source}
+
+Options:
+1. Fix all critical issues now
+2. Fix critical + important issues now
+3. Fix all issues now
+4. Add non-critical to BACKLOG.md and proceed
+5. Proceed as-is (not recommended if critical issues exist)
+
+Which would you prefer?
+```
+
+3. **If fixing**, launch appropriate developer subagent to address issues
+4. **Re-run affected reviews** after fixes to verify resolution
 
 ### 10. Create SUMMARY.md
 
@@ -706,7 +812,7 @@ Implementation complete. See SUMMARY.md for details.
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Build Complete
+Build Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -749,13 +855,13 @@ Each task runs in fresh subagent context:
 ```
 Main conversation (orchestration)
     |
-    +-- Task 1 --> [developer subagent] --> result
+    +-- Task 1 --> [selected subagent] --> result
     |                   (fresh 200k context)
     |
-    +-- Task 2 --> [developer subagent] --> result
+    +-- Task 2 --> [selected subagent] --> result
     |                   (fresh 200k context)
     |
-    +-- Task 3 --> [developer subagent] --> result
+    +-- Task 3 --> [selected subagent] --> result
                         (fresh 200k context)
 ```
 
@@ -764,6 +870,7 @@ Benefits:
 - Each task has full context capacity
 - No degradation from accumulated work
 - Clean verification per task
+- Specialized agents for specific task types
 
 ## Integration Flow
 
@@ -781,6 +888,7 @@ Update STATE.md (stage: building)
     |
     v
 For each task:
+    +-- Select agent (trigger → language → fullstack-developer)
     +-- Launch subagent
     +-- Apply deviation rules
     +-- Update progress in STATE.md
