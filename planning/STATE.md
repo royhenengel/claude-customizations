@@ -1,14 +1,21 @@
 # Project State
 
-**Stage**: building
+**Stage**: planning
 **Last Updated**: 2026-02-07
 
-## Active Feature
+## Active Features
 
-**Name**: audit-agents
-**Status**: active
-**Progress**: 7/10
-**Worktree**: ~/worktrees/claude-customizations/audit-agents
+### audit-agents
+
+- Status: active
+- Progress: 7/10
+- Worktree: ~/worktrees/claude-customizations/audit-agents
+
+### repo-documentation
+
+- Status: ready
+- Progress: 0/13
+- Worktree: ~/worktrees/claude-customizations/repo-documentation
 
 ## Feature Registry
 
@@ -17,6 +24,7 @@
 | enhance-research-template        | complete |
 | commands-skills-migration        | complete |
 | audit-agents                     | active   |
+| repo-documentation               | ready    |
 | my-workflow-visual-design        | complete |
 | clarify-blockers                 | complete |
 | automate-stop                    | complete |
@@ -26,7 +34,8 @@
 
 ## Current Focus
 
-audit-agents: 3 remaining checkpoints + 1 archive task.
+repo-documentation: planning complete, ready for /build (13 tasks in 3 phases).
+audit-agents: 3 remaining checkpoints + 1 archive task (parallel, separate worktree).
 
 ## Decisions
 
