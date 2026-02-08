@@ -1,16 +1,15 @@
 # Claude Customizations
 
-Personal Claude Code customizations - skills, commands, agents, hooks, and plugins that extend Claude's capabilities for specific workflows and preferences.
+Personal Claude Code customizations - skills, agents, hooks, and plugins that extend Claude's capabilities for specific workflows and preferences.
 
 ## Structure
 
-- `skills/` - 33 active SKILL.md files (auto-activate based on context)
-- `commands/` - 72 slash command definitions (explicit invocation via `/command-name`)
+- `skills/` - 91 SKILL.md files organized in 17 functional groups (auto-activate based on context, invoke via `/skill-name`)
 - `agents/` - 132 subagent definitions (specialized workers via Task tool)
 - `hooks/` - Event-driven behaviors
 - `mcp/` - MCP server configurations
 - `planning/` - Project planning, state, and specifications
-- `archive/` - Archived/deprecated items
+- `archive/` - Archived/deprecated items (includes original commands/)
 
 This repository is symlinked to `~/.claude/` for automatic availability.
 
@@ -49,11 +48,9 @@ When working in this repository, follow these principles:
 
 ## Development Workflow
 
-**Adding Skills**: Create `skills/my-skill/SKILL.md` with proper frontmatter, test locally, then commit.
+**Adding Skills**: Create `skills/{Group}/{name}/SKILL.md` with proper frontmatter (name + description), test locally, then commit. Place in the appropriate functional group directory.
 
 **Adding Agents**: Create `agents/my-agent.md` with frontmatter including model/description.
-
-**Adding Commands**: Create `commands/my-command.md` following existing patterns.
 
 ## Behavioral Rules
 
