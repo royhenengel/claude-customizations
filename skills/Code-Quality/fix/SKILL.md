@@ -20,11 +20,17 @@ Say:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
+**If `{{issue}}` provided with sufficient detail** (covers the problem, expected behavior, and how to reproduce):
+
+Summarize your understanding and proceed to Step 2. If the issue description has gaps, ask only for what's missing.
+
+**If no `{{issue}}` provided or it lacks detail:**
+
 ### 1a. Relate to Past Work
 
 Scan `planning/specs/` for feature directories. For each directory containing a SUMMARY.md, extract:
 - Feature name (directory name, converted from kebab-case to title case)
-- First sentence of the "What Was Built" or "Changes Made" section
+- First sentence from the first `##` section after the metadata block
 
 Present as a numbered list:
 
@@ -39,13 +45,11 @@ N. Not related to past work
 Pick a number, or describe the context directly:
 ```
 
-If `planning/specs/` does not exist, skip this step.
+If `planning/specs/` does not exist or contains no SUMMARY.md files, skip this step.
 
 If user selected a feature, automatically include that feature's context (SPEC.md, PLAN.md, SUMMARY.md) in the git history search (Step 2).
 
 ### 1b. Gather Details
-
-**Always ask these questions**, whether `{{issue}}` was provided as an argument or not. If `{{issue}}` was provided, pre-fill what can be inferred and ask the user to confirm or complete the rest.
 
 ```
 Please describe:
