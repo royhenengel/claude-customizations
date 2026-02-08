@@ -35,9 +35,17 @@ const UserSchema = z.object({
 | Nesting depth | 4 levels | Cognitive load |
 | Parameters | 5 per function | Complexity signal |
 
+## Data Integrity
+
+When generating summary statistics, counts, or aggregates from source data (tables, lists, arrays):
+- Verify totals programmatically against source data before committing
+- Never rely on manual counting for datasets over 10 items
+- If a summary section exists alongside source data, both must reconcile
+
 ## Quality Checklist
 
 Before completion:
+
 - [ ] Names are descriptive (not i, j, x, temp)
 - [ ] Functions under 50 lines
 - [ ] Files under 400 lines
@@ -46,3 +54,4 @@ Before completion:
 - [ ] No console.log/debugger statements
 - [ ] No magic numbers (use named constants)
 - [ ] Immutable patterns used
+- [ ] Aggregate statistics verified against source data

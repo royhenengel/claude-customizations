@@ -195,13 +195,13 @@ This document tracks the categorization and audit results for all agent files in
 
 | Category | Count |
 |----------|-------|
-| Language (L) | 35 |
-| Role (R) | 38 |
-| Domain (D) | 10 |
-| Infrastructure (I) | 21 |
-| Review (V) | 18 |
-| Management (M) | 10 |
-| Utility (U) | 13 |
+| Language (L) | 31 |
+| Role (R) | 35 |
+| Domain (D) | 8 |
+| Infrastructure (I) | 17 |
+| Review (V) | 17 |
+| Management (M) | 11 |
+| Utility (U) | 16 |
 
 ### By Workflow Stage
 
@@ -209,9 +209,9 @@ This document tracks the categorization and audit results for all agent files in
 |-------|-------|
 | Analysis (A) | 16 |
 | Planning (P) | 13 |
-| Execution (E) | 87 |
-| Review (R) | 15 |
-| Debugging (D) | 5 |
+| Execution (E) | 79 |
+| Review (R) | 16 |
+| Debugging (D) | 6 |
 | Documentation (O) | 4 |
 | N/A (N) | 1 |
 

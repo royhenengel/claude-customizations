@@ -7,7 +7,7 @@
 
 **Name**: audit-agents
 **Status**: in-review
-**Progress**: 7/10
+**Progress**: 10/10
 
 ## Feature Registry
 
@@ -15,7 +15,7 @@
 |----------------------------------|----------|----------|--------------|
 | claude-mem-injection             | complete | 13/13    | -            |
 | enhance-research-template        | complete | 2/2      | -            |
-| audit-agents                     | active   | 7/10     | -            |
+| audit-agents                     | active   | 10/10    | -            |
 | my-workflow-visual-design        | complete | 7/7      | -            |
 | clarify-blockers                 | complete | 6/6      | -            |
 | automate-stop                    | complete | 7/7      | -            |
@@ -52,14 +52,14 @@ Reviewing audit-agents deliverables before commit (Tasks 1-7 done, reviewing cha
 
 - [x] Task 1: Create agent categorization document
 - [x] Task 2: Categorize all 135 agents by workflow stage
-- [ ] Task 3: Verify categories and identify archive candidates (checkpoint:human-verify)
+- [x] Task 3: Verify categories and identify archive candidates (checkpoint:human-verify) - PASSED
 - [x] Task 4: Draft invocation rules document
 - [x] Task 5: Agent comparison (v2, evidence-based - after INCIDENT-001 CEK bias fix)
 - [x] Task 6: Update build.md with specialized agent invocation
 - [x] Task 7: Add multi-agent orchestration document + build.md review pattern
-- [ ] Task 8: Verify build.md integration (checkpoint:human-verify)
-- [ ] Task 9: Archive redundant/outdated agents
-- [ ] Task 10: Final verification (checkpoint:human-verify)
+- [x] Task 8: Verify build.md integration (checkpoint:human-verify) - PASSED
+- [x] Task 9: Archive redundant/outdated agents (3 archived: frontend-developer, machine-learning-engineer, mobile-developer)
+- [x] Task 10: Final verification (checkpoint:human-verify) - PASSED
 
 ## Progress (my-workflow-visual-design)
 
@@ -173,31 +173,28 @@ Reviewing audit-agents deliverables before commit (Tasks 1-7 done, reviewing cha
 
 ## Current State
 
-**Last Updated**: 2026-02-07
+**Last Updated**: 2026-02-08
 
 ### What's Working
 
-- Agent categorization: 135 agents categorized by type (7 categories) and workflow stage (7 stages)
-- Agent comparison v2: 10 groups compared with evidence-based scoring (supersedes biased v1)
-- Invocation rules document created
-- Multi-agent orchestration patterns documented
-- build.md updated with agent invocation guidance
-- INCIDENT-001 documented and remediated with v2 comparison
+- All 10 tasks complete. PR #4 created and under review.
+- Agent categorization: 135 agents audited (AGENTS-CATEGORIZATION.md), 132 kept, 3 archived
+- Agent comparison v2: 10 groups compared with evidence-based scoring
+- Invocation rules: trigger → language → stage → fullstack-developer fallback
+- Multi-agent orchestration patterns documented (sequential, parallel, hierarchical, Agent Teams)
+- build.md integrated with invocation rules (Step 5) and multi-perspective review (Step 9)
+- INCIDENT-001 resolved: v1 archived, v2 with domain-focused criteria active
 
 ### What's Not Working
 
-- STATE.md was stale (showed 0/10, actual progress 7/10) - fixed this session
-- INCIDENT-001 (CEK bias): v1 comparison was biased, replaced with v2
+- Nothing blocking. PR review findings being addressed.
 
 ### Next Steps
 
-1. Review all changed files (current session)
-2. Task 3: Verify categories and archive candidates (checkpoint:human-verify)
-3. Task 8: Verify build.md integration (checkpoint:human-verify)
-4. Task 9: Archive redundant/outdated agents
-5. Task 10: Final verification (checkpoint:human-verify)
+1. Commit PR review fixes (count bug, file renames, SUMMARY.md)
+2. Merge PR #4 to main
+3. Mark audit-agents as complete in Feature Registry
 
 ### Open Questions
 
-- INCIDENT-001: Is the v2 comparison methodology satisfactory?
-- mobile-app-developer.md: Large diff (445 changes) - needs review
+- None

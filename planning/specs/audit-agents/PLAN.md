@@ -34,13 +34,13 @@ Review 135 agents for quality and relevance. Define invocation rules. Wire speci
 ### Task 1: Create agent categorization document
 
 **Type**: auto
-**Files**: `planning/specs/audit-agents/CATEGORIZATION.md`
+**Files**: `planning/specs/audit-agents/AGENTS-CATEGORIZATION.md`
 **Dependencies**: None
 
 **Context**: Need a structured document to track agent categorization and audit results.
 
 **Action**:
-Create `CATEGORIZATION.md` with:
+Create `AGENTS-CATEGORIZATION.md` with:
 - Table structure for all 135 agents
 - Columns: Agent Name, Category, Workflow Stage, Quality (keep/review/archive), Notes
 - Categories: Language, Role, Domain, Infrastructure, Review, Management, Utility
@@ -292,6 +292,8 @@ For each untriggered agent category, recommend disposition:
    - Otherwise → use cek-developer
 3. Add reference to `@skills/my-workflow/docs/agent-invocation-rules.md`
 
+**Deviation**: Fallback changed from cek-developer to fullstack-developer per v2 comparison evidence (fullstack-developer scored 22 vs cek-developer's 19 on domain-focused criteria).
+
 **Verify**: build.md references invocation rules
 **Done**: Step 5 uses specialized agents based on rules
 
@@ -315,6 +317,8 @@ For each untriggered agent category, recommend disposition:
    - Collect findings from all reviewers
    - Categorize by severity (Critical/Important/Minor)
    - Present consolidated summary
+
+**Deviation**: Review agents changed to cek-code-quality-reviewer (binary pass/fail quality gate with numeric score), cek-security-auditor (kept), and architect-reviewer (broader architecture review). CEK agents retained in Step 9 specifically for their structured output format in review gates.
 
 **Verify**: Step 9 uses 3 specialized review agents
 **Done**: Multi-perspective review pattern integrated

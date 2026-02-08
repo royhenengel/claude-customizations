@@ -3,7 +3,7 @@
 **ID**: INCIDENT-001
 **Date**: 2026-02-05
 **Severity**: High
-**Status**: Open
+**Status**: Resolved
 **Feature**: audit-agents
 
 ---
@@ -77,10 +77,10 @@ Agent files don't consistently document their source (CEK, GSD, Everything Claud
 
 | File | Status | Issue |
 |------|--------|-------|
-| planning/specs/audit-agents/agent-comparison.md | Biased | CEK preference without evidence |
-| skills/my-workflow/docs/agent-invocation-rules.md | Compromised | Routes to CEK agents based on flawed comparison |
-| skills/my-workflow/workflows/build.md | Affected | Step 5 and Step 9 use potentially wrong agents |
-| planning/specs/audit-agents/agents-categorization.md | Incomplete | No source column for agent origin tracking |
+| archive/specs/audit-agents/agent-comparison.md | Archived | CEK preference without evidence (superseded by v2) |
+| skills/my-workflow/docs/agent-invocation-rules.md | Remediated | Rewritten with evidence-based routing from v2 comparison |
+| skills/my-workflow/workflows/build.md | Remediated | Step 5 and Step 9 updated with evidence-based agent selection |
+| planning/specs/audit-agents/AGENTS-CATEGORIZATION.md | Fixed | Source column added for agent origin tracking |
 
 ---
 

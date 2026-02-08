@@ -6,7 +6,7 @@ Personal Claude Code customizations - skills, commands, agents, hooks, and plugi
 
 - `skills/` - 33 active SKILL.md files (auto-activate based on context)
 - `commands/` - 72 slash command definitions (explicit invocation via `/command-name`)
-- `agents/` - 142 subagent definitions (specialized workers via Task tool)
+- `agents/` - 132 subagent definitions (specialized workers via Task tool)
 - `hooks/` - Event-driven behaviors
 - `mcp/` - MCP server configurations
 - `planning/` - Project planning, state, and specifications

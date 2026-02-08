@@ -9,7 +9,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 ## Improvements
 
 - [ ] Possibly automate /compound?
-  - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 142 available agents.
+  - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9 has 3 review agents. 132 active agents covered.
   - **References**:
     - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/ref/gsd/README.md
     - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/ref/cek-subagent-driven-development/SKILL.md
@@ -127,10 +127,9 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 
 ## Technical Debt
 
-- [ ] **INCIDENT-001**: CEK Bias in Agent Comparison (HIGH PRIORITY)
+- [x] **INCIDENT-001**: CEK Bias in Agent Comparison (RESOLVED)
   - **Issue**: Agent comparison analysis produced biased recommendations favoring CEK agents without evidence
-  - **Impact**: Invocation rules (agent-invocation-rules.md) and build.md route to CEK agents based on flawed analysis
-  - **Scope gap**: Only 6 of 15+ overlapping agent groups were analyzed
+  - **Remediation**: [agent-comparison-v2.md](specs/audit-agents/agent-comparison-v2.md) rewrote comparison with domain-focused criteria (Domain Depth, Breadth, Adaptability, Prompt Clarity, Completeness)
+  - **Result**: Invocation rules and build.md updated with evidence-based agent selection. v1 archived.
   - **Incident report**: [INCIDENT-001-cek-bias.md](specs/audit-agents/INCIDENT-001-cek-bias.md)
-  - **Remediation in progress**: [agent-comparison-v2.md](specs/audit-agents/agent-comparison-v2.md) created with evidence-based analysis
-  - **Pending**: User review of new analysis
+  - **Prevention**: Evaluation bias rules documented in project memory ([evaluation-bias.md](../../.claude/projects/-Users-royengel-worktrees-claude-customizations-audit-agents/memory/evaluation-bias.md))
