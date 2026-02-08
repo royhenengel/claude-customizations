@@ -14,7 +14,7 @@
 
 ## Status
 
-Planning complete. Ready for /build.
+Implementation in progress.
 
 
 <claude-mem-context>
