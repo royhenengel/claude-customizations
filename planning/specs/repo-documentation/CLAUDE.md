@@ -12,9 +12,13 @@
 
 @PLAN.md
 
+## Discovery
+
+@DISCOVERY.md
+
 ## Status
 
-Implementation in progress.
+Build paused. Scope expanded to full information architecture (CLAUDE.md redesign, claude-code-prefs consolidation, memory vs docs, stale catalogs). DISCOVERY.md v2 complete. Resolving 12 open questions before revising plan.
 
 
 <claude-mem-context>
