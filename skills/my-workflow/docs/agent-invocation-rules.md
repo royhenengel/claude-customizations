@@ -1,38 +1,45 @@
 # Agent Invocation Rules
 
+**Date**: 2026-02-07
+**Source**: [agent-comparison-v2.md](../../../planning/specs/audit-agents/agent-comparison-v2.md)
+
 Quick-reference guide for selecting the right agent. When in doubt, check the trigger first, then the stage, then the language.
 
 ## Selection Rationale
 
-Agent selections in this document are based on the following principles:
+Agent selections are based on evidence from side-by-side agent comparison (see source). Selection criteria:
 
-1. **Structured Outputs**: Agents with checklist-based outputs and explicit deliverables are preferred for orchestration workflows
-2. **Single Responsibility**: Focused specialists over broad generalists for subagent work
-3. **Evidence-Based**: Agents requiring file:line citations ensure actionable feedback
-4. **Fresh Context**: Each subagent gets clean context, so clear completion criteria matter more than institutional knowledge
+1. **Domain Depth**: Deep domain knowledge produces better results than shallow structural formatting
+2. **Breadth**: Wider coverage handles more real-world scenarios
+3. **Adaptability**: Agents that work in any project context are preferred over those requiring specific structures
+4. **Prompt Clarity**: Clear, unambiguous instructions produce more consistent results
+5. **Completeness**: No blind spots in coverage
 
-**CEK agents are generally preferred** because they provide:
-
-- Binary pass/fail checklists for objective quality measurement
-- AC-driven workflows with explicit verification
-- Structured output formats that enable trend tracking and automation
-- Clear handoff patterns with predictable deliverables
+Structural features (checklists, templates, binary pass/fail formats) can be retrofitted to any agent prompt. These are not primary selection criteria.
 
 ## Trigger-Based Selection
 
 | Trigger | Agent | Justification |
-|---------|-------|---------------|
-| Complex feature planning | cek-software-architect | Generates 5 design approaches with probabilities; creates decisive blueprints with implementation maps |
-| Task execution | cek-developer or language-specific | AC-driven with explicit pre/post checklists; tasks.md integration; zero-hallucination approach |
-| Code review needed | cek-code-quality-reviewer | Binary checklist (Clean Code, SOLID, naming); quality score enables trend tracking |
-| Plan alignment check | code-reviewer-plan | Validates implementation against planning docs; detects justified vs problematic deviations |
-| Security check | cek-security-auditor | 20 binary security checks; severity classification; attack scenarios with file:line evidence |
+| ------- | ----- | ------------- |
+| Complex feature planning | cek-software-architect | Generates 5 design approaches with probabilities; creates implementation maps |
+| Task execution (cross-stack) | fullstack-developer | Broadest coverage, highest adaptability across both layers |
+| Task execution (backend) | backend-developer | Deep backend patterns: database architecture, APIs, microservices, Docker |
+| Task execution (AC-driven) | cek-developer | When project uses AC, Story Context XML, and tasks.md workflow |
+| Code review needed | code-reviewer | 8 review dimensions, language-specific patterns, works in any codebase |
+| Quality gate (binary) | cek-code-quality-reviewer | 50+ binary pass/fail items with numeric score for trend tracking |
+| Plan alignment check | code-reviewer-plan | Validates implementation against planning docs |
+| Security assessment | security-auditor | Compliance frameworks (SOC 2, HIPAA, PCI DSS, GDPR, NIST), risk evaluation |
+| Security (code changes) | cek-security-auditor | PR-level security review with severity classification and file:line evidence |
+| Security (infrastructure) | security-engineer | Infrastructure hardening, DevSecOps pipelines, security controls |
 | Tests failing | debugger | Tool-focused approach for active debugging of known/reproduced issues |
-| Bug investigation | cek-bug-hunter | Root cause tracing with Five Whys; Fishbone analysis; defense-in-depth recommendations |
-| Understanding requirements | cek-business-analyst | Requirements analysis and business logic |
+| Bug investigation | cek-bug-hunter | Root cause tracing with Five Whys, Fishbone analysis (genuine debugging methodology) |
+| Understanding requirements | business-analyst | Full BA lifecycle: requirements, process improvement, stakeholder management |
+| Requirements (AC workflow) | cek-business-analyst | Focused requirements gathering with AC-driven structure |
 | Codebase exploration | cek-code-explorer | Feature tracing, call chain analysis, architecture layer mapping |
-| Technical research | cek-researcher | External technology/library research with MCP integration |
+| Technical research | cek-researcher | External technology/library research with MCP tool integration |
 | Git history analysis | cek-historical-context-reviewer | Code evolution and blame analysis |
+| Documentation | cek-tech-writer | Complete documentation framework with quality gates (genuine methodology depth) |
+| API documentation | api-documenter | OpenAPI/Swagger specification documentation |
 | API design | api-designer | REST/GraphQL contracts |
 | Performance issues | performance-engineer | Optimization and profiling |
 | Database optimization | database-optimizer | Query and schema optimization |
@@ -45,22 +52,22 @@ Agent selections in this document are based on the following principles:
 ## Stage-Based Defaults
 
 | Stage | Primary Agent | Alternatives | When to Use Alternatives |
-|-------|---------------|--------------|--------------------------|
-| **Analysis (External)** | cek-researcher | - | Technology research, library evaluation |
+| ----- | ------------- | ------------ | ------------------------ |
+| **Analysis (External)** | cek-researcher | research-analyst | cek-researcher for technical/library research (MCP); research-analyst for market/business research |
 | **Analysis (Internal)** | cek-code-explorer | cek-historical-context-reviewer | Feature tracing; use historical reviewer for git blame analysis |
-| **Planning** | cek-software-architect | cek-tech-lead, api-designer | Tech lead for team coordination; api-designer for contract-first work |
-| **Execution** | cek-developer | backend-developer, frontend-developer | Use stack-specific agents when work is clearly single-layer |
-| **Review (Code Quality)** | cek-code-quality-reviewer | code-reviewer-plan | Use plan reviewer to verify implementation matches original plan |
-| **Review (Architecture)** | architect-reviewer | cek-software-architect | Use architect for design; reviewer for validation |
-| **Review (Security)** | cek-security-auditor | penetration-tester, compliance-auditor | Pen-tester for active testing; compliance for regulatory |
-| **Debugging (Bug Finding)** | cek-bug-hunter | - | Proactive bug detection in code changes |
+| **Planning** | cek-software-architect | architect-reviewer, api-designer | architect-reviewer for validating existing designs; api-designer for contract-first work |
+| **Execution** | fullstack-developer | backend-developer, cek-developer | backend-developer for pure backend work; cek-developer for AC-driven projects |
+| **Review (Code Quality)** | code-reviewer | cek-code-quality-reviewer, code-reviewer-plan | cek for binary quality gate with numeric score; plan-reviewer for plan alignment |
+| **Review (Architecture)** | architect-reviewer | cek-software-architect | Use architect for design creation; reviewer for validation |
+| **Review (Security)** | security-auditor | cek-security-auditor, penetration-tester | cek for PR-level code review; pen-tester for active testing |
+| **Debugging (Bug Finding)** | cek-bug-hunter | debugger | cek for structured root cause analysis (Five Whys); debugger for general/poorly-defined issues |
 | **Debugging (Active)** | debugger | error-detective | Use debugger for known issues; error-detective for production analysis |
-| **Documentation** | cek-tech-writer | api-documenter | Use api-documenter for OpenAPI/contract documentation |
+| **Documentation** | cek-tech-writer | api-documenter, documentation-engineer | api-documenter for OpenAPI specs; documentation-engineer for doc system infrastructure |
 
 ## Language Routing
 
 | Language/Framework | Preferred Agent | Alternative |
-|-------------------|-----------------|-------------|
+| ------------------ | --------------- | ----------- |
 | TypeScript | typescript-pro | javascript-pro |
 | JavaScript | javascript-pro | - |
 | Python | python-pro | django-developer |
@@ -81,19 +88,18 @@ Agent selections in this document are based on the following principles:
 | Next.js | nextjs-developer | - |
 | Flutter | flutter-expert | - |
 | Electron | electron-pro | - |
-| Default | cek-developer | backend-developer, frontend-developer |
 
 ## Decision Flow
 
 1. **Check trigger first** - If the task matches a specific trigger above, use that agent
-2. **Check workflow stage** - Use stage defaults if no specific trigger matches
-3. **Check language** - For implementation tasks, route to language-specific agent
-4. **Fall back to cek-developer** - AC-driven implementation with structured outputs
+2. **Check language** - For implementation tasks, route to language-specific agent
+3. **Check workflow stage** - Use stage defaults if no specific trigger or language matches
+4. **Fall back to fullstack-developer** - Broadest coverage, works in any project context
 
 ## Infrastructure Tasks
 
 | Task Type | Agent |
-|-----------|-------|
+| --------- | ----- |
 | Kubernetes | kubernetes-specialist |
 | Azure cloud | azure-infra-engineer |
 | CI/CD pipelines | build-engineer |
@@ -103,46 +109,42 @@ Agent selections in this document are based on the following principles:
 | Network | network-engineer |
 | Windows Server | windows-infra-admin |
 
-## Context-Dependent Selection Notes
-
-1. **Stack-specific work**: Use backend-developer or frontend-developer when work is clearly single-layer
-2. **Security review timing**: Use cek-security-auditor for routine review; penetration-tester for scheduled assessments
-3. **Bug workflow**: Use cek-bug-hunter proactively after changes; debugger when investigating known issues
-4. **Research workflow**: Start with cek-researcher for external context, then cek-code-explorer for internal mapping
-5. **Architecture workflow**: Use cek-software-architect before implementation; architect-reviewer after or periodically
-
-## Domain-Specific Routing (Explicit)
+## Domain-Specific Routing
 
 High-value domains with explicit triggers:
 
 | Domain Indicator | Agent | When Triggered |
-|------------------|-------|----------------|
+| ---------------- | ----- | -------------- |
 | ML/AI codebase or task | ml-engineer | Model training, inference, ML pipelines |
 | Data science work | data-scientist | Statistical analysis, modeling, visualization |
-| Mobile app (React Native/Flutter) | mobile-app-developer | Cross-platform mobile development |
+| Data pipelines/ETL | data-engineer | Building and maintaining data infrastructure |
+| Dashboards/BI | data-analyst | Data analysis, insights, reporting |
+| Mobile app (cross-platform) | mobile-app-developer | React Native, Flutter, cross-platform mobile |
 | iOS/Swift code | swift-expert | Native iOS development |
 | Kotlin/Android code | kotlin-specialist | Native Android development |
 | GraphQL schema/API | graphql-architect | GraphQL design and optimization |
 | WebSocket/real-time | websocket-engineer | Real-time communication systems |
 
-## Implicit Discovery (Context-Based)
+## Implicit Discovery
 
-These agents are invoked when context makes them relevant. No explicit trigger needed.
+These agents are invoked when task context clearly indicates domain relevance. Selection criteria: the task description, codebase patterns, or user request must explicitly reference the domain.
 
-**Domain specialists**: fintech-engineer, game-developer, quant-analyst, healthcare/biotech specialists
-**Platform specialists**: wordpress-master, home-assistant-manager, electron-pro
-**Specialized roles**: legal-advisor, customer-success-manager, ux-researcher, scrum-master, product-manager
-**Niche technical**: embedded-systems, iot-engineer, nlp-engineer
+| Category | Agents | Context Signal |
+| -------- | ------ | -------------- |
+| Finance | fintech-engineer, quant-analyst, payment-integration | Payment processing, trading algorithms, financial regulations |
+| Games | game-developer | Game engine, rendering, multiplayer systems |
+| IoT/Embedded | iot-engineer, embedded-systems | Microcontrollers, RTOS, device connectivity |
+| NLP | nlp-engineer | Text processing, language models, tokenization |
+| Web platforms | wordpress-master | WordPress themes, plugins, multisite |
+| Business | legal-advisor, customer-success-manager, product-manager, scrum-master | Non-technical business tasks |
+| UX | ux-researcher, ui-designer | User research, interface design |
 
-*Claude selects these when task context clearly indicates domain relevance (e.g., "working on trading algorithm" → quant-analyst)*
+## Archived Agents
 
-## Deprecated Agents
-
-The following agents have been superseded and should not be used:
+These agents are marked for archival and should not be used:
 
 | Agent | Replacement | Reason |
-|-------|-------------|--------|
-| code-reviewer (generic) | cek-code-quality-reviewer | Less structured output; significant overlap |
-| security-auditor (generic) | cek-security-auditor | Less actionable format; significant overlap |
-| fullstack-developer | cek-developer + stack-specific | Too broad for focused subagent execution; use for scoping only |
-| mobile-developer | mobile-app-developer | Redundant naming; mobile-app-developer preferred |
+| ----- | ----------- | ------ |
+| mobile-developer | mobile-app-developer | Redundant; merged into mobile-app-developer |
+| machine-learning-engineer | ml-engineer | Redundant; both cover ML lifecycle, ml-engineer has better coverage |
+| frontend-developer | fullstack-developer or react-specialist | Weakest developer agent; lowest depth, breadth, and adaptability |

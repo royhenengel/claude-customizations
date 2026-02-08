@@ -55,6 +55,19 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
   - **Triggers to consider**: Single file change, quick fix, less than 3 steps
   - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
+- [ ] Agent Teams: team composition guidance in invocation rules
+  - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
+  - **Idea**: Add a "team composition" section to agent-invocation-rules.md defining which agents to spawn together for common scenarios (e.g., cross-layer refactoring: backend-developer + frontend-developer + test-automator)
+  - **Prerequisite**: Practical experience with Agent Teams to validate value
+  - **Reference**: [Agent Teams docs](https://code.claude.com/docs/en/agent-teams)
+- [ ] Override Explanatory output style insight banner to match workflow banner style
+  - **Context**: `outputStyle: "Explanatory"` injects `★ Insight ─────` format (light lines). Workflow uses `━━━` (heavy lines) for banners.
+  - **Options**: Override format in CLAUDE.md, or disable outputStyle and define custom insight behavior in workflow skill
+  - **Goal**: Visual consistency across all workflow output
+- [ ] Link multi-agent orchestration to cost tracking
+  - **Context**: multi-agent-orchestration.md documents Agent Teams as experimental with "Higher token cost without clear ROI threshold defined" as an open concern
+  - **Idea**: Add cost tracking mechanisms (token usage per agent invocation, ROI thresholds for subagent vs Agent Teams, cost comparison framework)
+  - **Goal**: Data-driven decisions about when multi-agent coordination costs are justified
 - [ ] Current State updates outside /plan and /build
   - **Gap**: Current State only updates during formal workflow commands. Informal work ("fix this bug", "add this") leaves STATE.md stale.
   - **Current behavior**: claude-mem captures session activity, but STATE.md's Current State section doesn't reflect it
@@ -114,4 +127,10 @@ Reference repositories being evaluated for cherry-picking. See [reddit-sources-e
 
 ## Technical Debt
 
-(None currently)
+- [ ] **INCIDENT-001**: CEK Bias in Agent Comparison (HIGH PRIORITY)
+  - **Issue**: Agent comparison analysis produced biased recommendations favoring CEK agents without evidence
+  - **Impact**: Invocation rules (agent-invocation-rules.md) and build.md route to CEK agents based on flawed analysis
+  - **Scope gap**: Only 6 of 15+ overlapping agent groups were analyzed
+  - **Incident report**: [INCIDENT-001-cek-bias.md](specs/audit-agents/INCIDENT-001-cek-bias.md)
+  - **Remediation in progress**: [agent-comparison-v2.md](specs/audit-agents/agent-comparison-v2.md) created with evidence-based analysis
+  - **Pending**: User review of new analysis

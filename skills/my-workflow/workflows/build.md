@@ -202,7 +202,16 @@ Update `planning/specs/{feature}/CLAUDE.md` status:
 Implementation in progress.
 ```
 
-### 5. Execute Tasks via Subagent
+### 5. Execute Tasks
+
+**Execution mode** (default: subagent):
+
+| Mode | When | How to Enable |
+|------|------|---------------|
+| **Subagent** (default) | Most tasks, cost-efficient, clear ownership | No action needed |
+| **Agent Teams** (optional) | Peer debate needed, cross-layer coordination, subagent results insufficient | Set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings.json env, then request team creation |
+
+See @skills/my-workflow/docs/multi-agent-orchestration.md for detailed comparison and open concerns.
 
 For each task in PLAN.md:
 
@@ -212,8 +221,8 @@ For each task in PLAN.md:
 
 1. **Check trigger**: Does the task match a trigger-based selection?
    - Complex feature planning → cek-software-architect
-   - Code review needed → cek-code-quality-reviewer
-   - Security check → cek-security-auditor
+   - Code review needed → code-reviewer
+   - Security assessment → security-auditor
    - Tests failing → debugger
    - Bug investigation → cek-bug-hunter
    - Technical research → cek-researcher
@@ -227,7 +236,7 @@ For each task in PLAN.md:
    - React → react-specialist
    - (See agent-invocation-rules.md for full list)
 
-3. **Fallback**: Use cek-developer for general implementation tasks
+3. **Fallback**: Use fullstack-developer for general implementation tasks
 
 **Announce subagent launch visibly:**
 
@@ -911,7 +920,7 @@ Update STATE.md (stage: building)
     |
     v
 For each task:
-    +-- Select agent (trigger → language → cek-developer)
+    +-- Select agent (trigger → language → fullstack-developer)
     +-- Launch subagent
     +-- Apply deviation rules
     +-- Update progress in STATE.md

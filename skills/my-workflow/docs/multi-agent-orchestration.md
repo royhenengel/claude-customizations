@@ -260,6 +260,64 @@ Combine patterns as needed:
 - Sequential then parallel (dependencies, then independent analysis)
 - Coordinator with dynamic routing (analyze and route to specialists)
 
+### Agent Teams Pattern (Experimental)
+
+Multiple independent Claude Code sessions coordinated by a team lead. Each teammate has its own full context window and can message other teammates directly.
+
+**When to use (escalation from subagents):**
+- Subagent approach didn't produce sufficient results
+- Tasks require peer debate or competing hypotheses
+- Cross-layer coordination where teammates need to discuss (not just return results)
+- Large parallel refactoring with separate file ownership per teammate
+
+**When NOT to use (stick with subagents):**
+- Focused tasks where only the result matters
+- Cost sensitivity (each teammate is a full Claude instance)
+- Simple sequential or parallel workflows
+- Tasks with clear handoff boundaries
+
+**Architecture:**
+
+```
+Team Lead (coordination only)
+    |
+    +-- Teammate A (own session, own context)
+    |       ↕ (direct messaging)
+    +-- Teammate B (own session, own context)
+    |       ↕ (direct messaging)
+    +-- Teammate C (own session, own context)
+    |
+    [Shared Task List] - teammates self-claim, dependencies auto-resolve
+```
+
+**Key differences from subagent pattern:**
+
+| Dimension | Subagents (Task tool) | Agent Teams |
+|-----------|----------------------|-------------|
+| Communication | Results return to caller only | Peer-to-peer messaging + mailbox |
+| Coordination | Orchestrator manages all | Shared task list, self-claiming |
+| Context | Fresh per invocation, results summarized back | Fully independent sessions |
+| Cost | Lower (results summarized) | Higher (full instance per teammate) |
+| Ownership | Hub-and-spoke | Lead-coordinated with peer interaction |
+
+**Enablement** (off by default):
+```json
+// settings.json
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  }
+}
+```
+
+**Open concerns:**
+- Peer-to-peer topology blurs ownership lines vs single governing entity
+- No shared conversation history between teammates (cold start each)
+- Higher token cost without clear ROI threshold defined
+- Teammates sometimes fail to mark tasks completed (reliability)
+
+**Recommended adoption**: Use subagents as default. Escalate to Agent Teams when subagent results are insufficient and the task benefits from peer collaboration or debate.
+
 ---
 
 ## 6. Agent Granularity
@@ -357,6 +415,8 @@ Constraints:
 | Tasks are independent | Parallel |
 | Complex task needs breakdown | Hierarchical |
 | Dynamic workflow needed | Coordinator |
+| Peer debate or competing hypotheses | Agent Teams (experimental) |
+| Subagent results insufficient | Agent Teams (escalation) |
 | Simple, single task | No multi-agent needed |
 
 ### Context Health Monitoring
