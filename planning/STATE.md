@@ -20,13 +20,15 @@
 | everything-claude-code-migration | complete |
 | reddit-mcp-server                | complete |
 | auto-trigger-fix                 | complete |
+| repo-documentation               | active   |
 
 ## Current Focus
 
-No active feature. audit-agents merged to main.
+repo-documentation feature in progress (worktree at ~/worktrees/claude-customizations/repo-documentation).
 
 ## Decisions
 
+- (2026-02-07) Workflow: Parallel work mode enabled. Multiple features can be active in separate worktrees. Single-active constraint temporarily suspended.
 - (2026-02-06) Workflow: Decouple worktree creation from /plan and /build. Worktree is conversational setup, auto-opens VS Code window. /plan and /build are directory-agnostic. Project-local .worktrees/ default. See specs/my-workflow/WORKTREE-WORKFLOW.md.
 - (2026-02-05) Workflow: Worktree creation moved from /build to /plan (Step 3a). All feature artifacts now live in feature branch from start. (Superseded by 2026-02-06 decision)
 - (2026-02-05) commands-skills-migration: Skills-only structure chosen (migrate all commands to skills/, archive commands/). CEK commands will be consolidated into single skill with references/.
@@ -48,19 +50,12 @@ No active feature. audit-agents merged to main.
 
 ## Notes
 
+- (2026-02-08) audit-agents merged via PR #4. 135 agents audited, 132 kept, 3 archived.
 - (2026-02-03) automate-stop worktree cleaned up, branch deleted
 - (2026-02-03) Planning automate-stop feature - Living Current State pattern
 - This project is adopting the workflow system it created (meta/dogfooding)
 - Migration from specs/ to planning/ completed
 - Original constitution.md preserved in planning/archive/ for reference
-- Session resumed: 2026-01-31
-- Installed: bun, uv, claude-mem plugin (v9.0.12)
-- claude-mem verified: worker running, hooks triggering, MCP tools available
-- Fixed: bun symlink (~/.local/bin/bun) and session project association
-- Observations generated at session end/checkpoints, not per-tool-call
-- Instinct system implemented: 10 instincts bootstrapped, CLI working, commands created
-- Session resumed: 2026-01-31 (from HANDOFF.md)
-- Session resumed: 2026-02-01 08:20 GMT+2 (from HANDOFF.md)
 
 ## Current State
 
@@ -68,12 +63,10 @@ No active feature. audit-agents merged to main.
 
 ### What's Working
 
-- audit-agents feature complete and merged. 135 agents audited, 132 kept, 3 archived.
 - 91 SKILL.md files organized in 17 functional groups
 - All slash commands invocable by flat name (no group prefix)
-- Agent invocation rules: trigger → language → stage → fullstack-developer fallback
-- build.md Step 5 uses invocation rules, Step 9 has 3 review agents
-- INCIDENT-001 resolved: evidence-based agent comparison active
+- Agent invocation rules: trigger, language, stage, fullstack-developer fallback
+- Parallel worktree development enabled
 
 ### What's Not Working
 
@@ -81,10 +74,9 @@ No active feature. audit-agents merged to main.
 
 ### Next Steps
 
-- Live-test key skills: /commit, /vital-few, /stop, /notion-search
-- Validate invocation rules during actual /build workflow execution
-- Address backlog: "Enforce build completion flow"
+- Continue repo-documentation feature in worktree
+- Live-test key skills: /commit, /vital-few, /notion-search
 
 ### Open Questions
 
-- None
+(None)

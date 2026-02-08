@@ -35,36 +35,10 @@ ls planning/STATE.md 2>/dev/null && echo "STATE exists - checking for resume con
 
 **If Feature Registry exists in STATE.md** (multi-feature session):
 
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Project state loaded
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+<!-- TEMPORARY: Skip active feature notification. Parallel work assumed. -->
+<!-- When single-feature focus returns, restore resume/switch/new prompt. -->
 
-Feature Registry:
-
-| Feature | Status | Progress |
-|---------|--------|----------|
-| {feature-1} | paused | {n}/{m} |
-| {feature-2} | ready | 0/{m} |
-| {feature-3} | blocked | 0/{m} |
-
-Last session ended while building: {paused feature name} (Task {n}/{m})
-
-Current State:
-- What's Working: {summary}
-- What's Not Working: {summary}
-- Next Steps: {first item}
-
-What would you like to do?
-
-1. Resume {paused feature} (continue where you left off)
-2. Switch to {ready feature} (keep {paused feature} paused)
-3. Start new feature
-
-**If user selects "Start new feature":**
-
-Read `planning/BACKLOG.md` and show actionable items:
+Proceed directly to new feature selection. Read `planning/BACKLOG.md` and show actionable items:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -80,12 +54,13 @@ From backlog:
 
 Pick a number, or describe something new:
 
-After user picks or describes → **auto-invoke /plan** with that as input:
+After user picks or describes → **create worktree first, then /plan**:
 
-- If backlog item selected: Pass the backlog item text to /plan
-- If user described something new: Pass their description to /plan
+1. Derive a kebab-case worktree name from the selection (backlog item text or user description)
+2. **Create worktree** using `/git-worktrees` with that name
+3. Once VS Code opens in the new worktree, instruct user to run `/plan` there
 
-Do NOT ask additional questions. Proceed directly to /plan.
+Do NOT ask additional questions. Proceed directly to worktree creation.
 
 **If single feature or no registry** (simple session):
 

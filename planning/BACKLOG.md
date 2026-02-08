@@ -91,6 +91,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     3. Extract still-valuable content (tool selection guide) to dedicated doc
 - [ ] Cleanup docs - The second part of this doc shouldn't be here
 - [ ] Incident Report command
+- [ ] Apply /insights in the project
 
 ### Remote & Sessions
 

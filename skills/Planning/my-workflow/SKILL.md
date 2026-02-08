@@ -98,7 +98,13 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 
 ### 6. Multi-Feature Management
 
-At any moment, only **ONE feature can be actively building**. Multiple features can be planned or paused, but execution focus remains singular.
+<!-- TEMPORARY OVERRIDE: Parallel work mode active. -->
+<!-- Features run in isolated worktrees. No single-active constraint. -->
+<!-- Do NOT pause, switch, or modify other features when starting new work. -->
+<!-- Each worktree manages its own feature independently. -->
+<!-- Remove this override when returning to single-feature focus. -->
+
+Multiple features can be **active simultaneously** in separate worktrees. Each worktree owns its feature lifecycle independently. Starting new work does not affect features in other worktrees.
 
 **Feature Lifecycle States:**
 
@@ -129,11 +135,11 @@ At any moment, only **ONE feature can be actively building**. Multiple features 
 | api-rate | ready | 0/3 | - |
 ```
 
-**Switching Rules:**
+**Parallel Work Rules:**
 
-- `/plan` while building: Offer to pause current feature or queue new one
-- `/build` with multiple ready: Show registry, filter blocked, offer selection
-- Blocked features cannot be selected until dependencies complete
+- Starting a new feature: proceed directly, do not modify other features' status
+- Each worktree is self-contained; no cross-worktree state changes
+- Blocked features still cannot start until dependencies complete
 
 ### 7. Proposal Validation
 
