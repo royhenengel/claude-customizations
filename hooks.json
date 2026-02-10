@@ -7,6 +7,11 @@
             "type": "command",
             "command": "node ~/.claude/hooks/scripts/auto-commit-claude-mem.js",
             "timeout": 5000
+          },
+          {
+            "type": "command",
+            "command": "exit 0 # DISABLED(buggy): node ~/.claude/hooks/scripts/user-issue-hook.js",
+            "timeout": 5000
           }
         ]
       }
@@ -19,6 +24,16 @@
             "type": "prompt",
             "prompt": "A code file was modified. Check if planning/STATE.md needs updating.\n\nChange: $ARGUMENTS\n\nRules:\n1. SKIP if file is in planning/ (avoid loops)\n2. Update Progress if a task was completed\n3. Add to Notes if something unexpected was discovered\n4. Update Current Focus if work shifted\n\nRespond with:\n- updates_needed: true/false\n- changes: [list of STATE.md updates]\n- systemMessage: one-line summary",
             "timeout": 15000
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "exit 0 # DISABLED(buggy): node ~/.claude/hooks/scripts/issue-detector-tool-hook.js",
+            "timeout": 5000
           }
         ]
       }
