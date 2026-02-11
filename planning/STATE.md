@@ -15,6 +15,7 @@
 
 | Feature                          | Status   |
 |----------------------------------|----------|
+| multi-feature-state              | ready    |
 | enhance-research-template        | complete |
 | commands-skills-migration        | complete |
 | audit-agents                     | complete |
@@ -28,7 +29,7 @@
 
 ## Current Focus
 
-repo-documentation complete. PR #6 merged to main. SessionStart hook removed.
+multi-feature-state feature planned. Ready for /build.
 
 ## Progress (repo-documentation) - Revised Plan
 

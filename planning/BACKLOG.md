@@ -39,7 +39,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Brownfield project support in /start
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
-- [ ] Multiple features STATE support
 - [ ] Override Explanatory output style insight banner to match workflow banner style
   - **Context**: `outputStyle: "Explanatory"` injects `★ Insight ─────` format (light lines). Workflow uses `━━━` (heavy lines) for banners.
   - **Options**: Override format in CLAUDE.md, or disable outputStyle and define custom insight behavior in workflow skill
