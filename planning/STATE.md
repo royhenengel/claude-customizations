@@ -7,9 +7,9 @@
 
 ### repo-documentation
 
-- Status: complete (pending merge)
+- Status: complete (merged)
 - Progress: 16/16
-- Worktree: ~/worktrees/claude-customizations/repo-documentation
+- PR: #6 (merged 2026-02-11)
 
 ## Feature Registry
 
@@ -18,7 +18,7 @@
 | enhance-research-template        | complete |
 | commands-skills-migration        | complete |
 | audit-agents                     | complete |
-| repo-documentation               | active   |
+| repo-documentation               | complete |
 | my-workflow-visual-design        | complete |
 | clarify-blockers                 | complete |
 | automate-stop                    | complete |
@@ -28,7 +28,7 @@
 
 ## Current Focus
 
-repo-documentation 16/16 complete. Merging to main.
+repo-documentation complete. PR #6 merged to main. SessionStart hook removed.
 
 ## Progress (repo-documentation) - Revised Plan
 
@@ -129,12 +129,11 @@ repo-documentation 16/16 complete. Merging to main.
 
 ### What's Not Working
 
-- SessionStart hook for AI-CHAT-PREFS still active (deferred to merge time)
+(Nothing)
 
 ### Next Steps
 
-1. Remove SessionStart hook from ~/.claude/settings.json (at merge time)
-2. Merge repo-documentation branch to main
+1. Clean up repo-documentation worktree
 
 ### Open Questions
 
