@@ -1,7 +1,7 @@
 # Clarify Rule 3 (Blockers) Implementation Summary
 
 **Completed**: 2026-02-03
-**Plan**: planning/specs/clarify-rule-3-blockers/PLAN.md
+**Plan**: planning/specs/clarify-blockers/PLAN.md
 
 ## What Was Built
 

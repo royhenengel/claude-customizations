@@ -148,11 +148,7 @@ Before proposing structural or architectural changes (especially during `/plan`)
 
 ### 8. Always-Active Rules
 
-These rules apply during all workflow stages:
-
-@rules/security-checklist.md
-@rules/coding-standards.md
-@rules/model-selection.md
+Technical standards (coding-standards, security-checklist, model-selection, technical-consistency, behavioral-rules) are in `~/.claude/rules/` and auto-loaded every session via Anthropic's native mechanism. No @references needed.
 
 ---
 

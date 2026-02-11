@@ -21,19 +21,19 @@ For common tasks, start here:
 
 | Task | Reference |
 |------|-----------|
-| Build a new workflow | `ref/n8n-workflow-patterns/` |
-| Configure a node | `ref/n8n-node-configuration/` |
-| Write expressions | `ref/n8n-expression-syntax/` |
-| JavaScript Code node | `ref/n8n-code-javascript/` |
-| Python Code node | `ref/n8n-code-python/` |
-| Debug validation errors | `ref/n8n-validation-expert/` |
-| Use MCP tools | `ref/n8n-mcp-tools-expert/` |
+| Build a new workflow | `references/n8n-workflow-patterns/` |
+| Configure a node | `references/n8n-node-configuration/` |
+| Write expressions | `references/n8n-expression-syntax/` |
+| JavaScript Code node | `references/n8n-code-javascript/` |
+| Python Code node | `references/n8n-code-python/` |
+| Debug validation errors | `references/n8n-validation-expert/` |
+| Use MCP tools | `references/n8n-mcp-tools-expert/` |
 
 ---
 
 ## Reference Modules
 
-### Workflow Patterns (`ref/n8n-workflow-patterns/`)
+### Workflow Patterns (`references/n8n-workflow-patterns/`)
 Proven architectural patterns from real workflows:
 - Webhook Processing (most common)
 - HTTP API Integration
@@ -41,30 +41,30 @@ Proven architectural patterns from real workflows:
 - AI Agent Workflows
 - Scheduled Tasks
 
-### Node Configuration (`ref/n8n-node-configuration/`)
+### Node Configuration (`references/n8n-node-configuration/`)
 How to configure n8n nodes correctly:
 - Common patterns and operations
 - Built-in functions reference
 - Data access patterns
 - Error handling
 
-### Expression Syntax (`ref/n8n-expression-syntax/`)
+### Expression Syntax (`references/n8n-expression-syntax/`)
 n8n expression language:
 - Syntax and operators
 - Built-in variables ($json, $input, etc.)
 - Common mistakes to avoid
 
 ### Code Nodes
-- **JavaScript** (`ref/n8n-code-javascript/`): Writing JS in Code nodes
-- **Python** (`ref/n8n-code-python/`): Writing Python in Code nodes
+- **JavaScript** (`references/n8n-code-javascript/`): Writing JS in Code nodes
+- **Python** (`references/n8n-code-python/`): Writing Python in Code nodes
 
-### Validation (`ref/n8n-validation-expert/`)
+### Validation (`references/n8n-validation-expert/`)
 Debugging and fixing validation errors:
 - Error catalog with fixes
 - Common error patterns
 - False positives guide
 
-### MCP Tools (`ref/n8n-mcp-tools-expert/`)
+### MCP Tools (`references/n8n-mcp-tools-expert/`)
 Using n8n MCP server tools effectively.
 
 ---

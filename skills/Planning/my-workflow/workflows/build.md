@@ -125,9 +125,23 @@ Extract:
 - Tasks with verification criteria
 - Success criteria
 
-### 4. Update STATE.md and Feature CLAUDE.md
+### 4. Create Task List and Update STATE.md
 
-**Copy task list from PLAN.md to STATE.md** - this is the single source of truth for progress.
+**Create task list from PLAN.md** - use TodoWrite to create visible task tracking for the user.
+
+For each task in PLAN.md, create a task entry:
+
+```text
+TodoWrite([
+  { content: "Task 1: {description}", status: "pending", activeForm: "{present continuous}" },
+  { content: "Task 2: {description}", status: "pending", activeForm: "{present continuous}" },
+  ...
+])
+```
+
+This gives the user real-time visual progress. STATE.md remains the persistent source of truth for session handoff.
+
+**Copy task list from PLAN.md to STATE.md**.
 
 Update `planning/STATE.md`:
 
@@ -228,17 +242,19 @@ Note: Extend lines to match text length if task name is long. Lines must never b
 
 **Then update tracking:**
 
-1. **Update STATE.md Progress section**:
+1. **Update task list**: Mark current task completed, set next task to in_progress via TodoWrite
+
+2. **Update STATE.md Progress section**:
    - Change `- [ ] Task N:` to `- [x] Task N:`
    - Update `Progress: {n}/{m}` counter in Active Feature section
    - Update Feature Registry table progress column
    - Update `Current Focus` to next task
 
-2. Verify task completion criteria
-3. Verify TDD was followed (tests written and passing)
-4. Note any deviations in STATE.md Notes section
+3. Verify task completion criteria
+4. Verify TDD was followed (tests written and passing)
+5. Note any deviations in STATE.md Notes section
 
-5. **Update STATE.md Current State section**:
+6. **Update STATE.md Current State section**:
    - Add verified functionality to "What's Working" (e.g., "Task N: {description} - verified")
    - Update "Next Steps" with the next task to execute
    - Update "Last Updated" timestamp
