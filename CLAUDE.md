@@ -22,6 +22,10 @@ Personal Claude Code customizations. This repo is symlinked to `~/.claude/` for 
 
 **Adding Rules**: Create `rules/{name}.md`. Auto-loaded globally via Anthropic's native `~/.claude/rules/` mechanism.
 
+## Claude Flow
+
+Claude Flow is an independent MCP server for multi-agent swarm orchestration. It is separate from the my-workflow system. Use ToolSearch for "claude-flow" to access its tools. Do not mix Claude Flow agents with the `agents/` directory.
+
 ## Planning
 
 - [planning/OVERVIEW.md](planning/OVERVIEW.md) - Project vision, scope, and governance
