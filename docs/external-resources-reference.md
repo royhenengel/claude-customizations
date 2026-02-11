@@ -9,7 +9,7 @@ External repositories, plugins, and tools that have been evaluated and integrate
 | Resource | License | Status | Integration |
 |----------|---------|--------|-------------|
 | [superpowers](https://github.com/obra/superpowers) | MIT | Cherry-picked | Git worktrees skill → [skills/git-worktrees/](../skills/git-worktrees/) |
-| [GSD](https://github.com/glittercowboy/get-shit-done) | MIT | Cherry-picked | Subagent patterns → [skills/my-workflow/ref/gsd/](../skills/my-workflow/ref/gsd/) |
+| [GSD](https://github.com/glittercowboy/get-shit-done) | MIT | Cherry-picked | Subagent patterns → [skills/my-workflow/references/gsd/](../skills/my-workflow/references/gsd/) |
 | [CEK](https://github.com/NeoLabHQ/context-engineering-kit) | MIT | Cherry-picked | TDD, Clean Architecture → [skills/software-development-practices/](../skills/software-development-practices/) |
 | [Everything Claude](https://github.com/affaan-m/everything-claude-code) | MIT | Complete | Instinct system, rules (18/18 tasks) |
 
@@ -38,7 +38,8 @@ External repositories, plugins, and tools that have been evaluated and integrate
 
 | Resource | License | Status | Integration |
 |----------|---------|--------|-------------|
-| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | - | Complete | /compound command → docs/solutions/ |
+| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | - | Complete | /compound command → planning/solutions/ |
+| [living-requirements](https://github.com/peterbe/death-of-the-prd) | - | Complete | Skill → [skills/Planning/living-requirements/](../skills/Planning/living-requirements/) |
 
 ---
 
@@ -49,7 +50,7 @@ External repositories, plugins, and tools that have been evaluated and integrate
 When cherry-picking from external sources:
 1. Create skill in `skills/<skill-name>/SKILL.md`
 2. Add attribution at bottom: `*Cherry-picked from [source](url) (License)*`
-3. Optionally store original in `skills/<skill-name>/ref/<source>/`
+3. Optionally store original in `skills/<skill-name>/references/<source>/`
 4. Update this reference document
 
 ### Full Plugin Installations
@@ -60,11 +61,18 @@ Plugins installed via Claude Code marketplace:
 
 ### Reference Storage
 
-Original source files stored in `ref/` subdirectories:
-- `skills/my-workflow/ref/gsd/` - GSD README
-- `skills/my-workflow/ref/taches-create-plans/` - Taches planning
-- `skills/software-development-practices/ref/` - CEK references
+Original source files stored in `references/` subdirectories:
+
+- `skills/my-workflow/references/gsd/` - GSD README
+- `skills/my-workflow/references/taches-create-plans/` - Taches planning (single source of truth)
+- `skills/software-development-practices/references/` - CEK references
 
 ---
 
-*Last updated: 2026-02-01*
+## Evaluation History
+
+Detailed analysis of all evaluated repositories: [reddit-sources-evaluation.md](../planning/specs/reddit-sources-evaluation.md)
+
+---
+
+*Last updated: 2026-02-10*

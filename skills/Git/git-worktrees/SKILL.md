@@ -141,4 +141,4 @@ git branch -d <branch-name>
 ---
 
 *Cherry-picked from [obra/superpowers](https://github.com/obra/superpowers) (MIT License)*
-*Original source: [ref/superpowers/using-git-worktrees.md](ref/superpowers/using-git-worktrees.md)*
+*Original source: [references/superpowers/using-git-worktrees.md](references/superpowers/using-git-worktrees.md)*

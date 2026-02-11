@@ -10,7 +10,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Workflow Guardrails
 
-- [ ] Enforce build completion flow
+- [ ] Enforce my workflow build completion.
   - **Incident**: [INCIDENT-2026-02-06.md](specs/commands-skills-migration/INCIDENT-2026-02-06.md)
   - **Problem**: "Mark as complete" outside an active `/build` session bypasses steps 10-13 (SUMMARY.md, STATE.md finalization, worktree cleanup)
   - **Options**:
@@ -32,7 +32,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Add lightweight mode to My-Workflow
   - **Context**: Some tasks don't need full workflow overhead (spec, research, plan files)
-  - **Idea**: Auto-detect simple tasks and use TodoWrite + direct execution instead
+  - **Idea**: Auto-detect simple tasks and use Tasks API (persistent, dependency-aware) + direct execution instead
+  - **Tasks API**: Replaced TodoWrite in v2.1.16 (Jan 2026). Persists to `~/.claude/tasks/`, supports dependencies, multi-session, multi-terminal. STATE.md remains single source of truth for full workflow; Tasks API for lightweight tasks.
   - **Triggers to consider**: Single file change, quick fix, less than 3 steps
   - **Deferred**: Decided to stick with full workflow for now; add lightweight mode later if needed
 - [ ] Brownfield project support in /start
@@ -58,11 +59,18 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Skill health check command
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Improve the diagram builder
+- [ ] Clarify /compound and integrate into workflow
+  - **Gap**: /compound is standalone with no integration point in `/build`. memory-boundaries.md defines what goes there but nothing triggers it during workflow.
+  - **Options**:
+    1. Wire into build.md: After deviation rules 1-3 fix a bug, offer "Document this solution? (`/compound`)"
+    2. Add to `/build` completion flow: "Any solutions worth documenting?"
+    3. Periodic prompt: After N fixes in a session, suggest /compound
+  - **Also**: Clarify compound vs MEMORY.md in practice (when to use which)
 - [ ] Possibly automate /compound?
   - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9 has 3 review agents. 132 active agents covered.
   - **References**:
-    - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/ref/gsd/README.md
-    - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/ref/cek-subagent-driven-development/SKILL.md
+    - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/references/gsd/README.md
+    - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-development/SKILL.md
     - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/rules/agents.md)
 - [ ] Agent Teams: team composition guidance in invocation rules
   - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
@@ -78,18 +86,13 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
-- [ ] Consolidate CLAUDE.md and claude-code-prefs.md relationship
-  - **Current**: CLAUDE.md = auto-loaded essentials, claude-code-prefs.md = detailed reference in docs/
-  - **Status**: Deferred - the separation works, but claude-code-prefs.md is orphaned (not referenced from CLAUDE.md)
-  - **Analysis** (2026-01-21):
-    - claude-code-prefs.md has useful content: tool selection guide, session management, context preservation strategies
-    - Some content is stale (predates my-workflow, references PREFERENCES.md which doesn't exist)
-    - Context preservation now handled by /stop and HANDOFF.md
-  - **Options when revisiting**:
-    1. Archive it (my-workflow supersedes most content)
-    2. Keep but link from CLAUDE.md and update stale references
-    3. Extract still-valuable content (tool selection guide) to dedicated doc
-- [ ] Cleanup docs - The second part of this doc shouldn't be here
+- [x] Consolidate CLAUDE.md and claude-code-prefs.md relationship
+  - **Resolved by**: repo-documentation feature (Q8/Q9)
+  - behavioral rules -> rules/behavioral-rules.md, tool guidance -> rules/technical-consistency.md, stale content -> archive
+  - See planning/specs/repo-documentation/PLAN.md Tasks 5-6
+- [x] Cleanup docs
+  - **Resolved by**: repo-documentation feature (Tasks 11-14)
+  - docs/ reduced to 6 reference files, stale content archived, slash command catalog created
 - [ ] Incident Report command
 - [ ] Apply /insights in the project
 
@@ -105,52 +108,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Master using instincts system
 - [ ] Master git worktrees (wired into /build as optional Step 2a)
-
-## Inspiration Sources
-
-Reference repositories being evaluated for cherry-picking. See [reddit-sources-evaluation.md](specs/reddit-sources-evaluation.md) for detailed analysis.
-
-### Session Continuity & Memory
-
-| Source | Status | Value |
-| --- | --- | --- |
-| [claude-mem](https://github.com/thedotmack/claude-mem) | **Complete** | Installed via plugin (v9.0.12). Session continuity, auto-injection, semantic search. |
-| Everything Claude sessions | **Complete** | Superseded by claude-mem |
-| Knowledge Graph MCP | Keep | Different purpose (curated facts vs automatic capture) |
-
-### Workflow Systems
-
-| Source | Status | Value |
-| --- | --- | --- |
-| [GSD](https://github.com/glittercowboy/get-shit-done) | Cherry-picked | Subagent patterns in my-workflow |
-| [CEK](https://github.com/NeoLabHQ/context-engineering-kit) | Cherry-picked | TDD, Clean Architecture in my-workflow |
-| [Everything Claude](https://github.com/affaan-m/everything-claude-code) | **Complete** | Instinct system, rules (18/18 tasks) |
-| [superpowers](https://github.com/obra/superpowers) | **Complete** | Git worktrees skill cherry-picked (MIT) |
-| [compound-engineering](https://github.com/EveryInc/compound-engineering-plugin) | **Complete** | /compound command ported (project-specific solutions → docs/solutions/) |
-
-### Utilities
-
-| Source | Status | Value |
-| --- | --- | --- |
-| [repomix](https://github.com/yamadashy/repomix) | Optional | Pack repo for external AI tools |
-| [call-me](https://github.com/ZeframLou/call-me) | Optional | Phone notifications |
-| [plannotator](https://github.com/backnotprop/plannotator) | **Complete** | Visual plan/diff annotation (v0.6.8, BSL license) |
-
-### Learning Systems
-
-| Source | Status | Value |
-| --- | --- | --- |
-| Everything Claude Continuous Learning v2 | **Complete** | Instincts, confidence scoring, evolution - integrated with claude-mem |
-| claude-mem | **Complete** | Session capture + retrieval (plugin v9.0.12) |
-
-### Recommended Strategy
-
-**Hybrid approach:**
-
-1. ~~**claude-mem** for session continuity (capture, search, injection)~~ ✓ Complete
-2. ~~**Everything Claude instinct system** for pattern learning~~ ✓ Complete
-3. ~~**Cherry-pick** git-worktrees from superpowers~~ ✓ Complete
-4. ~~**Port** /compound concept for explicit learning capture~~ ✓ Complete
 
 ---
 

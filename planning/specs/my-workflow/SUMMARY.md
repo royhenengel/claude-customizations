@@ -370,5 +370,5 @@ Reviewed 3 plugins from the official Anthropic marketplace. Extracted Notion plu
 
 ---
 
-*Feature: 001-my-workflow*
+*Feature: my-workflow*
 *Completed: 2026-01-21*
