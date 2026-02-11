@@ -27,6 +27,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     3. Add lightweight manual refresh command (risk: recreating /stop)
   - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
 - [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+- [ ] Add an action confidence score so that if Claude isn't sure in what it's doing I would get notified.
 
 ### Workflow UX
 
@@ -104,6 +105,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 ### Learning & Mastery
 
 - [ ] Master using instincts system
+- [ ] Master using compound lessons system
 - [ ] Master git worktrees (wired into /build as optional Step 2a)
 
 ---
