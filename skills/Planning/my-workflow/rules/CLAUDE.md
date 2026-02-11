@@ -1,22 +1,8 @@
-# My-Workflow Rules
+# My-Workflow Rules (Moved)
 
-Always-on guidelines that apply during all workflow stages.
+Rules have moved to `~/.claude/rules/` for global auto-loading via Anthropic's native mechanism.
 
-## Security
-
-@security-checklist.md
-
-## Coding Standards
-
-@coding-standards.md
-
-## Model Selection
-
-@model-selection.md
-
-## Technical Consistency
-
-@technical-consistency.md
+Files: coding-standards.md, security-checklist.md, model-selection.md, technical-consistency.md, behavioral-rules.md, core-principles.md
 
 
 <claude-mem-context>
