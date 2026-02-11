@@ -2,10 +2,16 @@
 
 **Last Updated**: 2026-02-12
 
+### claude-flow
+
+- Status: complete
+- Progress: 7/7
+
 ## Feature Registry
 
 | Feature | Type | Status | Branch | Worktree |
 |---------|------|--------|--------|----------|
+| claude-flow | feature | complete | - | - |
 | compound-workflow-integration | feature | complete | - | - |
 | multi-feature-state | feature | complete | - | - |
 | repo-documentation | feature | complete | - | - |
@@ -21,6 +27,7 @@
 
 ## Decisions
 
+- (2026-02-11) claude-flow: Install as independent MCP server alongside my-workflow. Coexistence model, not migration. Full install for complete evaluation.
 - (2026-02-10) repo-documentation Q12: Resolved by Q1/Q4/Q7 revisions. rules/ at root (= ~/.claude/rules/) using Anthropic's native auto-loading. No naming question remains.
 - (2026-02-10) repo-documentation Q11 (REVISED): No explicit memory vs docs rule needed (directory structure is self-evident). Memory system delineation (auto memory vs STATE.md vs claude-mem vs /compound) is part of this feature, not a separate backlog item. Needs research + clear boundary rules added to the revised plan.
 - (2026-02-10) repo-documentation Q10: Keep 4 catalog files in docs/ (agents, skills, MCP, commands). docs-enforcer agent maintains them (detect + fix drift, not just flag). docs/ restored: external-resources-reference.md, new-repo-setup.md, 4 catalogs. Supersedes Q6 REVISED x2 (docs/ elimination reversed).
