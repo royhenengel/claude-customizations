@@ -1,3 +1,7 @@
+# Code Executor MCP Server
+
+Local MCP server for executing JavaScript code. Enables lazy tool loading via ToolSearch and efficient multi-step data operations across other MCP servers. See README.md for setup and configuration.
+
 <claude-mem-context>
 # Recent Activity
 

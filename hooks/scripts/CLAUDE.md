@@ -1,3 +1,9 @@
+# Hook Scripts
+
+JavaScript and Python implementations invoked by hook configs in the parent directory.
+
+Files: `auto-commit-claude-mem.js` (git auto-commit for claude-mem), `detect-issue.js` / `issue-detector-tool-hook.js` / `user-issue-hook.js` (instinct system detection), `instinct-cli.py` (instinct management CLI).
+
 <claude-mem-context>
 # Recent Activity
 

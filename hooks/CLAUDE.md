@@ -1,3 +1,9 @@
+# Hooks
+
+Event-driven behaviors configured in `~/.claude/settings.json`. Hook configs (JSON) live here; scripts that hooks invoke live in `scripts/`.
+
+Key hooks: `auto-commit-claude-mem.json` (auto-commits claude-mem changes), `issue-detector-tool.json` and `issue-detector-user.json` (instinct system triggers).
+
 <claude-mem-context>
 # Recent Activity
 

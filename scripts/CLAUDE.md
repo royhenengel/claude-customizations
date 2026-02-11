@@ -1,3 +1,9 @@
+# Scripts
+
+Utility shell scripts for repo management.
+
+Files: `statusline-command.sh` (custom Claude Code statusline display), `toggle-hooks.sh` (enable/disable hooks for debugging).
+
 <claude-mem-context>
 # Recent Activity
 
