@@ -41,6 +41,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
 - [ ] Multiple features STATE support
 - [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
+- [ ] Override Explanatory output style insight banner to match workflow banner style
+  - **Context**: `outputStyle: "Explanatory"` injects `★ Insight ─────` format (light lines). Workflow uses `━━━` (heavy lines) for banners.
+  - **Options**: Override format in CLAUDE.md, or disable outputStyle and define custom insight behavior in workflow skill
+  - **Goal**: Visual consistency across all workflow output
 
 ### Skill & Agent Architecture
 
@@ -63,11 +67,20 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     3. Periodic prompt: After N fixes in a session, suggest /compound
   - **Also**: Clarify compound vs MEMORY.md in practice (when to use which)
 - [ ] Possibly automate /compound?
-  - **Current gap**: build.md Step 5 uses generic "developer" subagent, Step 9 has 3 parallel review agents. No invocation rules defined for 136 available agents.
+  - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9 has 3 review agents. 132 active agents covered.
   - **References**:
     - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/references/gsd/README.md
     - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-development/SKILL.md
     - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/rules/agents.md)
+- [ ] Agent Teams: team composition guidance in invocation rules
+  - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
+  - **Idea**: Add a "team composition" section to agent-invocation-rules.md defining which agents to spawn together for common scenarios (e.g., cross-layer refactoring: backend-developer + frontend-developer + test-automator)
+  - **Prerequisite**: Practical experience with Agent Teams to validate value
+  - **Reference**: [Agent Teams docs](https://code.claude.com/docs/en/agent-teams)
+- [ ] Link multi-agent orchestration to cost tracking
+  - **Context**: multi-agent-orchestration.md documents Agent Teams as experimental with "Higher token cost without clear ROI threshold defined" as an open concern
+  - **Idea**: Add cost tracking mechanisms (token usage per agent invocation, ROI thresholds for subagent vs Agent Teams, cost comparison framework)
+  - **Goal**: Data-driven decisions about when multi-agent coordination costs are justified
 
 ### Docs & Knowledge Capture
 
@@ -81,6 +94,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Resolved by**: repo-documentation feature (Tasks 11-14)
   - docs/ reduced to 6 reference files, stale content archived, slash command catalog created
 - [ ] Incident Report command
+- [ ] Apply /insights in the project
 
 ### Remote & Sessions
 
@@ -99,6 +113,12 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Technical Debt
 
+- [x] **INCIDENT-001**: CEK Bias in Agent Comparison (RESOLVED)
+  - **Issue**: Agent comparison analysis produced biased recommendations favoring CEK agents without evidence
+  - **Remediation**: [agent-comparison-v2.md](specs/audit-agents/agent-comparison-v2.md) rewrote comparison with domain-focused criteria (Domain Depth, Breadth, Adaptability, Prompt Clarity, Completeness)
+  - **Result**: Invocation rules and build.md updated with evidence-based agent selection. v1 archived.
+  - **Incident report**: [INCIDENT-001-cek-bias.md](specs/audit-agents/INCIDENT-001-cek-bias.md)
+  - **Prevention**: Evaluation bias rules documented in project memory ([evaluation-bias.md](../../.claude/projects/-Users-royengel-worktrees-claude-customizations-audit-agents/memory/evaluation-bias.md))
 - [ ] Fix auto-trigger-fix hooks false positives
   - **Incident**: [INCIDENT-2026-02-05.md](specs/auto-trigger-fix/INCIDENT-2026-02-05.md)
   - **Status**: Hooks disabled pending fix

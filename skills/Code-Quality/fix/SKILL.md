@@ -13,29 +13,43 @@ A disciplined fix process that ensures complete solutions by consulting git hist
 
 ## Step 1: Understand the Issue
 
-**If `{{issue}}` provided:**
-Parse the issue description to understand:
-- What is broken or behaving incorrectly?
-- What is the expected behavior?
-- How can it be reproduced?
-
-**If no issue provided:**
-
-First, check if `planning/STATE.md` exists with a Feature Registry. If it does, show recent features:
-
-```
-What issue would you like to fix?
-
-Recent features (select if related):
-1. {feature-1} ({status})
-2. {feature-2} ({status})
-3. {feature-3} ({status})
-4. Not related to a feature
-
-Pick a number, or describe the issue directly:
+Say:
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 Investigating Project
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-After user responds, ask for details:
+**If `{{issue}}` provided with sufficient detail** (covers the problem, expected behavior, and how to reproduce):
+
+Summarize your understanding and proceed to Step 2. If the issue description has gaps, ask only for what's missing.
+
+**If no `{{issue}}` provided or it lacks detail:**
+
+### 1a. Relate to Past Work
+
+Scan `planning/specs/` for feature directories. For each directory containing a SUMMARY.md, extract:
+- Feature name (directory name, converted from kebab-case to title case)
+- First sentence from the first `##` section after the metadata block
+
+Present as a numbered list:
+
+```
+Is this related to past work?
+
+1. {Feature Name} - {one-line summary}
+2. {Feature Name} - {one-line summary}
+...
+N. Not related to past work
+
+Pick a number, or describe the context directly:
+```
+
+If `planning/specs/` does not exist or contains no SUMMARY.md files, skip this step.
+
+If user selected a feature, automatically include that feature's context (SPEC.md, PLAN.md, SUMMARY.md) in the git history search (Step 2).
+
+### 1b. Gather Details
 
 ```
 Please describe:
@@ -43,8 +57,6 @@ Please describe:
 2. What should happen (expected behavior)
 3. How to reproduce it (if known)
 ```
-
-If user selected a feature, automatically include that feature's context (SPEC.md, PLAN.md, SUMMARY.md if exists) in the git history search.
 
 ## Step 2: Git History Search
 

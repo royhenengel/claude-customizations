@@ -114,7 +114,7 @@ Continue with /plan in the new window.
 
 ## Integration with My-Workflow
 
-Worktree creation is decoupled from `/plan` and `/build`. It happens conversationally when the user decides to work on a feature. After creation, the user switches to the new VS Code window and runs `/plan` and `/build` there.
+Worktree creation happens **before** `/plan`. When a user selects a backlog item or describes new work during `/start`, a worktree is created first. The user then switches to the new VS Code window and runs `/plan` and `/build` there.
 
 See [planning/specs/my-workflow/WORKTREE-WORKFLOW.md] for design rationale.
 
