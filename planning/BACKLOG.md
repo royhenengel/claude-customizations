@@ -40,7 +40,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
 - [ ] Multiple features STATE support
-- [ ] Double check and compare the Ralph Wiggum while loop impl with my workflow
 - [ ] Override Explanatory output style insight banner to match workflow banner style
   - **Context**: `outputStyle: "Explanatory"` injects `★ Insight ─────` format (light lines). Workflow uses `━━━` (heavy lines) for banners.
   - **Options**: Override format in CLAUDE.md, or disable outputStyle and define custom insight behavior in workflow skill
@@ -52,8 +51,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
   - **Examples to review**: diagrams-builder, notion-* skills, debugging-practices
-- [ ] Commands & skills migration - Anthropic just merged the two. Check the impact and see if these can be streamlined to avoid confusion working with commands & skills.
-- [ ] Review the commands text format. i.e instead of cek-plan-01 --> cek:XXX . Add the source as the prefix
 - [ ] Add skill dependency validation
 - [ ] Create skill testing framework
 - [ ] Skill health check command
@@ -113,12 +110,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ## Technical Debt
 
-- [x] **INCIDENT-001**: CEK Bias in Agent Comparison (RESOLVED)
-  - **Issue**: Agent comparison analysis produced biased recommendations favoring CEK agents without evidence
-  - **Remediation**: [agent-comparison-v2.md](specs/audit-agents/agent-comparison-v2.md) rewrote comparison with domain-focused criteria (Domain Depth, Breadth, Adaptability, Prompt Clarity, Completeness)
-  - **Result**: Invocation rules and build.md updated with evidence-based agent selection. v1 archived.
-  - **Incident report**: [INCIDENT-001-cek-bias.md](specs/audit-agents/INCIDENT-001-cek-bias.md)
-  - **Prevention**: Evaluation bias rules documented in project memory ([evaluation-bias.md](../../.claude/projects/-Users-royengel-worktrees-claude-customizations-audit-agents/memory/evaluation-bias.md))
 - [ ] Fix auto-trigger-fix hooks false positives
   - **Incident**: [INCIDENT-2026-02-05.md](specs/auto-trigger-fix/INCIDENT-2026-02-05.md)
   - **Status**: Hooks disabled pending fix
