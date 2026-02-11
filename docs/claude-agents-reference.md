@@ -1,6 +1,6 @@
 # Claude Code Agents Reference
 
-A comprehensive list of all 142 agents available in Claude Code, organized by category.
+A comprehensive list of all 133 agents available in Claude Code, organized by category.
 
 ---
 
@@ -284,5 +284,5 @@ Review the changes in the authentication module for security best practices.
 
 ---
 
-*Generated: 2025-12-25*
-*Total Agents: 142*
+*Generated: 2026-02-11*
+*Total Agents: 133*

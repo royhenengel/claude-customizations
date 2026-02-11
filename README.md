@@ -6,8 +6,8 @@ Personal Claude Code customizations - skills, agents, hooks, and plugins that ex
 
 ```
 claude-customizations/
-├── skills/           # 110 SKILL.md files (auto-activate based on context)
-├── agents/           # 136 subagent definitions (specialized workers via Task tool)
+├── skills/           # 87 skills (auto-activate based on context)
+├── agents/           # 133 subagent definitions (specialized workers via Task tool)
 ├── rules/            # Always-loaded governance (auto-loaded via ~/.claude/rules/)
 ├── hooks/            # Event-driven behaviors
 ├── mcp/              # MCP server configurations

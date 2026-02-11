@@ -134,6 +134,7 @@ repo-documentation complete. PR #6 merged to main. SessionStart hook removed.
 ### Next Steps
 
 1. Clean up repo-documentation worktree
+2. Run docs-enforcer audit to validate no further drift
 
 ### Open Questions
 
