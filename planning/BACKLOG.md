@@ -42,6 +42,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
   - **Incident**: planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
   - **Scope**: Not just subagent delegation. Any case where documented rules, workflow steps, or skill instructions are not followed.
   - **Goal**: Understand root causes (prompt length? instruction priority? context window pressure?) and design systemic fixes (hooks, validation, instruction design patterns)
+- [ ] Add an action confidence score so that if Claude isn't sure in what it's doing I would get notified.
 
 ### Workflow UX
 
@@ -118,6 +119,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 ### Learning & Mastery
 
 - [ ] Master using instincts system
+- [ ] Master using compound lessons system
 - [ ] Master git worktrees (wired into /build as optional Step 2a)
 
 ---

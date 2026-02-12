@@ -2,7 +2,7 @@
 
 This document provides a quick reference to all installed Claude Code skills organized by category.
 
-**Total Skills:** 73 unique skills (excluding catalog duplicates)
+**Total Skills:** 87 unique skills (excluding reference/bundled skills)
 
 ---
 

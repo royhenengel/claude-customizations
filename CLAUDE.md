@@ -5,7 +5,7 @@ Personal Claude Code customizations. This repo is symlinked to `~/.claude/` for 
 ## Structure
 
 - `skills/` - Skill definitions organized in functional groups (auto-activate based on context, invoke via `/skill-name`)
-- `agents/` - Subagent definitions (specialized workers via Task tool)
+- `agents/` - 133 subagent definitions (specialized workers via Task tool)
 - `hooks/` - Event-driven behaviors
 - `mcp/` - MCP server configurations
 - `rules/` - Behavioral rules, standards, and preferences (auto-loaded every session via `~/.claude/rules/`)

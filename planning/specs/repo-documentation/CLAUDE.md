@@ -1,24 +1,10 @@
 # Repo Documentation Context
 
-## Specification
-
-@SPEC.md
-
-## Research & Decisions
-
-@RESEARCH.md
-
-## Implementation Plan
-
-@PLAN.md
-
-## Discovery
-
-@DISCOVERY.md
-
 ## Status
 
-Implementation complete. See SUMMARY.md for details.
+Implementation complete. See SUMMARY.md for outcomes.
+
+Spec artifacts archived to archive/ subdirectory (SPEC.md, RESEARCH.md, PLAN.md, DISCOVERY.md).
 
 
 <claude-mem-context>

@@ -1,3 +1,9 @@
+# .claude Directory
+
+Project-local overrides for Claude Code. This directory allows worktrees or specific projects to override settings without affecting global configuration.
+
+Files in this directory take precedence over `~/.claude/` settings when working in this project/worktree.
+
 <claude-mem-context>
 # Recent Activity
 
