@@ -104,13 +104,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [x] Cleanup docs
   - **Resolved by**: repo-documentation feature (Tasks 11-14)
   - docs/ reduced to 6 reference files, stale content archived, slash command catalog created
-- [ ] Doc-enforcer: validate state files against templates
-  - **Context**: State files (project STATE.md, feature STATE.md) have templates but no validation that actual documents match. Doc-enforcer should validate all template-based documents against their templates (required sections, field formats, structure).
-  - **Scope**: state-template.md, feature-state-template.md, and any future templates
-  - **Role**: Extends doc-enforcer's existing documentation type system audit
-- [ ] Doc-enforcer: cross-reference scenario maps to workflow step numbers
-  - **Context**: Workflow scenario maps (workflow-scenario-maps.md) describe steps but don't cross-reference to the actual step numbers in workflow files (build.md, fix.md, etc.). Doc-enforcer should validate that scenario map references match actual workflow steps.
-  - **Goal**: Catch drift between scenario documentation and actual workflow definitions
 - [ ] Incident Report command
 - [ ] Apply /insights in the project
 
