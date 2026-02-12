@@ -6,7 +6,7 @@
 
 | Feature | Type | Status | Branch | Worktree |
 |---------|------|--------|--------|----------|
-| multi-feature-state | feature | active | multi-feature-state | .worktrees/multi-feature-state |
+| multi-feature-state | feature | complete | - | - |
 | repo-documentation | feature | complete | - | - |
 | audit-agents | feature | complete | - | - |
 | commands-skills-migration | feature | complete | - | - |

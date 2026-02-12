@@ -62,6 +62,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Skill & Agent Architecture
 
+- [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incidand report - INCIDENT-subagent-bypass.md
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
@@ -78,12 +79,12 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Add to `/build` completion flow: "Any solutions worth documenting?"
     3. Periodic prompt: After N fixes in a session, suggest /compound
   - **Also**: Clarify compound vs MEMORY.md in practice (when to use which)
-- [ ] Possibly automate /compound?
-  - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9 has 3 review agents. 132 active agents covered.
-  - **References**:
-    - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done), local: skills/my-workflow/references/gsd/README.md
-    - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-development/SKILL.md
-    - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code/blob/main/rules/agents.md)
+  - [ ] Possibly automate /compound?
+    - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9  has 3 review agents. 132 active agents covered.
+    - **References**:
+      - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done),   local: skills/my-workflow/references/gsd/README.md
+      - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-  engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-  development/SKILL.md
+      - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-  m/everything-claude-code/blob/main/rules/agents.md)
 - [ ] Agent Teams: team composition guidance in invocation rules
   - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
   - **Idea**: Add a "team composition" section to agent-invocation-rules.md defining which agents to spawn together for common scenarios (e.g., cross-layer refactoring: backend-developer + frontend-developer + test-automator)
