@@ -18,6 +18,16 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Hook: UserPromptSubmit hook detects completion language, injects reminder to follow build.md steps 10-13
     3. Pre-merge check: Hook on `gh pr merge` that verifies SUMMARY.md exists and worktree cleanup is planned
   - **Minimum fix**: Add completion-related triggers to build skill description
+- [ ] Project state timestamp must update within workflow
+  - **Context**: Project STATE.md timestamp was stale (2026-02-11 instead of 2026-02-12) after active work. Workflows should auto-update this timestamp when modifying STATE.md.
+  - **Fix**: Add timestamp update step to /build and /fix workflows wherever STATE.md is modified
+- [ ] Error recovery paths for all workflows
+  - **Context**: PR review identified missing error recovery in workflows. What happens when a subagent fails? When a file can't be created? When a template is missing? Workflows define the happy path but not recovery.
+  - **Scope**: /build, /fix, /plan, /start - all need documented error recovery for common failure modes
+- [ ] Feature registry consistency check
+  - **Context**: Feature registry in project STATE.md can drift from actual worktree/branch state. Need documented validation step.
+  - **Checks**: Worktree paths exist, branches exist in git, status matches actual state, no orphaned entries
+  - **Where**: Could be /start dashboard step, doc-enforcer check, or standalone validation
 - [ ] Current State updates outside /plan and /build
   - **Gap**: Current State only updates during formal workflow commands. Informal work ("fix this bug", "add this") leaves STATE.md stale.
   - **Current behavior**: claude-mem captures session activity, but STATE.md's Current State section doesn't reflect it
@@ -27,8 +37,11 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     3. Add lightweight manual refresh command (risk: recreating /stop)
   - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
 - [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
-- [ ] Enforce subagent delegation during /build with hook or workflow language
-  - **Context**: Orchestrator bypassed subagent delegation for "simple" tasks, executing directly in main conversation. Wastes context, prevents parallelism. See planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
+- [ ] Claude not following workflow instructions and rules (holistic investigation)
+  - **Context**: Subagent delegation bypass (INCIDENT-subagent-bypass.md) is a symptom of a bigger problem: Claude skips or ignores workflow instructions, rules, and documented processes. This needs holistic investigation to understand WHY it happens and how to fix it structurally within the project.
+  - **Incident**: planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
+  - **Scope**: Not just subagent delegation. Any case where documented rules, workflow steps, or skill instructions are not followed.
+  - **Goal**: Understand root causes (prompt length? instruction priority? context window pressure?) and design systemic fixes (hooks, validation, instruction design patterns)
 
 ### Workflow UX
 
@@ -91,6 +104,13 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [x] Cleanup docs
   - **Resolved by**: repo-documentation feature (Tasks 11-14)
   - docs/ reduced to 6 reference files, stale content archived, slash command catalog created
+- [ ] Doc-enforcer: validate state files against templates
+  - **Context**: State files (project STATE.md, feature STATE.md) have templates but no validation that actual documents match. Doc-enforcer should validate all template-based documents against their templates (required sections, field formats, structure).
+  - **Scope**: state-template.md, feature-state-template.md, and any future templates
+  - **Role**: Extends doc-enforcer's existing documentation type system audit
+- [ ] Doc-enforcer: cross-reference scenario maps to workflow step numbers
+  - **Context**: Workflow scenario maps (workflow-scenario-maps.md) describe steps but don't cross-reference to the actual step numbers in workflow files (build.md, fix.md, etc.). Doc-enforcer should validate that scenario map references match actual workflow steps.
+  - **Goal**: Catch drift between scenario documentation and actual workflow definitions
 - [ ] Incident Report command
 - [ ] Apply /insights in the project
 
