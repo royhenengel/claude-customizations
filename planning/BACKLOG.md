@@ -27,6 +27,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     3. Add lightweight manual refresh command (risk: recreating /stop)
   - **Consideration**: May be fine as-is if workflow adoption is expected for tracked projects
 - [ ] Commit every code change and use git history as context for fixes (avoid retrying failed solutions)
+- [ ] Enforce subagent delegation during /build with hook or workflow language
+  - **Context**: Orchestrator bypassed subagent delegation for "simple" tasks, executing directly in main conversation. Wastes context, prevents parallelism. See planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
 
 ### Workflow UX
 

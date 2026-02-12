@@ -7,7 +7,8 @@ Initialize a new project with the unified `planning/` structure, including a pro
 ## When to Use
 
 - Starting a new project from scratch
-- Resuming work (will read Current State from STATE.md)
+- On main: see features in flight, pick from backlog or describe new, create worktree
+- In a worktree: resume feature work (reads feature STATE.md) or start planning a new feature
 
 ## Steps
 
@@ -22,65 +23,11 @@ Say:
 
 ```bash
 ls -la planning/ 2>/dev/null || echo "No planning/ directory"
-ls planning/STATE.md 2>/dev/null && echo "STATE exists - checking for resume context"
+# Detect environment
+if [ -f .git ]; then echo "WORKTREE"; else echo "MAIN"; fi
 ```
 
-**Check if Current State has content** by examining STATE.md:
-
-- Read the "Current State" section
-- Check if "What's Working" has values other than "(Nothing verified yet)"
-- Check if "What's Not Working" has values other than "(No issues identified)"
-
-**If Current State has content**: Read it first, check for Feature Registry, then offer options:
-
-**If Feature Registry exists in STATE.md** (multi-feature session):
-
-<!-- TEMPORARY: Skip active feature notification. Parallel work assumed. -->
-<!-- When single-feature focus returns, restore resume/switch/new prompt. -->
-
-Proceed directly to new feature selection. Read `planning/BACKLOG.md` and show actionable items:
-
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 Starting new feature
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-From backlog:
-
-- {backlog item 1}
-- {backlog item 2}
-- {backlog item 3}
-
-Pick a number, or describe something new:
-
-After user picks or describes → **create worktree first, then /plan**:
-
-1. Derive a kebab-case worktree name from the selection (backlog item text or user description)
-2. **Create worktree** using `/git-worktrees` with that name
-3. Once VS Code opens in the new worktree, instruct user to run `/plan` there
-
-Do NOT ask additional questions. Proceed directly to worktree creation.
-
-**If single feature or no registry** (simple session):
-
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Project state loaded
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-Current State:
-
-- What's Working: {summary}
-- What's Not Working: {summary}
-- Next Steps: {first item}
-
-Ready to continue?
-
-**If STATE.md exists but Current State is empty/defaults**: Project is in progress but no session context. Ask user what they want to do.
-
-**If new project (no planning/)**: Say and proceed:
+**If new project (no planning/)**: Say and proceed to Step 2:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -88,7 +35,114 @@ Ready to continue?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Continue to step 2.
+**If in a worktree** (`.git` is a file, not a directory):
+
+Derive feature name from branch:
+```bash
+git branch --show-current
+```
+
+Read `planning/specs/{feature}/STATE.md` for feature state.
+
+- **If feature STATE.md exists with content**: Show Current State and offer to resume:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Feature state loaded: {feature-name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Stage: {stage from feature STATE.md}
+
+Current State:
+
+- What's Working: {summary}
+- What's Not Working: {summary}
+- Next Steps: {first item}
+
+Ready to continue? Run `/build` to resume execution.
+
+- **If no feature STATE.md**: This is a new feature in a fresh worktree. Suggest `/plan`:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 New feature workspace: {feature-name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+No feature state found. Run `/plan` to start planning this feature.
+
+**If on main branch** (`.git` is a directory):
+
+Read `planning/STATE.md` Feature Registry.
+
+Discover active worktrees:
+```bash
+# Get list of active worktrees (exclude main)
+git worktree list --porcelain | grep "^worktree" | grep -v "$(git rev-parse --show-toplevel)$"
+```
+
+For each active worktree, read its feature STATE.md (`planning/specs/{feature}/STATE.md`) to get live status (stage, progress).
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Project Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Features in flight:
+{Show active features from worktree discovery with stage and progress}
+
+Completed: {count} features
+
+Read `planning/BACKLOG.md` and show actionable items:
+
+From backlog:
+
+- {backlog item 1}
+- {backlog item 2}
+- {backlog item 3}
+
+What would you like to do?
+
+1. **Plan a feature** (pick from backlog or describe something new)
+2. **Fix an issue** (describe the problem)
+3. **Switch to existing worktree** (resume in-flight work)
+
+**Option 1 - Plan a feature:**
+
+After user picks from backlog or describes new work:
+
+1. Derive a kebab-case worktree name from the selection
+2. Create worktree using `/git-worktrees` with that name
+3. Once VS Code opens in the new worktree, instruct user to run `/plan` there
+
+Do NOT ask additional questions. Proceed directly to worktree creation.
+
+**Option 2 - Fix an issue:**
+
+After user describes the problem:
+
+1. Assess complexity: does this need isolation (multiple files, risky changes) or is it a quick fix?
+2. **Substantial fix**: derive a kebab-case worktree name (e.g., `fix-login-crash`), create worktree, instruct user to run `/fix` in the new window
+3. **Quick fix**: instruct user to run `/fix` on main
+
+**Option 3 - Switch to existing worktree:**
+
+List active worktrees with their current status:
+
+```text
+Active worktrees:
+1. user-auth (building, 3/5 tasks) → .worktrees/user-auth
+2. api-routes (planning) → .worktrees/api-routes
+
+Open which worktree?
+```
+
+Open selected worktree in VS Code:
+```bash
+code --new-window "{worktree-path}"
+```
 
 ### 2. Create Directory Structure
 
@@ -121,75 +175,10 @@ See STATE.md for current stage and focus.
 ```
 
 **planning/STATE.md:**
-```markdown
-# Project State
 
-**Stage**: starting
-**Last Updated**: {timestamp}
+Use the project state template: @skills/Planning/my-workflow/templates/project-state-template.md
 
-## Active Feature
-
-**Name**: None
-**Status**: -
-**Progress**: -
-
-## Feature Registry
-
-| Feature | Status | Progress | Dependencies |
-|---------|--------|----------|--------------|
-| (none yet) | - | - | - |
-
-## Current Focus
-
-Defining project overview
-
-## Progress
-
-- [x] planning/ structure created
-- [ ] OVERVIEW.md defined
-- [ ] Ready for /plan
-
-## Decisions
-
-(None yet)
-
-## Notes
-
-(None yet)
-
-## Gap Stack
-
-<!-- Tracks context when handling plan-modifying gaps during /build -->
-<!-- Empty when no gaps active. Supports nested gaps (LIFO). -->
-
-### Active Gap
-
-(None)
-
-### Gap History
-
-(None this session)
-
-## Current State
-
-**Last Updated**: {timestamp}
-
-### What's Working
-
-(Nothing verified yet)
-
-### What's Not Working
-
-(No issues identified)
-
-### Next Steps
-
-1. (Determined during /plan or /build)
-
-### Open Questions
-
-(None)
-```
+Copy the template content and set `**Last Updated**` to today's date.
 
 **planning/BACKLOG.md:**
 ```markdown
@@ -369,12 +358,7 @@ After gathering input, create `planning/OVERVIEW.md`:
 - {Guiding principle 2}
 ```
 
-Update `planning/STATE.md` progress:
-
-- Mark `OVERVIEW.md defined` as complete
-- Mark `Ready for /plan` as complete
-
-### 9. Show Next Steps
+### 9. Show Next Steps and First Feature Setup
 
 After OVERVIEW.md is created, display:
 
@@ -382,13 +366,25 @@ After OVERVIEW.md is created, display:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Project initialized
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Next steps:
-- Plan a feature  - Run /plan to plan your first feature (includes clarification if needed)
-- Build           - Run /build to execute an implementation plan
-
-The workflow system will help you maintain focus and track progress. Current State is maintained automatically.
 ```
+
+{Show created structure from Step 6}
+
+The workflow system will help you maintain focus and track progress.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 What would you like to build first?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Options:
+
+1. **Describe your first feature** → derive worktree name → create worktree via `/git-worktrees` → instruct `/plan` in new window
+2. **I'll explore on my own first** → end session (user can run `/start` later to see dashboard)
+3. **Fix an issue first** → assess complexity → create fix worktree or run `/fix` on main
+
+This transitions into the same flow as the main branch dashboard (Scenario C, Step 1).
 
 ## Output Structure
 
@@ -396,7 +392,7 @@ The workflow system will help you maintain focus and track progress. Current Sta
 planning/
 ├── OVERVIEW.md         # Project definition (vision, scope)
 ├── CLAUDE.md           # Planning context (references OVERVIEW)
-├── STATE.md            # Stage: starting
+├── STATE.md            # Feature Registry
 ├── BACKLOG.md          # Persistent backlog of improvements
 ├── CODEBASE.md         # Codebase map (brownfield only)
 └── specs/              # Empty, ready for /plan
@@ -407,12 +403,9 @@ planning/
 
 ## Resume Behavior
 
-When Current State has content in STATE.md:
+**In a worktree**: Read `planning/specs/{feature}/STATE.md` completely. Summarize Current State and offer to resume.
 
-1. Read STATE.md completely, focusing on Current State section
-2. Summarize: "Last session context: {summary from What's Working/What's Not Working}"
-3. Show: Current state, decisions made, next steps from STATE.md
-4. Continue where left off
+**On main**: Read `planning/STATE.md` Feature Registry. Show features in flight and backlog items.
 
 ## Error Handling
 

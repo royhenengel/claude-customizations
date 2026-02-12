@@ -58,6 +58,99 @@ Please describe:
 3. How to reproduce it (if known)
 ```
 
+## Step 1a: Worktree Detection and State Setup
+
+```bash
+# Detect if running in a worktree
+if [ -f .git ]; then echo "WORKTREE"; else echo "MAIN"; fi
+```
+
+**If in a worktree:**
+
+Derive name from branch:
+```bash
+git branch --show-current
+```
+
+Check if feature STATE.md already exists:
+```bash
+ls planning/specs/{name}/STATE.md 2>/dev/null
+```
+
+**Scenario A - Fix worktree** (STATE.md exists with `**Type**: fix`, or no STATE.md exists):
+
+If no STATE.md exists, create fix state directory and file:
+```bash
+mkdir -p planning/specs/{fix-name}
+```
+
+Create `planning/specs/{fix-name}/STATE.md`:
+
+```markdown
+# {Fix Name} State
+
+**Type**: fix
+**Stage**: investigating
+**Last Updated**: {timestamp}
+
+## Issue
+
+{From Step 1 - problem description}
+
+## Root Cause
+
+(Pending - determined in Step 5)
+
+## Proposed Fix
+
+(Pending - determined in Step 6)
+
+## Current State
+
+### What's Working
+
+(Nothing verified yet)
+
+### What's Not Working
+
+{The reported issue}
+
+### Next Steps
+
+1. Complete investigation (Steps 2-5)
+```
+
+Update `planning/STATE.md` Feature Registry:
+```markdown
+| {fix-name} | fix | active | {branch} | {worktree-path} |
+```
+
+Continue to Step 2 with full state tracking.
+
+**Scenario B - Feature worktree** (STATE.md exists with `**Type**: feature` or no Type field):
+
+The user is running /fix while working on a feature. Do NOT create separate fix state.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔍 Fix context: inside feature worktree ({name})
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Is this fix related to the current feature ({name})?
+
+1. **Yes, related to this feature** → Run /fix Steps 2-8 (investigation + implementation). No separate fix STATE.md. Track findings in feature STATE.md Notes section. Fix becomes part of the feature PR. Skip Steps 9a and 10 (quality gates run with the feature's /build completion).
+
+2. **No, unrelated** → Add to `planning/BACKLOG.md` for separate handling. Options:
+   a. Create a fix worktree from main (commit current work first)
+   b. Note for later, continue feature work
+
+Continue to Step 2 (Scenario A and B-related only).
+
+**If on main** (not in a worktree):
+
+No fix state directory or STATE.md is created. /fix runs its full 10-step process. A branch is created in Step 10 for PR-based review.
+
 ## Step 2: Git History Search
 
 Search for related past work:
@@ -130,6 +223,8 @@ Symptom: [What user sees]
       ← Root cause: [The fundamental issue to fix]
 ```
 
+**State update** (worktree only): Update fix STATE.md - set "Root Cause" section, stage → `proposed`.
+
 ## Step 6: Propose Fix
 
 Present the fix proposal with clear rationale:
@@ -150,6 +245,8 @@ Present the fix proposal with clear rationale:
 [What could go wrong, what else might be affected]
 ```
 
+**State update** (worktree only): Update fix STATE.md - set "Proposed Fix" section.
+
 **STOP HERE** - Wait for user approval before implementing.
 
 ## Step 7: Implement & Verify
@@ -163,6 +260,8 @@ After approval:
    npm test 2>/dev/null || yarn test 2>/dev/null || pytest 2>/dev/null || go test ./... 2>/dev/null
    ```
 3. **Verify** the fix resolves the original issue
+
+**State update** (worktree only): Update fix STATE.md - stage → `implementing`, update Current State (What's Working, What's Not Working).
 
 ## Step 8: Regression Checklist
 
@@ -179,6 +278,8 @@ Based on the affected areas mapped in Step 4, please verify:
 ```
 
 Be specific - file names, functionality, scenarios to test.
+
+**State update** (worktree only): Update fix STATE.md - stage → `verifying`, update What's Working with verified items.
 
 ## Step 9: Convention Check
 
@@ -200,22 +301,89 @@ Evaluate if the fix reveals something convention-worthy:
    echo "- [ ] [Convention description] - discovered during fix for [issue]" >> planning/BACKLOG.md
    ```
 
+## Step 9a: Documentation & Quality Review
+
+**Applies to all fix scenarios** (worktree fixes and main-branch fixes):
+
+### Documentation Review
+
+Launch doc-enforcer agent in audit mode:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTATION REVIEW: Compliance Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Agent - Documentation (docs-enforcer):**
+
+```text
+Audit documentation for the {fix-name} fix.
+
+Focus:
+- Fix state directory complete (STATE.md with current state)
+- No misplaced files
+- Modified markdown files follow documentation type system
+
+Provide audit results with severity levels.
+```
+
+### PR Review
+
+After PR is created in Step 10, launch review agents on the full PR diff:
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PR REVIEW: Full Diff Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Launch in parallel:
+
+**Agent 1 - Code Review (code-reviewer):**
+Review the full PR diff for code quality and consistency.
+
+**Agent 2 - Test Coverage (test-coverage-reviewer):**
+Review test coverage for the fix. Flag untested paths.
+
+**Agent 3 - Contracts (contracts-reviewer):**
+Review changes to public APIs, data models, and type definitions for breaking changes.
+
+Present consolidated findings. Critical issues must be addressed before merge.
+
 ## Step 10: Finalize Changes
 
 When user says "complete", "mark as complete", or similar:
 
-1. **Commit and push**:
+**For all fixes (worktree and main):**
+
+1. **Create branch** (if on main, not already on a branch):
+   ```bash
+   git checkout -b fix/{fix-description}
+   ```
+
+2. **Commit and push**:
    - Stage all changes
-   - Create conventional commit with summary
+   - Create conventional commit with fix summary
    - Push to remote
 
-2. **If on feature branch** (worktree or otherwise):
-   - Create PR with summary of changes
-   - Wait for approval
-   - Once approved: merge PR and delete branch
+3. **Create PR** with fix summary
 
-3. **If using worktree**:
-   - After merge, remove worktree: `git worktree remove {path}`
+4. **Run Step 9a PR reviewers** (doc-enforcer + 3 review agents)
+
+5. **Address critical findings** before merge
+
+6. **Merge PR and delete branch**
+
+**Additional steps for worktree fixes:**
+
+7. Remove worktree: `git worktree remove {path}`
+
+8. Update fix STATE.md: stage → `complete`
+
+9. Update project STATE.md Feature Registry: fix status → `complete`
+
+**Note**: For in-feature fixes (Scenario B-related from Step 1a), Step 10 does not apply. The fix is committed as part of the feature's /build finalization.
 
 ## Output Format
 

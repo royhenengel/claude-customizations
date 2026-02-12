@@ -12,6 +12,10 @@
 
 @PLAN.md
 
+## Feature State
+
+@STATE.md
+
 ## Status
 
-Planning complete. Ready for /build.
+Implementation in progress.

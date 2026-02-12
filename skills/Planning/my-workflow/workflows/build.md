@@ -79,7 +79,16 @@ If no plan exists, suggest running `/plan` first.
 
 ### 2. Identify Plan to Execute
 
-Read `planning/STATE.md` Feature Registry to understand available features.
+**Context detection:**
+
+```bash
+# Detect environment
+if [ -f .git ]; then echo "WORKTREE"; else echo "MAIN"; fi
+```
+
+**In a worktree**: Auto-detect feature from branch name (`git branch --show-current`). Read `planning/specs/{feature}/STATE.md` and `planning/specs/{feature}/PLAN.md`. Skip feature selection - the worktree IS the feature.
+
+**On main**: Read **project STATE.md** (`planning/STATE.md`) Feature Registry, show available features (existing behavior below).
 
 **If a paused feature exists**, offer to resume:
 
@@ -125,7 +134,29 @@ Extract:
 - Tasks with verification criteria
 - Success criteria
 
-### 4. Create Task List and Update STATE.md
+### 4. Create Task List and Update State Files
+
+**Check for resume:**
+
+Read feature STATE.md. If `**Stage**` is already `building` and some tasks in `## Progress` are checked (`[x]` or `[~]`):
+
+This is a **resume**. Do NOT reset progress.
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Resuming: {feature-name}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Progress: {completed}/{total} tasks
+Last working on: {last in-progress or next unchecked task}
+```
+
+- Create task list from feature STATE.md Progress (preserving checked/unchecked status)
+- Set the next unchecked task to `in_progress`
+- Do NOT overwrite feature STATE.md progress or stage
+- Do NOT update project STATE.md registry (already `active`)
+- Skip to Step 5 (Execute Tasks)
+
+**If NOT a resume** (stage is `planning` or `ready`, or no tasks are checked):
 
 **Create task list from PLAN.md** - use TodoWrite to create visible task tracking for the user.
 
@@ -139,50 +170,22 @@ TodoWrite([
 ])
 ```
 
-This gives the user real-time visual progress. STATE.md remains the persistent source of truth for session handoff.
+This gives the user real-time visual progress. **Feature STATE.md** remains the persistent source of truth for session handoff.
 
-**Copy task list from PLAN.md to STATE.md**.
+**Update feature STATE.md** (`planning/specs/{feature}/STATE.md`):
 
-Update `planning/STATE.md`:
+- Set `**Stage**` to `building`
+- Copy task list from PLAN.md to `## Progress` section
+- Update `**Last Updated**` timestamp
+- Set Current State Next Steps to "Executing Task 1"
 
-```markdown
-**Stage**: building
-**Last Updated**: {timestamp}
+**Update project STATE.md** (`planning/STATE.md`) Feature Registry:
 
-## Active Feature
+- Set feature status to `active`
 
-**Name**: {feature-name}
-**Status**: active
-**Progress**: 0/{N}
+**Update feature CLAUDE.md** status to "Implementation in progress."
 
-## Feature Registry
-
-| Feature | Status | Progress | Dependencies |
-|---------|--------|----------|--------------|
-| {feature-name} | active | 0/{N} | - |
-| {other features...} | {status} | {progress} | {deps} |
-
-## Current Focus
-
-Executing {feature} PLAN.md - Task 1
-
-## Progress ({feature-name})
-
-- [ ] Task 1: {description from PLAN.md}
-- [ ] Task 2: {description from PLAN.md}
-- [ ] Task 3: {description from PLAN.md}
-...
-```
-
-**Key**: Copy task names directly from PLAN.md Task Summary table. PLAN.md stays static (the prompt), STATE.md tracks completion.
-
-Update `planning/specs/{feature}/CLAUDE.md` status:
-
-```markdown
-## Status
-
-Implementation in progress.
-```
+**Key**: Copy task names directly from PLAN.md Task Summary table. PLAN.md stays static (the prompt), **feature STATE.md** tracks completion.
 
 ### 5. Execute Tasks
 
@@ -275,17 +278,15 @@ Note: Extend lines to match text length if task name is long. Lines must never b
 
 1. **Update task list**: Mark current task completed, set next task to in_progress via TodoWrite
 
-2. **Update STATE.md Progress section**:
+2. **Update **feature STATE.md** Progress section**:
    - Change `- [ ] Task N:` to `- [x] Task N:`
-   - Update `Progress: {n}/{m}` counter in Active Feature section
-   - Update Feature Registry table progress column
-   - Update `Current Focus` to next task
+   - Update `**Last Updated**` timestamp
 
 3. Verify task completion criteria
 4. Verify TDD was followed (tests written and passing)
-5. Note any deviations in STATE.md Notes section
+5. Note any deviations in **feature STATE.md** Notes section
 
-6. **Update STATE.md Current State section**:
+6. **Update **feature STATE.md** Current State section**:
    - Add verified functionality to "What's Working" (e.g., "Task N: {description} - verified")
    - Update "Next Steps" with the next task to execute
    - Update "Last Updated" timestamp
@@ -301,9 +302,9 @@ During execution, handle discoveries automatically:
 
 | Rule | Trigger | Action |
 |------|---------|--------|
-| **1. Auto-fix bugs** | Code logic error (wrong output, failed test, crash) | Fix immediately, note in STATE.md |
-| **2. Auto-add critical** | Security/correctness gap | Add immediately, note in STATE.md |
-| **3. Auto-fix blockers** | Environment/setup issue (missing dep, bad import path, config) | Fix immediately, note in STATE.md |
+| **1. Auto-fix bugs** | Code logic error (wrong output, failed test, crash) | Fix immediately, note in **feature STATE.md** |
+| **2. Auto-add critical** | Security/correctness gap | Add immediately, note in **feature STATE.md** |
+| **3. Auto-fix blockers** | Environment/setup issue (missing dep, bad import path, config) | Fix immediately, note in **feature STATE.md** |
 | **4. Ask architectural** | Major structural change (see below) | STOP. Ask user for decision. |
 | **5. Log enhancements** | Nice-to-have idea | Append to BACKLOG.md under appropriate category, continue |
 | **6. Gap detected** | Plan ordering issue (need functionality not yet built) | Invoke Gap Protocol (see below) |
@@ -424,7 +425,7 @@ A gap is plan-modifying when:
 
 #### Step 2: PRESERVE
 
-Push context to Gap Stack in STATE.md:
+Push context to Gap Stack in **feature STATE.md**:
 
 ```markdown
 ## Gap Stack
@@ -443,7 +444,7 @@ Push context to Gap Stack in STATE.md:
 1. {previous gaps this session, if any}
 ```
 
-**Update STATE.md Current State section**:
+**Update **feature STATE.md** Current State section**:
 
 - Add the gap/issue to "What's Not Working" (e.g., "Gap: {description} - blocks Task N")
 - Update "Last Updated" timestamp
@@ -519,7 +520,7 @@ Returning to:
 
 Continuing...
 
-Update STATE.md:
+Update **feature STATE.md**:
 
 - Clear Active Gap section (set to "(None)")
 - Add entry to Gap History: `[timestamp] {gap description} - resolved`
@@ -569,7 +570,7 @@ Based on user choice:
 
 ### 7. Monitor Context Health
 
-Watch for context filling. Current State in STATE.md is maintained continuously, so session can end cleanly at any time.
+Watch for context filling. Current State in **feature STATE.md** is maintained continuously, so session can end cleanly at any time.
 
 | Context Level | Action |
 |---------------|--------|
@@ -589,7 +590,7 @@ Context is at ~{X}% remaining.
 Options:
 
 1. Continue (tasks {remaining} left)
-2. End session (Current State already captured in STATE.md)
+2. End session (Current State already captured in feature STATE.md)
 
 I recommend {recommendation based on remaining work}.
 
@@ -612,7 +613,7 @@ Before finalizing the build, verify against the security checklist:
 
 2. **If security issue found**:
    - Fix before proceeding
-   - Note in STATE.md under Notes
+   - Note in **feature STATE.md** under Notes
    - If architectural (requires new auth system, etc.) → Rule 4 stop
 
 3. **Checklist verification**:
@@ -743,6 +744,43 @@ Which would you prefer?
 3. **If fixing**, launch appropriate developer subagent to address issues
 4. **Re-run affected reviews** after fixes to verify resolution
 
+### 9a. Documentation Review
+
+Launch doc-enforcer agent in audit mode to verify documentation compliance.
+
+**Announce:**
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DOCUMENTATION REVIEW: Compliance Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Launching docs-enforcer agent...
+```
+
+**Agent - Documentation (docs-enforcer):**
+
+```text
+Audit documentation for the {feature} implementation.
+
+Focus:
+- New/modified markdown files follow documentation type system
+- Required sections present per templates
+- Feature spec directory complete (CLAUDE.md, SPEC.md, RESEARCH.md, PLAN.md, STATE.md)
+- No misplaced files
+
+Files changed: {list from implementation}
+
+Provide audit results with severity levels.
+```
+
+**After review:**
+
+- Critical issues: must fix before proceeding
+- Warnings: fix or acknowledge
+- Info: note for later
+
+Present findings alongside code quality results from Step 9.
+
 ### 10. Create SUMMARY.md
 
 **REQUIRED** - This step cannot be skipped. SUMMARY.md must exist before declaring a feature complete. Even if verification/testing is skipped, documentation is mandatory.
@@ -788,33 +826,17 @@ Document what was built:
 
 Write to `planning/specs/{feature}/SUMMARY.md`.
 
-### 11. Update STATE.md and Feature CLAUDE.md
+### 11. Update State Files and Feature CLAUDE.md
 
-Update `planning/STATE.md`:
+Update **feature STATE.md** (`planning/specs/{feature}/STATE.md`):
 
-```markdown
-**Stage**: building (or stopping if done)
-**Last Updated**: {timestamp}
+- Set stage to `complete`
+- Mark all tasks as checked in Progress
+- Update Current State with final summary
 
-## Current Focus
+Update **project STATE.md** (`planning/STATE.md`) Feature Registry:
 
-{Feature} implementation complete
-
-## Progress
-
-- [x] {Feature} designed
-- [x] {Feature} implemented
-- [x] {Feature} verified
-
-## Decisions
-
-- {Any decisions made during build}
-
-## Notes
-
-- {Any discoveries during build}
-- See BACKLOG.md for logged enhancements
-```
+- Set feature status to `complete`
 
 Update `planning/specs/{feature}/CLAUDE.md` status:
 
@@ -862,7 +884,60 @@ When user says "complete", "mark as complete", or similar:
 3. **If using worktree**:
    - After merge, remove worktree: `git worktree remove {path}`
 
+On merge: feature spec directory (including STATE.md) archives naturally. **Project STATE.md** registry is the only shared file updated.
+
 This applies to both features (`/build` completion) and fixes (`/fix` completion).
+
+### 13a. PR Review
+
+After PR is created, launch review agents on the full PR diff.
+
+**Announce:**
+
+```text
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PR REVIEW: Full Diff Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Launching PR reviewers in parallel...
+```
+
+Launch in parallel:
+
+**Agent 1 - Code Review (code-reviewer):**
+
+```text
+Review the full PR diff for {feature}.
+
+Focus: overall code quality, consistency, potential issues missed in per-task reviews.
+Provide pass/fail assessment with file:line citations for issues.
+```
+
+**Agent 2 - Test Coverage (test-coverage-reviewer):**
+
+```text
+Review test coverage for the {feature} PR.
+
+Focus: new/modified code has adequate test coverage. Flag untested paths.
+Provide coverage assessment with specific gaps identified.
+```
+
+**Agent 3 - Contracts (contracts-reviewer):**
+
+```text
+Review changes to public APIs, data models, and type definitions in the {feature} PR.
+
+Focus: breaking changes, backwards compatibility, type safety.
+Provide assessment of contract changes with severity levels.
+```
+
+**After all reviews complete:**
+
+Present consolidated PR review findings:
+- Critical issues must be addressed before merge
+- Important issues should be fixed or acknowledged
+- Minor issues noted for later
+
+If critical issues found, fix them and re-run affected reviews before proceeding to merge.
 
 ## Subagent Execution Pattern
 
@@ -900,14 +975,14 @@ Check prerequisites (PLAN.md exists?)
 Load PLAN.md as execution prompt
     |
     v
-Update STATE.md (stage: building)
+Update feature STATE.md (stage: building)
     |
     v
 For each task:
     +-- Select agent (trigger → language → fullstack-developer)
     +-- Launch subagent
     +-- Apply deviation rules
-    +-- Update progress in STATE.md
+    +-- Update progress in feature STATE.md
     +-- Check context health
     |
     v
