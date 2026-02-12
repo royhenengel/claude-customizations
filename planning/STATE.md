@@ -1,9 +1,14 @@
 # Project State
 
-**Stage**: building
+**Stage**: planning
 **Last Updated**: 2026-02-11
 
 ## Active Features
+
+### compound-workflow-integration
+
+- Status: ready
+- Progress: 0/5
 
 ### repo-documentation
 
@@ -13,22 +18,23 @@
 
 ## Feature Registry
 
-| Feature                          | Status   |
-|----------------------------------|----------|
-| enhance-research-template        | complete |
-| commands-skills-migration        | complete |
-| audit-agents                     | complete |
-| repo-documentation               | complete |
-| my-workflow-visual-design        | complete |
-| clarify-blockers                 | complete |
-| automate-stop                    | complete |
-| everything-claude-code-migration | complete |
-| reddit-mcp-server                | complete |
-| auto-trigger-fix                 | complete |
+| Feature                          | Status   | Progress | Dependencies |
+|----------------------------------|----------|----------|--------------|
+| compound-workflow-integration    | ready    | 0/5      | -            |
+| enhance-research-template        | complete | -        | -            |
+| commands-skills-migration        | complete | -        | -            |
+| audit-agents                     | complete | -        | -            |
+| repo-documentation               | complete | -        | -            |
+| my-workflow-visual-design        | complete | -        | -            |
+| clarify-blockers                 | complete | -        | -            |
+| automate-stop                    | complete | -        | -            |
+| everything-claude-code-migration | complete | -        | -            |
+| reddit-mcp-server                | complete | -        | -            |
+| auto-trigger-fix                 | complete | -        | -            |
 
 ## Current Focus
 
-repo-documentation complete. PR #6 merged to main. SessionStart hook removed.
+compound-workflow-integration - planning complete, ready for build
 
 ## Progress (repo-documentation) - Revised Plan
 
@@ -107,35 +113,16 @@ repo-documentation complete. PR #6 merged to main. SessionStart hook removed.
 
 ### What's Working
 
-- All 16 tasks complete across 4 phases
-- documentation-types.md: 15 portable types, Scenario B only
-- 9 templates created (8 new + research extracted)
-- rules/: 8 files auto-loaded via ~/.claude/rules/, each with domain marker
-- CLAUDE.md: 37 lines (slimmed from 89)
-- memory-boundaries.md: 4 systems delineated with decision tree
-- docs-enforcer agent: audit + fix modes, catalog maintenance, spec archiving enforcement
-- docs/: cleaned (3 archived, solutions/ moved to planning/)
-- docs/claude-slash-commands-reference.md: 91 slash commands cataloged
-- README.md: accurate counts, current structure
-- 4 empty CLAUDE.md files populated
-- skills/README.md: replaced n8n content with directory overview
-- 2 loose files moved, 4 broken @references fixed, reference/ archived
-- 10 completed feature specs archived (PLAN/RESEARCH/SPEC to archive/)
-- BACKLOG Inspiration Sources migrated to docs/external-resources-reference.md
-- taches-create-plans duplicate removed (single source: my-workflow/references/)
-- living-requirements referenced in external-resources
-- core-principles.md eliminated: design philosophy inlined into technical-consistency.md, version control into behavioral-rules.md
-- All ref/ directories renamed to references/, docs-enforcer enforces placement
+(Nothing verified yet)
 
 ### What's Not Working
 
-(Nothing)
+(No issues identified)
 
 ### Next Steps
 
-1. Clean up repo-documentation worktree
-2. Run docs-enforcer audit to validate no further drift
+1. Run /build to execute compound-workflow-integration plan (5 tasks)
 
 ### Open Questions
 
-All 12 resolved. See Decisions Q1-Q12.
+(None)
