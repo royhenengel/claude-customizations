@@ -116,7 +116,7 @@ Continue with /plan in the new window.
 
 Worktree creation happens **before** `/plan`. When a user selects a backlog item or describes new work during `/start`, a worktree is created first. The user then switches to the new VS Code window and runs `/plan` and `/build` there.
 
-See [planning/specs/my-workflow/WORKTREE-WORKFLOW.md] for design rationale.
+**Two-Level State:** Each worktree has its own feature STATE.md (`planning/specs/{feature}/STATE.md`) for tracking progress, current state, and gap stack. The project STATE.md (`planning/STATE.md`) on main tracks the Feature Registry only. Worktrees never modify project STATE.md during execution - only at lifecycle transitions (ready, active, complete).
 
 **Cleanup:**
 When feature is complete and merged:
@@ -124,6 +124,7 @@ When feature is complete and merged:
 git worktree remove <path>
 git branch -d <branch-name>
 ```
+Feature STATE.md archives with the spec directory on merge.
 
 ## Red Flags
 
