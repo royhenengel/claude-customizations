@@ -153,6 +153,26 @@ No fix state directory or STATE.md is created. /fix runs its full 10-step proces
 
 ## Step 2: Git History Search
 
+**Check existing solutions first:**
+
+If `planning/solutions/` exists, search for matching problems:
+
+```bash
+# Search solution files for related keywords
+grep -rl "<relevant-keyword>" planning/solutions/ 2>/dev/null | head -5
+```
+
+If matching solutions found, present them:
+
+```text
+Found existing solution(s) that may match:
+- planning/solutions/{category}/{filename}.md: {title from frontmatter}
+
+Review before investigating? (yes/no)
+```
+
+If user says yes, read the matching solution(s) and assess applicability. If the solution matches, apply it directly. If not, proceed with investigation.
+
 Search for related past work:
 
 ```bash
@@ -301,7 +321,23 @@ Evaluate if the fix reveals something convention-worthy:
    echo "- [ ] [Convention description] - discovered during fix for [issue]" >> planning/BACKLOG.md
    ```
 
-## Step 9a: Documentation & Quality Review
+## Step 9a: Auto-Capture Solution
+
+If the fix involved a non-trivial root cause (not a typo, missing import, or obvious error):
+
+Automatically invoke `/compound` with context from this fix session. Pass the root cause analysis from Step 5 as context. If `/compound` fails for any reason, log a note and continue. Do not block the /fix workflow.
+
+Do not prompt the user. After capture completes, display:
+
+```text
+Solution captured: planning/solutions/{category}/{filename}.md
+```
+
+The user can review, edit, or delete solutions at any time.
+
+Skip for trivial fixes (typos, missing imports, obvious errors).
+
+## Step 9b: Documentation & Quality Review
 
 **Applies to all fix scenarios** (worktree fixes and main-branch fixes):
 

@@ -55,6 +55,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Brownfield project support in /start
   - **Context**: Currently /start assumes greenfield. For existing projects, should offer to reorganize existing code to my-workflow structure.
   - **Considerations**: Detect existing files/structure, offer migration path, preserve existing work
+- [x] Add icons to /build workflow banners (Task, Completion, Gap, Review banners lack icons unlike /fix and other workflow banners)
+  - **Resolved by**: compound-workflow-integration PR #9 (restored all 10 banner icons stripped during audit-agents and multi-feature-state rewrites)
 - [ ] Override Explanatory output style insight banner to match workflow banner style
   - **Context**: `outputStyle: "Explanatory"` injects `★ Insight ─────` format (light lines). Workflow uses `━━━` (heavy lines) for banners.
   - **Options**: Override format in CLAUDE.md, or disable outputStyle and define custom insight behavior in workflow skill
@@ -72,19 +74,13 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Skill health check command
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Improve the diagram builder
-- [ ] Clarify /compound and integrate into workflow
-  - **Gap**: /compound is standalone with no integration point in `/build`. memory-boundaries.md defines what goes there but nothing triggers it during workflow.
-  - **Options**:
-    1. Wire into build.md: After deviation rules 1-3 fix a bug, offer "Document this solution? (`/compound`)"
-    2. Add to `/build` completion flow: "Any solutions worth documenting?"
-    3. Periodic prompt: After N fixes in a session, suggest /compound
-  - **Also**: Clarify compound vs MEMORY.md in practice (when to use which)
-  - [ ] Possibly automate /compound?
-    - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9  has 3 review agents. 132 active agents covered.
-    - **References**:
-      - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done),   local: skills/my-workflow/references/gsd/README.md
-      - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-  engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-  development/SKILL.md
-      - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-  m/everything-claude-code/blob/main/rules/agents.md)
+- [x] Clarify /compound and integrate into workflow
+  - **Resolved by**: compound-workflow-integration feature
+  - /fix Step 2 searches planning/solutions/ before investigating, /fix Step 9a auto-captures after non-trivial fixes, /build deviation rules 1-3 auto-capture
+  - See planning/specs/compound-workflow-integration/PLAN.md
+- [x] Possibly automate /compound?
+  - **Resolved by**: compound-workflow-integration feature (hybrid approach: auto-capture in /fix and /build, manual /compound still available)
+  - Supersedes manual prompt approach. Auto-invokes without user intervention for non-trivial fixes.
 - [ ] Agent Teams: team composition guidance in invocation rules
   - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
   - **Idea**: Add a "team composition" section to agent-invocation-rules.md defining which agents to spawn together for common scenarios (e.g., cross-layer refactoring: backend-developer + frontend-developer + test-automator)
@@ -120,7 +116,8 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 ### Learning & Mastery
 
 - [ ] Master using instincts system
-- [ ] Master using compound lessons system
+- [x] Master using compound lessons system
+  - **Resolved by**: compound-workflow-integration feature (auto-capture removes manual barrier; usage will happen naturally through /fix and /build)
 - [ ] Master git worktrees (wired into /build as optional Step 2a)
 
 ---
@@ -136,3 +133,4 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Add exclusions for grep/search commands
     3. Add exclusions for meta-discussions about the feature
     4. Consider requiring multiple signals before triggering
+- [ ] Address all the incident reports

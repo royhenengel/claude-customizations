@@ -227,7 +227,7 @@ For each task in PLAN.md:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TASK {N}/{TOTAL}: {Task Name}
+📋 TASK {N}/{TOTAL}: {Task Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Agent: {selected_agent} (reason: {trigger match | language: X | default})
 Launching subagent...
@@ -267,7 +267,7 @@ Apply deviation rules during execution:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-TASK {N}/{TOTAL} COMPLETE: {Task Name}
+✅ TASK {N}/{TOTAL} COMPLETE: {Task Name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Result: {brief summary}
 ```
@@ -312,6 +312,18 @@ During execution, handle discoveries automatically:
 **Rules 1-3, 5**: No user intervention needed.
 **Rule 4**: Requires user decision before proceeding.
 **Rule 6**: Preserves context, modifies plan, then returns to original task.
+
+**After applying deviation rules 1-3**, if the fix involved a non-trivial root cause:
+
+Automatically invoke `/compound` with the deviation context (what triggered it, what was fixed, why). If `/compound` fails for any reason, log a note and continue. Do not block the /build workflow.
+
+Do not prompt the user. After capture completes, display:
+
+```text
+Solution captured: planning/solutions/{category}/{filename}.md
+```
+
+Skip for trivial fixes (typos, missing imports, obvious errors).
 
 ### Deviation Examples
 
@@ -387,7 +399,7 @@ Rule 4 applies when ANY of these occur. Do NOT proceed without explicit user app
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Architectural Decision Required
+⛔ Architectural Decision Required
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -462,7 +474,7 @@ Assess impact on current plan:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Gap Detected
+⛔ Gap Detected
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -505,7 +517,7 @@ After gap task completes, pop context from Gap Stack and display:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Gap Resolved
+✅ Gap Resolved
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -539,7 +551,7 @@ When user requests an addition mid-build ("also add X", "can you also..."):
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-User Addition
+📝 User Addition
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -581,7 +593,7 @@ Watch for context filling. Current State in **feature STATE.md** is maintained c
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Context Health
+💾 Context Health
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -633,7 +645,7 @@ Launch 3 specialized review agents in parallel, each focusing on their domain ex
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-QUALITY REVIEW: Multi-Perspective Analysis
+🔍 QUALITY REVIEW: Multi-Perspective Analysis
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Launching 3 specialized reviewers in parallel...
 ```
@@ -714,7 +726,7 @@ Provide:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-REVIEW COMPLETE: {feature}
+🔍 REVIEW COMPLETE: {feature}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Summary:
@@ -850,7 +862,7 @@ Implementation complete. See SUMMARY.md for details.
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Build Complete
+✅ Build Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

@@ -6,6 +6,7 @@
 
 | Feature | Type | Status | Branch | Worktree |
 |---------|------|--------|--------|----------|
+| compound-workflow-integration | feature | complete | - | - |
 | multi-feature-state | feature | complete | - | - |
 | repo-documentation | feature | complete | - | - |
 | audit-agents | feature | complete | - | - |
@@ -33,6 +34,7 @@
 - (2026-02-08) repo-documentation Q2: documentation-types.md scoped to Scenario B only (any my-workflow project). This repo's unique structure (skills/, agents/, hooks/, mcp/) described in CLAUDE.md and README.md, not in the portable type system.
 - (2026-02-08) repo-documentation Q1 (REVISED): Governance docs + AI-CHAT-PREFS move to root rules/ directory (= ~/.claude/rules/). Auto-loaded globally via Anthropic's native user-level rules mechanism. Replaces both skill-gating and SessionStart hook.
 - (2026-02-08) repo-documentation: Scope expanded to full information architecture. Pulled "Consolidate CLAUDE.md and claude-code-prefs.md" backlog item into this feature. DISCOVERY.md v2 written.
+- (2026-02-12) compound-workflow-integration: Hybrid automation approach. Auto-capture (no prompt) for /fix and /build deviation fixes. /compound remains standalone for manual use. Trivial fixes skipped. Reverse lookup in /fix Step 2 surfaces existing solutions before investigation.
 - (2026-02-07) Workflow: Parallel work mode enabled. Multiple features can be active in separate worktrees. Single-active constraint temporarily suspended.
 - (2026-02-06) Workflow: Decouple worktree creation from /plan and /build. Worktree is conversational setup, auto-opens VS Code window. /plan and /build are directory-agnostic. Project-local .worktrees/ default. See specs/my-workflow/WORKTREE-WORKFLOW.md.
 - (2026-02-05) Workflow: Worktree creation moved from /build to /plan (Step 3a). All feature artifacts now live in feature branch from start. (Superseded by 2026-02-06 decision)
