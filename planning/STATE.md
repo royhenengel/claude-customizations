@@ -1,14 +1,14 @@
 # Project State
 
-**Stage**: planning
-**Last Updated**: 2026-02-11
+**Stage**: building
+**Last Updated**: 2026-02-12
 
 ## Active Features
 
 ### compound-workflow-integration
 
-- Status: ready
-- Progress: 0/5
+- Status: complete
+- Progress: 5/5
 
 ### repo-documentation
 
@@ -20,7 +20,7 @@
 
 | Feature                          | Status   | Progress | Dependencies |
 |----------------------------------|----------|----------|--------------|
-| compound-workflow-integration    | ready    | 0/5      | -            |
+| compound-workflow-integration    | complete | 5/5      | -            |
 | enhance-research-template        | complete | -        | -            |
 | commands-skills-migration        | complete | -        | -            |
 | audit-agents                     | complete | -        | -            |
@@ -34,7 +34,7 @@
 
 ## Current Focus
 
-compound-workflow-integration - planning complete, ready for build
+compound-workflow-integration implementation complete
 
 ## Progress (repo-documentation) - Revised Plan
 
@@ -77,6 +77,7 @@ compound-workflow-integration - planning complete, ready for build
 - (2026-02-08) repo-documentation Q2: documentation-types.md scoped to Scenario B only (any my-workflow project). This repo's unique structure (skills/, agents/, hooks/, mcp/) described in CLAUDE.md and README.md, not in the portable type system.
 - (2026-02-08) repo-documentation Q1 (REVISED): Governance docs + AI-CHAT-PREFS move to root rules/ directory (= ~/.claude/rules/). Auto-loaded globally via Anthropic's native user-level rules mechanism. Replaces both skill-gating and SessionStart hook.
 - (2026-02-08) repo-documentation: Scope expanded to full information architecture. Pulled "Consolidate CLAUDE.md and claude-code-prefs.md" backlog item into this feature. DISCOVERY.md v2 written.
+- (2026-02-12) compound-workflow-integration: Hybrid automation approach. Auto-capture (no prompt) for /fix and /build deviation fixes. /compound remains standalone for manual use. Trivial fixes skipped. Reverse lookup in /fix Step 2 surfaces existing solutions before investigation.
 - (2026-02-07) Workflow: Parallel work mode enabled. Multiple features can be active in separate worktrees. Single-active constraint temporarily suspended.
 - (2026-02-06) Workflow: Decouple worktree creation from /plan and /build. Worktree is conversational setup, auto-opens VS Code window. /plan and /build are directory-agnostic. Project-local .worktrees/ default. See specs/my-workflow/WORKTREE-WORKFLOW.md.
 - (2026-02-05) Workflow: Worktree creation moved from /build to /plan (Step 3a). All feature artifacts now live in feature branch from start. (Superseded by 2026-02-06 decision)
@@ -107,13 +108,25 @@ compound-workflow-integration - planning complete, ready for build
 - Migration from specs/ to planning/ completed
 - Original constitution.md preserved in planning/archive/ for reference
 
+## Progress (compound-workflow-integration)
+
+- [x] Task 1: Add solution search to /fix Step 2
+- [x] Task 2: Add auto-capture to /fix after Step 9
+- [x] Task 3: Add auto-capture to /build deviation rules
+- [x] Task 4: End-to-end verification
+- [x] Task 5: Update STATE.md and BACKLOG.md
+
 ## Current State
 
-**Last Updated**: 2026-02-11
+**Last Updated**: 2026-02-12
 
 ### What's Working
 
-(Nothing verified yet)
+- Task 1: /fix Step 2 searches planning/solutions/ before git history - verified
+- Task 2: /fix Step 9a auto-captures non-trivial solutions - verified
+- Task 3: /build deviation rules 1-3 auto-capture non-trivial solutions - verified
+- Task 4: All 6 verification checks pass - verified
+- Task 5: STATE.md and BACKLOG.md updated - verified
 
 ### What's Not Working
 
@@ -121,7 +134,8 @@ compound-workflow-integration - planning complete, ready for build
 
 ### Next Steps
 
-1. Run /build to execute compound-workflow-integration plan (5 tasks)
+1. Create SUMMARY.md
+2. Commit, push, and create PR
 
 ### Open Questions
 

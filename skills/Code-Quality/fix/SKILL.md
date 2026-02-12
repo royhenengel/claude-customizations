@@ -60,6 +60,26 @@ Please describe:
 
 ## Step 2: Git History Search
 
+**Check existing solutions first:**
+
+If `planning/solutions/` exists, search for matching problems:
+
+```bash
+# Search solution files for related keywords
+grep -rl "<relevant-keyword>" planning/solutions/ 2>/dev/null | head -5
+```
+
+If matching solutions found, present them:
+
+```text
+Found existing solution(s) that may match:
+- planning/solutions/{category}/{filename}.md: {title from frontmatter}
+
+Review before investigating? (yes/no)
+```
+
+If user says yes, read the matching solution(s) and assess applicability. If the solution matches, apply it directly. If not, proceed with investigation.
+
 Search for related past work:
 
 ```bash
@@ -199,6 +219,16 @@ Evaluate if the fix reveals something convention-worthy:
    # Append to backlog
    echo "- [ ] [Convention description] - discovered during fix for [issue]" >> planning/BACKLOG.md
    ```
+
+## Step 9a: Auto-Capture Solution
+
+If the fix involved a non-trivial root cause (not a typo, missing import, or obvious error):
+
+Automatically invoke `/compound` with context from this fix session. Pass the root cause analysis from Step 5 as context.
+
+Do not prompt the user. The solution document is written to `planning/solutions/` automatically. The user can review, edit, or delete solutions at any time.
+
+Skip this step for trivial fixes (typos, missing imports, obvious syntax errors).
 
 ## Step 10: Finalize Changes
 

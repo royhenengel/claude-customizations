@@ -312,6 +312,12 @@ During execution, handle discoveries automatically:
 **Rule 4**: Requires user decision before proceeding.
 **Rule 6**: Preserves context, modifies plan, then returns to original task.
 
+**After applying deviation rules 1-3**, if the fix involved a non-trivial root cause:
+
+Automatically invoke `/compound` with the deviation context (what triggered it, what was fixed, why). Do not prompt the user. The solution document is written to `planning/solutions/` automatically.
+
+Skip for trivial fixes (missing imports, typos, obvious config errors).
+
 ### Deviation Examples
 
 **Rule 1 (Bug) - Code is wrong:**
