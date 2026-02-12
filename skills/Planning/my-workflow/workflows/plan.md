@@ -25,30 +25,38 @@ ls planning/CLAUDE.md 2>/dev/null || echo "No project context"
 
 If no `planning/` structure exists, suggest running `/start` first.
 
-**Check for active features** by reading STATE.md Feature Registry:
+**Check context**:
 
-If another feature has status `active` or `paused`:
-
-```text
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ Active Feature Exists
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```bash
+# Detect if we're in a worktree or on main
+if [ -f .git ]; then echo "WORKTREE"; else echo "MAIN"; fi
 ```
 
-Feature: {feature-name} ({status}, {progress})
+- If in a worktree: derive feature name from branch (`git branch --show-current`). Check if `planning/specs/{feature}/` already exists (if so, this feature is already planned - suggest `/build` instead).
+- If on main: this is a worktree-first workflow. Planning should happen in a feature worktree for isolation.
 
-Options:
-1. Pause current feature and plan new one
-2. Add to BACKLOG.md (plan later)
-3. Quick draft (SPEC.md only, continue current work)
+  1. Verify `planning/STATE.md` exists (if not, suggest `/start` first)
+  2. Read the Feature Registry to show current project state
+  3. Ask user what they want to plan (from backlog or new)
+  4. Derive a kebab-case worktree name from their description
+  5. Create worktree using `/git-worktrees`
+  6. Instruct user to run `/plan` in the new VS Code window
+  7. **STOP** - do not continue planning on main
 
-Which would you prefer?
+  ```text
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🔀 Creating feature workspace
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Planning requires an isolated workspace. Creating worktree...
+  ```
 
-- **Option 1**: Update Feature Registry (current → paused), then proceed with planning
-- **Option 2**: Add brief description to BACKLOG.md under Features, return to current work
-- **Option 3**: Create only `planning/specs/{feature}/SPEC.md` with status `drafted`, add to Feature Registry, return to current work
+  After worktree creation:
 
-If no active features (or user chooses Option 1), continue to Step 2.
+  ```text
+  Worktree ready. Switch to the new VS Code window and run /plan there.
+  ```
+
+Continue to Step 2 (worktree context only).
 
 ### 2. Show Backlog and Understand What to Plan
 
@@ -197,6 +205,10 @@ Create the feature-level context file that provides cascading context when worki
 ## Status
 
 Planning in progress.
+
+## Feature State
+
+@STATE.md
 ```
 
 Write to `planning/specs/{feature}/CLAUDE.md`.
@@ -375,61 +387,44 @@ Create a comprehensive implementation plan with as many tasks as needed for clar
 
 Write to `planning/specs/{feature}/PLAN.md`.
 
+### 8a. Create Feature STATE.md
+
+Create feature-level state file using the feature state template:
+
+@skills/Planning/my-workflow/templates/feature-state-template.md
+
+Customize the template:
+
+- Set `**Stage**` to `planning`
+- Set `**Last Updated**` to today's date
+- Copy the task list from PLAN.md Task Summary into `## Progress` section (all unchecked)
+- Set Next Steps to "Begin /build execution"
+
+Write to `planning/specs/{feature}/STATE.md`.
+
 ### 9. Update STATE.md and Feature CLAUDE.md
 
-Update `planning/STATE.md`:
+Update `planning/STATE.md` Feature Registry -- add row for new feature:
 
 ```markdown
-# Project State
-
-**Stage**: planning
-**Last Updated**: {timestamp}
-
-## Active Feature
-
-**Name**: {feature-name}
-**Status**: ready
-**Progress**: 0/{N}
-
-## Feature Registry
-
-| Feature | Status | Progress | Dependencies |
-|---------|--------|----------|--------------|
-| {feature-name} | ready | 0/{N} | {deps or -} |
-| {other features...} | ... | ... | ... |
-
-## Current Focus
-
-{Feature name} - planning complete, ready for build
-
-## Progress
-
-- [x] planning/ structure created
-- [x] {Feature} spec created
-- [x] {Feature} plan created
-- [ ] {Feature} implementation
+| {feature-name} | feature | ready | {branch-name} | {worktree-path} |
 ```
 
-Update `## Current State`:
+Do NOT update project STATE.md with Stage, Active Feature, Current Focus, Progress, or Current State sections. Those live in the feature STATE.md now.
 
-- Set "Next Steps" to first task from plan
-- Reset "What's Working" to "(Nothing verified yet)"
-- Reset "What's Not Working" to "(No issues identified)"
-- Update "Last Updated" timestamp
+**Feature Registry updates**:
 
-Record decisions made during planning:
+- Add new feature row with status `ready`
+- If feature has dependencies, note them in the row
+- Remove from BACKLOG.md if it was picked from there
+
+Record decisions made during planning in the feature STATE.md (`planning/specs/{feature}/STATE.md`):
 
 ```markdown
 ## Decisions
 
-- {Feature}: {approach chosen}
+- {approach chosen and rationale}
 ```
-
-**Feature Registry updates**:
-
-- Add new feature with status `ready` and task count from PLAN.md
-- If feature has dependencies, record them in the Dependencies column
-- Remove from BACKLOG.md if it was picked from there
 
 Update `planning/specs/{feature}/CLAUDE.md` status:
 
@@ -454,6 +449,7 @@ Created:
 - [planning/specs/{feature}/SPEC.md](planning/specs/{feature}/SPEC.md) (requirements)
 - [planning/specs/{feature}/RESEARCH.md](planning/specs/{feature}/RESEARCH.md) (decisions)
 - [planning/specs/{feature}/PLAN.md](planning/specs/{feature}/PLAN.md) (executable plan with {N} tasks)
+- [planning/specs/{feature}/STATE.md](planning/specs/{feature}/STATE.md) (feature state)
 
 Ready to build? Run `/build` to execute the plan.
 
@@ -463,14 +459,15 @@ Ready to build? Run `/build` to execute the plan.
 planning/
 ├── OVERVIEW.md
 ├── CLAUDE.md
-├── STATE.md              # Stage: planning
+├── STATE.md              # Project state (Feature Registry only)
 ├── BACKLOG.md            # Persistent improvements backlog
 └── specs/
     └── {feature}/
         ├── CLAUDE.md     # Feature context (cascading)
         ├── SPEC.md       # Requirements
         ├── RESEARCH.md   # Decisions
-        └── PLAN.md       # Executable plan
+        ├── PLAN.md       # Executable plan
+        └── STATE.md      # Feature state (progress, current state)
 ```
 
 ## Plan Principles
@@ -547,7 +544,7 @@ For large features, use numbered plan files:
 - `{feature}/01-PLAN.md` - First phase
 - `{feature}/02-PLAN.md` - Second phase
 
-Current State in STATE.md is maintained continuously between phases.
+Current State in feature STATE.md is maintained continuously between phases.
 
 ### Optional Artifacts
 
@@ -595,7 +592,10 @@ Create RESEARCH.md (decisions)
 Create PLAN.md (detailed tasks)
     |
     v
-Update STATE.md + feature CLAUDE.md (stage: planning)
+Create feature STATE.md (progress, current state)
+    |
+    v
+Update project STATE.md registry + feature CLAUDE.md
     |
     v
 "Ready to /build?"

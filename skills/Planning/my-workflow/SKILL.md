@@ -76,7 +76,7 @@ During execution, handle discoveries automatically:
 
 ### 4. Living Current State
 
-STATE.md maintains a `## Current State` section that is updated continuously during work. This enables clean session transitions without manual handoff creation.
+Feature STATE.md (`planning/specs/{feature}/STATE.md`) maintains a `## Current State` section that is updated continuously during work. This enables clean session transitions without manual handoff creation.
 
 The Current State captures:
 
@@ -84,7 +84,7 @@ The Current State captures:
 - **What's Not**: Known issues or blockers
 - **Next Steps**: Clear actions for resuming
 
-Session can end at any time; state is already captured.
+Session can end at any time; state is already captured. Feature STATE.md is the handoff document.
 
 ### 5. Stage Awareness
 
@@ -96,15 +96,16 @@ Read STATE.md to understand current stage. Adapt behavior accordingly:
 | **planning** | Focus on specification, ask clarifying questions |
 | **building** | Focus on execution, follow the plan, apply deviation rules |
 
-### 6. Multi-Feature Management
+### 6. Multi-Feature Management (Worktree-First)
 
-<!-- TEMPORARY OVERRIDE: Parallel work mode active. -->
-<!-- Features run in isolated worktrees. No single-active constraint. -->
-<!-- Do NOT pause, switch, or modify other features when starting new work. -->
-<!-- Each worktree manages its own feature independently. -->
-<!-- Remove this override when returning to single-feature focus. -->
+Multiple features run **simultaneously in separate worktrees**. Each worktree owns its feature lifecycle independently. Starting new work does not affect features in other worktrees.
 
-Multiple features can be **active simultaneously** in separate worktrees. Each worktree owns its feature lifecycle independently. Starting new work does not affect features in other worktrees.
+**Two-Level State Architecture:**
+
+- **Project STATE.md** (`planning/STATE.md`): Feature Registry, project decisions, project notes. Shared across all worktrees via main branch.
+- **Feature STATE.md** (`planning/specs/{feature}/STATE.md`): Progress, Current State, Gap Stack, feature decisions/notes. Owned by one worktree, never modified by others.
+
+On merge, feature STATE.md archives with the spec. Project STATE.md registry gets a status update.
 
 **Feature Lifecycle States:**
 
@@ -123,22 +124,24 @@ Multiple features can be **active simultaneously** in separate worktrees. Each w
 | **blocked** | Depends on another feature that isn't complete |
 | **complete** | All tasks verified |
 
-**Feature Registry** (tracked in STATE.md):
+**Feature Registry** (tracked in project STATE.md):
 
 ```markdown
 ## Feature Registry
 
-| Feature | Status | Progress | Dependencies |
-|---------|--------|----------|--------------|
-| user-auth | active | 3/5 | - |
-| dashboard | blocked | 0/4 | user-auth |
-| api-rate | ready | 0/3 | - |
+| Feature   | Type    | Status  | Branch        | Worktree              |
+|-----------|---------|---------|---------------|-----------------------|
+| user-auth | feature | active  | user-auth     | .worktrees/user-auth  |
+| dashboard | feature | blocked | -             | -                     |
+| bug-fix-1 | fix     | active  | bug-fix-1     | .worktrees/bug-fix-1  |
 ```
 
 **Parallel Work Rules:**
 
 - Starting a new feature: proceed directly, do not modify other features' status
 - Each worktree is self-contained; no cross-worktree state changes
+- Worktrees only modify their own feature STATE.md, never project STATE.md during execution
+- Project STATE.md registry is updated only at lifecycle transitions (ready, active, complete)
 - Blocked features still cannot start until dependencies complete
 
 ### 7. Proposal Validation
@@ -160,72 +163,90 @@ Technical standards (coding-standards, security-checklist, model-selection, tech
 
 ## Stage Awareness
 
-The workflow tracks state in `planning/STATE.md`. Always read this file to understand where the project is.
+The workflow uses a **two-level state architecture**:
 
-### STATE.md Structure
+- **Project STATE.md** (`planning/STATE.md`): Read this to see all features and their status.
+- **Feature STATE.md** (`planning/specs/{feature}/STATE.md`): Read this to understand a specific feature's progress and current state.
+
+**Context Detection**: Detect which level to use based on environment:
+
+```bash
+# In a worktree? Use feature STATE.md
+if [ -f .git ]; then
+  FEATURE=$(git branch --show-current)
+  # Read planning/specs/$FEATURE/STATE.md
+else
+  # On main branch. Read planning/STATE.md
+fi
+```
+
+### Project STATE.md Structure
 
 ```markdown
 # Project State
 
-**Stage**: [starting|planning|building|stopping]
 **Last Updated**: [timestamp]
-
-## Active Feature
-
-**Name**: [feature name or "None"]
-**Status**: [drafted|ready|active|paused|blocked|complete]
-**Progress**: [n/m tasks or "-"]
 
 ## Feature Registry
 
-| Feature | Status | Progress | Dependencies |
-|---------|--------|----------|--------------|
-| {name} | {state} | {n/m} | {deps or -} |
-
-## Current Focus
-
-[What we're working on now]
-
-## Progress ({feature-name})
-
-Task progress for the active feature. Copied from PLAN.md when `/build` starts.
-
-- [x] Task 1: {description}
-- [x] Task 2: {description}
-- [~] Task 3: {description} (partial progress note)
-- [ ] Task 4: {description}
-- [ ] Task 5: {description}
-
-Markers:
-- `[x]` = completed
-- `[ ]` = pending
-- `[~]` = in progress (with note)
+| Feature | Type | Status | Branch | Worktree |
+|---------|------|--------|--------|----------|
+| {name} | {feature/fix} | {status} | {branch} | {worktree-path} |
 
 ## Decisions
 
 - [Decision]: [Rationale]
 
-## Blockers
-
-- [Any blocking issues]
-
 ## Notes
 
-- [Discovery or deviation notes from execution]
+- [Discovery or deviation notes]
+```
+
+### Feature STATE.md Structure
+
+```markdown
+# {Feature Name} State
+
+**Stage**: [planning|building]
+**Last Updated**: [timestamp]
+
+## Progress
+
+- [x] Task 1: {description}
+- [~] Task 2: {description} (partial progress note)
+- [ ] Task 3: {description}
+
+Markers: [x] completed, [ ] pending, [~] in progress (with note)
+
+## Current State
+
+### What's Working
+### What's Not Working
+### Next Steps
+### Open Questions
+
+## Gap Stack
+### Active Gap
+### Gap History
+
+## Decisions
+## Notes
 ```
 
 ### Stage Transitions
 
 ```
-/start → STATE.md created with stage: starting
-       → Transitions to planning after OVERVIEW.md complete
+/start → Project STATE.md created (Feature Registry)
 
-/plan → stage: planning
-      → Transitions to building after plan approved
+/plan  → Feature STATE.md created (stage: planning)
+       → Project registry updated (status: ready)
 
-/build → stage: building
-       → Stays in building until plan complete
-       → Current State in STATE.md updated continuously
+/build → Feature STATE.md updated (stage: building)
+       → Project registry updated (status: active)
+       → Feature Current State updated continuously
+
+merge  → Feature STATE.md archives with spec
+       → Project registry updated (status: complete)
 ```
 
 ---
@@ -258,7 +279,7 @@ Workflow definitions are in `workflows/` subdirectory:
 planning/
 ├── CLAUDE.md        # Planning context (cascading)
 ├── OVERVIEW.md      # Project vision (created by /start)
-├── STATE.md         # Living state (updated continuously)
+├── STATE.md         # Project state: Feature Registry, decisions, notes
 ├── BACKLOG.md       # Persistent improvements backlog
 ├── CODEBASE.md      # Brownfield analysis (if applicable)
 └── specs/
@@ -267,6 +288,7 @@ planning/
         ├── SPEC.md         # Requirements
         ├── RESEARCH.md     # Decisions
         ├── PLAN.md         # Executable plan (detailed tasks)
+        ├── STATE.md        # Feature state: progress, current state, gap stack
         ├── data-model.md   # (optional) Entity schemas
         ├── contract.md     # (optional) API specifications
         ├── design-options.md # (optional) Architectural alternatives
@@ -298,7 +320,7 @@ When you encounter something unexpected during `/build`:
 
 When a plan-modifying gap is detected:
 
-1. **PRESERVE**: Push current task context to Gap Stack in STATE.md
+1. **PRESERVE**: Push current task context to Gap Stack in feature STATE.md
 2. **SCOPE**: Assess impact - new task? different feature?
 3. **MODIFY**: Update PLAN.md if needed (mark "Added via Gap Protocol")
 4. **EXECUTE**: Complete the gap task
