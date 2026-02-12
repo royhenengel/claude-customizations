@@ -85,20 +85,32 @@ npm test / cargo test / pytest / go test ./...
 
 **If tests fail:** Report failures, ask whether to proceed or investigate.
 
-### 5. Open VS Code Window
+### 5. Open VS Code Window with Claude
+
+Open a new VS Code window, launch the Claude panel, and auto-submit `/plan`:
 
 ```bash
-code --new-window "$worktree_path"
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --new-window "$worktree_path" && sleep 2 && osascript -e '
+tell application "System Events"
+    key code 53 using {command down, shift down}
+    delay 3
+    keystroke "/plan"
+    delay 0.5
+    key code 36
+end tell'
 ```
 
-This opens the worktree in a new VS Code window with full editor context (sidebar, git status, terminal all on the feature branch).
+This opens the worktree in a new VS Code window, opens the Claude Code panel (Cmd+Shift+Esc), types `/plan`, and submits it. Total delay: ~5.5s.
+
+**Prerequisite:** Terminal (or the parent process) must have Accessibility access in System Settings > Privacy & Security > Accessibility for `osascript` keystroke injection to work.
+
+**Fallback:** If the AppleScript fails (permissions, timing), fall back to opening the window without auto-submit and instruct the user to run `/plan` manually.
 
 ### 6. Report and Hand Off
 
 ```
 Worktree ready at <full-path>
-VS Code window opened.
-Continue with /plan in the new window.
+VS Code window opened with Claude — /plan submitted.
 ```
 
 ## Quick Reference

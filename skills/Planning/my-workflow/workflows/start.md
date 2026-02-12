@@ -114,10 +114,10 @@ What would you like to do?
 After user picks from backlog or describes new work:
 
 1. Derive a kebab-case worktree name from the selection
-2. Create worktree using `/git-worktrees` with that name
-3. Once VS Code opens in the new worktree, instruct user to run `/plan` there
+2. Register the feature in `planning/STATE.md` Feature Registry (status: `drafted`, type: `feature`, branch and worktree path)
+3. Create worktree using `/git-worktrees` with that name (auto-opens VS Code, launches Claude, submits `/plan`)
 
-Do NOT ask additional questions. Proceed directly to worktree creation.
+Do NOT ask additional questions. Proceed directly to registration and worktree creation.
 
 **Option 2 - Fix an issue:**
 
@@ -139,9 +139,9 @@ Active worktrees:
 Open which worktree?
 ```
 
-Open selected worktree in VS Code:
+Open selected worktree in VS Code with Claude panel:
 ```bash
-code --new-window "{worktree-path}"
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --new-window "{worktree-path}" && sleep 2 && osascript -e 'tell application "System Events" to key code 53 using {command down, shift down}'
 ```
 
 ### 2. Create Directory Structure
