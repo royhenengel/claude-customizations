@@ -24,6 +24,7 @@
 | everything-claude-code-migration | feature | complete | - | - |
 | reddit-mcp-server | feature | complete | - | - |
 | auto-trigger-fix | fix | complete | - | - |
+| instruction-compliance | fix | active | instruction-compliance | ~/worktrees/claude-customizations/instruction-compliance |
 
 ## Decisions
 
