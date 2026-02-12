@@ -314,9 +314,15 @@ During execution, handle discoveries automatically:
 
 **After applying deviation rules 1-3**, if the fix involved a non-trivial root cause:
 
-Automatically invoke `/compound` with the deviation context (what triggered it, what was fixed, why). Do not prompt the user. The solution document is written to `planning/solutions/` automatically.
+Automatically invoke `/compound` with the deviation context (what triggered it, what was fixed, why). If `/compound` fails for any reason, log a note and continue. Do not block the /build workflow.
 
-Skip for trivial fixes (missing imports, typos, obvious config errors).
+Do not prompt the user. After capture completes, display:
+
+```text
+Solution captured: planning/solutions/{category}/{filename}.md
+```
+
+Skip for trivial fixes (typos, missing imports, obvious errors).
 
 ### Deviation Examples
 

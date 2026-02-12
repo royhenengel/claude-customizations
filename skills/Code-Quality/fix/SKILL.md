@@ -224,11 +224,17 @@ Evaluate if the fix reveals something convention-worthy:
 
 If the fix involved a non-trivial root cause (not a typo, missing import, or obvious error):
 
-Automatically invoke `/compound` with context from this fix session. Pass the root cause analysis from Step 5 as context.
+Automatically invoke `/compound` with context from this fix session. Pass the root cause analysis from Step 5 as context. If `/compound` fails for any reason, log a note and continue. Do not block the /fix workflow.
 
-Do not prompt the user. The solution document is written to `planning/solutions/` automatically. The user can review, edit, or delete solutions at any time.
+Do not prompt the user. After capture completes, display:
 
-Skip this step for trivial fixes (typos, missing imports, obvious syntax errors).
+```text
+Solution captured: planning/solutions/{category}/{filename}.md
+```
+
+The user can review, edit, or delete solutions at any time.
+
+Skip for trivial fixes (typos, missing imports, obvious errors).
 
 ## Step 10: Finalize Changes
 
