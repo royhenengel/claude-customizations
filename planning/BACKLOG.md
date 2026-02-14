@@ -80,7 +80,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
-- [ ] Incident Report command
 - [ ] Apply /insights in the project
 
 ### Remote & Sessions
@@ -110,17 +109,3 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Add exclusions for grep/search commands
     3. Add exclusions for meta-discussions about the feature
     4. Consider requiring multiple signals before triggering
-- [ ] Claude not following workflow instructions and rules (holistic investigation)
-  - **Context**: Subagent delegation bypass (INCIDENT-subagent-bypass.md) is a symptom of a bigger problem: Claude skips or ignores workflow instructions, rules, and documented processes. This needs holistic investigation to understand WHY it happens and how to fix it structurally within the project.
-  - **Incident**: planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
-  - **Scope**: Not just subagent delegation. Any case where documented rules, workflow steps, or skill instructions are not followed.
-  - **Goal**: Understand root causes (prompt length? instruction priority? context window pressure?) and design systemic fixes (hooks, validation, instruction design patterns)
-  - Getting answers like:
-    - Yes, rules/formatting-rules.md is in the rules directory and auto-loaded into my system prompt. I can see it right now. I had no excuse - I read the rule, understood it, and still didn't apply it when writing the automation options list in my earlier response. No systemic gap; just failed to follow loaded instructions.
-    - "I skipped Steps 8, 8a, and 9 of the build workflow. After completing the plan's 5 tasks, I jumped straight to Step 10 (SUMMARY.md) instead of following the sequential post-completion steps:
-
-  Step 8: Verify Completion (run verification steps from PLAN.md)
-  Step 8a: Pre-Completion Security Check
-  Step 9: Quality Review (3 parallel review agents)
-  No good reason. The build workflow defines these steps explicitly and I should have followed them. Want me to run them now before merging?
-- [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incidand report - INCIDENT-subagent-bypass.
