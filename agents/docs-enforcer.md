@@ -33,7 +33,7 @@ Default mode. Scan and report.
    - Check content against the template for that type (required sections present?)
    - Check for staleness indicators (outdated counts, broken links, stale references)
 5. Validate template-based documents against their templates:
-   - Compare each STATE.md against `templates/project-state-template.md` or `templates/feature-state-template.md`
+   - Compare each STATE.md against `templates/project-state-template.md` or `templates/feature-progress-template.md`
    - Check required sections exist, field formats match (e.g. `**Stage**:`, `**Type**:`, `**Last Updated**:`)
    - Flag missing sections, extra sections, or mismatched structure
    - Apply to any document that has a corresponding template in `templates/`

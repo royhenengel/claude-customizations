@@ -19,8 +19,8 @@ Visual maps of every decision point and path through each workflow command.
 | Entry State | Path | Outcome |
 |---|---|---|
 | No planning/ directory | New project setup | Structure created, OVERVIEW.md guided, first feature offered |
-| Worktree + feature STATE.md | Resume | Shows status, suggests /build |
-| Worktree + no STATE.md | New feature | Suggests /plan |
+| Worktree + feature PROGRESS.md | Resume | Shows status, suggests /build |
+| Worktree + no PROGRESS.md | New feature | Suggests /plan |
 | Main branch | Dashboard | Shows features in flight + backlog, offers Plan/Fix/Switch |
 
 ### Main Branch Options
@@ -53,7 +53,7 @@ flowchart TD
     ENV -->|"Worktree"| WT_BRANCH["Get branch name"]
     ENV -->|"Main"| MAIN_READ["Read Feature Registry\nDiscover worktrees"]
 
-    WT_BRANCH --> WT_STATE{"Feature STATE.md?"}
+    WT_BRANCH --> WT_STATE{"Feature PROGRESS.md?"}
     WT_STATE -->|"Exists"| WT_RESUME["Show status, suggest /build"]
     WT_STATE -->|"Missing"| WT_NEW["Suggest /plan"]
 
@@ -101,7 +101,7 @@ flowchart TD
 ```
 Backlog → Selection → Clarify (if needed) → Create directory
   → CLAUDE.md → SPEC.md → Validate → RESEARCH.md → PLAN.md
-  → Feature STATE.md → Update registry → Ready for /build
+  → Feature PROGRESS.md → Update registry → Ready for /build
 ```
 
 ### Selection Types
@@ -139,7 +139,7 @@ flowchart TD
     USE_SPEC --> CREATE
 
     CREATE --> DOCS["CLAUDE.md → SPEC.md → RESEARCH.md → PLAN.md"]
-    DOCS --> STATE["Feature STATE.md + registry"]
+    DOCS --> STATE["Feature PROGRESS.md + registry"]
     STATE --> DONE["Ready for /build"]
 ```
 
@@ -165,9 +165,9 @@ flowchart TD
 
 | Rule | Trigger | Action | Blocks? |
 |---|---|---|---|
-| 1. Bug | Wrong output, failed test | Auto-fix, note in STATE.md | No |
-| 2. Critical | Security/correctness gap | Auto-add, note in STATE.md | No |
-| 3. Blocker | Missing dep, bad import | Auto-fix, note in STATE.md | No |
+| 1. Bug | Wrong output, failed test | Auto-fix, note in PROGRESS.md | No |
+| 2. Critical | Security/correctness gap | Auto-add, note in PROGRESS.md | No |
+| 3. Blocker | Missing dep, bad import | Auto-fix, note in PROGRESS.md | No |
 | 4. Architectural | Technology/scope/structure change | STOP, ask user | Yes |
 | 5. Enhancement | Nice-to-have idea | Log to BACKLOG.md | No |
 | 6. Gap | Plan ordering issue | Gap Protocol | Depends |
@@ -196,7 +196,7 @@ flowchart TD
     ENV -->|"Worktree"| AUTO["Auto-detect from branch"]
     ENV -->|"Main"| REGISTRY["Show registry, select"]
 
-    AUTO --> LOAD["Read STATE.md + PLAN.md"]
+    AUTO --> LOAD["Read PROGRESS.md + PLAN.md"]
     REGISTRY --> LOAD
 
     LOAD --> RESUME{"Resume?"}
@@ -207,7 +207,7 @@ flowchart TD
     FRESH --> EXEC
 
     EXEC --> TASK["Select agent → Launch → Deviation rules"]
-    TASK --> UPDATE["Update STATE.md"]
+    TASK --> UPDATE["Update PROGRESS.md"]
     UPDATE --> MORE{"More?"}
     MORE -->|"Yes"| TASK
     MORE -->|"No"| VERIFY["Verify + Review + Summary"]
@@ -226,7 +226,7 @@ flowchart TD
 
 | Entry State | Scenario | State Tracking | Steps | Completion |
 |---|---|---|---|---|
-| Fix worktree (Type: fix or no STATE.md) | A | Full fix STATE.md | 1-10 | Branch + PR + merge + cleanup |
+| Fix worktree (Type: fix or no PROGRESS.md) | A | Full fix PROGRESS.md | 1-10 | Branch + PR + merge + cleanup |
 | Feature worktree (Type: feature), related | B (related) | Feature Notes section | 2-8 only | Part of feature /build |
 | Feature worktree, unrelated | B (unrelated) | None | N/A | BACKLOG or new worktree |
 | Main branch | Main | None | 1-10 | Branch + PR + merge |
@@ -250,7 +250,7 @@ Step 10: Create branch → Commit → Push → PR → Review → Merge
 ### In-Feature Fix (Scenario B-related)
 
 ```
-Steps 2-8 only → Track in feature STATE.md Notes
+Steps 2-8 only → Track in feature PROGRESS.md Notes
 Skip Steps 9a + 10 → Fix committed with feature /build
 ```
 
@@ -267,7 +267,7 @@ flowchart TD
 
     DETECT --> ENV{"Environment?"}
     ENV -->|"Main"| MAIN["Full 10-step, branch in Step 10"]
-    ENV -->|"Worktree"| STATE{"STATE.md type?"}
+    ENV -->|"Worktree"| STATE{"PROGRESS.md type?"}
 
     STATE -->|"fix / none"| A["Scenario A: Fix worktree"]
     STATE -->|"feature"| B["Scenario B: Feature worktree"]
