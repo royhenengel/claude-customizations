@@ -93,7 +93,7 @@ Convention-based detection (more workflow-friendly):
 ```bash
 # Derive feature name from branch, check for feature spec
 branch=$(git branch --show-current)
-if [ -d "planning/specs/$branch/STATE.md" ]; then
+if [ -d "planning/specs/$branch/PROGRESS.md" ]; then
   echo "Feature worktree with state"
 fi
 ```
@@ -126,10 +126,10 @@ fi
 - (project-level notes only)
 ```
 
-**Feature STATE.md** (`planning/specs/{feature}/STATE.md`) - lives in worktree, tracks feature-level reality:
+**Feature PROGRESS.md** (`planning/specs/{feature}/PROGRESS.md`) - lives in worktree, tracks feature-level reality:
 
 ```markdown
-# {Feature} State
+# {Feature} Progress
 
 **Stage**: building
 **Last Updated**: {timestamp}
@@ -170,16 +170,16 @@ fi
 ### Merge Strategy
 
 When feature merges to main:
-1. Feature STATE.md archives with the spec (already in `planning/specs/{feature}/`)
+1. Feature PROGRESS.md archives with the spec (already in `planning/specs/{feature}/`)
 2. Main's Feature Registry gets a one-line status update: `status → complete`
 3. Zero conflict because worktree only touches its feature files
 
 ### Fix State (Lightweight Variant)
 
-Fixes that get their own worktree need state tracking but don't require the full planning cycle (no SPEC.md, RESEARCH.md, or PLAN.md). The fix STATE.md maps to /fix's own investigation steps:
+Fixes that get their own worktree need state tracking but don't require the full planning cycle (no SPEC.md, RESEARCH.md, or PLAN.md). The fix PROGRESS.md maps to /fix's own investigation steps:
 
 ```markdown
-# {Fix Name} State
+# {Fix Name} Progress
 
 **Type**: fix
 **Stage**: investigating | proposed | implementing | verifying
@@ -209,7 +209,7 @@ Fixes that get their own worktree need state tracking but don't require the full
 ...
 ```
 
-This is lighter than a feature STATE.md (no Gap Stack, no Progress checklist) but sufficient for handoff.
+This is lighter than a feature PROGRESS.md (no Gap Stack, no Progress checklist) but sufficient for handoff.
 
 ### Context-Aware Workflow Behavior
 
@@ -218,12 +218,12 @@ Each workflow command detects context and routes accordingly:
 | Context | How Detected | STATE.md Used |
 |---------|-------------|---------------|
 | Main branch | `.git` is a directory | `planning/STATE.md` (project) |
-| Feature worktree | `.git` is a file + branch has matching spec | `planning/specs/{feature}/STATE.md` |
-| Fix worktree | `.git` is a file + branch has matching spec with type=fix | `planning/specs/{fix}/STATE.md` |
+| Feature worktree | `.git` is a file + branch has matching spec | `planning/specs/{feature}/PROGRESS.md` |
+| Fix worktree | `.git` is a file + branch has matching spec with type=fix | `planning/specs/{fix}/PROGRESS.md` |
 
 ### What Goes Where
 
-| Concern | Project STATE.md | Feature STATE.md |
+| Concern | Project STATE.md | Feature PROGRESS.md |
 |---------|-----------------|-----------------|
 | Feature Registry | Yes | No |
 | Project-level decisions | Yes | No |
@@ -240,14 +240,14 @@ Each workflow command detects context and routes accordingly:
 | # | Decision | Rationale |
 |---|----------|-----------|
 | D1 | Two-level state (project + feature) | Eliminates merge conflicts structurally by separating concerns into different files |
-| D2 | Feature STATE.md lives in `planning/specs/{feature}/` | Co-located with other feature artifacts (SPEC, PLAN, RESEARCH), archives naturally |
+| D2 | Feature PROGRESS.md lives in `planning/specs/{feature}/` | Co-located with other feature artifacts (SPEC, PLAN, RESEARCH), archives naturally |
 | D3 | Worktree detection via `.git` file check | Simple, reliable, no false positives |
 | D4 | Branch name = feature name convention | Already established by git-worktrees skill, enables automatic feature detection |
 | D5 | Doc-enforcer runs as Step 9a (after quality review) | Documentation issues should be caught before SUMMARY.md creation |
 | D6 | PR reviewers run during Step 13 (finalization) | PR review happens at PR creation time, natural integration point |
-| D7 | Project STATE.md simplified to registry-only | Feature-specific content moved to feature STATE.md, main stays clean |
+| D7 | Project STATE.md simplified to registry-only | Feature-specific content moved to feature PROGRESS.md, main stays clean |
 | D8 | Remove all temporary overrides | Multi-worktree is the permanent default, not a temporary mode |
 | D9 | /fix gets state awareness for worktree-based fixes | Scenario B (substantial fixes in worktrees) is common; state must be handoff-quality |
 | D10 | Feature Registry gets Type column (feature/fix) | Distinguishes full features from fixes in the registry, clarifies project state at a glance |
 | D11 | /fix and /build share completion flow (doc-enforcer + PR reviewers) | Avoid duplication; both workflows end with the same quality gates |
-| D12 | Fix STATE.md is lighter than feature STATE.md | Fixes don't need Gap Stack or Progress checklist; /fix has its own 10-step structure |
+| D12 | Fix PROGRESS.md is lighter than feature PROGRESS.md | Fixes don't need Gap Stack or Progress checklist; /fix has its own 10-step structure |

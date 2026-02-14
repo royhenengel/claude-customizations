@@ -6,9 +6,9 @@ Redesign the workflow state management system so that STATE.md accurately reflec
 
 ## User Stories
 
-- As a developer, I want STATE.md in my worktree to reflect my feature's exact state so that any new session can pick up seamlessly
+- As a developer, I want PROGRESS.md in my worktree to reflect my feature's exact state so that any new session can pick up seamlessly
 - As a developer, I want STATE.md on main to reflect the project-level reality so I can see what's in flight and what's merged
-- As a developer, I want merging a completed feature to never create STATE.md conflicts
+- As a developer, I want merging a completed feature to never create state file conflicts
 - As a developer, I want every workflow step (/start, /plan, /build, /fix) to work correctly in a worktree context
 - As a developer, I want doc-enforcer and PR reviewers to run automatically at the end of /build and /fix
 - As a developer, I want /fix to track state so I can resume a fix across sessions
@@ -18,17 +18,17 @@ Redesign the workflow state management system so that STATE.md accurately reflec
 
 ### Functional
 
-- [ ] Feature-scoped state: each feature gets `planning/specs/{feature}/STATE.md` for detailed feature state
+- [ ] Feature-scoped state: each feature gets `planning/specs/{feature}/PROGRESS.md` for detailed feature state
 - [ ] Project-level state: main's `planning/STATE.md` contains only feature registry, decisions, and project-wide info
 - [ ] Worktrees only modify their feature's state file, never main's STATE.md
-- [ ] On merge: feature STATE.md archives with the spec, main's registry gets a status update
+- [ ] On merge: feature PROGRESS.md archives with the spec, main's registry gets a status update
 - [ ] All workflow commands (/start, /plan, /build, /fix) are context-aware (detect worktree vs main)
 - [ ] /build completion flow includes doc-enforcer agent and PR reviewer agents
-- [ ] /fix creates lightweight state (fix STATE.md) for worktree-based fixes
+- [ ] /fix creates lightweight state (fix PROGRESS.md) for worktree-based fixes
 - [ ] /fix completion flow includes doc-enforcer and PR reviewers (shared with /build)
 - [ ] Feature Registry includes Type column (feature vs fix) for distinguishability
 - [ ] Workflow audit: every step in /start, /plan, /build, /fix reviewed and updated for multi-worktree reality
-- [ ] Feature STATE.md is handoff-quality: accurate enough for a fresh session to orient and continue
+- [ ] Feature PROGRESS.md is handoff-quality: accurate enough for a fresh session to orient and continue
 
 ### Non-Functional
 
@@ -46,8 +46,8 @@ Redesign the workflow state management system so that STATE.md accurately reflec
 ## Success Criteria
 
 - [ ] STATE.md in main accurately reflects project-level reality (registry, what's merged, what's in flight)
-- [ ] STATE.md in each worktree accurately reflects that feature's progress (current task, what's working, next steps)
-- [ ] Merging a completed feature into main creates zero STATE.md conflicts
+- [ ] PROGRESS.md in each worktree accurately reflects that feature's progress (current task, what's working, next steps)
+- [ ] Merging a completed feature into main creates zero state file conflicts
 - [ ] Every workflow flow (/start, /plan, /build, /fix) reviewed and updated for multi-worktree reality
 - [ ] Doc-enforcer and PR reviewers run as part of /build and /fix completion
 - [ ] /fix tracks state in worktree environments for session handoff

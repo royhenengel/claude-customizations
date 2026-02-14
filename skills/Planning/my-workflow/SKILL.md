@@ -53,9 +53,9 @@ Quality degrades at ~40-50% context - not 80%.
 
 **Critical insight:** Claude enters "completion mode" at ~40-50% when it sees context mounting. By 80%, quality has already crashed.
 
-**Solution:** Current State in STATE.md is maintained continuously. Session can end cleanly at any time without manual handoff creation.
+**Solution:** Current State in PROGRESS.md is maintained continuously. Session can end cleanly at any time without manual handoff creation.
 
-**Practical rule:** If context is filling, mention it to the user. State is already captured in STATE.md.
+**Practical rule:** If context is filling, mention it to the user. State is already captured in PROGRESS.md.
 
 ### 3. Deviation Rules
 
@@ -63,7 +63,7 @@ During execution, handle discoveries automatically:
 
 | Rule | Trigger | Action |
 |------|---------|--------|
-| **1. Auto-fix bugs** | Broken behavior found | Fix immediately, document in STATE.md |
+| **1. Auto-fix bugs** | Broken behavior found | Fix immediately, document in PROGRESS.md |
 | **2. Auto-add critical** | Security/correctness gap | Add immediately, document |
 | **3. Auto-fix blockers** | Can't proceed | Fix immediately, document |
 | **4. Ask about architectural** | Major structural change | Stop and ask user |
@@ -76,7 +76,7 @@ During execution, handle discoveries automatically:
 
 ### 4. Living Current State
 
-Feature STATE.md (`planning/specs/{feature}/STATE.md`) maintains a `## Current State` section that is updated continuously during work. This enables clean session transitions without manual handoff creation.
+Feature PROGRESS.md (`planning/specs/{feature}/PROGRESS.md`) maintains a `## Current State` section that is updated continuously during work. This enables clean session transitions without manual handoff creation.
 
 The Current State captures:
 
@@ -84,7 +84,7 @@ The Current State captures:
 - **What's Not**: Known issues or blockers
 - **Next Steps**: Clear actions for resuming
 
-Session can end at any time; state is already captured. Feature STATE.md is the handoff document.
+Session can end at any time; state is already captured. Feature PROGRESS.md is the handoff document.
 
 ### 5. Stage Awareness
 
@@ -103,9 +103,9 @@ Multiple features run **simultaneously in separate worktrees**. Each worktree ow
 **Two-Level State Architecture:**
 
 - **Project STATE.md** (`planning/STATE.md`): Feature Registry, project decisions, project notes. Shared across all worktrees via main branch.
-- **Feature STATE.md** (`planning/specs/{feature}/STATE.md`): Progress, Current State, Gap Stack, feature decisions/notes. Owned by one worktree, never modified by others.
+- **Feature PROGRESS.md** (`planning/specs/{feature}/PROGRESS.md`): Progress, Current State, Gap Stack, feature decisions/notes. Owned by one worktree, never modified by others.
 
-On merge, feature STATE.md archives with the spec. Project STATE.md registry gets a status update.
+On merge, feature PROGRESS.md archives with the spec. Project STATE.md registry gets a status update.
 
 **Feature Lifecycle States:**
 
@@ -140,7 +140,7 @@ On merge, feature STATE.md archives with the spec. Project STATE.md registry get
 
 - Starting a new feature: proceed directly, do not modify other features' status
 - Each worktree is self-contained; no cross-worktree state changes
-- Worktrees only modify their own feature STATE.md, never project STATE.md during execution
+- Worktrees only modify their own feature PROGRESS.md, never project STATE.md during execution
 - Project STATE.md registry is updated only at lifecycle transitions (ready, active, complete)
 - Blocked features still cannot start until dependencies complete
 
@@ -166,15 +166,15 @@ Technical standards (coding-standards, security-checklist, model-selection, tech
 The workflow uses a **two-level state architecture**:
 
 - **Project STATE.md** (`planning/STATE.md`): Read this to see all features and their status.
-- **Feature STATE.md** (`planning/specs/{feature}/STATE.md`): Read this to understand a specific feature's progress and current state.
+- **Feature PROGRESS.md** (`planning/specs/{feature}/PROGRESS.md`): Read this to understand a specific feature's progress and current state.
 
 **Context Detection**: Detect which level to use based on environment:
 
 ```bash
-# In a worktree? Use feature STATE.md
+# In a worktree? Use feature PROGRESS.md
 if [ -f .git ]; then
   FEATURE=$(git branch --show-current)
-  # Read planning/specs/$FEATURE/STATE.md
+  # Read planning/specs/$FEATURE/PROGRESS.md
 else
   # On main branch. Read planning/STATE.md
 fi
@@ -202,7 +202,7 @@ fi
 - [Discovery or deviation notes]
 ```
 
-### Feature STATE.md Structure
+### Feature PROGRESS.md Structure
 
 ```markdown
 # {Feature Name} State
@@ -238,14 +238,14 @@ Markers: [x] completed, [ ] pending, [~] in progress (with note)
 ```
 /start → Project STATE.md created (Feature Registry)
 
-/plan  → Feature STATE.md created (stage: planning)
+/plan  → Feature PROGRESS.md created (stage: planning)
        → Project registry updated (status: ready)
 
-/build → Feature STATE.md updated (stage: building)
+/build → Feature PROGRESS.md updated (stage: building)
        → Project registry updated (status: active)
        → Feature Current State updated continuously
 
-merge  → Feature STATE.md archives with spec
+merge  → Feature PROGRESS.md archives with spec
        → Project registry updated (status: complete)
 ```
 
@@ -271,7 +271,7 @@ Workflow definitions are in `workflows/` subdirectory:
 |---------|-------------|--------|
 | `/start` | Beginning a new project | `planning/OVERVIEW.md`, `STATE.md` |
 | `/plan` | Ready to plan work | `planning/ROADMAP.md`, specs |
-| `/build` | Plan approved, ready to execute | Code changes, STATE.md updates |
+| `/build` | Plan approved, ready to execute | Code changes, PROGRESS.md updates |
 
 ### Project Structure
 
@@ -288,7 +288,7 @@ planning/
         ├── SPEC.md         # Requirements
         ├── RESEARCH.md     # Decisions
         ├── PLAN.md         # Executable plan (detailed tasks)
-        ├── STATE.md        # Feature state: progress, current state, gap stack
+        ├── PROGRESS.md     # Feature progress: progress, current state, gap stack
         ├── data-model.md   # (optional) Entity schemas
         ├── contract.md     # (optional) API specifications
         ├── design-options.md # (optional) Architectural alternatives
@@ -309,9 +309,9 @@ Before writing code during `/build`:
 
 When you encounter something unexpected during `/build`:
 
-1. **Bug?** (code logic error) → Fix it, note in STATE.md
-2. **Security gap?** → Fix it, note in STATE.md
-3. **Blocker?** (environment/setup issue) → Fix it, note in STATE.md
+1. **Bug?** (code logic error) → Fix it, note in PROGRESS.md
+2. **Security gap?** → Fix it, note in PROGRESS.md
+3. **Blocker?** (environment/setup issue) → Fix it, note in PROGRESS.md
 4. **Architecture change?** → STOP. Ask user.
 5. **Enhancement idea?** → Add to BACKLOG.md, continue
 6. **Gap?** (plan ordering issue) → Invoke Gap Protocol
@@ -320,7 +320,7 @@ When you encounter something unexpected during `/build`:
 
 When a plan-modifying gap is detected:
 
-1. **PRESERVE**: Push current task context to Gap Stack in feature STATE.md
+1. **PRESERVE**: Push current task context to Gap Stack in feature PROGRESS.md
 2. **SCOPE**: Assess impact - new task? different feature?
 3. **MODIFY**: Update PLAN.md if needed (mark "Added via Gap Protocol")
 4. **EXECUTE**: Complete the gap task
@@ -330,7 +330,7 @@ For user-initiated additions ("also add X"), always show impact assessment befor
 
 ### Context Health
 
-Monitor context usage. STATE.md Current State is maintained continuously, so session can end cleanly at any time.
+Monitor context usage. PROGRESS.md Current State is maintained continuously, so session can end cleanly at any time.
 
 When approaching 50%:
 
