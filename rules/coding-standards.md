@@ -30,12 +30,7 @@ const UserSchema = z.object({
 
 ## Size Limits
 
-| Metric | Limit | Rationale |
-|--------|-------|-----------|
-| File length | 200 lines (soft), 400 max | Readability |
-| Function length | 50 lines | Single responsibility |
-| Nesting depth | 4 levels | Cognitive load |
-| Parameters | 5 per function | Complexity signal |
+Functions <50 lines, files 200 (soft)/400 max, nesting <4 levels, parameters <5.
 
 ## Data Integrity
 
@@ -49,10 +44,7 @@ When generating summary statistics, counts, or aggregates from source data (tabl
 Before completion:
 
 - [ ] Names are descriptive (not i, j, x, temp)
-- [ ] Functions under 50 lines
-- [ ] Files under 400 lines
-- [ ] Nesting under 4 levels
-- [ ] Error handling complete
+- [ ] No hardcoded paths
 - [ ] No console.log/debugger statements
 - [ ] No magic numbers (use named constants)
 - [ ] Immutable patterns used

@@ -12,6 +12,16 @@
             "type": "command",
             "command": "exit 0 # DISABLED(buggy): node ~/.claude/hooks/scripts/user-issue-hook.js",
             "timeout": 5000
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/scripts/hooks/build-completion-guard.sh",
+            "timeout": 2000
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/scripts/hooks/context-compaction-guard.sh",
+            "timeout": 2000
           }
         ]
       }

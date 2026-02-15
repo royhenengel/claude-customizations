@@ -39,7 +39,13 @@ This applies universally: code changes, file organization, data categorization, 
 3. Unstage unrelated changes before proceeding
 4. Never assume pre-staged changes are intentional
 
+## Documentation Is Source of Truth
+
+When code behavior and documentation conflict, treat documentation as the intended behavior and fix the code. Update documentation when changing intended behavior.
+
 ## Verification Before Recommendation
+
+CRITICAL: Never present unverified solutions as validated options.
 
 **Trigger:** Any request for a solution, fix, or recommendation.
 

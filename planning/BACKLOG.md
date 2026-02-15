@@ -54,6 +54,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Skill & Agent Architecture
 
+<<<<<<< HEAD
+- [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incident report - INCIDENT-subagent-bypass.md
+=======
+>>>>>>> origin/main
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
@@ -106,3 +110,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Add exclusions for grep/search commands
     3. Add exclusions for meta-discussions about the feature
     4. Consider requiring multiple signals before triggering
+- [x] Claude not following workflow instructions and rules (holistic investigation)
+  - **Status**: Addressed by instruction-compliance fix (PR #11). Pruned rules, split build.md into phases, added CRITICAL markers, rationalizations tables, and enforcement hooks.
+  - **Context**: Subagent delegation bypass (INCIDENT-subagent-bypass.md) is a symptom of a bigger problem: Claude skips or ignores workflow instructions, rules, and documented processes.
+  - **Incident**: planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md

@@ -2,46 +2,11 @@
 
 **Domain:** Technical decisions - tool selection, MCP servers, installation patterns, and performance optimization.
 
-## Design Philosophy
-
-Every customization is a self-contained, reusable unit with a single clear responsibility. No cross-dependencies unless explicitly documented.
-
-Documentation is the source of truth. Every skill needs complete SKILL.md frontmatter, every agent needs a descriptive .md file.
-
-YAGNI applies. Prefer editing existing skills over creating new ones. Each skill should do one thing well.
-
 ## Consistency Principle
 
-Consistency reduces cognitive load and maintenance burden. When adding new components, existing patterns are the default starting point.
+Follow existing patterns unless a compelling reason exists to deviate. Prefer editing existing skills over creating new ones. Consistency is a consideration, not a hard constraint. Deviation is justified by meaningful improvements in performance, reliability, security, community support, or critical missing features. Minor differences (syntax preferences, slight convenience) do not justify inconsistency.
 
-Technical consistency is a **consideration**, not a hard constraint. The goal is informed decision-making, not uniformity for its own sake.
-
-## When Evaluating Options
-
-1. **Identify the existing pattern** (if one exists)
-2. **Surface consistency as a factor** in the comparison
-3. **Evaluate if alternatives bring additional value** that justifies deviation
-4. **Document the decision** with rationale
-
-## Decision Framework
-
-| Scenario | Action |
-|----------|--------|
-| Existing pattern works well, no compelling alternative | Follow the pattern |
-| Alternative offers meaningful value | Evaluate trade-off, document decision |
-| No existing pattern | Establish one thoughtfully |
-
-## What Counts as "Meaningful Value"
-
-Deviation may be justified when an alternative provides:
-
-- Significantly better performance or reliability
-- Critical features not available in the consistent option
-- Substantially higher community adoption or support
-- Better long-term maintenance outlook
-- Security or compliance advantages
-
-Minor differences (syntax preferences, slight convenience) typically don't justify inconsistency.
+When deviating: identify the existing pattern, evaluate the trade-off, and document the rationale.
 
 ## Hard Rules
 
@@ -88,43 +53,12 @@ Applies to skills, agents, and MCP servers:
 
 ## Scaling Considerations
 
-- **Skills** only load when relevant. Unused ones don't cost much. Install freely.
-- **Agents** are just available options until invoked. Install freely.
-- **MCP Servers** are active dependencies. Be selective.
+Skills and agents load on-demand. Install freely. MCP servers are active dependencies. Be selective.
 
 ## Performance Tips
 
-For multi-step data operations across MCP servers (querying, filtering, aggregating), prefer using **code-executor's `execute_code` tool** instead of calling MCP tools directly. This reduces token usage by ~98% by:
-
-- Loading tool schemas on-demand instead of all upfront
-- Filtering/transforming data in JavaScript before returning to context
-- Using native loops instead of chained tool calls
-
-Example use cases:
-
-- Query 100 Notion resources, filter to 5 videos -> use code-executor
-- Search filesystem then cross-reference with memory -> use code-executor
-- Single tool call with small response -> call MCP tool directly
-
-## Quality Standards
-
-### Skills
-
-- Valid SKILL.md frontmatter (name, description, triggers)
-- Clear invocation patterns documented
-- No hardcoded paths
-- Tested with at least one real-world scenario
-
-### Agents
-
-- Defined purpose and scope
-- Specified model preference if needed (haiku/opus)
-- Clear input/output expectations
+For multi-step data operations across MCP servers, prefer **code-executor's `execute_code` tool** over direct MCP tool calls. Reduces token usage by ~98% by loading schemas on-demand, filtering data in JavaScript, and using native loops instead of chained calls. Use direct MCP calls only for single operations with small responses.
 
 ## Documentation
 
-When deviating from an established pattern, document in RESEARCH.md:
-
-- What pattern exists
-- Why the alternative was chosen
-- What value it provides
+When deviating from an established pattern, document the existing pattern, why the alternative was chosen, and what value it provides.
