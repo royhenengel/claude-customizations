@@ -45,6 +45,8 @@ Before completion:
 
 - [ ] Names are descriptive (not i, j, x, temp)
 - [ ] No hardcoded paths
+- [ ] No console.log/debugger statements
+- [ ] No magic numbers (use named constants)
 - [ ] Immutable patterns used
 - [ ] No secrets or credentials in files (see security-checklist.md)
 - [ ] Follows existing codebase patterns (see technical-consistency.md)

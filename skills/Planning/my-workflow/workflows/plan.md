@@ -12,6 +12,8 @@ Plan work with spec-driven approach. Creates requirements and executable plans.
 
 ## Entry Point
 
+> **Timestamp Rule**: Whenever modifying STATE.md or PROGRESS.md in any step below, always update its `**Last Updated**` field to the current date.
+
 User invokes `/plan` or asks to plan work.
 
 ## Steps

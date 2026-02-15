@@ -29,6 +29,7 @@ repo-root/
 │           ├── SPEC.md                # Feature Spec (requirements)
 │           ├── RESEARCH.md            # Feature Research (analysis, decisions)
 │           ├── PLAN.md                # Feature Plan (executable tasks)
+│           ├── PROGRESS.md            # Feature Progress (live tracking during work)
 │           ├── SUMMARY.md             # Feature Summary (outcomes, post-completion)
 │           ├── DISCOVERY.md           # Discovery Document (optional, deep analysis)
 │           ├── INCIDENT-{date}.md     # Incident Report (optional, post-incident)
@@ -50,6 +51,7 @@ repo-root/
 | Feature Spec | SPEC.md | planning/specs/{feature}/ | Requirements for a feature | Yes |
 | Feature Research | RESEARCH.md | planning/specs/{feature}/ | Analysis, tradeoffs, decisions | Yes |
 | Feature Plan | PLAN.md | planning/specs/{feature}/ | Executable implementation tasks | Yes |
+| Feature Progress | PROGRESS.md | planning/specs/{feature}/ | Live tracking of progress, current state, gap stack | Yes |
 | Feature Summary | SUMMARY.md | planning/specs/{feature}/ | Outcomes after feature completion | Yes |
 | Feature Context | CLAUDE.md | planning/specs/{feature}/ | Cascading context for feature (auto-loaded) | Yes |
 | Discovery Document | DISCOVERY.md | planning/specs/{feature}/ | Deep analysis when scope expands beyond RESEARCH.md | Yes |
@@ -62,7 +64,7 @@ repo-root/
 Decision tree for where a new document goes:
 
 1. Is it auto-loaded context for a directory? -> **CLAUDE.md** in that directory
-2. Is it a feature artifact (spec, plan, research, summary, discovery)? -> **planning/specs/{feature}/**
+2. Is it a feature artifact (spec, plan, research, progress, summary, discovery)? -> **planning/specs/{feature}/**
 3. Is it project management (state, backlog, governance)? -> **planning/**
 4. Is it a solved problem to reference later? -> **planning/solutions/**
 5. Is it a standalone guide that doesn't fit elsewhere? -> **docs/**

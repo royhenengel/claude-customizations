@@ -15,12 +15,12 @@
           },
           {
             "type": "command",
-            "command": "bash scripts/hooks/build-completion-guard.sh",
+            "command": "bash ~/.claude/scripts/hooks/build-completion-guard.sh",
             "timeout": 2000
           },
           {
             "type": "command",
-            "command": "bash scripts/hooks/context-compaction-guard.sh",
+            "command": "bash ~/.claude/scripts/hooks/context-compaction-guard.sh",
             "timeout": 2000
           }
         ]

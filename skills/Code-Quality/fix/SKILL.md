@@ -11,6 +11,8 @@ arguments:
 
 A disciplined fix process that ensures complete solutions by consulting git history, respecting project conventions, and preventing regressions.
 
+> **Timestamp Rule**: Whenever modifying STATE.md or PROGRESS.md in any step below, always update its `**Last Updated**` field to the current date.
+
 ## Step 1: Understand the Issue
 
 Say:

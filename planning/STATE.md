@@ -1,6 +1,6 @@
 # Project State
 
-**Last Updated**: 2026-02-12
+**Last Updated**: 2026-02-15
 
 ### claude-flow
 
@@ -25,6 +25,7 @@
 | reddit-mcp-server | feature | complete | - | - |
 | auto-trigger-fix | fix | complete | - | - |
 | instruction-compliance | fix | complete | instruction-compliance | .worktrees/instruction-compliance |
+| incident-report-command | feature | drafted | - | - |
 
 ## Decisions
 
