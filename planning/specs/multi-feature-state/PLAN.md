@@ -19,12 +19,12 @@ Redesign STATE.md into a two-level architecture (project-level + feature-level) 
 
 | # | Task | Type | Dependencies | Blocking |
 |---|------|------|--------------|----------|
-| 1 | Create feature STATE.md template | auto | - | - |
+| 1 | Create feature PROGRESS.md template | auto | - | - |
 | 2 | Redesign project STATE.md template (with Type column) | auto | Task 1 | - |
 | 3 | Update SKILL.md - remove temporary overrides, document two-level state | auto | Tasks 1-2 | - |
 | 4 | Update start.md - context-aware worktree/main behavior | auto | Task 3 | - |
-| 5 | Update plan.md - create feature STATE.md, context-aware registry updates | auto | Task 3 | - |
-| 6 | Update build.md - use feature STATE.md for all execution tracking | auto | Task 3 | - |
+| 5 | Update plan.md - create feature PROGRESS.md, context-aware registry updates | auto | Task 3 | - |
+| 6 | Update build.md - use feature PROGRESS.md for all execution tracking | auto | Task 3 | - |
 | 7 | Add doc-enforcer to build completion flow | auto | Task 6 | - |
 | 8 | Add PR reviewers to build finalization | auto | Task 6 | - |
 | 9 | Update feature CLAUDE.md template and git-worktrees SKILL.md | auto | Tasks 1-2 | - |
@@ -35,19 +35,19 @@ Redesign STATE.md into a two-level architecture (project-level + feature-level) 
 
 ## Tasks
 
-### Task 1: Create Feature STATE.md Template
+### Task 1: Create Feature PROGRESS.md Template
 
 **Type**: auto
-**Files**: `skills/Planning/my-workflow/templates/feature-state-template.md`
+**Files**: `skills/Planning/my-workflow/templates/feature-progress-template.md`
 **Dependencies**: None
 
-**Context**: Feature STATE.md is the new per-feature state file that lives in `planning/specs/{feature}/STATE.md`. It contains everything needed for a session to orient itself on a specific feature: stage, progress, current state, gap stack, and feature-specific decisions/notes.
+**Context**: Feature PROGRESS.md is the new per-feature state file that lives in `planning/specs/{feature}/PROGRESS.md`. It contains everything needed for a session to orient itself on a specific feature: stage, progress, current state, gap stack, and feature-specific decisions/notes.
 
 **Action**:
-Create template at `skills/Planning/my-workflow/templates/feature-state-template.md`:
+Create template at `skills/Planning/my-workflow/templates/feature-progress-template.md`:
 
 ```markdown
-# {Feature Name} State
+# {Feature Name} Progress
 
 **Stage**: {planning|building}
 **Last Updated**: {timestamp}
@@ -112,7 +112,7 @@ Create template at `skills/Planning/my-workflow/templates/feature-state-template
 **Files**: `skills/Planning/my-workflow/workflows/start.md` (the STATE.md template inside it)
 **Dependencies**: Task 1
 
-**Context**: The project STATE.md template in start.md currently includes both project-level and feature-level concerns. It needs to be slimmed down to only project-level content: Feature Registry, project decisions, and project notes. All feature-specific sections (Active Feature, Progress, Current State, Gap Stack) move to the feature STATE.md.
+**Context**: The project STATE.md template in start.md currently includes both project-level and feature-level concerns. It needs to be slimmed down to only project-level content: Feature Registry, project decisions, and project notes. All feature-specific sections (Active Feature, Progress, Current State, Gap Stack) move to the feature PROGRESS.md.
 
 **Action**:
 Update the STATE.md template within start.md (Step 3) to the new project-level-only format:
@@ -141,9 +141,9 @@ Key changes from current template:
 - Remove: `**Stage**` field (stage is per-feature now)
 - Remove: `## Active Feature` section entirely
 - Remove: `## Current Focus` section
-- Remove: `## Progress` section (moved to feature STATE.md)
-- Remove: `## Gap Stack` section (moved to feature STATE.md)
-- Remove: `## Current State` section (moved to feature STATE.md)
+- Remove: `## Progress` section (moved to feature PROGRESS.md)
+- Remove: `## Gap Stack` section (moved to feature PROGRESS.md)
+- Remove: `## Current State` section (moved to feature PROGRESS.md)
 - Add: `Type`, `Branch`, and `Worktree` columns to Feature Registry (Type distinguishes feature vs fix)
 - Keep: Feature Registry, Decisions, Notes (project-level only)
 
@@ -170,16 +170,16 @@ Key changes from current template:
    - Update Parallel Work Rules to reference two-level state
 
 2. **Stage Awareness section**:
-   - Update STATE.md Structure to show both project STATE.md and feature STATE.md
+   - Update STATE.md Structure to show both project STATE.md and feature PROGRESS.md
    - Document which file is used in which context
    - Add context detection description
 
 3. **Living Current State (Section 4)**:
-   - Update to reference feature STATE.md as the location for Current State
-   - Clarify that feature STATE.md is the handoff document, not project STATE.md
+   - Update to reference feature PROGRESS.md as the location for Current State
+   - Clarify that feature PROGRESS.md is the handoff document, not project STATE.md
 
 4. **Project Structure (Quick Reference)**:
-   - Add `STATE.md` to the feature spec directory listing
+   - Add `PROGRESS.md` to the feature spec directory listing
 
 **Verify**: No "TEMPORARY" comments remain in SKILL.md. Two-level state is documented.
 **Done**: SKILL.md describes multi-worktree with two-level state as the standard architecture
@@ -212,9 +212,9 @@ Key changes from current template:
 
 3. **Worktree behavior** (new - replace "single feature or no registry" block):
    - Derive feature name from branch: `git branch --show-current`
-   - Read `planning/specs/{feature}/STATE.md` for feature state
-   - If feature STATE.md exists with content: show Current State, offer to resume
-   - If no feature STATE.md: this is a new feature, suggest /plan
+   - Read `planning/specs/{feature}/PROGRESS.md` for feature state
+   - If feature PROGRESS.md exists with content: show Current State, offer to resume
+   - If no feature PROGRESS.md: this is a new feature, suggest /plan
 
 4. **New project behavior**: Keep as-is (no change needed for greenfield)
 
@@ -225,13 +225,13 @@ Key changes from current template:
 
 ---
 
-### Task 5: Update plan.md - Create Feature STATE.md, Context-Aware Registry Updates
+### Task 5: Update plan.md - Create Feature PROGRESS.md, Context-Aware Registry Updates
 
 **Type**: auto
 **Files**: `skills/Planning/my-workflow/workflows/plan.md`
 **Dependencies**: Task 3
 
-**Context**: plan.md needs to create a feature STATE.md when planning a feature, and its "check for active features" logic needs updating for multi-worktree reality.
+**Context**: plan.md needs to create a feature PROGRESS.md when planning a feature, and its "check for active features" logic needs updating for multi-worktree reality.
 
 **Action**:
 
@@ -240,63 +240,63 @@ Key changes from current template:
    - Replace with: Check if `planning/STATE.md` exists (project initialized). If in a worktree, check if feature spec directory already exists.
 
 2. **Step 5 (Create Feature CLAUDE.md)**:
-   - Add `@STATE.md` reference to the feature CLAUDE.md template (so cascading context includes feature state)
+   - Add `@PROGRESS.md` reference to the feature CLAUDE.md template (so cascading context includes feature state)
 
-3. **New Step (between current 8 and 9): Create Feature STATE.md**:
-   - Use the feature STATE.md template (from Task 1)
+3. **New Step (between current 8 and 9): Create Feature PROGRESS.md**:
+   - Use the feature PROGRESS.md template (from Task 1)
    - Set Stage to `planning`
    - Set Progress to the task list from PLAN.md (all unchecked)
-   - Write to `planning/specs/{feature}/STATE.md`
+   - Write to `planning/specs/{feature}/PROGRESS.md`
 
 4. **Step 9 (Update STATE.md and Feature CLAUDE.md)**:
    - Update `planning/STATE.md` Feature Registry only: add new row with status `ready`, branch name, worktree path
-   - Do NOT update project STATE.md with feature progress, current focus, or progress checklist (those are in feature STATE.md now)
-   - Update feature STATE.md: set status to `ready`
+   - Do NOT update project STATE.md with feature progress, current focus, or progress checklist (those are in feature PROGRESS.md now)
+   - Update feature PROGRESS.md: set status to `ready`
    - Remove all the feature-specific updates from the project STATE.md update block
 
-5. **Output Structure**: Add STATE.md to the feature spec directory listing
+5. **Output Structure**: Add PROGRESS.md to the feature spec directory listing
 
-**Verify**: plan.md creates feature STATE.md. Project STATE.md only gets a registry update.
+**Verify**: plan.md creates feature PROGRESS.md. Project STATE.md only gets a registry update.
 **Done**: Planning creates two-level state correctly
 
 ---
 
-### Task 6: Update build.md - Use Feature STATE.md for All Execution Tracking
+### Task 6: Update build.md - Use Feature PROGRESS.md for All Execution Tracking
 
 **Type**: auto
 **Files**: `skills/Planning/my-workflow/workflows/build.md`
 **Dependencies**: Task 3
 
-**Context**: build.md currently reads and writes to a single shared STATE.md. It needs to use feature STATE.md for all execution tracking and only touch project STATE.md for registry updates.
+**Context**: build.md currently reads and writes to a single shared STATE.md. It needs to use feature PROGRESS.md for all execution tracking and only touch project STATE.md for registry updates.
 
 **Action**:
 
 1. **Step 2 (Identify Plan to Execute)**:
-   - In worktree: auto-detect feature from branch name, read feature STATE.md
+   - In worktree: auto-detect feature from branch name, read feature PROGRESS.md
    - On main: read project STATE.md Feature Registry, show available features (this is the existing behavior, mostly unchanged)
 
 2. **Step 4 (Create Task List and Update STATE.md)**:
-   - Copy task list to feature STATE.md `## Progress` section (not project STATE.md)
-   - Update feature STATE.md stage to `building`
+   - Copy task list to feature PROGRESS.md `## Progress` section (not project STATE.md)
+   - Update feature PROGRESS.md stage to `building`
    - Update project STATE.md Feature Registry: status → `active`
    - Remove all the feature-specific content from the project STATE.md update template
 
 3. **Step 5 (Execute Tasks) - After each task**:
-   - Update feature STATE.md Progress section (check off task)
-   - Update feature STATE.md Current State section (What's Working, Next Steps)
+   - Update feature PROGRESS.md Progress section (check off task)
+   - Update feature PROGRESS.md Current State section (What's Working, Next Steps)
    - Do NOT touch project STATE.md during task execution
 
 4. **Step 6a (Gap Protocol)**:
-   - Gap Stack is in feature STATE.md (not project STATE.md)
-   - Update all Gap Protocol references to use feature STATE.md
+   - Gap Stack is in feature PROGRESS.md (not project STATE.md)
+   - Update all Gap Protocol references to use feature PROGRESS.md
 
 5. **Steps 10-11 (SUMMARY.md and STATE.md update on completion)**:
-   - Update feature STATE.md: stage → complete, all tasks checked
+   - Update feature PROGRESS.md: stage → complete, all tasks checked
    - Update project STATE.md Feature Registry: status → `complete`, clear worktree column
-   - Feature STATE.md stays in `planning/specs/{feature}/` (archives with spec)
+   - Feature PROGRESS.md stays in `planning/specs/{feature}/` (archives with spec)
 
 6. **Step 13 (Finalize Changes)**:
-   - On merge: feature spec directory (including STATE.md) moves to archive
+   - On merge: feature spec directory (including PROGRESS.md) moves to archive
    - Project STATE.md registry updated
 
 **Verify**: All STATE.md references in build.md correctly point to either feature or project level.
@@ -338,7 +338,7 @@ Audit documentation for the {feature} implementation.
 Focus:
 - New/modified markdown files follow documentation type system
 - Required sections present per templates
-- Feature spec directory complete (CLAUDE.md, SPEC.md, RESEARCH.md, PLAN.md, STATE.md)
+- Feature spec directory complete (CLAUDE.md, SPEC.md, RESEARCH.md, PLAN.md, PROGRESS.md)
 - No misplaced files
 
 Files changed: {list from implementation}
@@ -417,19 +417,19 @@ Present consolidated PR review findings. Critical issues must be addressed befor
 **Action**:
 
 1. **plan.md Step 5 (Feature CLAUDE.md template)**:
-   - Add `@STATE.md` to the cascading context references:
+   - Add `@PROGRESS.md` to the cascading context references:
    ```markdown
    ## Feature State
 
-   @STATE.md
+   @PROGRESS.md
    ```
 
 2. **git-worktrees SKILL.md**:
    - Update "Integration with My-Workflow" section to mention two-level state
-   - Note that feature STATE.md is created during /plan and used by /build
-   - Add to cleanup: feature STATE.md archives with spec on merge
+   - Note that feature PROGRESS.md is created during /plan and used by /build
+   - Add to cleanup: feature PROGRESS.md archives with spec on merge
 
-**Verify**: Feature CLAUDE.md template includes STATE.md reference. git-worktrees mentions two-level state.
+**Verify**: Feature CLAUDE.md template includes PROGRESS.md reference. git-worktrees mentions two-level state.
 **Done**: Supporting files updated for new architecture
 
 ---
@@ -449,10 +449,10 @@ Present consolidated PR review findings. Critical issues must be addressed befor
    - If in worktree, derive fix name from branch name
    - Create `planning/specs/{fix-name}/` directory if it doesn't exist
 
-2. **Add fix STATE.md creation** (after Step 1, when in worktree):
-   - Create lightweight `planning/specs/{fix-name}/STATE.md`:
+2. **Add fix PROGRESS.md creation** (after Step 1, when in worktree):
+   - Create lightweight `planning/specs/{fix-name}/PROGRESS.md`:
    ```markdown
-   # {Fix Name} State
+   # {Fix Name} Progress
 
    **Type**: fix
    **Stage**: investigating
@@ -489,15 +489,15 @@ Present consolidated PR review findings. Critical issues must be addressed befor
    - After Step 8 (Regression): stage → `verifying`, update What's Working
 
 4. **Add registry entry**:
-   - When fix STATE.md is created, also update project STATE.md Feature Registry:
+   - When fix PROGRESS.md is created, also update project STATE.md Feature Registry:
      `| {fix-name} | fix | active | {branch} | {worktree-path} |`
 
 5. **Quick fix on main** (no worktree):
-   - Skip state creation entirely - no STATE.md, no registry entry
+   - Skip state creation entirely - no PROGRESS.md, no registry entry
    - /fix runs its normal 10-step process and commits directly
 
 **Verify**: /fix creates state in worktree context, skips state for quick fixes on main
-**Done**: /fix is state-aware with lightweight fix STATE.md for worktree-based fixes
+**Done**: /fix is state-aware with lightweight fix PROGRESS.md for worktree-based fixes
 
 ---
 
@@ -518,7 +518,7 @@ Present consolidated PR review findings. Critical issues must be addressed befor
 1. **Update /fix Step 10 (Finalize Changes)** to include:
    - Doc-enforcer audit (same as /build Step 9a)
    - PR reviewers (same as /build Step 13a)
-   - State cleanup: update fix STATE.md stage → `complete`, update project registry
+   - State cleanup: update fix PROGRESS.md stage → `complete`, update project registry
 
 2. **Add a Step 9a to /fix** (between Regression Checklist and Finalize):
    ```markdown
@@ -527,7 +527,7 @@ Present consolidated PR review findings. Critical issues must be addressed befor
    If in a worktree with state tracking:
 
    **Doc-enforcer** (audit mode):
-   - Verify fix documentation (STATE.md complete, no misplaced files)
+   - Verify fix documentation (PROGRESS.md complete, no misplaced files)
 
    **PR Reviewers** (after PR creation):
    - code-reviewer: full diff quality
@@ -550,7 +550,7 @@ Present consolidated PR review findings. Critical issues must be addressed befor
 **Files**: `planning/STATE.md`
 **Dependencies**: Tasks 1-11
 
-**Context**: The current STATE.md has the old monolithic format with all 10 features complete. Since all features are complete and this is a fresh feature, migration is straightforward: slim the project STATE.md to registry-only format (with Type column), and create a feature STATE.md for this feature.
+**Context**: The current STATE.md has the old monolithic format with all 10 features complete. Since all features are complete and this is a fresh feature, migration is straightforward: slim the project STATE.md to registry-only format (with Type column), and create a feature PROGRESS.md for this feature.
 
 **Action**:
 
@@ -561,12 +561,12 @@ Present consolidated PR review findings. Critical issues must be addressed befor
    - Move Notes section content to project-level
    - Remove: Stage, Active Feature, Current Focus, Progress, Gap Stack, Current State sections
 
-2. **Create `planning/specs/multi-feature-state/STATE.md`** for this feature:
+2. **Create `planning/specs/multi-feature-state/PROGRESS.md`** for this feature:
    - Stage: planning (will become building when /build starts)
    - Progress: task list from this PLAN.md
    - Current State: populated with planning context
 
-**Verify**: Project STATE.md has no feature-specific sections. Feature STATE.md has full handoff-quality state.
+**Verify**: Project STATE.md has no feature-specific sections. Feature PROGRESS.md has full handoff-quality state.
 **Done**: Both state files exist with correct content
 
 ---
@@ -584,12 +584,12 @@ Review the following files for consistency:
 
 1. `skills/Planning/my-workflow/SKILL.md` - two-level state documented, no temporary overrides
 2. `skills/Planning/my-workflow/workflows/start.md` - context-aware main/worktree behavior
-3. `skills/Planning/my-workflow/workflows/plan.md` - creates feature STATE.md, registry-only project updates
-4. `skills/Planning/my-workflow/workflows/build.md` - uses feature STATE.md, doc-enforcer + PR reviewers
+3. `skills/Planning/my-workflow/workflows/plan.md` - creates feature PROGRESS.md, registry-only project updates
+4. `skills/Planning/my-workflow/workflows/build.md` - uses feature PROGRESS.md, doc-enforcer + PR reviewers
 5. `skills/Code-Quality/fix/SKILL.md` - state-aware, shared completion flow
 6. `skills/Git/git-worktrees/SKILL.md` - references new architecture
 7. `planning/STATE.md` - project-level only (with Type column)
-8. `planning/specs/multi-feature-state/STATE.md` - feature-level state
+8. `planning/specs/multi-feature-state/PROGRESS.md` - feature-level state
 
 **Verify**: Walk through mental simulations:
 
@@ -603,22 +603,22 @@ Review the following files for consistency:
 
 - [ ] No "TEMPORARY" or override comments remain in any workflow file
 - [ ] Project STATE.md contains only: Feature Registry (with Type column), Decisions, Notes
-- [ ] Feature STATE.md contains: Stage, Progress, Current State, Gap Stack, Decisions, Notes
-- [ ] Fix STATE.md contains: Type=fix, Stage, Issue, Root Cause, Proposed Fix, Current State
+- [ ] Feature PROGRESS.md contains: Stage, Progress, Current State, Gap Stack, Decisions, Notes
+- [ ] Fix PROGRESS.md contains: Type=fix, Stage, Issue, Root Cause, Proposed Fix, Current State
 - [ ] start.md detects worktree vs main and routes correctly
-- [ ] plan.md creates feature STATE.md and only updates project registry
-- [ ] build.md reads/writes feature STATE.md for all execution tracking
+- [ ] plan.md creates feature PROGRESS.md and only updates project registry
+- [ ] build.md reads/writes feature PROGRESS.md for all execution tracking
 - [ ] /fix creates state in worktree context, skips state for quick fixes on main
 - [ ] Doc-enforcer runs at build completion (Step 9a) and fix completion (Step 9a)
 - [ ] PR reviewers run before merge in both /build (Step 13a) and /fix (Step 9a)
-- [ ] Feature CLAUDE.md template references STATE.md
+- [ ] Feature CLAUDE.md template references PROGRESS.md
 - [ ] Feature Registry Type column distinguishes features from fixes
 - [ ] Merging a feature or fix creates zero STATE.md conflicts (different files modified)
 
 ## Success Criteria
 
 - STATE.md in main accurately reflects project-level reality (registry with types, what's merged, what's in flight)
-- STATE.md in each worktree accurately reflects that feature/fix's progress
+- PROGRESS.md in each worktree accurately reflects that feature/fix's progress
 - Merging a completed feature or fix creates zero STATE.md conflicts
 - Every workflow flow (/start, /plan, /build, /fix) reviewed and updated for multi-worktree reality
 - Doc-enforcer and PR reviewers integrated into both /build and /fix completion

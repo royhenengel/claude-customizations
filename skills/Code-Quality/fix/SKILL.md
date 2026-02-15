@@ -74,19 +74,19 @@ Derive name from branch:
 git branch --show-current
 ```
 
-Check if feature STATE.md already exists:
+Check if feature PROGRESS.md already exists:
 ```bash
-ls planning/specs/{name}/STATE.md 2>/dev/null
+ls planning/specs/{name}/PROGRESS.md 2>/dev/null
 ```
 
-**Scenario A - Fix worktree** (STATE.md exists with `**Type**: fix`, or no STATE.md exists):
+**Scenario A - Fix worktree** (PROGRESS.md exists with `**Type**: fix`, or no PROGRESS.md exists):
 
-If no STATE.md exists, create fix state directory and file:
+If no PROGRESS.md exists, create fix state directory and file:
 ```bash
 mkdir -p planning/specs/{fix-name}
 ```
 
-Create `planning/specs/{fix-name}/STATE.md`:
+Create `planning/specs/{fix-name}/PROGRESS.md`:
 
 ```markdown
 # {Fix Name} State
@@ -129,7 +129,7 @@ Update `planning/STATE.md` Feature Registry:
 
 Continue to Step 2 with full state tracking.
 
-**Scenario B - Feature worktree** (STATE.md exists with `**Type**: feature` or no Type field):
+**Scenario B - Feature worktree** (PROGRESS.md exists with `**Type**: feature` or no Type field):
 
 The user is running /fix while working on a feature. Do NOT create separate fix state.
 
@@ -141,7 +141,7 @@ The user is running /fix while working on a feature. Do NOT create separate fix 
 
 Is this fix related to the current feature ({name})?
 
-1. **Yes, related to this feature** → Run /fix Steps 2-8 (investigation + implementation). No separate fix STATE.md. Track findings in feature STATE.md Notes section. Fix becomes part of the feature PR. Skip Steps 9a and 10 (quality gates run with the feature's /build completion).
+1. **Yes, related to this feature** → Run /fix Steps 2-8 (investigation + implementation). No separate fix PROGRESS.md. Track findings in feature PROGRESS.md Notes section. Fix becomes part of the feature PR. Skip Steps 9a and 10 (quality gates run with the feature's /build completion).
 
 2. **No, unrelated** → Add to `planning/BACKLOG.md` for separate handling. Options:
    a. Create a fix worktree from main (commit current work first)
@@ -151,7 +151,7 @@ Continue to Step 2 (Scenario A and B-related only).
 
 **If on main** (not in a worktree):
 
-No fix state directory or STATE.md is created. /fix runs its full 10-step process. A branch is created in Step 10 for PR-based review.
+No fix state directory or PROGRESS.md is created. /fix runs its full 10-step process. A branch is created in Step 10 for PR-based review.
 
 ## Step 2: Git History Search
 
@@ -245,7 +245,7 @@ Symptom: [What user sees]
       ← Root cause: [The fundamental issue to fix]
 ```
 
-**State update** (worktree only): Update fix STATE.md - set "Root Cause" section, stage → `proposed`.
+**State update** (worktree only): Update fix PROGRESS.md - set "Root Cause" section, stage → `proposed`.
 
 ## Step 6: Propose Fix
 
@@ -267,7 +267,7 @@ Present the fix proposal with clear rationale:
 [What could go wrong, what else might be affected]
 ```
 
-**State update** (worktree only): Update fix STATE.md - set "Proposed Fix" section.
+**State update** (worktree only): Update fix PROGRESS.md - set "Proposed Fix" section.
 
 **STOP HERE** - Wait for user approval before implementing.
 
@@ -283,7 +283,7 @@ After approval:
    ```
 3. **Verify** the fix resolves the original issue
 
-**State update** (worktree only): Update fix STATE.md - stage → `implementing`, update Current State (What's Working, What's Not Working).
+**State update** (worktree only): Update fix PROGRESS.md - stage → `implementing`, update Current State (What's Working, What's Not Working).
 
 ## Step 8: Regression Checklist
 
@@ -301,7 +301,7 @@ Based on the affected areas mapped in Step 4, please verify:
 
 Be specific - file names, functionality, scenarios to test.
 
-**State update** (worktree only): Update fix STATE.md - stage → `verifying`, update What's Working with verified items.
+**State update** (worktree only): Update fix PROGRESS.md - stage → `verifying`, update What's Working with verified items.
 
 ## Step 9: Convention Check
 
@@ -359,7 +359,7 @@ DOCUMENTATION REVIEW: Compliance Check
 Audit documentation for the {fix-name} fix.
 
 Focus:
-- Fix state directory complete (STATE.md with current state)
+- Fix state directory complete (PROGRESS.md with current state)
 - No misplaced files
 - Modified markdown files follow documentation type system
 
@@ -417,7 +417,7 @@ When user says "complete", "mark as complete", or similar:
 
 7. Remove worktree: `git worktree remove {path}`
 
-8. Update fix STATE.md: stage → `complete`
+8. Update fix PROGRESS.md: stage → `complete`
 
 9. Update project STATE.md Feature Registry: fix status → `complete`
 

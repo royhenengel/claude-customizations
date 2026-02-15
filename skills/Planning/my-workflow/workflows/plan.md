@@ -18,6 +18,8 @@ User invokes `/plan` or asks to plan work.
 
 ## Steps
 
+> **Timestamp Rule**: Whenever modifying STATE.md or PROGRESS.md in any step below, always update its `**Last Updated**` field to the current date.
+
 ### 1. Check Prerequisites and Active Features
 
 ```bash
@@ -208,9 +210,9 @@ Create the feature-level context file that provides cascading context when worki
 
 Planning in progress.
 
-## Feature State
+## Feature Progress
 
-@STATE.md
+@PROGRESS.md
 ```
 
 Write to `planning/specs/{feature}/CLAUDE.md`.
@@ -389,11 +391,11 @@ Create a comprehensive implementation plan with as many tasks as needed for clar
 
 Write to `planning/specs/{feature}/PLAN.md`.
 
-### 8a. Create Feature STATE.md
+### 8a. Create Feature PROGRESS.md
 
 Create feature-level state file using the feature state template:
 
-@skills/Planning/my-workflow/templates/feature-state-template.md
+@skills/Planning/my-workflow/templates/feature-progress-template.md
 
 Customize the template:
 
@@ -402,7 +404,7 @@ Customize the template:
 - Copy the task list from PLAN.md Task Summary into `## Progress` section (all unchecked)
 - Set Next Steps to "Begin /build execution"
 
-Write to `planning/specs/{feature}/STATE.md`.
+Write to `planning/specs/{feature}/PROGRESS.md`.
 
 ### 9. Update STATE.md and Feature CLAUDE.md
 
@@ -412,7 +414,7 @@ Update `planning/STATE.md` Feature Registry -- add row for new feature:
 | {feature-name} | feature | ready | {branch-name} | {worktree-path} |
 ```
 
-Do NOT update project STATE.md with Stage, Active Feature, Current Focus, Progress, or Current State sections. Those live in the feature STATE.md now.
+Do NOT update project STATE.md with Stage, Active Feature, Current Focus, Progress, or Current State sections. Those live in the feature PROGRESS.md now.
 
 **Feature Registry updates**:
 
@@ -420,7 +422,7 @@ Do NOT update project STATE.md with Stage, Active Feature, Current Focus, Progre
 - If feature has dependencies, note them in the row
 - Remove from BACKLOG.md if it was picked from there
 
-Record decisions made during planning in the feature STATE.md (`planning/specs/{feature}/STATE.md`):
+Record decisions made during planning in the feature PROGRESS.md (`planning/specs/{feature}/PROGRESS.md`):
 
 ```markdown
 ## Decisions
@@ -451,7 +453,7 @@ Created:
 - [planning/specs/{feature}/SPEC.md](planning/specs/{feature}/SPEC.md) (requirements)
 - [planning/specs/{feature}/RESEARCH.md](planning/specs/{feature}/RESEARCH.md) (decisions)
 - [planning/specs/{feature}/PLAN.md](planning/specs/{feature}/PLAN.md) (executable plan with {N} tasks)
-- [planning/specs/{feature}/STATE.md](planning/specs/{feature}/STATE.md) (feature state)
+- [planning/specs/{feature}/PROGRESS.md](planning/specs/{feature}/PROGRESS.md) (feature state)
 
 Ready to build? Run `/build` to execute the plan.
 
@@ -469,7 +471,7 @@ planning/
         ├── SPEC.md       # Requirements
         ├── RESEARCH.md   # Decisions
         ├── PLAN.md       # Executable plan
-        └── STATE.md      # Feature state (progress, current state)
+        └── PROGRESS.md   # Feature progress (progress, current state)
 ```
 
 ## Plan Principles
@@ -546,7 +548,7 @@ For large features, use numbered plan files:
 - `{feature}/01-PLAN.md` - First phase
 - `{feature}/02-PLAN.md` - Second phase
 
-Current State in feature STATE.md is maintained continuously between phases.
+Current State in feature PROGRESS.md is maintained continuously between phases.
 
 ### Optional Artifacts
 
@@ -594,7 +596,7 @@ Create RESEARCH.md (decisions)
 Create PLAN.md (detailed tasks)
     |
     v
-Create feature STATE.md (progress, current state)
+Create feature PROGRESS.md (progress, current state)
     |
     v
 Update project STATE.md registry + feature CLAUDE.md

@@ -1,4 +1,4 @@
-# {Feature Name} State
+# {Feature Name} Progress
 
 **Stage**: {planning|building}
 **Last Updated**: {timestamp}

@@ -25,7 +25,7 @@
 | reddit-mcp-server | feature | complete | - | - |
 | auto-trigger-fix | fix | complete | - | - |
 | instruction-compliance | fix | complete | instruction-compliance | .worktrees/instruction-compliance |
-| incident-report-command | feature | drafted | - | - |
+| incident-report-command | feature | drafted | incident-report-command | .worktrees/incident-report-command |
 
 ## Decisions
 

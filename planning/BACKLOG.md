@@ -18,9 +18,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Hook: UserPromptSubmit hook detects completion language, injects reminder to follow build.md steps 10-13
     3. Pre-merge check: Hook on `gh pr merge` that verifies SUMMARY.md exists and worktree cleanup is planned
   - **Minimum fix**: Add completion-related triggers to build skill description
-- [ ] Project state timestamp must update within workflow
-  - **Context**: Project STATE.md timestamp was stale (2026-02-11 instead of 2026-02-12) after active work. Workflows should auto-update this timestamp when modifying STATE.md.
-  - **Fix**: Add timestamp update step to /build and /fix workflows wherever STATE.md is modified
 - [ ] Error recovery paths for all workflows
   - **Context**: PR review identified missing error recovery in workflows. What happens when a subagent fails? When a file can't be created? When a template is missing? Workflows define the happy path but not recovery.
   - **Scope**: /build, /fix, /plan, /start - all need documented error recovery for common failure modes
@@ -57,7 +54,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Skill & Agent Architecture
 
+<<<<<<< HEAD
 - [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incident report - INCIDENT-subagent-bypass.md
+=======
+>>>>>>> origin/main
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
@@ -67,20 +67,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 - [ ] Skill health check command
 - [ ] Create /curate command for skill organization (deferred - manual process for now)
 - [ ] Improve the diagram builder
-- [ ] Clarify /compound and integrate into workflow
-  - **Gap**: /compound is standalone with no integration point in `/build`. memory-boundaries.md defines what goes there but nothing triggers it during workflow.
-  - **Options**:
-    1. Wire into build.md: After deviation rules 1-3 fix a bug, offer "Document this solution? (`/compound`)"
-    2. Add to `/build` completion flow: "Any solutions worth documenting?"
-    3. Periodic prompt: After N fixes in a session, suggest /compound
-  - **Also**: Clarify compound vs MEMORY.md in practice (when to use which)
-  - [ ] Possibly automate /compound?
-    - **Status**: Partially addressed by audit-agents. build.md Step 5 now uses invocation rules, Step 9  has 3 review agents. 132 active agents covered.
-    - **References**:
-      - GSD (11 agents): [glittercowboy/get-shit-done](https://github.com/glittercowboy/get-shit-done),   local: skills/my-workflow/references/gsd/README.md
-      - CEK (13 agents): [NeoLabHQ/context-engineering-kit](https://github.com/NeoLabHQ/context-  engineering-kit), local: skills/software-development-practices/references/cek-subagent-driven-  development/SKILL.md
-      - Everything Claude (9 agents): [affaan-m/everything-claude-code](https://github.com/affaan-  m/everything-claude-code/blob/main/rules/agents.md)
-
 - [ ] Agent Teams: team composition guidance in invocation rules
   - **Context**: Anthropic released Agent Teams (experimental). Currently documented as escalation pattern in multi-agent-orchestration.md.
   - **Idea**: Add a "team composition" section to agent-invocation-rules.md defining which agents to spawn together for common scenarios (e.g., cross-layer refactoring: backend-developer + frontend-developer + test-automator)
@@ -95,7 +81,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 - [ ] Document strategic decisions and rules automatically.
       For example No title truncating, Numbered List for Suggestions etc
-- [ ] Incident Report command
 - [ ] Apply /insights in the project
 
 ### Remote & Sessions
@@ -125,16 +110,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Add exclusions for grep/search commands
     3. Add exclusions for meta-discussions about the feature
     4. Consider requiring multiple signals before triggering
-- [ ] Claude not following workflow instructions and rules (holistic investigation)
-  - **Context**: Subagent delegation bypass (INCIDENT-subagent-bypass.md) is a symptom of a bigger problem: Claude skips or ignores workflow instructions, rules, and documented processes. This needs holistic investigation to understand WHY it happens and how to fix it structurally within the project.
+- [x] Claude not following workflow instructions and rules (holistic investigation)
+  - **Status**: Addressed by instruction-compliance fix (PR #11). Pruned rules, split build.md into phases, added CRITICAL markers, rationalizations tables, and enforcement hooks.
+  - **Context**: Subagent delegation bypass (INCIDENT-subagent-bypass.md) is a symptom of a bigger problem: Claude skips or ignores workflow instructions, rules, and documented processes.
   - **Incident**: planning/specs/multi-feature-state/INCIDENT-subagent-bypass.md
-  - **Scope**: Not just subagent delegation. Any case where documented rules, workflow steps, or skill instructions are not followed.
-  - **Goal**: Understand root causes (prompt length? instruction priority? context window pressure?) and design systemic fixes (hooks, validation, instruction design patterns)
-  - Getting answers like:
-    - Yes, rules/formatting-rules.md is in the rules directory and auto-loaded into my system prompt. I can see it right now. I had no excuse - I read the rule, understood it, and still didn't apply it when writing the automation options list in my earlier response. No systemic gap; just failed to follow loaded instructions.
-    - "I skipped Steps 8, 8a, and 9 of the build workflow. After completing the plan's 5 tasks, I jumped straight to Step 10 (SUMMARY.md) instead of following the sequential post-completion steps:
-
-  Step 8: Verify Completion (run verification steps from PLAN.md)
-  Step 8a: Pre-Completion Security Check
-  Step 9: Quality Review (3 parallel review agents)
-  No good reason. The build workflow defines these steps explicitly and I should have followed them. Want me to run them now before merging?"

@@ -12,7 +12,7 @@
 
 @PLAN.md
 
-## Feature State
+## Feature Progress
 
 @PROGRESS.md
 

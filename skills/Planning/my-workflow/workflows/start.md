@@ -8,7 +8,7 @@ Initialize a new project with the unified `planning/` structure, including a pro
 
 - Starting a new project from scratch
 - On main: see features in flight, pick from backlog or describe new, create worktree
-- In a worktree: resume feature work (reads feature STATE.md) or start planning a new feature
+- In a worktree: resume feature work (reads feature PROGRESS.md) or start planning a new feature
 
 ## Steps
 
@@ -44,9 +44,9 @@ Derive feature name from branch:
 git branch --show-current
 ```
 
-Read `planning/specs/{feature}/STATE.md` for feature state.
+Read `planning/specs/{feature}/PROGRESS.md` for feature state.
 
-- **If feature STATE.md exists with content**: Show Current State and offer to resume:
+- **If feature PROGRESS.md exists with content**: Show Current State and offer to resume:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -54,7 +54,7 @@ Read `planning/specs/{feature}/STATE.md` for feature state.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Stage: {stage from feature STATE.md}
+Stage: {stage from feature PROGRESS.md}
 
 Current State:
 
@@ -64,7 +64,7 @@ Current State:
 
 Ready to continue? Run `/build` to resume execution.
 
-- **If no feature STATE.md**: This is a new feature in a fresh worktree. Suggest `/plan`:
+- **If no feature PROGRESS.md**: This is a new feature in a fresh worktree. Suggest `/plan`:
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -84,7 +84,7 @@ Discover active worktrees:
 git worktree list --porcelain | grep "^worktree" | grep -v "$(git rev-parse --show-toplevel)$"
 ```
 
-For each active worktree, read its feature STATE.md (`planning/specs/{feature}/STATE.md`) to get live status (stage, progress).
+For each active worktree, read its feature PROGRESS.md (`planning/specs/{feature}/PROGRESS.md`) to get live status (stage, progress).
 
 ```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -116,10 +116,10 @@ What would you like to do?
 After user picks from backlog or describes new work:
 
 1. Derive a kebab-case worktree name from the selection
-2. Create worktree using `/git-worktrees` with that name
-3. Once VS Code opens in the new worktree, instruct user to run `/plan` there
+2. Register the feature in `planning/STATE.md` Feature Registry (status: `drafted`, type: `feature`, branch and worktree path)
+3. Create worktree using `/git-worktrees` with that name (auto-opens VS Code, launches Claude, submits `/plan`)
 
-Do NOT ask additional questions. Proceed directly to worktree creation.
+Do NOT ask additional questions. Proceed directly to registration and worktree creation.
 
 **Option 2 - Fix an issue:**
 
@@ -141,9 +141,9 @@ Active worktrees:
 Open which worktree?
 ```
 
-Open selected worktree in VS Code:
+Open selected worktree in VS Code with Claude panel:
 ```bash
-code --new-window "{worktree-path}"
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --new-window "{worktree-path}" && sleep 2 && osascript -e 'tell application "System Events" to key code 53 using {command down, shift down}'
 ```
 
 ### 2. Create Directory Structure
@@ -405,7 +405,7 @@ planning/
 
 ## Resume Behavior
 
-**In a worktree**: Read `planning/specs/{feature}/STATE.md` completely. Summarize Current State and offer to resume.
+**In a worktree**: Read `planning/specs/{feature}/PROGRESS.md` completely. Summarize Current State and offer to resume.
 
 **On main**: Read `planning/STATE.md` Feature Registry. Show features in flight and backlog items.
 
