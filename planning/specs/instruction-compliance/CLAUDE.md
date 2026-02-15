@@ -18,4 +18,4 @@ Planning complete. Ready for /build.
 
 ## Feature State
 
-@STATE.md
+@PROGRESS.md

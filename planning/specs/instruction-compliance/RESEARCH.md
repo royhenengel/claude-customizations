@@ -81,7 +81,7 @@ Three-layer approach addressing each root cause:
 
 ### Layer 2: Add structural enforcement (RC2)
 
-4. **Hook: Build completion guard** - UserPromptSubmit hook detects completion language and injects reminder for build steps 8-13 if STATE.md stage = building.
+4. **Hook: Build completion guard** - UserPromptSubmit hook detects completion language and injects reminder for build steps 8-13 if PROGRESS.md stage = building.
 
 5. **Hook: Subagent delegation check** - PostToolUse hook on Edit/Write during active /build warns if orchestrator edits non-planning files directly.
 
@@ -98,7 +98,7 @@ Three-layer approach addressing each root cause:
 ## Risks
 
 - Over-hooking creates noise (limit to 3-5 most critical behaviors)
-- Phase splitting adds orchestration logic (keep simple: read STATE.md stage)
+- Phase splitting adds orchestration logic (keep simple: read PROGRESS.md stage)
 - Pruning too aggressively removes rules that prevent subtle issues (prune incrementally)
 - Hook false positives (learned from auto-trigger-fix incident: narrow, precise triggers)
 

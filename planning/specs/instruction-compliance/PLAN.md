@@ -138,7 +138,7 @@ Split build.md into 3 phase files based on natural workflow boundaries:
 
 Each phase file MUST be self-contained:
 - Include its own header explaining purpose and when it applies
-- Reference STATE.md for context continuity
+- Reference PROGRESS.md for context continuity
 - Include "Development Discipline" reminders where relevant (setup and execute phases)
 - Include deviation rules in the execute phase (most likely to need them)
 
@@ -172,7 +172,7 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Task, TodoWrite, AskUserQues
 
 ## Phase Detection
 
-1. Read the feature STATE.md to determine current build phase
+1. Read the feature PROGRESS.md to determine current build phase
 2. Based on the phase, read ONLY the relevant workflow file using the Read tool
 
 ## Phase Routing
@@ -191,7 +191,7 @@ Read the appropriate phase file and follow it exactly.
 
 CRITICAL: Do NOT read all three phase files. Read only the one matching the current phase.
 
-After completing a phase, re-check STATE.md and transition to the next phase if needed:
+After completing a phase, re-check PROGRESS.md and transition to the next phase if needed:
 - Setup → Execute (after task list created)
 - Execute → Complete (after all tasks checked)
 - Complete → Done (after SUMMARY.md and finalization)
@@ -203,7 +203,7 @@ After completing a phase, re-check STATE.md and transition to the next phase if 
 - Include the phase file paths explicitly so Claude doesn't guess
 
 **Verify**: SKILL.md contains routing logic without @ references to phase files. Skill loads cleanly.
-**Done**: SKILL.md routes to correct phase based on STATE.md stage
+**Done**: SKILL.md routes to correct phase based on PROGRESS.md stage
 
 ---
 
@@ -280,7 +280,7 @@ Add `CRITICAL:` prefix to the following rules (the ones that failed in documente
 **Action**:
 
 Create a shell script that:
-1. Reads the feature STATE.md (detect worktree, derive feature name from branch)
+1. Reads the feature PROGRESS.md (detect worktree, derive feature name from branch)
 2. Checks if stage is "building"
 3. Checks if all tasks in Progress are checked (`[x]`)
 4. If both conditions met, outputs a reminder about steps 8-13
@@ -294,11 +294,11 @@ The hook fires on UserPromptSubmit, which means it runs before Claude processes 
 # Build Completion Guard Hook
 # Fires on UserPromptSubmit to remind about build steps 8-13
 
-# Only relevant in worktrees with a feature STATE.md
+# Only relevant in worktrees with a feature PROGRESS.md
 if [ ! -f .git ]; then exit 0; fi
 
 BRANCH=$(git branch --show-current 2>/dev/null)
-STATE_FILE="planning/specs/${BRANCH}/STATE.md"
+STATE_FILE="planning/specs/${BRANCH}/PROGRESS.md"
 
 if [ ! -f "$STATE_FILE" ]; then exit 0; fi
 
@@ -341,8 +341,8 @@ echo "Read the build-complete.md phase file and follow it."
 
 **Pitfalls**:
 - The hook must be fast (< 1 second). No network calls, no heavy processing.
-- The STATE.md parsing must be robust (grep for exact patterns).
-- The hook must NOT fire when not in a worktree or when no feature STATE.md exists.
+- The PROGRESS.md parsing must be robust (grep for exact patterns).
+- The hook must NOT fire when not in a worktree or when no feature PROGRESS.md exists.
 - Merge with any existing hooks.json content (don't overwrite).
 
 **Verify**: Hook script is executable. `bash scripts/hooks/build-completion-guard.sh` exits cleanly in non-build contexts. In a simulated build-complete context, it outputs the reminder.

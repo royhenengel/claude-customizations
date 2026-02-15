@@ -16,7 +16,7 @@ Improve Claude's compliance with user-defined instructions by reducing instructi
 
 - [ ] Rules files pruned: remove instructions that duplicate Claude's default behavior or overlap with CLAUDE.md
 - [ ] build.md split into phase files, each loaded only when relevant
-- [ ] Build SKILL.md routes to correct phase based on feature STATE.md stage
+- [ ] Build SKILL.md routes to correct phase based on feature PROGRESS.md stage
 - [ ] Critical rules use prescriptive language (MUST/NEVER) with rationalizations tables
 - [ ] Build completion guard hook prevents skipping steps 8-13
 - [ ] All existing workflows (/start, /plan, /build) continue to function
