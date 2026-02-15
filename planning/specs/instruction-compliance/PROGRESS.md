@@ -1,8 +1,8 @@
 # Instruction Compliance Fix State
 
 **Type**: fix
-**Stage**: ready
-**Last Updated**: 2026-02-12
+**Stage**: complete
+**Last Updated**: 2026-02-15
 
 ## Issue
 
@@ -12,30 +12,33 @@ See [RESEARCH.md](RESEARCH.md) for full investigation, root cause analysis, and 
 
 ## Progress
 
-- [ ] Task 1: Audit and prune rules files
-- [ ] Task 2: Review pruned rules (checkpoint)
-- [ ] Task 3: Split build.md into phase files
-- [ ] Task 4: Update build SKILL.md with phase routing
-- [ ] Task 5: Apply instruction design improvements
-- [ ] Task 6: Create build completion guard hook
-- [ ] Task 7: End-to-end verification (checkpoint)
+- [x] Task 1: Audit and prune rules files
+- [x] Task 2: Review pruned rules (checkpoint)
+- [x] Task 3: Split build.md into phase files
+- [x] Task 4: Update build SKILL.md with phase routing
+- [x] Task 5: Apply instruction design improvements
+- [x] Task 6: Create build completion guard hook
+- [x] Task 7: End-to-end verification (checkpoint)
 
 ## Current State
 
 ### What's Working
 
-- Investigation complete with root cause analysis
-- All related incidents cataloged
-- SPEC.md, RESEARCH.md, and PLAN.md created
-- 7-task implementation plan ready for execution
+- Rules pruned from 628 to 457 lines with 5 user-approved additions
+- Build workflow split into 3 phase files (173, 271, 276 lines)
+- SKILL.md routes to correct phase via Read tool
+- CRITICAL markers on 5 key rules
+- Rationalizations tables in execute and complete phases
+- Build completion guard hook operational
 
 ### What's Not Working
 
-- No changes implemented yet
+- Nothing outstanding
 
 ### Next Steps
 
-1. Begin /build execution
+1. Create PR, merge to main
+2. Test /start, /plan, /build in live use
 
 ## Decisions
 

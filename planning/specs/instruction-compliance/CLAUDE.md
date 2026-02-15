@@ -14,7 +14,7 @@
 
 ## Status
 
-Planning complete. Ready for /build.
+Implementation complete. See SUMMARY.md for details.
 
 ## Feature State
 
