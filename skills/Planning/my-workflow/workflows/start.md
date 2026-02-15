@@ -12,6 +12,8 @@ Initialize a new project with the unified `planning/` structure, including a pro
 
 ## Steps
 
+> **Timestamp Rule**: Whenever modifying STATE.md or PROGRESS.md in any step below, always update its `**Last Updated**` field to the current date.
+
 ### 1. Check Current State
 
 Say:

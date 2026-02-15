@@ -16,6 +16,8 @@ User invokes `/plan` or asks to plan work.
 
 ## Steps
 
+> **Timestamp Rule**: Whenever modifying STATE.md or PROGRESS.md in any step below, always update its `**Last Updated**` field to the current date.
+
 ### 1. Check Prerequisites and Active Features
 
 ```bash

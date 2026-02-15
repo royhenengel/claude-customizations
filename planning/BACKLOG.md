@@ -18,9 +18,6 @@ Persistent record of improvements, ideas, and technical debt discovered during w
     2. Hook: UserPromptSubmit hook detects completion language, injects reminder to follow build.md steps 10-13
     3. Pre-merge check: Hook on `gh pr merge` that verifies SUMMARY.md exists and worktree cleanup is planned
   - **Minimum fix**: Add completion-related triggers to build skill description
-- [ ] Project state timestamp must update within workflow
-  - **Context**: Project STATE.md timestamp was stale (2026-02-11 instead of 2026-02-12) after active work. Workflows should auto-update this timestamp when modifying STATE.md.
-  - **Fix**: Add timestamp update step to /build and /fix workflows wherever STATE.md is modified
 - [ ] Error recovery paths for all workflows
   - **Context**: PR review identified missing error recovery in workflows. What happens when a subagent fails? When a file can't be created? When a template is missing? Workflows define the happy path but not recovery.
   - **Scope**: /build, /fix, /plan, /start - all need documented error recovery for common failure modes
