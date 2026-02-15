@@ -58,6 +58,12 @@ Three-layer fix for systemic instruction non-compliance (6 documented incidents 
 - `scripts/hooks/build-completion-guard.sh` - New hook
 - `hooks.json` - Added hook config
 
+## Lessons Learned
+
+- Rules pruning alone is insufficient; structural enforcement (phase splitting, hooks) is needed to prevent skipping steps
+- Context compaction is a blind spot: after compaction, workflow context is lost and must be explicitly re-read
+- PR review agents catch real bugs (PROGRESS.md vs STATE.md inconsistency, false positive guard, removed timestamp rule) that the implementer missed
+
 ## Next Steps
 
 - Test /start, /plan, /build in live use to validate functional behavior

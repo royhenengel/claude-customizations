@@ -57,7 +57,7 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Skill & Agent Architecture
 
-- [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incidand report - INCIDENT-subagent-bypass.md
+- [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incident report - INCIDENT-subagent-bypass.md
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
