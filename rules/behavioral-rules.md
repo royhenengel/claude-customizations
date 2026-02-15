@@ -45,6 +45,8 @@ When code behavior and documentation conflict, treat documentation as the intend
 
 ## Verification Before Recommendation
 
+CRITICAL: Never present unverified solutions as validated options.
+
 **Trigger:** Any request for a solution, fix, or recommendation.
 
 **Rules:**

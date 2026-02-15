@@ -6,7 +6,7 @@ Rules governing how Claude formats output in this repository.
 
 ## Lists
 
-When presenting lists (numbered or bulleted) where each item has substantive content (more than a few words), add a blank line between items.
+CRITICAL: When presenting lists (numbered or bulleted) where each item has substantive content (more than a few words), add a blank line between items.
 
 **Correct:**
 
