@@ -3,13 +3,13 @@
 # Fires on UserPromptSubmit to remind about build steps 8-13
 # when all tasks are complete but build isn't finalized.
 
-# Only relevant in worktrees with a feature STATE.md
+# Only relevant in worktrees with a feature PROGRESS.md
 if [ ! -f .git ]; then exit 0; fi
 
 BRANCH=$(git branch --show-current 2>/dev/null)
 if [ -z "$BRANCH" ]; then exit 0; fi
 
-STATE_FILE="planning/specs/${BRANCH}/STATE.md"
+STATE_FILE="planning/specs/${BRANCH}/PROGRESS.md"
 if [ ! -f "$STATE_FILE" ]; then exit 0; fi
 
 # Check if stage is "building"
@@ -24,6 +24,11 @@ PARTIAL=$(grep -c '^\- \[\~\]' "$STATE_FILE" 2>/dev/null)
 PENDING=$((UNCHECKED + PARTIAL))
 
 if [ "$PENDING" -gt 0 ]; then exit 0; fi
+
+# Verify at least one completed task exists (avoid false positive on empty task lists)
+COMPLETED=$(grep -c '^\- \[x\]' "$STATE_FILE" 2>/dev/null)
+[ -z "$COMPLETED" ] && COMPLETED=0
+if [ "$COMPLETED" -eq 0 ]; then exit 0; fi
 
 # All tasks complete but stage is still building -> remind about completion steps
 echo "REMINDER: All build tasks are complete but the build is not finalized."
