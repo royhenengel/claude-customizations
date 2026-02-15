@@ -54,10 +54,10 @@ Persistent record of improvements, ideas, and technical debt discovered during w
 
 ### Skill & Agent Architecture
 
-<<<<<<< HEAD
 - [ ] Issues with Claude not following working with subagents as outlined in /build. Refer to incident report - INCIDENT-subagent-bypass.md
-=======
->>>>>>> origin/main
+- [ ] Create an agent that:
+  - [ ] I can paste an answer that I got that I don't want to get anymore. Distill it to a rule and add it to the set of rules. For example: action timing after resolution --> What do you mean by timing after resolution --> Fair challenge. The spec doesn't say that. It says "after something goes wrong," and the Resolution section explicitly includes "what should be done" - meaning it can run before any fix exists. So the timing distinction I drew is inaccurate --> This is an issue. I want the agent to take this example convert it to a rule to prevent it from happening again.
+  - [ ] The agent should also prob be incharge of managing my Claude Code env and make sure it has best practices on how to setup the Claude Code env.
 - [ ] Audit skills vs agents distinction
   - **Question**: Should some skills be agents instead? (e.g., diagrams-builder)
   - **Criteria to evaluate**: Is it always-on context vs on-demand invocation?
